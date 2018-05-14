@@ -1,3 +1,5 @@
+const UserModel = require('./models/user');
+
 module.exports = app => {
   app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
@@ -9,6 +11,10 @@ module.exports = app => {
 
   app.post('/login', (req, res) => {
     const { username } = req.body;
-    res.send({ message: 'http POST is working' });
+    UserModel.create({ username }, err => {
+      if(err) return console.error("UserModel", err);
+      
+      res.send({ username });
+    });
   });
 }
