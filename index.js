@@ -14,6 +14,7 @@ mongoose.set('debug', true);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+router(app);
 
 io.on('connection', function(socket){
   console.log('a user connected');
