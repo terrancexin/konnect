@@ -10,6 +10,10 @@ const redis = require('redis');
 mongoose.connect('mongodb://localhost:27017/konnect');
 mongoose.set('debug', true);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+
 const PORT = process.env.PORT || 3000;
 
 http.listen(PORT, () => {
