@@ -3,11 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = module.exports.io = require('socket.io')(http);
 const mongoose = require('mongoose');
 const redis = require('redis');
 const router = require('./router');
-const socketManager = require('./socketManager');
+const socketManager = require('./services/socketManager');
 
 mongoose.connect('mongodb://localhost:27017/konnect');
 mongoose.set('debug', true);
