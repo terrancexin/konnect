@@ -1,52 +1,77 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form';
 import { signUpUser } from '../../actions';
 
 class WelcomeForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-      passwordConfirmation: ''
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleSignUp = this.handleSignUp.bind(this);
+  handleFormSubmit(formProps) {
+    this.props.signUpUser(formProps);
   }
 
-  handleSignUp() {
-    const { username, password, passwordConfirmation } = this.state;
-    this.props.signUpUser({ username, password, passwordConfirmation });
-  }
-
-  handleInputChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
-  handleKeyPress(e) {
-    if (e.key === 'Enter') {
-      this.handleSignUp();
+  renderAlert() {
+    if (this.props.errorMessage) {
+      return (
+        <div className="alert alert-danger">
+          <strong>Oops!</strong> {this.props.errorMessage}
+        </div>
+      );
     }
   }
 
   render() {
+    const { handleSubmit, fields: { username, password, passwordConfirm }} = this.props;
+
     return (
-      <div>
-        <input name="username" type="text" id="user" placeholder="username" onChange={this.handleInputChange} />
-        <input name="password" type="password" id="password" placeholder="password" onChange={this.handleInputChange} onKeyPress={this.handleKeyPress} />
-        <input name="passwordConfirmation" type="passwordConfirmation" id="passwordConfirmation" placeholder="passwordConfirmation" onChange={this.handleInputChange} onKeyPress={this.handleKeyPress} />
-        <button onClick={this.handleSignUp}>Sign Up</button>
-      </div>
+      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+        <fieldset className="form-group">
+          <label>Email:</label>
+          <input className="form-control" {...username} />
+          {username.touched && username.error && <div className="error">{username.error}</div>}
+        </fieldset>
+        <fieldset className="form-group">
+          <label>Password:</label>
+          <input className="form-control" {...password} type="password" />
+          {password.touched && password.error && <div className="error">{password.error}</div>}
+        </fieldset>
+        <fieldset className="form-group">
+          <label>Confirm Password:</label>
+          <input className="form-control" {...passwordConfirm} type="password" />
+          {passwordConfirm.touched && passwordConfirm.error && <div className="error">{passwordConfirm.error}</div>}
+        </fieldset>
+        {this.renderAlert()}
+        <button action="submit" className="btn btn-primary">Sign up!</button>
+      </form>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    authenticated: state.auth.authenticated,
-    errorMessage: state.auth.error
+function validate(formProps) {
+  const errors = {};
+
+  if (!formProps.username) {
+    errors.username = 'Please enter an username';
   }
+
+  if (!formProps.password) {
+    errors.password = 'Please enter a password';
+  }
+
+  if (!formProps.passwordConfirm) {
+    errors.passwordConfirm = 'Please enter a password confirmation';
+  }
+
+  if (formProps.password !== formProps.passwordConfirm) {
+    errors.password = 'Passwords must match';
+  }
+
+  return errors;
 }
 
-export default connect(mapStateToProps, { signUpUser })(WelcomeForm)
+function mapStateToProps(state) {
+  return { errorMessage: state.auth.error };
+}
+
+export default reduxForm({
+  form: 'signup',
+  fields: ['username', 'password', 'passwordConfirm'],
+  validate
+}, mapStateToProps, { signUpUser })(WelcomeForm);
