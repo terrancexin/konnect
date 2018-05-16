@@ -1565,7 +1565,11 @@ module.exports = {
 	MESSAGE_SENT: "MESSAGE_SENT",
 	USER_DISCONNECTED: "USER_DISCONNECTED",
 	TYPING: "TYPING",
-	LOGOUT: "LOGOUT"
+	LOGOUT: "LOGOUT",
+	UNAUTH_USER: "UNAUTH_USER",
+	AUTH_USER: "AUTH_USER",
+	AUTH_ERROR: "AUTH_ERROR",
+	FETCH_MESSAGE: "FETCH_MESSAGE"
 };
 
 /***/ }),
@@ -2501,7 +2505,14 @@ var _store = __webpack_require__(344);
 
 var _store2 = _interopRequireDefault(_store);
 
+var _constants = __webpack_require__(48);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var token = localStorage.getItem('token');
+if (token) {
+  _store2.default.dispatch({ type: _constants.AUTH_USER });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   _reactDom2.default.render(_react2.default.createElement(
@@ -21162,8 +21173,6 @@ var _Chatroom = __webpack_require__(156);
 
 var _Chatroom2 = _interopRequireDefault(_Chatroom);
 
-var _actions = __webpack_require__(338);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21178,51 +21187,16 @@ var App = function (_Component) {
   function App(props) {
     _classCallCheck(this, App);
 
-    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-    _this.state = {
-      username: ''
-    };
-
-    _this.handleLogIn = _this.handleLogIn.bind(_this);
-    _this.handleInputChange = _this.handleInputChange.bind(_this);
-    _this.handleKeyPress = _this.handleKeyPress.bind(_this);
-    return _this;
+    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
   }
 
   _createClass(App, [{
-    key: 'handleLogIn',
-    value: function handleLogIn() {
-      var username = this.state.username;
-
-      this.props.logIn({ username: username });
-    }
-  }, {
-    key: 'handleInputChange',
-    value: function handleInputChange(e) {
-      if (e.target.name === 'username') {
-        console.log('e.target.value');
-        this.setState({ username: e.target.value });
-      }
-    }
-  }, {
-    key: 'handleKeyPress',
-    value: function handleKeyPress(e) {
-      if (e.key === 'Enter') {
-        this.handleLogIn();
-      }
-    }
-  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         null,
-        this.props.username ? _react2.default.createElement(_Chatroom2.default, null) : _react2.default.createElement(_WelcomeForm2.default, {
-          handleLogIn: this.handleLogIn,
-          handleInputChange: this.handleInputChange,
-          handleKeyPress: this.handleKeyPress
-        })
+        this.props.authenticated ? _react2.default.createElement(_Chatroom2.default, null) : _react2.default.createElement(_WelcomeForm2.default, null)
       );
     }
   }]);
@@ -21231,11 +21205,10 @@ var App = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-  debugger;
-  return { username: state.users.username };
+  return { authenticated: state.auth.authenticated };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { logIn: _actions.logIn })(App);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(App);
 
 /***/ }),
 /* 135 */
@@ -21254,7 +21227,13 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(11);
+
+var _actions = __webpack_require__(338);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -21268,29 +21247,54 @@ var WelcomeForm = function (_Component) {
   function WelcomeForm(props) {
     _classCallCheck(this, WelcomeForm);
 
-    return _possibleConstructorReturn(this, (WelcomeForm.__proto__ || Object.getPrototypeOf(WelcomeForm)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (WelcomeForm.__proto__ || Object.getPrototypeOf(WelcomeForm)).call(this, props));
+
+    _this.state = {
+      username: '',
+      password: '',
+      passwordConfirmation: ''
+    };
+    _this.handleInputChange = _this.handleInputChange.bind(_this);
+    _this.handleKeyPress = _this.handleKeyPress.bind(_this);
+    _this.handleSignUp = _this.handleSignUp.bind(_this);
+    return _this;
   }
 
   _createClass(WelcomeForm, [{
-    key: "render",
+    key: 'handleSignUp',
+    value: function handleSignUp() {
+      var _state = this.state,
+          username = _state.username,
+          password = _state.password,
+          passwordConfirmation = _state.passwordConfirmation;
+
+      this.props.signUpUser({ username: username, password: password, passwordConfirmation: passwordConfirmation });
+    }
+  }, {
+    key: 'handleInputChange',
+    value: function handleInputChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: 'handleKeyPress',
+    value: function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        this.handleSignUp();
+      }
+    }
+  }, {
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
+        'div',
         null,
+        _react2.default.createElement('input', { name: 'username', type: 'text', id: 'user', placeholder: 'username', onChange: this.handleInputChange }),
+        _react2.default.createElement('input', { name: 'password', type: 'password', id: 'password', placeholder: 'password', onChange: this.handleInputChange, onKeyPress: this.handleKeyPress }),
+        _react2.default.createElement('input', { name: 'passwordConfirmation', type: 'passwordConfirmation', id: 'passwordConfirmation', placeholder: 'passwordConfirmation', onChange: this.handleInputChange, onKeyPress: this.handleKeyPress }),
         _react2.default.createElement(
-          "form",
-          { onSubmit: this.props.handleLogIn, className: "login-form" },
-          _react2.default.createElement(
-            "label",
-            null,
-            "here?"
-          ),
-          _react2.default.createElement("input", {
-            type: "text",
-            name: "username",
-            onChange: this.props.handleInputChange,
-            onKeyPress: this.props.handleKeyPress
-          })
+          'button',
+          { onClick: this.handleSignUp },
+          'Sign Up'
         )
       );
     }
@@ -21299,7 +21303,14 @@ var WelcomeForm = function (_Component) {
   return WelcomeForm;
 }(_react.Component);
 
-exports.default = WelcomeForm;
+function mapStateToProps(state) {
+  return {
+    authenticated: state.auth.authenticated,
+    errorMessage: state.auth.error
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { signUpUser: _actions.signUpUser })(WelcomeForm);
 
 /***/ }),
 /* 136 */,
@@ -21338,6 +21349,10 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(11);
+
+var _actions = __webpack_require__(338);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21361,7 +21376,12 @@ var Chatroom = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        'Chatroom'
+        'Chatroom',
+        _react2.default.createElement(
+          'button',
+          { onClick: this.props.logOutUser },
+          'Log out'
+        )
       );
     }
   }]);
@@ -21369,7 +21389,7 @@ var Chatroom = function (_Component) {
   return Chatroom;
 }(_react.Component);
 
-exports.default = Chatroom;
+exports.default = (0, _reactRedux.connect)(null, { logOutUser: _actions.logOutUser })(Chatroom);
 
 /***/ }),
 /* 157 */,
@@ -22884,7 +22904,7 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logIn = undefined;
+exports.fetchMessage = exports.authError = exports.signUpUser = exports.logOutUser = exports.logInUser = undefined;
 
 var _axios = __webpack_require__(355);
 
@@ -22896,23 +22916,61 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ROOT_URL = 'http://localhost:3000';
 
-var logIn = exports.logIn = function logIn(userData) {
+var logInUser = exports.logInUser = function logInUser(_ref) {
+  var username = _ref.username,
+      password = _ref.password;
   return function (dispatch) {
-    debugger;
-    (0, _axios2.default)({
-      method: 'post',
-      url: ROOT_URL + '/login',
-      data: userData
-    }).then(function (_ref) {
-      var data = _ref.data;
+    _axios2.default.post(ROOT_URL + '/signin', { username: username, password: password }).then(function (res) {
+      localStorage.setItem('token', res.data.token);
 
-      debugger;
+      dispatch({ type: _constants.AUTH_USER });
+    }).catch(function () {
+      dispatch(authError('bad login info'));
+    });
+  };
+};
+
+var logOutUser = exports.logOutUser = function logOutUser() {
+  return function (dispatch) {
+    localStorage.removeItem('token');
+    dispatch({
+      type: _constants.UNAUTH_USER
+    });
+  };
+};
+
+var signUpUser = exports.signUpUser = function signUpUser(_ref2) {
+  var username = _ref2.username,
+      password = _ref2.password,
+      passwordConfirmation = _ref2.passwordConfirmation;
+  return function (dispatch) {
+    _axios2.default.post(ROOT_URL + '/signup', { username: username, password: password, passwordConfirmation: passwordConfirmation }).then(function (res) {
+      dispatch({ type: _constants.AUTH_USER });
+      localStorage.setItem('token', res.data.token);
+    }).catch(function (_ref3) {
+      var res = _ref3.res;
+
+      dispatch(authError(res.data.error));
+    });
+  };
+};
+
+var authError = exports.authError = function authError(err) {
+  return {
+    type: _constants.AUTH_ERROR,
+    payload: err
+  };
+};
+
+var fetchMessage = exports.fetchMessage = function fetchMessage() {
+  return function (dispatch) {
+    _axios2.default.get(ROOT_URL, {
+      headers: { authorization: localStorage.getItem('token') }
+    }).then(function (res) {
       dispatch({
-        type: _constants.USER_JOINED,
-        data: data
+        type: _constants.FETCH_MESSAGE,
+        payload: res.data.message
       });
-    }).catch(function (err) {
-      console.log('login user failed');
     });
   };
 };
@@ -23621,20 +23679,54 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(20);
 
-var _users_reducer = __webpack_require__(374);
+var _auth_reducer = __webpack_require__(347);
 
-var _users_reducer2 = _interopRequireDefault(_users_reducer);
+var _auth_reducer2 = _interopRequireDefault(_auth_reducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var rootReducer = (0, _redux.combineReducers)({
-  users: _users_reducer2.default
+  auth: _auth_reducer2.default
 });
 
 exports.default = rootReducer;
 
 /***/ }),
-/* 347 */,
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = authReducer;
+
+var _constants = __webpack_require__(48);
+
+function authReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _constants.AUTH_USER:
+      return _extends({}, state, { err: '', authenticated: true });
+    case _constants.UNAUTH_USER:
+      return _extends({}, state, { authenticated: false });
+    case _constants.AUTH_ERROR:
+      return _extends({}, state, { err: action.payload });
+    case _constants.FETCH_MESSAGE:
+      return _extends({}, state, { message: action.payload });
+    default:
+      return state;
+  }
+}
+
+/***/ }),
 /* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25206,36 +25298,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 374 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _constants = __webpack_require__(48);
-
-var usersReducer = function usersReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { username: '' };
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _constants.USER_JOINED:
-      debugger;
-      return _extends({}, state, { username: action.data.username });
-    default:
-      return state;
-  }
-};
-
-exports.default = usersReducer;
-
-/***/ }),
+/* 374 */,
 /* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
