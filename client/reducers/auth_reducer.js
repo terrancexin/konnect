@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import {
   AUTH_USER,
   UNAUTH_USER,
