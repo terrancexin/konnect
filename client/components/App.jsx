@@ -1,24 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import WelcomeForm from './WelcomeForm';
-import Chatroom from './Chatroom';
+import { initSocket } from '../actions';
+
+import LogIn from './LogIn';
+import Chatroom from './Chatroom/zzz';
 
 class App extends Component {
   constructor(props) {
     super(props);
   }
 
+  componentWillMount() {
+    this.props.initSocket();
+  }
+  
   render() {
     return (
-      <div>
-        { this.props.authenticated ? <Chatroom /> : <WelcomeForm /> }
+      <div className="app-wrapper">
+        {this.props.auth ? <Chatroom /> : <LogIn />}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { authenticated: state.auth.authenticated };
-};
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-export default connect(mapStateToProps, null)(App);
+export default connect(
+  mapStateToProps,
+  { initSocket }
+)(App);
