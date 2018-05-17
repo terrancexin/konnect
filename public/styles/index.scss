@@ -1,2 +1,64 @@
 @import 'reset.scss';
-@import 'chat.scss';
+
+.app-wrapper {
+}
+
+.welcome-login-wrapper {
+}
+
+.welcome-login-form {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: -80px;
+}
+
+.welcome-login-input-label {
+  font-size: 80px;
+  margin-bottom: 20px;
+  color: blue;
+}
+
+.welcome-login-error {
+  color: red;
+  font-size: 20px;
+  line-height: 30px;
+  height: 30px;
+  font-weight: bold;
+}
+
+input#username {
+  width: 400px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  height: 30px;
+  line-height: 30px;
+  font-size: 40px;
+  text-align: center;
+  border-bottom: solid 2px orange;
+  transition:all .3s ease-in;
+  padding: 10px;
+  &:focus{
+    border-bottom: solid 2px purple;
+    outline: none;
+  }
+  &::placeholder {
+    font-style: italic;
+    color: lightgray;
+    margin-bottom: 5px;
+  }
+}
+
+.users-screen,
+.messages-screen {
+  width: 200px;
+  height: 500px;
+  border: 1px solid red;
+}
+
+.chat-window {
+  display: flex;
+}
