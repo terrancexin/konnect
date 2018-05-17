@@ -1,13 +1,15 @@
 const MessageModel = require('../models/message');
 
 const fetch = (req, res, next) => {
-  MessageModel.find({}, (err, messages) => {
-    if (err) return next(err);
-    
-    if (!messages) return res.send({ error: 'error fetching messages'});
+  MessageModel.find({})
+    .limit(10)
+    .exec((err, messages) => {
+      if (err) return next(err);
+      
+      if (!messages) return res.send({ error: 'error fetching messages'});
 
-    res.json(messages);
-  });
+      res.json(messages);
+    });
 };
 
 const send = (req, res, next) => {

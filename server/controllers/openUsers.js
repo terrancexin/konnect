@@ -1,12 +1,14 @@
 const OpenUserModel = require('../models/openUser');
 
 const fetchAll = (req, res, next) => {
-  OpenUserModel.find({}, (err, users) => {
-    if (err) return next(err);
-    if (!users) return res.send({ error: 'error fetching all users'});
+  OpenUserModel.find({})
+    .limit(10)
+    .exec((err, users) => {
+      if (err) return next(err);
+      if (!users) return res.send({ error: 'error fetching all users'});
 
-    res.json(users);
-  });
+      res.json(users);
+    });
 };
 
 const login = (req, res, next) => {
@@ -33,7 +35,17 @@ const login = (req, res, next) => {
   });
 };
 
+const removeUser = (req, res, next) => {
+  const { username } = req.body;
+  
+  OpenUserModel.findOneAndDelete({ username }, err => {
+    if (err) return res.send({ error: 'remove user failed'});
+    res.send(`${username} has left the chatroom.`);
+  });
+}
+
 module.exports = {
   login,
-  fetchAll
+  fetchAll,
+  removeUser
 };

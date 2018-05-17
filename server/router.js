@@ -19,4 +19,5 @@ module.exports = app => {
   app.post('/signup', UsersController.signup);
   app.post('/openchat', OpenUsersController.login);
   app.post('/send', MessagesController.send);
+  app.post('/removeuser', OpenUsersController.removeUser);
 };
