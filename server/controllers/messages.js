@@ -4,14 +4,16 @@ const fetch = (req, res, next) => {
   MessageModel.find({}, (err, messages) => {
     if (err) return next(err);
     
-    res.json({ messages });
+    if (!messages) return res.send({ error: 'error fetching messages'});
+
+    res.json(messages);
   });
 };
 
 const send = (req, res, next) => {
   const { username, text, date } = req.body;
 
-  if (!username || !text || !date) {
+  if (!username || !text) {
     return res.send({ error: 'username is missing' });
   }
   
@@ -23,7 +25,7 @@ const send = (req, res, next) => {
   
   message.save(err => {
     if (err) return next(err);
-  });
+  })
 
   res.json(message);
 }

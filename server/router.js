@@ -13,9 +13,10 @@ module.exports = app => {
     res.send({ message: 'secret token' });
   });
 
+  app.get('/users', OpenUsersController.fetchAll);
+  app.get('/messages', MessagesController.fetch);
   app.post('/login', requireSignin, UsersController.login);
   app.post('/signup', UsersController.signup);
   app.post('/openchat', OpenUsersController.login);
-  app.get('/message', MessagesController.fetch);
   app.post('/send', MessagesController.send);
 };

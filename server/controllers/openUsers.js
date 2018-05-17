@@ -1,5 +1,14 @@
 const OpenUserModel = require('../models/openUser');
 
+const fetchAll = (req, res, next) => {
+  OpenUserModel.find({}, (err, users) => {
+    if (err) return next(err);
+    if (!users) return res.send({ error: 'error fetching all users'});
+
+    res.json(users);
+  });
+};
+
 const login = (req, res, next) => {
   const { username } = req.body;
 
@@ -25,5 +34,6 @@ const login = (req, res, next) => {
 };
 
 module.exports = {
-  login
+  login,
+  fetchAll
 };
