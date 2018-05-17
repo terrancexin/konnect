@@ -1,7 +1,6 @@
-const UserModel = require('./models/user');
-const OpenUserModel = require('./models/openUser');
 const UsersController = require('./controllers/users');
 const OpenUsersController = require('./controllers/openUsers');
+const MessagesController = require('./controllers/messages');
 const passportService = require('./services/passport');
 const passport = require('passport');
 
@@ -17,4 +16,6 @@ module.exports = app => {
   app.post('/login', requireSignin, UsersController.login);
   app.post('/signup', UsersController.signup);
   app.post('/openchat', OpenUsersController.login);
+  app.get('/message', MessagesController.fetch);
+  app.post('/send', MessagesController.send);
 };
