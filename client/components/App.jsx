@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { initSocket } from '../actions';
 
 import LogIn from './LogIn';
-import Chatroom from './Chatroom/zzz';
+import Chatroom from './Chatroom';
 
 class App extends Component {
   constructor(props) {
     super(props);
   }
 
-  componentWillMount() {
-    // this.props.initSocket();
-  }
-  
   render() {
     return (
       <div className="app-wrapper">
