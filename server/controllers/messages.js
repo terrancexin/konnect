@@ -2,7 +2,7 @@ const MessageModel = require('../models/message');
 
 const fetch = (req, res, next) => {
   MessageModel.find({})
-    .limit(10)
+    .limit(200)
     .exec((err, messages) => {
       if (err) return next(err);
       
@@ -15,8 +15,8 @@ const fetch = (req, res, next) => {
 const send = (req, res, next) => {
   const { username, text, date } = req.body;
 
-  if (!username || !text) {
-    return res.send({ error: 'username is missing' });
+  if (!username || !text || !date) {
+    return res.send({ error: 'missing requests' });
   }
   
   const message = new MessageModel({

@@ -2,7 +2,6 @@ const OpenUserModel = require('../models/openUser');
 
 const fetchAll = (req, res, next) => {
   OpenUserModel.find({})
-    .limit(10)
     .exec((err, users) => {
       if (err) return next(err);
       if (!users) return res.send({ error: 'error fetching all users'});
