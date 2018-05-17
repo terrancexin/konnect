@@ -11,7 +11,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.props.initSocket();
+    // this.props.initSocket();
   }
   
   render() {
@@ -29,5 +29,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { initSocket }
+  null
 )(App);
