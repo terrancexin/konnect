@@ -47,7 +47,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         users: state.users.filter(user => user.username != payload.user.username),
-        username: payload.user.username,
         notice: payload.notice
       };
     case TYPING:
