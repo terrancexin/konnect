@@ -37,10 +37,9 @@ class Chatroom extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({ date: new Date() });
+    this.setState({ text: '', textCount: 0, date: new Date() });
     const { username, text, date } = this.state;
     this.props.sendMessage({ username, text, date });
-    this.setState({ text: '' });
   }
 
   handleChange(e) {
@@ -92,7 +91,7 @@ class Chatroom extends Component {
                 </label>
                 <button 
                   disabled={this.state.text.length < 1}
-                  type="submit"
+                  onClick={this.handleSubmit}
                   className="send">
                   Send
                 </button>

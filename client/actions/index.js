@@ -18,10 +18,9 @@ import {
 // public root
 // const { protocol, hostname, port } = window.location;
 // const ROOT_URL = `${protocol}//${hostname}:${port}`;
-
 const ROOT_URL = 'http://localhost:3000';
-const socket = io(ROOT_URL);
 
+const socket = io(ROOT_URL);
 const socketEvents = [
   USER_CONNECTED,
   USER_DISCONNECTED,
