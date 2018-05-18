@@ -46,8 +46,8 @@ class LogIn extends Component {
             id="username"
             value={username}
             onChange={this.handle}
-            maxLength="15"
-            placeholder={'are you kaskade?'}
+            maxLength="16"
+            placeholder={'enter username'}
           />
         </form>
       </div>

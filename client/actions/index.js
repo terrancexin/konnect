@@ -14,6 +14,11 @@ import {
   RECEIVE_NOTICES,
   CLEAR_NOTICES
 } from '../../constants';
+
+// public root
+// const { protocol, hostname, port } = window.location;
+// const ROOT_URL = `${protocol}//${hostname}:${port}`;
+
 const ROOT_URL = 'http://localhost:3000';
 const socket = io(ROOT_URL);
 
