@@ -11,7 +11,7 @@ const OpenUserModel = require('../models/openUser');
 
 module.exports = socket => {
   socket.on(USER_CONNECTED, user => {
-    io.emit(USER_CONNECTED, { user, notice: `${user.username} has joined Konnect 🔥`});
+    socket.broadcast.emit(USER_CONNECTED, { user, notice: `${user.username} has joined Konnect 🔥`});
     
     socket.on('disconnect', () => {
       console.log(`${user.username} has disconnected by browser`);
@@ -21,7 +21,7 @@ module.exports = socket => {
         if (err) console.log('remove user failed');
       });
       
-      io.emit(USER_DISCONNECTED, { user, notice: `Bye ${user.username}! Come back soon!🥂`});
+      io.emit(USER_DISCONNECTED, { user, notice: `Bye ${user.username}! Come back soon!🥂` });
     });
   })
   
@@ -33,7 +33,7 @@ module.exports = socket => {
       if (err) console.log('remove user failed');
     });
 
-    io.emit(USER_DISCONNECTED, user);
+    io.emit(USER_DISCONNECTED, { user, notice: `Bye ${user.username}! Come back soon!🥂` });
   });
   
   socket.on(MESSAGE_SENT, data => {
