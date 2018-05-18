@@ -1,14 +1,16 @@
 import {
+  USER_CONNECTED,
   USER_DISCONNECTED,
   TYPING,
-  VERIFY_USER,
+  STOPPED_TYPING,
   FETCH_USERS,
   FETCH_MESSAGES,
   LOGIN_ERROR,
   LOG_IN_FAILED,
   LOG_IN_SUCCEED,
   MESSAGE_SENT,
-  USER_CONNECTED
+  CLEAR_NOTICES,
+  RECEIVE_NOTICES
 } from '../../constants';
 
 const initialState = {
@@ -19,10 +21,23 @@ const initialState = {
   typing: false,
   messages: [],
   hasMoreMessages: true,
+  typingUsers: [],
+  verbs: '',
+  notices: []
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case RECEIVE_NOTICES:
+      return {
+        ...state,
+        notices: [ ...state.notices, payload]
+      };
+    case CLEAR_NOTICES:
+      return {
+        ...state,
+        notices: []
+      };
     case LOG_IN_SUCCEED:
       return {
         ...state,
@@ -37,18 +52,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case USER_DISCONNECTED:
       return {
         ...state,
-        user: '',
+        users: state.users.filter(user => user.username != payload.username),
+        username: payload.username
       };
     case TYPING:
       return {
         ...state,
-        typing: payload
+        typing: true,
+        typingUsers: state.typingUsers.includes(payload) 
+          ? state.typingUsers 
+          : [ ...state.typingUsers, payload ],
+        verbs: state.typingUsers.length > 1 ? 'are' : 'is'
       };
-    case VERIFY_USER:
+    case STOPPED_TYPING:
       return {
         ...state,
-        auth: payload.auth,
-        user: payload.username
+        typing: false,
+        typingUsers: state.typingUsers.filter(username => username != payload),
       };
     case FETCH_USERS:
       return {
