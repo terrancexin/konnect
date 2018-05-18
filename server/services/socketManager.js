@@ -3,54 +3,51 @@ const {
   USER_CONNECTED,
   USER_DISCONNECTED,
   TYPING,
-  FETCH_USERS,
-  FETCH_MESSAGES,
-  LOGIN_ERROR,
+  STOPPED_TYPING,
   LOGOUT,
-  MESSAGE_RECIEVED,
   MESSAGE_SENT,
 } = require('../../constants');
 const OpenUserModel = require('../models/openUser');
 
-const getTime = date => {
-  return `${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}`;
-};
-
 module.exports = socket => {
   socket.on(USER_CONNECTED, user => {
-    console.log('on?');
-    console.log(user);
     io.emit(USER_CONNECTED, user);
     
     socket.on('disconnect', () => {
-
+      console.log(`${user.username} has disconnected by browser`);
+      const { username } = user;
+      
+      OpenUserModel.findOneAndDelete({ username }, err => {
+        if (err) console.log('remove user failed');
+      });
+      
       io.emit(USER_DISCONNECTED, user);
     });
   })
   
-  socket.on(MESSAGE_SENT, data => {
+  socket.on(LOGOUT, user => {
+    console.log(`${user.username} has disconnected by manual logout`);
+    const { username } = user;
     
+    OpenUserModel.findOneAndDelete({ username }, err => {
+      if (err) console.log('remove user failed');
+    });
+
+    io.emit(USER_DISCONNECTED, user);
+  });
+  
+  socket.on(MESSAGE_SENT, data => {
+
     io.emit(MESSAGE_SENT, data);
   });
   
-  socket.on(FETCH_USERS, data => {
-    console.log('fetch users', data);
+  socket.on(TYPING, username => {
     
-    io.emit(USER_CONNECTED, data.newUser);
+    socket.broadcast.emit(TYPING, username);
   });
   
-  socket.on(FETCH_MESSAGES, () => {
-
-    io.emit(FETCH_MESSAGES, messages);
-  });
-
-  socket.on(LOGOUT, () => {
-
-    io.emit(USER_DISCONNECTED, connectedUsers);
-  });
-
-  socket.on(TYPING, user => {
+  socket.on(STOPPED_TYPING, username => {
     
-    io.emit(TYPING, user);
+    io.emit(STOPPED_TYPING, username);
   });
 };
