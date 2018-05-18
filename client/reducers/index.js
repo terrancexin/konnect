@@ -9,8 +9,7 @@ import {
   LOG_IN_FAILED,
   LOG_IN_SUCCEED,
   MESSAGE_SENT,
-  CLEAR_NOTICES,
-  RECEIVE_NOTICES
+  CLEAR_NOTICES
 } from '../../constants';
 
 const initialState = {
@@ -23,20 +22,15 @@ const initialState = {
   hasMoreMessages: true,
   typingUsers: [],
   verbs: '',
-  notices: []
+  notice: ''
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case RECEIVE_NOTICES:
-      return {
-        ...state,
-        notices: [ ...state.notices, payload]
-      };
     case CLEAR_NOTICES:
       return {
         ...state,
-        notices: []
+        notice: ''
       };
     case LOG_IN_SUCCEED:
       return {
@@ -52,8 +46,9 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case USER_DISCONNECTED:
       return {
         ...state,
-        users: state.users.filter(user => user.username != payload.username),
-        username: payload.username
+        users: state.users.filter(user => user.username != payload.user.username),
+        username: payload.user.username,
+        notice: payload.notice
       };
     case TYPING:
       return {
@@ -93,7 +88,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case USER_CONNECTED:
       return {
         ...state,
-        users: [ ...state.users, payload ]
+        users: [ ...state.users, payload.user ],
+        notice: payload.notice
       };
     default:
       return state;

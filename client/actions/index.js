@@ -213,3 +213,7 @@ export const socketOff = () => {
   socket.off(MESSAGE_SENT)
   socket.off(USER_CONNECTED)
 }
+
+export const clearNotices = () => ({
+  type: CLEAR_NOTICES
+});

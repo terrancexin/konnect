@@ -9,6 +9,7 @@ import {
 } from '../../actions';
 import UsersList from './UsersList';
 import MessagesList from './MessagesList';
+import Notice from '../Notice';
 
 class Chatroom extends Component {
   constructor(props) {
@@ -62,6 +63,7 @@ class Chatroom extends Component {
             You are connected to {this.props.users.length} users on Konnect
           </div>
         </div>
+        <Notice />
         <div className="chat-window">
           <div className="users-section">
             <UsersList users={this.props.users} />
