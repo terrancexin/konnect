@@ -4086,7 +4086,7 @@ var Symbol = __WEBPACK_IMPORTED_MODULE_0__root_js__["a" /* default */].Symbol;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.socketOff = exports.verifyUser = exports.removeErrorMessage = exports.authError = exports.signUpUser = exports.logOutUser = exports.logInUser = exports.isTyping = exports.disconnectSocket = exports.sendMessage = exports.fetchMessages = exports.fetchUsers = exports.enterOpenChat = undefined;
+exports.clearNotices = exports.socketOff = exports.verifyUser = exports.removeErrorMessage = exports.authError = exports.signUpUser = exports.logOutUser = exports.logInUser = exports.isTyping = exports.disconnectSocket = exports.sendMessage = exports.fetchMessages = exports.fetchUsers = exports.enterOpenChat = undefined;
 
 var _axios = __webpack_require__(91);
 
@@ -4318,6 +4318,12 @@ var socketOff = exports.socketOff = function socketOff() {
   socket.off(_constants.TYPING);
   socket.off(_constants.MESSAGE_SENT);
   socket.off(_constants.USER_CONNECTED);
+};
+
+var clearNotices = exports.clearNotices = function clearNotices() {
+  return {
+    type: _constants.CLEAR_NOTICES
+  };
 };
 
 /***/ }),
@@ -30841,6 +30847,10 @@ var _MessagesList = __webpack_require__(133);
 
 var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
+var _Notice = __webpack_require__(286);
+
+var _Notice2 = _interopRequireDefault(_Notice);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30930,6 +30940,7 @@ var Chatroom = function (_Component) {
             ' users on Konnect'
           )
         ),
+        _react2.default.createElement(_Notice2.default, null),
         _react2.default.createElement(
           'div',
           { className: 'chat-window' },
@@ -31059,6 +31070,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
@@ -31069,42 +31082,87 @@ var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MessagesList = function MessagesList(_ref) {
-  var messages = _ref.messages,
-      currentUser = _ref.currentUser;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  return _react2.default.createElement(
-    'div',
-    { className: 'messages-list-wrapper' },
-    messages.map(function (obj) {
-      var threadType = obj.username === currentUser ? 'current-user' : 'other-user';
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MessagesList = function (_Component) {
+  _inherits(MessagesList, _Component);
+
+  function MessagesList(props) {
+    _classCallCheck(this, MessagesList);
+
+    var _this = _possibleConstructorReturn(this, (MessagesList.__proto__ || Object.getPrototypeOf(MessagesList)).call(this, props));
+
+    _this.scrollToBottom = _this.scrollToBottom.bind(_this);
+    _this.messagesEnd = null;
+    return _this;
+  }
+
+  _createClass(MessagesList, [{
+    key: 'scrollToBottom',
+    value: function scrollToBottom() {
+      this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.scrollToBottom();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.scrollToBottom();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          messages = _props.messages,
+          currentUser = _props.currentUser;
+
       return _react2.default.createElement(
         'div',
-        { className: 'message-thread-' + threadType, key: obj._id },
-        _react2.default.createElement(
-          'div',
-          { className: 'username-timestamp-wrapper-' + threadType },
-          _react2.default.createElement(
+        { className: 'messages-list-wrapper' },
+        messages.map(function (obj) {
+          var threadType = obj.username === currentUser ? 'current-user' : 'other-user';
+          return _react2.default.createElement(
             'div',
-            { className: 'message-thread-username' },
-            obj.username
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'message-thread-timestamp' },
-            (0, _moment2.default)(obj.date).format('h:mm a')
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'message-thread-text' },
-          obj.text
-        )
+            { className: 'message-thread-' + threadType, key: obj._id },
+            _react2.default.createElement(
+              'div',
+              { className: 'username-timestamp-wrapper-' + threadType },
+              _react2.default.createElement(
+                'div',
+                { className: 'message-thread-username' },
+                obj.username
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'message-thread-timestamp' },
+                (0, _moment2.default)(obj.date).format('h:mm a')
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'message-thread-text' },
+              obj.text
+            )
+          );
+        }),
+        _react2.default.createElement('div', { ref: function ref(el) {
+            return _this2.messagesEnd = el;
+          } })
       );
-    })
-  );
-};
+    }
+  }]);
+
+  return MessagesList;
+}(_react.Component);
 
 exports.default = MessagesList;
 
@@ -31167,7 +31225,7 @@ exports = module.exports = __webpack_require__(136)(false);
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nbody {\n  width: 100%;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.app-wrapper {\n  width: 100%; }\n\n.welcome-login-form {\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column; }\n\n.welcome-login-input-label {\n  font-size: 80px;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.welcome-login-error {\n  color: #d30303;\n  font-size: 20px;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\ninput#username {\n  width: 400px;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 40px;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input#username:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input#username::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom-wrapper {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column; }\n\n.chatroom-header-section {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.chatroom-header-title {\n  font-size: 60px;\n  margin-bottom: 10px;\n  color: #4080ff; }\n\n.chatroom-current-users {\n  color: #928c8c;\n  font-size: 15px;\n  font-style: italic; }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 700px;\n  height: 500px;\n  margin: 50px; }\n\n.users-section {\n  border-right: 1px solid #e6ecf0;\n  width: 275px; }\n\n.users-list-title {\n  text-align: center;\n  padding: 20px;\n  border-bottom: 1px solid #e6ecf0; }\n\n.users-list-online {\n  margin-top: 10px;\n  height: 400px;\n  overflow: scroll; }\n\n.current-users-row {\n  margin: 15px; }\n\n.messages-section {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.display-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list-wrapper {\n  margin: 10px 10px 2px 10px;\n  height: 450px;\n  overflow: scroll; }\n\n.message-thread-current-user {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end; }\n\n.message-thread-other-user {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  cursor: pointer; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.username-timestamp-wrapper-other-user {\n  display: flex;\n  align-items: center; }\n\n.username-timestamp-wrapper-current-user {\n  display: flex;\n  align-items: center;\n  flex-direction: row-reverse; }\n\n.message-thread-username {\n  font-weight: 700;\n  font-size: 14px; }\n\n.message-thread-timestamp {\n  color: gray;\n  font-size: 12px;\n  margin: 0 10px; }\n\n.message-input-button-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: space-between; }\n\n.notices {\n  width: 100%;\n  background: rgba(75, 193, 39, 0.85);\n  height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  padding-left: 20px;\n  position: absolute;\n  top: 60px;\n  animation: fade 3s;\n  opacity: 0;\n  z-index: 2; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nbody {\n  width: 100%;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.app-wrapper {\n  width: 100%; }\n\n.welcome-login-form {\n  height: 100vh;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column; }\n\n.welcome-login-input-label {\n  font-size: 80px;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.welcome-login-error {\n  color: #d30303;\n  font-size: 20px;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\ninput#username {\n  width: 400px;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 40px;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input#username:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input#username::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom-wrapper {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column; }\n\n.chatroom-header-section {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.chatroom-header-title {\n  font-size: 60px;\n  margin-bottom: 10px;\n  color: #4080ff; }\n\n.chatroom-current-users {\n  color: #928c8c;\n  font-size: 15px;\n  font-style: italic;\n  margin-bottom: 60px; }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 700px;\n  height: 500px;\n  margin: 0 50px 50px 50px; }\n\n.users-section {\n  border-right: 1px solid #e6ecf0;\n  width: 275px; }\n\n.users-list-title {\n  text-align: center;\n  padding: 20px;\n  border-bottom: 1px solid #e6ecf0; }\n\n.users-list-online {\n  margin-top: 10px;\n  height: 400px;\n  overflow: scroll; }\n\n.current-users-row {\n  margin: 15px; }\n\n.messages-section {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.display-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list-wrapper {\n  margin: 10px 10px 2px 10px;\n  height: 450px;\n  overflow: scroll; }\n\n.message-thread-current-user {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end; }\n\n.message-thread-other-user {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  cursor: pointer; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.username-timestamp-wrapper-other-user {\n  display: flex;\n  align-items: center; }\n\n.username-timestamp-wrapper-current-user {\n  display: flex;\n  align-items: center;\n  flex-direction: row-reverse; }\n\n.message-thread-username {\n  font-weight: 700;\n  font-size: 14px; }\n\n.message-thread-timestamp {\n  color: gray;\n  font-size: 12px;\n  margin: 0 10px; }\n\n.message-input-button-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: space-between; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 690px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 115px;\n  animation: fade 3s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.notice-placeholder {\n  width: 700px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  margin-top: 40px; }\n", ""]);
 
 // exports
 
@@ -31834,7 +31892,7 @@ var initialState = {
   hasMoreMessages: true,
   typingUsers: [],
   verbs: '',
-  notices: []
+  notice: ''
 };
 
 var rootReducer = function rootReducer() {
@@ -31844,13 +31902,9 @@ var rootReducer = function rootReducer() {
       payload = _ref.payload;
 
   switch (type) {
-    case _constants.RECEIVE_NOTICES:
-      return _extends({}, state, {
-        notices: [].concat(_toConsumableArray(state.notices), [payload])
-      });
     case _constants.CLEAR_NOTICES:
       return _extends({}, state, {
-        notices: []
+        notice: ''
       });
     case _constants.LOG_IN_SUCCEED:
       return _extends({}, state, {
@@ -31864,9 +31918,10 @@ var rootReducer = function rootReducer() {
     case _constants.USER_DISCONNECTED:
       return _extends({}, state, {
         users: state.users.filter(function (user) {
-          return user.username != payload.username;
+          return user.username != payload.user.username;
         }),
-        username: payload.username
+        username: payload.user.username,
+        notice: payload.notice
       });
     case _constants.TYPING:
       return _extends({}, state, {
@@ -31899,7 +31954,8 @@ var rootReducer = function rootReducer() {
       });
     case _constants.USER_CONNECTED:
       return _extends({}, state, {
-        users: [].concat(_toConsumableArray(state.users), [payload])
+        users: [].concat(_toConsumableArray(state.users), [payload.user]),
+        notice: payload.notice
       });
     default:
       return state;
@@ -48533,6 +48589,104 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = 267;
+
+/***/ }),
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(12);
+
+var _actions = __webpack_require__(34);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Notice = function (_React$Component) {
+  _inherits(Notice, _React$Component);
+
+  function Notice() {
+    _classCallCheck(this, Notice);
+
+    return _possibleConstructorReturn(this, (Notice.__proto__ || Object.getPrototypeOf(Notice)).apply(this, arguments));
+  }
+
+  _createClass(Notice, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.clearNoticesTimeout(nextProps);
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.clearNoticesTimeout(this.props);
+    }
+  }, {
+    key: 'clearNoticesTimeout',
+    value: function clearNoticesTimeout(props) {
+      if (!props.notice) return;
+      setTimeout(function () {
+        props.clearNotices();
+      }, 3000);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      if (!this.props.notice) return null;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'notice' },
+        this.props.notice
+      );
+    }
+  }]);
+
+  return Notice;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    notice: state.notice
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { clearNotices: _actions.clearNotices })(Notice);
 
 /***/ })
 /******/ ]);

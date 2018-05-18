@@ -9,7 +9,7 @@ $blue: #4080ff;
 $borderblue: rgb(99, 168, 250);
 $lightgray: rgb(230, 230, 230);
 $black: rgb(72, 72, 72);
-$notice: rgba(#4bc127, 0.85);
+$noticegreen: rgba(#4bc127, 0.85);
 
 .app-wrapper {
   width: 100%;
@@ -91,6 +91,7 @@ input#username {
   color: #928c8c;
   font-size: 15px;
   font-style: italic;
+  margin-bottom: 60px;
 }
 
 .chat-window {
@@ -98,7 +99,7 @@ input#username {
   border: 1px solid $bordergray;
   width: 700px;
   height: 500px;
-  margin: 50px;
+  margin: 0 50px 50px 50px;
 }
 
 .users-section {
@@ -239,22 +240,33 @@ button.send {
   justify-content: space-between;
 }
 
-.notices {
-  width: 100%;
-  background: $notice;
+.notice {
+  background: $noticegreen;
+  width: 690px;
   height: 30px;
+  line-height: 30px;
   font-size: 24px;
   padding: 5px;
-  padding-left: 20px;
   position: absolute;
-  top: 60px;
+  text-align: center;
+  top: 115px;
   animation: fade 3s;
   opacity: 0;
   z-index: 2;
+  color: white;
+  font-weight: bold;
 }
 
 @keyframes fade {
   0% { opacity: 1 }
   50% { opacity: 1 }
   100% { opacity: 0 }
+}
+.notice-placeholder {
+  width: 700px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 24px;
+  padding: 5px;
+  margin-top: 40px;
 }
