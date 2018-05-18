@@ -17,6 +17,14 @@ const login = (req, res, next) => {
     return res.send({ error: 'hey, enter something!' });
   }
 
+  if (username.length < 3) {
+    return res.send({ error: '3 characters minimum' });
+  }
+
+  if (username.length > 15 ) {
+    return res.send({ error: '15 characters max' });
+  }
+
   OpenUserModel.findOne({ username }, (err, user) => {
     if (err) return next(err);
 
