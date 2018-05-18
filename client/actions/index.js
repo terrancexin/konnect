@@ -11,6 +11,8 @@ import {
   MESSAGE_SENT,
   LOG_IN_SUCCEED,
   LOG_IN_FAILED,
+  RECEIVE_NOTICES,
+  CLEAR_NOTICES
 } from '../../constants';
 const ROOT_URL = 'http://localhost:3000';
 const socket = io(ROOT_URL);
@@ -20,6 +22,7 @@ const socketEvents = [
   USER_DISCONNECTED,
   TYPING,
   MESSAGE_SENT,
+  STOPPED_TYPING
 ];
 
 const initSocket = dispatch => {
@@ -34,7 +37,6 @@ const initSocket = dispatch => {
 
 const loginSuccess = (data, dispatch) => {
   initSocket(dispatch);
-  socket.emit(USER_CONNECTED, data.newUser);
   dispatch({
     type: LOG_IN_SUCCEED,
     payload: {
@@ -42,6 +44,7 @@ const loginSuccess = (data, dispatch) => {
       auth: data.auth
     },
   });
+  socket.emit(USER_CONNECTED, data.newUser);
 };
 
 const loginFailed = (error, dispatch) => {
@@ -138,14 +141,19 @@ const removeUser = username => dispatch => {
     data: { username }
   })
   .then(({ data }) => {
-    dispatch({
-      type: USER_DISCONNECTED,
-      payload: data
-    });
+    socket.emit(LOGOUT, data);
   })
   .catch(err => {
     console.log(`remove user failed: ${err}`);
   });
+}
+
+export const isTyping = (username, bool) => dispatch => {
+  if (bool) {
+    socket.emit(TYPING, username)
+  } else {
+    socket.emit(STOPPED_TYPING, username);
+  }
 }
 
 export const logInUser = ({ username, password }) => dispatch => {
@@ -186,18 +194,6 @@ export const authError = err => {
   };
 };
 
-// export const fetchMessage = () => dispatch => {
-//   axios.get(ROOT_URL, {
-//       headers: { authorization: localStorage.getItem('token') }
-//     })
-//     .then(res => {
-//       dispatch({
-//         type: FETCH_MESSAGES,
-//         payload: res.data.message
-//       });
-//     });
-// };
-
 export const removeErrorMessage = () => dispatch => {
   dispatch({
     type: LOGIN_ERROR,
@@ -211,10 +207,9 @@ export const verifyUser = username => dispatch => {
 
 export const socketOff = () => {
   debugger
+  console.log('socketoff');
   socket.off(USER_DISCONNECTED)
   socket.off(TYPING)
-  socket.off(VERIFY_USER)
-  socket.off(FETCH_USERS)
-  socket.off(FETCH_MESSAGES)
-  socket.off(LOGIN_ERROR)
+  socket.off(MESSAGE_SENT)
+  socket.off(USER_CONNECTED)
 }
