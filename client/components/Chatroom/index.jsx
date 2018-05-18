@@ -17,7 +17,8 @@ class Chatroom extends Component {
     this.state = {
       text: '',
       username: this.props.username,
-      date: new Date()
+      date: new Date(),
+      textCount: 0
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -49,10 +50,11 @@ class Chatroom extends Component {
       this.props.isTyping(this.props.username, false);
     }, 2000);
         
-    this.setState({ text: e.target.value });
+    this.setState({ text: e.target.value, textCount: e.target.value.length });
   }
 
   render() {
+    let userCount = this.props.users.length <= 1 ? 'user' : 'users';
     return (
       <div className="chatroom-wrapper">
         <div className="chatroom-header-section">
@@ -60,7 +62,7 @@ class Chatroom extends Component {
             Hi, {this.props.username}!
           </h1>
           <div className="chatroom-current-users">
-            You are connected to {this.props.users.length} users on Konnect
+            You are connected to {this.props.users.length} {userCount} on Konnect
           </div>
         </div>
         <Notice />
@@ -82,8 +84,12 @@ class Chatroom extends Component {
                   value={this.state.text}
                   autoComplete="off"
                   placeholder="enter your message"
+                  maxLength="45"
                   onChange={this.handleChange}
                 />
+                <label className="text-character-count">
+                  {`${this.state.textCount}/45`}
+                </label>
                 <button 
                   disabled={this.state.text.length < 1}
                   type="submit"

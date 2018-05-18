@@ -25,18 +25,16 @@ class MessagesList extends Component {
     const { messages, currentUser } = this.props;
     return (
       <div className="messages-list-wrapper">
-        {messages.map(obj => {
+        {messages.map(msg => {
           let threadType =
-            obj.username === currentUser ? 'current-user' : 'other-user';
+            msg.username === currentUser ? 'current-user' : 'other-user';
           return (
-            <div className={`message-thread-${threadType}`} key={obj._id}>
-              <div className={`username-timestamp-wrapper-${threadType}`}>
-                <div className="message-thread-username">{obj.username}</div>
-                <div className="message-thread-timestamp">
-                  {moment(obj.date).format('h:mm a')}
-                </div>
+            <div className={`message-thread-${threadType}`} key={msg._id}>
+              <div className="message-thread-username">{msg.username}</div>
+              <div className={`message-timestamp-wrapper-${threadType}`}>
+                <div className={`message-thread-text-${threadType}`}>{msg.text}</div>
+                <div className="message-thread-timestamp">{moment(msg.date).format('h:mm a')}</div>
               </div>
-              <div className="message-thread-text">{obj.text}</div>
             </div>
           );
         })}
