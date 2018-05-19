@@ -10,6 +10,7 @@ $borderblue: rgb(99, 168, 250);
 $lightgray: rgb(230, 230, 230);
 $black: rgb(72, 72, 72);
 $noticegreen: rgba(#4bc127, 0.85);
+$twitterblue: #1da1f2;
 
 .app-wrapper {
   width: 100%;
@@ -72,6 +73,10 @@ input#username {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background: #feffff; /* Old browsers */
+  background: -moz-linear-gradient(top, #feffff 5%, #ddf1f9 24%, #63b4f2 77%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #feffff 5%,#ddf1f9 24%,#63b4f2 77%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #feffff 5%,#ddf1f9 24%,#63b4f2 77%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .chatroom-header-section {
@@ -83,6 +88,7 @@ input#username {
 
 .chatroom-header-title {
   font-size: 60px;
+  margin-top: 10px;
   margin-bottom: 10px;
   color: $blue;
 }
@@ -94,17 +100,44 @@ input#username {
   margin-bottom: 60px;
 }
 
+.private-chat-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid $bordergray;
+  padding-top: 23px;
+}
+
+button.private-message-btn {
+  height: 40px;
+  width: 100px;
+  background-color: $blue;
+  border: solid 1px white;
+  color: white;
+  font-size: 12px;
+  transition:all .3s ease-in;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $red;
+  }
+  
+  &:focus {
+    outline: none;
+  }
+}
+
 .chat-window {
   display: flex;
-  border: 1px solid $bordergray;
+  border: 1px solid white;
   width: 700px;
   height: 500px;
   margin: 0 50px 50px 50px;
+  background: white;
 }
 
 .users-section {
   border-right: 1px solid $bordergray;
-  width: 275px;
+  width: 195px;
 }
 
 .users-list-wrapper {
@@ -118,7 +151,7 @@ input#username {
 
 .users-list-online {
   margin-top: 10px;
-  height: 400px;
+  height: 349px;
   overflow: scroll;
 }
 
@@ -163,6 +196,17 @@ input#message {
     color: darkgray;
     margin-bottom: 5px;
   }
+}
+
+.text-character-count {
+  position: absolute;
+  right: 60px;
+  bottom: 0;
+  text-align: center;
+  font-size: 11px;
+  width: 30px;
+  padding: 2px;
+  color: $black;
 }
 
 .display-typing {
@@ -213,11 +257,11 @@ button.send {
   }
 }
 
-.username-timestamp-wrapper-other-user {
+.message-timestamp-wrapper-other-user {
   display: flex;
   align-items: center;
 }
-.username-timestamp-wrapper-current-user {
+.message-timestamp-wrapper-current-user {
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
@@ -225,7 +269,9 @@ button.send {
 
 .message-thread-username {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
+  margin-bottom: 1px;
+  color: $black;
 }
 
 .message-thread-timestamp {
@@ -234,23 +280,38 @@ button.send {
   margin: 0 10px
 }
 
+.message-thread-text-other-user {
+  background-color: #FFFF00;
+  padding: 6px 9px;
+  // border-radius: 1px;
+  font-size: 14px;
+}
+
+.message-thread-text-current-user {
+  background-color: #00BFFF;
+  padding: 5px 8px;
+  // border-radius: 1px;
+  font-size: 14px;
+}
+
 .message-input-button-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 .notice {
   background: $noticegreen;
-  width: 690px;
+  width: 692px;
   height: 30px;
   line-height: 30px;
   font-size: 24px;
   padding: 5px;
   position: absolute;
   text-align: center;
-  top: 115px;
-  animation: fade 3s;
+  top: 127px;
+  animation: fade 3.5s;
   opacity: 0;
   z-index: 2;
   color: white;
@@ -261,12 +322,4 @@ button.send {
   0% { opacity: 1 }
   50% { opacity: 1 }
   100% { opacity: 0 }
-}
-.notice-placeholder {
-  width: 700px;
-  height: 30px;
-  line-height: 30px;
-  font-size: 24px;
-  padding: 5px;
-  margin-top: 40px;
 }
