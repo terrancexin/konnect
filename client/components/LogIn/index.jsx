@@ -1,24 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { removeErrorMessage, enterOpenChat } from '../../actions';
+import {
+  logInUser,
+  signUpUser,
+  removeErrorMessage
+} from '../../actions';
+import Form from './Form';
 
 class LogIn extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      username: ''
+      username: '',
+      password: 'password',
+      passwordConfirmation: 'password',
+      toggleLogin: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handle = this.handle.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleToggleLogin = this.handleToggleLogin.bind(this);
   }
-
+  
+  handleToggleLogin(toggleLogin) {
+    this.setState({ toggleLogin });
+  }
+  
   handleSubmit(e) {
     e.preventDefault();
-    const { username } = this.state;
-
-    this.props.enterOpenChat(username);
+    const { username, password, passwordConfirmation } = this.state;
+    this.state.toggleLogin === 'signup' 
+      ? this.props.signUpUser({ username, password, passwordConfirmation })
+      : this.props.logInUser({ username, password });
   }
 
   handleKeyPress(e) {
@@ -27,39 +41,53 @@ class LogIn extends Component {
     }
   }
 
-  handle(e) {
-    this.props.removeErrorMessage();
-    this.setState({ username: e.target.value });
+  handleChange(inputName) {
+    return (e) => {
+      e.preventDefault();
+      this.setState({ [inputName]: e.target.value });
+      this.props.removeErrorMessage();
+    };
   }
 
   render() {
-    const { username } = this.state;
+    const { username, password, passwordConfirmation, toggleLogin } = this.state;
     const { err } = this.props;
 
     return (
-      <div className="welcome-login-wrapper">
-        <form onSubmit={this.handleSubmit} className="welcome-login-form" autoComplete="off">
-          <label className="welcome-login-input-label">Let's Konnect!</label>
-          <div className="welcome-login-error">{err ? err : ''}</div>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={this.handle}
-            maxLength="16"
-            placeholder={'enter username'}
+      <div className="login-page">
+        <section className="login-header">
+          <h1 className="konnect-title">
+            Let's Konnect!
+          </h1>
+          <div className="login-btns">
+            <button className="signup-btn" onClick={() => this.handleToggleLogin('signup')}>
+              Sign up
+            </button>
+            <button className="login-btn" onClick={() => this.handleToggleLogin('login')}>
+              Log in
+            </button>
+          </div>
+        </section>
+          <Form
+            err={err}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            password={password}
+            passwordConfirmation={passwordConfirmation}
+            toggleLogin={toggleLogin}
+            username={username}
           />
-        </form>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  err: state.err,
-});
+const mapStateToProps = state => {
+  return ({ err: state.err })
+};
 
 export default connect(mapStateToProps, {
   removeErrorMessage,
-  enterOpenChat
+  signUpUser,
+  logInUser
 })(LogIn);

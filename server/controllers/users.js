@@ -31,6 +31,12 @@ const signup = (req, res, next) => {
   if (username.length > 15 ) {
     return res.send({ error: '15 characters max' });
   }
+  if (password.length > 15 ) {
+    return res.send({ error: 'password has exceeded the character limit' });
+  }
+  if (passwordConfirmation.length > 15 ) {
+    return res.send({ error: 'password has exceeded the character limit' });
+  }
   
   if (!password) {
     return res.send({ error: 'password can\'t be blank' });
