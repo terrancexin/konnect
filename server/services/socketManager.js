@@ -1,39 +1,31 @@
 const io = require('../index').io;
 const {
-  USER_CONNECTED,
-  USER_DISCONNECTED,
-  TYPING,
-  STOPPED_TYPING,
   LOGOUT,
   MESSAGE_SENT,
+  STOPPED_TYPING,
+  TYPING,
+  USER_CONNECTED,
+  USER_DISCONNECTED,
 } = require('../../constants');
 const OpenUserModel = require('../models/openUser');
 
 module.exports = socket => {
   socket.on(USER_CONNECTED, user => {
+    console.log(`${user.username} connected`);
+    
     socket.broadcast.emit(USER_CONNECTED, { user, notice: `${user.username} has joined Konnect 🔥`});
     
     socket.on('disconnect', () => {
-      console.log(`${user.username} has disconnected by browser`);
-      const { username } = user;
-      
-      OpenUserModel.findOneAndDelete({ username }, err => {
-        if (err) console.log('remove user failed');
-      });
-      
-      io.emit(USER_DISCONNECTED, { user, notice: `Bye ${user.username}! Come back soon!🥂` });
+      console.log(`${user.username} has disconnected`);
+
+      socket.broadcast.emit(USER_DISCONNECTED, { username: user.username, notice: `Bye ${user.username}! Come back soon!🥂` });
     });
   })
   
-  socket.on(LOGOUT, user => {
-    console.log(`${user.username} has disconnected by manual logout`);
-    const { username } = user;
-    
-    OpenUserModel.findOneAndDelete({ username }, err => {
-      if (err) console.log('remove user failed');
-    });
+  socket.on(LOGOUT, username => {
+    console.log(`${username} has disconnected`);
 
-    io.emit(USER_DISCONNECTED, { user, notice: `Bye ${user.username}! Come back soon!🥂` });
+    socket.broadcast.emit(USER_DISCONNECTED, { username, notice: `Bye ${username}! Come back soon!🥂` });
   });
   
   socket.on(MESSAGE_SENT, data => {
