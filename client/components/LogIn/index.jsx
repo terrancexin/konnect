@@ -18,7 +18,7 @@ class LogIn extends Component {
     e.preventDefault();
     const { username } = this.state;
 
-    this.props.enterOpenChat(String(username));
+    this.props.enterOpenChat(username);
   }
 
   handleKeyPress(e) {
