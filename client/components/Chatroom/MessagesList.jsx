@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Linkify from 'react-linkify';
 import moment from 'moment';
 
 class MessagesList extends Component {
@@ -10,7 +11,7 @@ class MessagesList extends Component {
   }
 
   scrollToBottom() {
-    this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+    this.messagesEnd.scrollIntoView();
   };
 
   componentDidMount() {
@@ -32,7 +33,9 @@ class MessagesList extends Component {
             <div className={`message-thread-${threadType}`} key={msg._id}>
               <div className="message-thread-username">{msg.username}</div>
               <div className={`message-timestamp-wrapper-${threadType}`}>
-                <div className={`message-thread-text-${threadType}`}>{msg.text}</div>
+                <Linkify properties={{target: '_blank', style: {color: 'blue'}}}>
+                  <div className={`message-thread-text-${threadType}`}>{msg.text}</div>
+                </Linkify>
                 <div className="message-thread-timestamp">{moment(msg.date).format('h:mm a')}</div>
               </div>
             </div>
