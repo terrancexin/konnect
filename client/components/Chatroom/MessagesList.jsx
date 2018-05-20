@@ -24,6 +24,12 @@ class MessagesList extends Component {
 
   render() {
     const { messages, currentUser } = this.props;
+    if (messages.length === 0) {
+      return (<div className="no-new-msg">
+      There are no new messages
+      <div ref={el => (this.messagesEnd = el)} />
+    </div>)
+    }
     return (
       <div className="messages-list">
         {messages.map(msg => {
