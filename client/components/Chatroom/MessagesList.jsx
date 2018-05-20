@@ -25,19 +25,19 @@ class MessagesList extends Component {
   render() {
     const { messages, currentUser } = this.props;
     return (
-      <div className="messages-list-wrapper">
+      <div className="messages-list">
         {messages.map(msg => {
           let threadType =
             msg.username === currentUser ? 'current-user' : 'other-user';
           return (
-            <div className={`message-thread-${threadType}`} key={msg._id}>
-              <div className="message-thread-username">{msg.username}</div>
-              <div className={`message-timestamp-wrapper-${threadType}`}>
-                <Linkify properties={{target: '_blank', style: {color: 'blue'}}}>
-                  <div className={`message-thread-text-${threadType}`}>{msg.text}</div>
-                </Linkify>
-                <div className="message-thread-timestamp">{moment(msg.date).format('h:mm a')}</div>
+            <div className={`${threadType} message-input `} key={msg._id}>
+              <div className={`${threadType} timestamp-user-row`}>
+                <div className="thread-username">{msg.username}</div>
+                <div className="thread-timestamp">{moment(msg.date).format('h:mm a')}</div>
               </div>
+                <Linkify properties={{target: '_blank', style: {color: 'blue'}}}>
+                  <div className={`${threadType} message-text`}>{msg.text}</div>
+                </Linkify>
             </div>
           );
         })}
