@@ -5,10 +5,12 @@ const UsersList = ({ users }) => {
     <div className="users-list">
       <div className="users-list">
         {users.map(user => {
+          const onlineStatus = user.onlineStatus ? 'active' : 'inactive';
+          
           return (
             <div key={user._id} className="each-user">
-              <div className="online-icon"> . </div>
-              <div className="each-user-name">
+              <img className={`online-${onlineStatus}`}src="http://localhost:3000/images/online.png" alt="online" />
+              <div className={`each-user-name-${onlineStatus}`}>
                 {user.username}
               </div>
             </div>
