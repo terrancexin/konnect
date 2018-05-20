@@ -24,6 +24,7 @@ class LogIn extends Component {
   }
   
   handleToggleLogin(toggleLogin) {
+    this.props.removeErrorMessage();
     this.setState({ toggleLogin });
   }
   
@@ -60,10 +61,14 @@ class LogIn extends Component {
             Let's Konnect!
           </h1>
           <div className="login-btns">
-            <button className="signup-btn" onClick={() => this.handleToggleLogin('signup')}>
+            <button
+              className={`login-btn-${toggleLogin === 'signup' ? 'on' : 'off'}`}
+              onClick={() => this.handleToggleLogin('signup')}>
               Sign up
             </button>
-            <button className="login-btn" onClick={() => this.handleToggleLogin('login')}>
+            <button
+              className={`login-btn-${toggleLogin != 'signup' ? 'on' : 'off'}`}
+              onClick={() => this.handleToggleLogin('login')}>
               Log in
             </button>
           </div>

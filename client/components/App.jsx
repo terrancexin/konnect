@@ -11,7 +11,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app-wrapper">
+      <div className="app">
         {this.props.auth ? <Chatroom /> : <LogIn />}
       </div>
     );
