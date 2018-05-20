@@ -111,11 +111,6 @@ input.login {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  // background-color: black;
-  // background: #feffff; /* Old browsers */
-  // background: -moz-linear-gradient(top, #feffff 5%, #ddf1f9 24%, #63b4f2 77%); /* FF3.6-15 */
-  // background: -webkit-linear-gradient(top, #feffff 5%,#ddf1f9 24%,#63b4f2 77%); /* Chrome10-25,Safari5.1-6 */
-  // background: linear-gradient(to bottom, #feffff 5%,#ddf1f9 24%,#63b4f2 77%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 .chatroom-header {
@@ -184,7 +179,7 @@ input.login {
 }
 
 .users-list {
-  height: 397px;
+  height: 386px;
   overflow: scroll;
   margin-bottom: 2em;  
 }
@@ -206,17 +201,75 @@ input.login {
   margin: 15px;
 }
 
+.missed-msg-btns {
+  display: flex;
+  position: relative;
+  margin: 10px 0;
+}
+
 button.logout {
-  width: 7em;
-  margin-top: 1em;
-  margin-left: 23px;
+  width: 3em;
+  height: 2.9em;
+  line-height: 0;
+  padding: 0;
   background-color: gray;
+  margin: 0;
   
   &:hover {
     background: $red;
   }
 }
 
+button.back-btn,
+button.unread-btn {
+  width: 7em;
+  height: 2.9em;
+  line-height: 0;
+  padding-right: 35px;
+  margin: 0;
+}
+
+button.unread-btn {
+  &:hover {
+    background-color: $mintGreen;
+  }
+}
+
+.missed-count {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: red;
+  border: 1px solid red;
+  border-radius: 100px;
+  height: 17px;
+  width: 17px;
+  color: white;
+  text-align: center;
+  padding: 2px;
+}
+
+button.back-btn {
+  background-color: $mintGreen;
+  color: white;
+  
+  .fas.fa-undo-alt.fa-2x {
+    margin-left: 16px
+  }
+  
+  &:hover {
+    background-color: black;
+    color: $mintGreen;
+  }
+}
+
+.no-new-msg {
+  height: 200px;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  color: gray;
+}
 .messages-section {
   height: 100%;
   display: flex;
@@ -254,8 +307,8 @@ input#message {
 
 .text-character-count {
   position: absolute;
-  right: 60px;
-  bottom: 0;
+  right: 62px;
+  bottom: 3px;
   text-align: center;
   font-size: 11px;
   width: 30px;

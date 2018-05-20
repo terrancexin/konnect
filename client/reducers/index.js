@@ -1,4 +1,5 @@
 import {
+  CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
   FETCH_MESSAGES,
   FETCH_USERS,
@@ -17,6 +18,7 @@ const initialState = {
   err: '',
   hasMoreMessages: true,
   messages: [],
+  missedMsg: [],
   notice: '',
   typing: false,
   typingUsers: [],
@@ -27,6 +29,11 @@ const initialState = {
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case CLEAR_MISSED_MSG:
+      return {
+        ...state,
+        missedMsg: [],
+      };
     case CLEAR_NOTICES:
       return {
         ...state,
@@ -50,8 +57,9 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case LOGGED_IN:
       return {
         ...state,
+        auth: true,
+        missedMsg: payload.missedMsg,
         username: payload.username,
-        auth: true
       };
     case LOGIN_ERROR:
       return {

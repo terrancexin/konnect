@@ -7,7 +7,8 @@ const {
   USER_CONNECTED,
   USER_DISCONNECTED,
 } = require('../../constants');
-const OpenUserModel = require('../models/openUser');
+const MessageModel = require('../models/message');
+const UserModel = require('../models/user');
 
 module.exports = socket => {
   socket.on(USER_CONNECTED, user => {
@@ -17,6 +18,11 @@ module.exports = socket => {
     
     socket.on('disconnect', () => {
       console.log(`${user.username} has disconnected`);
+    
+      MessageModel.findOne({}, {}, { sort: {'_id': -1}}, (err, message) => {
+        UserModel.update({username: user.username}, {bookMark: message._id }, (err, updateUser) =>{    
+        });
+      });
 
       socket.broadcast.emit(USER_DISCONNECTED, { username: user.username, notice: `Bye ${user.username}! Come back soon!🥂` });
     });
@@ -24,6 +30,11 @@ module.exports = socket => {
   
   socket.on(LOGOUT, username => {
     console.log(`${username} has disconnected`);
+    
+    MessageModel.findOne({}, {}, { sort: {'_id': -1}}, (err, message) => {
+      UserModel.update({ username }, {bookMark: message._id }, (err, updateUser) =>{    
+      });
+    });
 
     socket.broadcast.emit(USER_DISCONNECTED, { username, notice: `Bye ${username}! Come back soon!🥂` });
   });

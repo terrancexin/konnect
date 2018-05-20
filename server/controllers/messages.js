@@ -2,7 +2,6 @@ const MessageModel = require('../models/message');
 
 const fetch = (req, res, next) => {
   MessageModel.find({})
-    .limit(200)
     .exec((err, messages) => {
       if (err) return next(err);
       

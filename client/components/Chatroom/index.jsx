@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
+  clearMissedMsg,
   fetchMessages,
   fetchUsers,
   isTyping,
@@ -12,6 +13,7 @@ import MessagesList from './MessagesList';
 import Notice from '../Notice';
 import UsersList from './UsersList';
 import PrivateChat from './PrivateChat';
+import MissedMessages from './MissedMessages';
 
 class Chatroom extends Component {
   constructor(props) {
@@ -21,13 +23,13 @@ class Chatroom extends Component {
       username: this.props.username,
       date: new Date(),
       textCount: 0,
-      privateMsg: false
+      missed: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.togglePrivateMsg = this.togglePrivateMsg.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
+    this.toggleMissed = this.toggleMissed.bind(this);
     
     this.handleTypingTime = null;
   }
@@ -38,7 +40,6 @@ class Chatroom extends Component {
   }
 
   componentWillUnmount() {
-    console.log('componentWillUnmount');
     this.props.socketOff();
   }
 
@@ -49,10 +50,11 @@ class Chatroom extends Component {
     this.props.sendMessage({ username, text, date });
   }
   
-  togglePrivateMsg() {
-    this.state.privateMsg
-      ? this.setState({ privateMsg: false })
-      : this.setState({ privateMsg: true })
+  toggleMissed() {
+    if (!this.state.missed) {
+      this.props.clearMissedMsg();
+    }
+    this.setState({ missed: !this.state.missed });
   }
   
   handleChange(e) {
@@ -85,11 +87,25 @@ class Chatroom extends Component {
         <div className="chat-window">
           <Notice />
           <section className="chat-left-bar">
-            <button className="logout" onClick={this.handleLogOut}>logout</button>
+            <MissedMessages
+              handleLogOut={this.handleLogOut}
+              missed={this.state.missed}
+              missedMsg={this.props.missedMsg}
+              toggleMissed={this.toggleMissed}
+            />
             <UsersList users={this.props.users} />
           </section>
           <div className="messages-section">
-            <MessagesList currentUser={this.props.username} messages={this.props.messages} />
+            { !this.state.missed && (
+              <MessagesList
+                currentUser={this.props.username}
+                messages={this.props.messages}
+              />)}
+            { this.state.missed && (
+              <MessagesList
+                currentUser={this.props.username}
+                messages={this.props.missedMsg}
+              />)}
             
             <form onSubmit={this.handleSubmit} className="message-form">
               <div className="display-typing">
@@ -128,6 +144,7 @@ const mapStateToProps = state => {
     username: state.username,
     users: state.users,
     messages: state.messages,
+    missedMsg: state.missedMsg,
     hasMoreMessages: state.hasMoreMessages,
     typing: state.typing,
     typingUsers: state.typingUsers,
@@ -136,6 +153,7 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
+  clearMissedMsg,
   socketOff,
   fetchMessages,
   fetchUsers,

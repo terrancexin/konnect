@@ -1,6 +1,7 @@
 import axios from 'axios';
 import io from 'socket.io-client';
 import {
+  CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
   FETCH_MESSAGES,
   FETCH_USERS,
@@ -70,14 +71,14 @@ const loginFailed = (error, dispatch) => {
   });
 };
 
-const loginSuccess = ({ token, newUser }, dispatch) => {
-  console.log(newUser);
+const loginSuccess = ({ token, newUser, missedMsg }, dispatch) => {
   localStorage.setItem('token', token)
   initSocket(dispatch);
   dispatch({
     type: LOGGED_IN,
     payload: {
-      username: newUser.username
+      username: newUser.username,
+      missedMsg
     },
   });
   socket.emit(USER_CONNECTED, newUser);
@@ -133,6 +134,12 @@ export const sendMessage = ({ username, date, text }) => dispatch => {
     .catch(err => {
       console.log(`send message failed: ${err}`);
     });
+}
+
+export const clearMissedMsg = () => dispatch => {
+  dispatch({
+    type: CLEAR_MISSED_MSG,
+  });
 }
 
 // Notice actions
