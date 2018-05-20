@@ -1,4 +1,5 @@
 const jwt = require('jwt-simple');
+const MessageModel = require('../models/message');
 const UserModel = require('../models/user');
 
 const fetchAll = (req, res, next) => {
@@ -11,9 +12,25 @@ const fetchAll = (req, res, next) => {
 };
 
 const login = (req, res) => {
-  res.send({ 
-    token: tokenForUser(req.user),
-    newUser: req.user
+  UserModel.findOne({username: req.user.username}, (err, user) => {
+    if (user.bookMark) {
+      MessageModel.find({}, (err, messages) => {
+        let tracker = messages.length - 1;
+        const missedMsg = [];
+        const { bookMark, username } = user;
+
+        while (messages[tracker]._id != bookMark && messages[tracker].username != username) {
+          missedMsg.unshift(messages[tracker]);
+          tracker--;
+        }
+        
+        res.send({ 
+          token: tokenForUser(req.user),
+          newUser: req.user,
+          missedMsg
+        });
+      });
+    }
   });
 }
 
@@ -57,7 +74,8 @@ const signup = (req, res, next) => {
     
     const newUser = new UserModel({
       username,
-      password
+      password,
+      bookMark: ''
     });
     
     newUser.save(err => {
@@ -66,7 +84,8 @@ const signup = (req, res, next) => {
     
     res.json({
       token: tokenForUser(newUser),
-      newUser
+      missedMsg: [],
+      newUser,
     });
   });
 }
