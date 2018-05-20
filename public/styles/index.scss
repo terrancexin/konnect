@@ -1,6 +1,5 @@
 @import 'reset.scss';
 @import 'mobile.scss';
-$bordergray: lightgray;
 $placeholdergray: #e6ecf0;
 $messagebackground: #e6ecf0;
 $bordergray: #e6ecf0;
@@ -11,44 +10,85 @@ $lightgray: rgb(230, 230, 230);
 $black: rgb(72, 72, 72);
 $noticegreen: rgba(#4bc127, 0.85);
 $twitterblue: #1da1f2;
+$white: white;
+$mintGreen:#00ffbf;
 
-.app-wrapper {
+.app {
   width: 100%;
+  height: 100%;
 }
 
-.welcome-login-wrapper {
-}
-
-.welcome-login-form {
-  height: 100vh;
+.login-page {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+}
+
+.login-header {
+  display: flex;
   flex-direction: column;
 }
 
-.welcome-login-input-label {
-  font-size: 80px;
+.konnect-title {
+  margin-top: 1em;
+  font-size: 4em;
   margin-bottom: 20px;
   color: $blue;
 }
 
-.welcome-login-error {
+.login-btns {
+  display: flex;
+  justify-content: center;
+  
+  button.login-btn-on {
+    &:hover {
+      background-color: rgb(57, 115, 213);
+    }
+  }
+  
+  button.login-btn-off {
+    background-color: lightgray;
+    border: 1px solid lightgray;
+    color: white;
+    
+    &:hover {
+      background-color: rgb(57, 115, 213);
+    }
+  }
+  
+}
+
+.login-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 1.5em;
+}
+
+.login-error {
   color: $red;
-  font-size: 20px;
+  font-size: 1em;
   line-height: 30px;
   height: 30px;
   font-weight: 300;
 }
 
-input#username {
-  width: 400px;
+button.enter {
+  margin-top: 1.5em;
+  &:hover {
+    background-color: $mintGreen;
+    color: $blue;
+  }
+}
+
+input.login {
+  width: 7em;
   border-top: none;
   border-left: none;
   border-right: none;
   height: 30px;
   line-height: 30px;
-  font-size: 40px;
+  font-size: 2em;
   text-align: center;
   border-bottom: solid 2px $lightgray;
   transition:all .3s ease-in;
@@ -66,105 +106,118 @@ input#username {
   }
 }
 
-.chatroom-wrapper {
-  width: 100%;
-  height: 100%;
+.chatroom {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: #feffff; /* Old browsers */
-  background: -moz-linear-gradient(top, #feffff 5%, #ddf1f9 24%, #63b4f2 77%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #feffff 5%,#ddf1f9 24%,#63b4f2 77%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #feffff 5%,#ddf1f9 24%,#63b4f2 77%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  // background-color: black;
+  // background: #feffff; /* Old browsers */
+  // background: -moz-linear-gradient(top, #feffff 5%, #ddf1f9 24%, #63b4f2 77%); /* FF3.6-15 */
+  // background: -webkit-linear-gradient(top, #feffff 5%,#ddf1f9 24%,#63b4f2 77%); /* Chrome10-25,Safari5.1-6 */
+  // background: linear-gradient(to bottom, #feffff 5%,#ddf1f9 24%,#63b4f2 77%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
-.chatroom-header-section {
+.chatroom-header {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.chatroom-header-title {
-  font-size: 60px;
+.chatroom-title {
+  font-size: 4em;
   margin-top: 10px;
   margin-bottom: 10px;
   color: $blue;
 }
 
-.chatroom-current-users {
+.current-users {
   color: #928c8c;
-  font-size: 15px;
   font-style: italic;
-  margin-bottom: 60px;
+  margin-bottom: 3em;
 }
 
-.private-chat-btn-wrapper {
-  display: flex;
-  justify-content: center;
-  border-top: 1px solid $bordergray;
-  padding-top: 23px;
-}
-
-button.private-message-btn {
-  height: 40px;
-  width: 100px;
-  background-color: $blue;
-  border: solid 1px white;
+.notice {
+  background: $noticegreen;
+  width: 641px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 24px;
+  padding: 5px;
+  position: absolute;
+  text-align: center;
+  top: 112px;
+  animation: fade 3.5s;
+  opacity: 0;
+  z-index: 2;
   color: white;
-  font-size: 12px;
-  transition:all .3s ease-in;
-  cursor: pointer;
+  font-weight: bold;
+}
 
-  &:hover {
-    background-color: $red;
-  }
-  
-  &:focus {
-    outline: none;
-  }
+@keyframes fade {
+  0% { opacity: 1 }
+  50% { opacity: 1 }
+  100% { opacity: 0 }
 }
 
 .chat-window {
   display: flex;
-  border: 1px solid white;
-  width: 700px;
-  height: 500px;
+  border: 1px solid $bordergray;
+  width: 650px;
+  height: 450px;
   margin: 0 50px 50px 50px;
   background: white;
 }
 
-.users-section {
+.chat-left-bar {
   border-right: 1px solid $bordergray;
-  width: 195px;
-}
-
-.users-list-wrapper {
+  width: 150px;
 }
 
 .users-list-title {
   text-align: center;
-  padding: 20px;
+  padding: 1em;
   border-bottom: 1px solid $bordergray;
+  border-top: 1px solid $bordergray;
+  margin-top: 1em;
 }
 
-.users-list-online {
-  margin-top: 10px;
-  height: 349px;
+.users-list {
+  height: 397px;
   overflow: scroll;
+  margin-bottom: 2em;  
 }
 
-.current-users-wrapper {
-  // border-bottom: 1px solid $bordergray;
+.each-user {
+  display: flex;
+  align-items: center;
+  
+  &:nth-child(odd) {
+    background-color: rgb(244, 245, 247);
+  }
 }
 
-.current-users-row {
+.online-icon {
+
+
+}
+.each-user-name {
   margin: 15px;
 }
 
+button.logout {
+  width: 7em;
+  margin-top: 1em;
+  margin-left: 23px;
+  background-color: gray;
+  
+  &:hover {
+    background: $red;
+  }
+}
+
 .messages-section {
-  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -186,6 +239,7 @@ input#message {
   padding: 10px;
   color: rgb(72, 72, 72);
   background-color: $messagebackground;
+  border-radius: 15px;
   &:focus{
     border: solid 1px $borderblue;
     outline: none;
@@ -217,81 +271,58 @@ input#message {
   color: gray;
 }
 
-.messages-list-wrapper {
+.messages-list {
   margin: 10px 10px 2px 10px;
-  height: 450px;
   overflow: scroll;
 }
 
-.message-thread-current-user {
+.message-input {
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
+}
+.timestamp-user-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.message-text {
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 0.85em;
+  font-weight: 300;
+}
+.current-user.message-input {
   align-items: flex-end;
 }
+  
+.current-user.timestamp-user-row {
+    flex-direction: row-reverse;
+}
+.current-user.message-text {
+  background-color: #FFFF00;
+}
 
-.message-thread-other-user {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
+.other-user.message-input {
   align-items: flex-start;
 }
-
-button.send {
-  height: 53px;
-  width: 53px;
-  background-color: $blue;
-  border: solid 1px white;
+.other-user.message-text {
+  background-color: #00b0ff;
   color: white;
-  font-size: 12px;
-  transition:all .3s ease-in;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
-  
-  &:disabled {
-    background-color: lightgray;
-    color: gray;
-  }
 }
 
-.message-timestamp-wrapper-other-user {
-  display: flex;
-  align-items: center;
-}
-.message-timestamp-wrapper-current-user {
-  display: flex;
-  align-items: center;
-  flex-direction: row-reverse;
-}
-
-.message-thread-username {
+.thread-username {
   font-weight: 700;
   font-size: 15px;
   margin-bottom: 1px;
   color: $black;
 }
 
-.message-thread-timestamp {
+.thread-timestamp {
   color: gray;
-  font-size: 12px;
-  margin: 0 10px
-}
-
-.message-thread-text-other-user {
-  background-color: #FFFF00;
-  padding: 6px 9px;
-  // border-radius: 1px;
-  font-size: 14px;
-}
-
-.message-thread-text-current-user {
-  background-color: #00BFFF;
-  padding: 5px 8px;
-  // border-radius: 1px;
-  font-size: 14px;
+  font-size: 11px;
+  font-weight: 300;
+  margin: 0 7px;
 }
 
 .message-input-button-wrapper {
@@ -301,25 +332,26 @@ button.send {
   position: relative;
 }
 
-.notice {
-  background: $noticegreen;
-  width: 692px;
-  height: 30px;
-  line-height: 30px;
-  font-size: 24px;
-  padding: 5px;
-  position: absolute;
-  text-align: center;
-  top: 127px;
-  animation: fade 3.5s;
-  opacity: 0;
-  z-index: 2;
-  color: white;
-  font-weight: bold;
-}
+button.send {
+  height: 53px;
+  width: 53px;
+  background-color: $blue;
+  border: solid 1px white;
+  font-size: 12px;
+  transition:all .3s ease-in;
+  border-radius: 0;
+  margin: 0;
+  line-height: 0;
+  padding: 0;
+  border-radius: 15px;
+  margin-left: 4px;
 
-@keyframes fade {
-  0% { opacity: 1 }
-  50% { opacity: 1 }
-  100% { opacity: 0 }
+  &:focus {
+    outline: none;
+  }
+  
+  &:disabled {
+    background-color: lightgray;
+    color: gray;
+  }
 }
