@@ -51,9 +51,6 @@ class Chatroom extends Component {
   }
   
   toggleMissed() {
-    if (!this.state.missed) {
-      this.props.clearMissedMsg();
-    }
     this.setState({ missed: !this.state.missed });
   }
   
@@ -69,7 +66,7 @@ class Chatroom extends Component {
   }
   
   handleLogOut() {
-    this.props.signOutUser(this.props.username)
+    this.props.signOutUser(this.props.username);
   }
   render() {
     const userCount = this.props.users.length <= 1 ? 'user' : 'users';
@@ -92,7 +89,9 @@ class Chatroom extends Component {
               missed={this.state.missed}
               missedMsg={this.props.missedMsg}
               toggleMissed={this.toggleMissed}
+              clearMissedMsg={this.props.clearMissedMsg}
             />
+            <div className="online-users">{this.props.users.filter(user => user.onlineStatus).length} users online</div>
             <UsersList users={this.props.users} />
           </section>
           <div className="messages-section">
@@ -100,11 +99,13 @@ class Chatroom extends Component {
               <MessagesList
                 currentUser={this.props.username}
                 messages={this.props.messages}
+                loading={this.props.loading}
               />)}
             { this.state.missed && (
               <MessagesList
                 currentUser={this.props.username}
                 messages={this.props.missedMsg}
+                loading={this.props.loading}
               />)}
             
             <form onSubmit={this.handleSubmit} className="message-form">
@@ -143,6 +144,7 @@ const mapStateToProps = state => {
   return {
     username: state.username,
     users: state.users,
+    loading: state.loading,
     messages: state.messages,
     missedMsg: state.missedMsg,
     hasMoreMessages: state.hasMoreMessages,

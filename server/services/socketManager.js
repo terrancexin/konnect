@@ -14,17 +14,34 @@ module.exports = socket => {
   socket.on(USER_CONNECTED, user => {
     console.log(`${user.username} connected`);
     
-    socket.broadcast.emit(USER_CONNECTED, { user, notice: `${user.username} has joined Konnect 🔥`});
+    UserModel.find({}, (err, users) => {
+      if (err) return next(err);
+      
+      io.emit(USER_CONNECTED, { users, notice: `${user.username} has joined Konnect 🔥`});
+    });
     
     socket.on('disconnect', () => {
       console.log(`${user.username} has disconnected`);
     
       MessageModel.findOne({}, {}, { sort: {'_id': -1}}, (err, message) => {
-        UserModel.update({username: user.username}, {bookMark: message._id }, (err, updateUser) =>{    
+        if (err) {
+          return console.log(`finding the last seen msg by user failed: ${err}`);
+        }
+        
+        UserModel.update({username: user.username}, {
+          bookMark: message ? message._id : '',
+          onlineStatus: false
+        }, (err, updateUser) =>{    
+          if (err) {
+            return console.log(`updating user's book mark failed: ${err}`);
+          }
+          UserModel.find({}, (err, users) => {
+            if (err) return next(err);
+            
+            socket.broadcast.emit(USER_DISCONNECTED, { users, notice: `Bye ${user.username}! Come back soon!🥂` });
+          });
         });
       });
-
-      socket.broadcast.emit(USER_DISCONNECTED, { username: user.username, notice: `Bye ${user.username}! Come back soon!🥂` });
     });
   })
   
@@ -32,11 +49,24 @@ module.exports = socket => {
     console.log(`${username} has disconnected`);
     
     MessageModel.findOne({}, {}, { sort: {'_id': -1}}, (err, message) => {
-      UserModel.update({ username }, {bookMark: message._id }, (err, updateUser) =>{    
+      if (err) {
+        return console.log(`finding the last seen msg by user failed: ${err}`);
+      }
+      
+      UserModel.update({ username }, {
+        bookMark: message ? message._id : '',
+        onlineStatus: false
+      }, (err, updateUser) =>{    
+        if (err) {
+          return console.log(`updating user's book mark failed: ${err}`);
+        }
+        UserModel.find({}, (err, users) => {
+          if (err) return next(err);
+          
+          socket.broadcast.emit(USER_DISCONNECTED, { users, notice: `Bye ${username}! Come back soon!🥂` });
+        });
       });
     });
-
-    socket.broadcast.emit(USER_DISCONNECTED, { username, notice: `Bye ${username}! Come back soon!🥂` });
   });
   
   socket.on(MESSAGE_SENT, data => {

@@ -19,6 +19,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: floralwhite;
 }
 
 button {
@@ -42,4 +43,11 @@ button {
   &:focus {
     outline: none;
   }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
 }

@@ -23,7 +23,14 @@ class MessagesList extends Component {
   }
 
   render() {
-    const { messages, currentUser } = this.props;
+    const { messages, currentUser, loading } = this.props;
+    if (loading) {
+      return (<div className="loading">
+        <img className="loading-spinner" src="http://localhost:3000/images/fidget-loading-spinner.gif" alt="loading-spinner" />
+        <div ref={el => (this.messagesEnd = el)} />
+      </div>)
+    }
+    
     if (messages.length === 0) {
       return (<div className="no-new-msg">
       There are no new messages

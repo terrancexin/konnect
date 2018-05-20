@@ -12,25 +12,45 @@ const fetchAll = (req, res, next) => {
 };
 
 const login = (req, res) => {
-  UserModel.findOne({username: req.user.username}, (err, user) => {
-    if (user.bookMark) {
-      MessageModel.find({}, (err, messages) => {
-        let tracker = messages.length - 1;
-        const missedMsg = [];
-        const { bookMark, username } = user;
-
-        while (messages[tracker]._id != bookMark && messages[tracker].username != username) {
-          missedMsg.unshift(messages[tracker]);
-          tracker--;
-        }
-        
-        res.send({ 
-          token: tokenForUser(req.user),
-          newUser: req.user,
-          missedMsg
-        });
-      });
+  const { username, password } = req.body;
+  
+  UserModel.update({ username }, {onlineStatus: true}, err => {    
+    if (err) {
+      return console.log(`updating user's book mark failed: ${err}`);
     }
+
+    UserModel.findOne({ username}, (err, updatedUser) => {
+      if (updatedUser.bookMark) {
+        MessageModel.find({}, (err, messages) => {
+          if (err) {
+            return  console.log(`fetching all msgs in login failed: ${err}`);
+          }
+          
+          let tracker = messages.length - 1;
+          const missedMsg = [];
+          const { bookMark, username } = updatedUser;
+          
+          if (tracker > 0) {
+            while (messages[tracker]._id != bookMark && messages[tracker].username != username) {
+              missedMsg.unshift(messages[tracker]);
+              tracker--;
+            }
+            
+            res.send({ 
+              token: tokenForUser(updatedUser),
+              newUser: updatedUser,
+              missedMsg
+            });
+          }
+        });
+      } else {
+        res.send({
+          token: tokenForUser({ username, password }),
+          newUser: { username, password },
+          missedMsg: []
+        })
+      }
+    })
   });
 }
 
@@ -75,7 +95,8 @@ const signup = (req, res, next) => {
     const newUser = new UserModel({
       username,
       password,
-      bookMark: ''
+      bookMark: '',
+      onlineStatus: true
     });
     
     newUser.save(err => {

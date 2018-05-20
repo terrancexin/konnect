@@ -6670,7 +6670,9 @@ var fetchUsers = exports.fetchUsers = function fetchUsers() {
 
       dispatch({
         type: _constants.FETCH_USERS,
-        payload: data
+        payload: data.users.sort(function (a, b) {
+          return b.onlineStatus - a.onlineStatus;
+        })
       });
     }).catch(function (err) {
       console.log('fetching all users failed: ' + err);
@@ -6713,7 +6715,7 @@ var loginSuccess = function loginSuccess(_ref4, dispatch) {
   dispatch({
     type: _constants.LOGGED_IN,
     payload: {
-      username: newUser.username,
+      user: newUser,
       missedMsg: missedMsg
     }
   });
@@ -6739,9 +6741,10 @@ var signUpUser = exports.signUpUser = function signUpUser(_ref5) {
   };
 };
 
-var signOutUser = exports.signOutUser = function signOutUser(username) {
+var signOutUser = exports.signOutUser = function signOutUser(user) {
   return function (dispatch) {
-    socket.emit(_constants.LOGOUT, username);
+    debugger;
+    socket.emit(_constants.LOGOUT, user);
     dispatch({
       type: _constants.LOGOUT
     });
@@ -6752,6 +6755,7 @@ var signOutUser = exports.signOutUser = function signOutUser(username) {
 // Message actions
 var fetchMessages = exports.fetchMessages = function fetchMessages() {
   return function (dispatch) {
+    dispatch({ type: _constants.LOADING, payload: true });
     _axios2.default.get(ROOT_URL + '/messages').then(function (_ref7) {
       var data = _ref7.data;
 
@@ -6759,6 +6763,10 @@ var fetchMessages = exports.fetchMessages = function fetchMessages() {
         type: _constants.FETCH_MESSAGES,
         payload: data
       });
+
+      setTimeout(function () {
+        return dispatch({ type: _constants.LOADING, payload: false });
+      }, 500);
     }).catch(function (err) {
       console.log('fetch messages failed: ' + err);
     });
@@ -10730,6 +10738,7 @@ module.exports = {
 	FETCH_MESSAGES: "FETCH_MESSAGES",
 	FETCH_USERS: "FETCH_USERS",
 	MESSAGE_SENT: "MESSAGE_SENT",
+	LOADING: "LOADING",
 	LOGGED_IN: "LOGGED_IN",
 	LOGIN_ERROR: "LOGIN_ERROR",
 	LOGOUT: "LOGOUT",
@@ -22604,13 +22613,13 @@ var _App = __webpack_require__(189);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _styles = __webpack_require__(270);
+var _styles = __webpack_require__(271);
 
 var _styles2 = _interopRequireDefault(_styles);
 
 var _reactRedux = __webpack_require__(11);
 
-var _store = __webpack_require__(275);
+var _store = __webpack_require__(276);
 
 var _store2 = _interopRequireDefault(_store);
 
@@ -43072,7 +43081,7 @@ var LogIn = function (_Component) {
       username: '',
       password: 'password',
       passwordConfirmation: 'password',
-      toggleLogin: ''
+      toggleLogin: 'signup'
     };
 
     _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -47265,7 +47274,7 @@ var _PrivateChat = __webpack_require__(269);
 
 var _PrivateChat2 = _interopRequireDefault(_PrivateChat);
 
-var _MissedMessages = __webpack_require__(281);
+var _MissedMessages = __webpack_require__(270);
 
 var _MissedMessages2 = _interopRequireDefault(_MissedMessages);
 
@@ -47328,9 +47337,6 @@ var Chatroom = function (_Component) {
   }, {
     key: 'toggleMissed',
     value: function toggleMissed() {
-      if (!this.state.missed) {
-        this.props.clearMissedMsg();
-      }
       this.setState({ missed: !this.state.missed });
     }
   }, {
@@ -47350,6 +47356,7 @@ var Chatroom = function (_Component) {
   }, {
     key: 'handleLogOut',
     value: function handleLogOut() {
+      debugger;
       this.props.signOutUser(this.props.username);
     }
   }, {
@@ -47391,8 +47398,17 @@ var Chatroom = function (_Component) {
               handleLogOut: this.handleLogOut,
               missed: this.state.missed,
               missedMsg: this.props.missedMsg,
-              toggleMissed: this.toggleMissed
+              toggleMissed: this.toggleMissed,
+              clearMissedMsg: this.props.clearMissedMsg
             }),
+            _react2.default.createElement(
+              'div',
+              { className: 'online-users' },
+              this.props.users.filter(function (user) {
+                return user.onlineStatus;
+              }).length,
+              ' users online'
+            ),
             _react2.default.createElement(_UsersList2.default, { users: this.props.users })
           ),
           _react2.default.createElement(
@@ -47400,11 +47416,13 @@ var Chatroom = function (_Component) {
             { className: 'messages-section' },
             !this.state.missed && _react2.default.createElement(_MessagesList2.default, {
               currentUser: this.props.username,
-              messages: this.props.messages
+              messages: this.props.messages,
+              loading: this.props.loading
             }),
             this.state.missed && _react2.default.createElement(_MessagesList2.default, {
               currentUser: this.props.username,
-              messages: this.props.missedMsg
+              messages: this.props.missedMsg,
+              loading: this.props.loading
             }),
             _react2.default.createElement(
               'form',
@@ -47454,6 +47472,7 @@ var mapStateToProps = function mapStateToProps(state) {
   return {
     username: state.username,
     users: state.users,
+    loading: state.loading,
     messages: state.messages,
     missedMsg: state.missedMsg,
     hasMoreMessages: state.hasMoreMessages,
@@ -47541,7 +47560,19 @@ var MessagesList = function (_Component) {
 
       var _props = this.props,
           messages = _props.messages,
-          currentUser = _props.currentUser;
+          currentUser = _props.currentUser,
+          loading = _props.loading;
+
+      if (loading) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'loading' },
+          _react2.default.createElement('img', { className: 'loading-spinner', src: 'http://localhost:3000/images/fidget-loading-spinner.gif', alt: 'loading-spinner' }),
+          _react2.default.createElement('div', { ref: function ref(el) {
+              return _this2.messagesEnd = el;
+            } })
+        );
+      }
 
       if (messages.length === 0) {
         return _react2.default.createElement(
@@ -50532,17 +50563,15 @@ var UsersList = function UsersList(_ref) {
       "div",
       { className: "users-list" },
       users.map(function (user) {
+        var onlineStatus = user.onlineStatus ? 'active' : 'inactive';
+
         return _react2.default.createElement(
           "div",
           { key: user._id, className: "each-user" },
+          _react2.default.createElement("img", { className: "online-" + onlineStatus, src: "http://localhost:3000/images/online.png", alt: "online" }),
           _react2.default.createElement(
             "div",
-            { className: "online-icon" },
-            " . "
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "each-user-name" },
+            { className: "each-user-name-" + onlineStatus },
             user.username
           )
         );
@@ -50638,8 +50667,61 @@ exports.default = PrivateChat;
 /* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
-var content = __webpack_require__(271);
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MissedMessages = function MissedMessages(_ref) {
+  var handleLogOut = _ref.handleLogOut,
+      missedMsg = _ref.missedMsg,
+      toggleMissed = _ref.toggleMissed,
+      missed = _ref.missed,
+      clearMissedMsg = _ref.clearMissedMsg;
+
+  return _react2.default.createElement(
+    "div",
+    { className: "missed-msg-btns" },
+    _react2.default.createElement(
+      "button",
+      { className: "logout", onClick: handleLogOut },
+      _react2.default.createElement("i", { className: "fas fa-power-off" })
+    ),
+    !missed ? _react2.default.createElement(
+      "button",
+      { className: "unread-btn", onClick: toggleMissed },
+      "New"
+    ) : _react2.default.createElement(
+      "button",
+      { className: "back-btn", onClick: function onClick() {
+          toggleMissed();clearMissedMsg();
+        } },
+      _react2.default.createElement("i", { className: "fas fa-undo-alt fa-2x" })
+    ),
+    !missed && _react2.default.createElement(
+      "p",
+      { className: "missed-count" },
+      missedMsg.length
+    )
+  );
+};
+
+exports.default = MissedMessages;
+
+/***/ }),
+/* 271 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(272);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -50653,7 +50735,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(273)(content, options);
+var update = __webpack_require__(274)(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -50685,21 +50767,21 @@ if(false) {
 }
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(272)(false);
+exports = module.exports = __webpack_require__(273)(false);
 // imports
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  align-items: center;\n  flex-direction: column;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column; }\n\n.chatroom-header {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.chatroom-title {\n  font-size: 4em;\n  margin-top: 10px;\n  margin-bottom: 10px;\n  color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white; }\n\n.chat-left-bar {\n  border-right: 1px solid #e6ecf0;\n  width: 150px; }\n\n.users-list-title {\n  text-align: center;\n  padding: 1em;\n  border-bottom: 1px solid #e6ecf0;\n  border-top: 1px solid #e6ecf0;\n  margin-top: 1em; }\n\n.users-list {\n  height: 386px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.each-user-name {\n  margin: 15px; }\n\n.missed-msg-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n\nbutton.logout {\n  width: 3em;\n  height: 2.9em;\n  line-height: 0;\n  padding: 0;\n  background-color: gray;\n  margin: 0; }\n  button.logout:hover {\n    background: #d30303; }\n\nbutton.back-btn,\nbutton.unread-btn {\n  width: 7em;\n  height: 2.9em;\n  line-height: 0;\n  padding-right: 35px;\n  margin: 0; }\n\nbutton.unread-btn:hover {\n  background-color: #00ffbf; }\n\n.missed-count {\n  position: absolute;\n  bottom: 10px;\n  right: 10px;\n  background-color: red;\n  border: 1px solid red;\n  border-radius: 100px;\n  height: 17px;\n  width: 17px;\n  color: white;\n  text-align: center;\n  padding: 2px; }\n\nbutton.back-btn {\n  background-color: #00ffbf;\n  color: white; }\n  button.back-btn .fas.fa-undo-alt.fa-2x {\n    margin-left: 16px; }\n  button.back-btn:hover {\n    background-color: black;\n    color: #00ffbf; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.text-character-count {\n  position: absolute;\n  right: 62px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.display-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-input {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column; }\n\n.timestamp-user-row {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.85em;\n  font-weight: 300; }\n\n.current-user.message-input {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-row {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-input {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-button-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  align-items: center;\n  flex-direction: column;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  background: floralwhite; }\n\n.chatroom-header {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.chatroom-title {\n  font-size: 4em;\n  margin-top: 10px;\n  margin-bottom: 10px;\n  color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n\n.chat-left-bar {\n  border-right: 1px solid #e6ecf0;\n  width: 150px; }\n\n.users-list-title {\n  text-align: center;\n  padding: 1em;\n  border-bottom: 1px solid #e6ecf0;\n  border-top: 1px solid #e6ecf0;\n  margin-top: 1em; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  background: #484848;\n  color: #00ffbf;\n  border-radius: 10px;\n  margin-bottom: 2px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 14px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.missed-msg-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n\nbutton.logout {\n  width: 3em;\n  height: 2.9em;\n  line-height: 0;\n  padding: 0;\n  background-color: gray;\n  margin: 0; }\n  button.logout:hover {\n    background: #d30303; }\n\nbutton.back-btn,\nbutton.unread-btn {\n  width: 7em;\n  height: 2.9em;\n  line-height: 0;\n  padding-right: 35px;\n  margin: 0; }\n\nbutton.unread-btn:hover {\n  background-color: #00ffbf; }\n\n.missed-count {\n  position: absolute;\n  bottom: 10px;\n  right: 10px;\n  background-color: red;\n  border: 1px solid red;\n  border-radius: 100px;\n  height: 17px;\n  width: 17px;\n  color: white;\n  text-align: center;\n  padding: 2px; }\n\nbutton.back-btn {\n  background-color: #00ffbf;\n  color: white; }\n  button.back-btn .fas.fa-undo-alt.fa-2x {\n    margin-left: 16px; }\n  button.back-btn:hover {\n    background-color: black;\n    color: #00ffbf; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.text-character-count {\n  position: absolute;\n  right: 62px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.display-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-input {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column; }\n\n.timestamp-user-row {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.85em;\n  font-weight: 300; }\n\n.current-user.message-input {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-row {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-input {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-button-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports) {
 
 /*
@@ -50781,7 +50863,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -50847,7 +50929,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(274);
+var	fixUrls = __webpack_require__(275);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -51167,7 +51249,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports) {
 
 
@@ -51262,7 +51344,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51274,15 +51356,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(32);
 
-var _reduxThunk = __webpack_require__(276);
+var _reduxThunk = __webpack_require__(277);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reduxLogger = __webpack_require__(277);
+var _reduxLogger = __webpack_require__(278);
 
 var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-var _reducers = __webpack_require__(278);
+var _reducers = __webpack_require__(279);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -51297,7 +51379,7 @@ var configureStore = function configureStore(preloadedState) {
 exports.default = configureStore();
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51326,7 +51408,7 @@ thunk.withExtraArgument = createThunkMiddleware;
 exports['default'] = thunk;
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {!function(e,t){ true?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t(e.reduxLogger=e.reduxLogger||{})}(this,function(e){"use strict";function t(e,t){e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}})}function r(e,t){Object.defineProperty(this,"kind",{value:e,enumerable:!0}),t&&t.length&&Object.defineProperty(this,"path",{value:t,enumerable:!0})}function n(e,t,r){n.super_.call(this,"E",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0}),Object.defineProperty(this,"rhs",{value:r,enumerable:!0})}function o(e,t){o.super_.call(this,"N",e),Object.defineProperty(this,"rhs",{value:t,enumerable:!0})}function i(e,t){i.super_.call(this,"D",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0})}function a(e,t,r){a.super_.call(this,"A",e),Object.defineProperty(this,"index",{value:t,enumerable:!0}),Object.defineProperty(this,"item",{value:r,enumerable:!0})}function f(e,t,r){var n=e.slice((r||t)+1||e.length);return e.length=t<0?e.length+t:t,e.push.apply(e,n),e}function u(e){var t="undefined"==typeof e?"undefined":N(e);return"object"!==t?t:e===Math?"math":null===e?"null":Array.isArray(e)?"array":"[object Date]"===Object.prototype.toString.call(e)?"date":"function"==typeof e.toString&&/^\/.*\//.test(e.toString())?"regexp":"object"}function l(e,t,r,c,s,d,p){s=s||[],p=p||[];var g=s.slice(0);if("undefined"!=typeof d){if(c){if("function"==typeof c&&c(g,d))return;if("object"===("undefined"==typeof c?"undefined":N(c))){if(c.prefilter&&c.prefilter(g,d))return;if(c.normalize){var h=c.normalize(g,d,e,t);h&&(e=h[0],t=h[1])}}}g.push(d)}"regexp"===u(e)&&"regexp"===u(t)&&(e=e.toString(),t=t.toString());var y="undefined"==typeof e?"undefined":N(e),v="undefined"==typeof t?"undefined":N(t),b="undefined"!==y||p&&p[p.length-1].lhs&&p[p.length-1].lhs.hasOwnProperty(d),m="undefined"!==v||p&&p[p.length-1].rhs&&p[p.length-1].rhs.hasOwnProperty(d);if(!b&&m)r(new o(g,t));else if(!m&&b)r(new i(g,e));else if(u(e)!==u(t))r(new n(g,e,t));else if("date"===u(e)&&e-t!==0)r(new n(g,e,t));else if("object"===y&&null!==e&&null!==t)if(p.filter(function(t){return t.lhs===e}).length)e!==t&&r(new n(g,e,t));else{if(p.push({lhs:e,rhs:t}),Array.isArray(e)){var w;e.length;for(w=0;w<e.length;w++)w>=t.length?r(new a(g,w,new i(void 0,e[w]))):l(e[w],t[w],r,c,g,w,p);for(;w<t.length;)r(new a(g,w,new o(void 0,t[w++])))}else{var x=Object.keys(e),S=Object.keys(t);x.forEach(function(n,o){var i=S.indexOf(n);i>=0?(l(e[n],t[n],r,c,g,n,p),S=f(S,i)):l(e[n],void 0,r,c,g,n,p)}),S.forEach(function(e){l(void 0,t[e],r,c,g,e,p)})}p.length=p.length-1}else e!==t&&("number"===y&&isNaN(e)&&isNaN(t)||r(new n(g,e,t)))}function c(e,t,r,n){return n=n||[],l(e,t,function(e){e&&n.push(e)},r),n.length?n:void 0}function s(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":s(o[r.path[n]],r.index,r.item);break;case"D":delete o[r.path[n]];break;case"E":case"N":o[r.path[n]]=r.rhs}}else switch(r.kind){case"A":s(e[t],r.index,r.item);break;case"D":e=f(e,t);break;case"E":case"N":e[t]=r.rhs}return e}function d(e,t,r){if(e&&t&&r&&r.kind){for(var n=e,o=-1,i=r.path?r.path.length-1:0;++o<i;)"undefined"==typeof n[r.path[o]]&&(n[r.path[o]]="number"==typeof r.path[o]?[]:{}),n=n[r.path[o]];switch(r.kind){case"A":s(r.path?n[r.path[o]]:n,r.index,r.item);break;case"D":delete n[r.path[o]];break;case"E":case"N":n[r.path[o]]=r.rhs}}}function p(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":p(o[r.path[n]],r.index,r.item);break;case"D":o[r.path[n]]=r.lhs;break;case"E":o[r.path[n]]=r.lhs;break;case"N":delete o[r.path[n]]}}else switch(r.kind){case"A":p(e[t],r.index,r.item);break;case"D":e[t]=r.lhs;break;case"E":e[t]=r.lhs;break;case"N":e=f(e,t)}return e}function g(e,t,r){if(e&&t&&r&&r.kind){var n,o,i=e;for(o=r.path.length-1,n=0;n<o;n++)"undefined"==typeof i[r.path[n]]&&(i[r.path[n]]={}),i=i[r.path[n]];switch(r.kind){case"A":p(i[r.path[n]],r.index,r.item);break;case"D":i[r.path[n]]=r.lhs;break;case"E":i[r.path[n]]=r.lhs;break;case"N":delete i[r.path[n]]}}}function h(e,t,r){if(e&&t){var n=function(n){r&&!r(e,t,n)||d(e,t,n)};l(e,t,n)}}function y(e){return"color: "+F[e].color+"; font-weight: bold"}function v(e){var t=e.kind,r=e.path,n=e.lhs,o=e.rhs,i=e.index,a=e.item;switch(t){case"E":return[r.join("."),n,"→",o];case"N":return[r.join("."),o];case"D":return[r.join(".")];case"A":return[r.join(".")+"["+i+"]",a];default:return[]}}function b(e,t,r,n){var o=c(e,t);try{n?r.groupCollapsed("diff"):r.group("diff")}catch(e){r.log("diff")}o?o.forEach(function(e){var t=e.kind,n=v(e);r.log.apply(r,["%c "+F[t].text,y(t)].concat(P(n)))}):r.log("—— no diff ——");try{r.groupEnd()}catch(e){r.log("—— diff end —— ")}}function m(e,t,r,n){switch("undefined"==typeof e?"undefined":N(e)){case"object":return"function"==typeof e[n]?e[n].apply(e,P(r)):e[n];case"function":return e(t);default:return e}}function w(e){var t=e.timestamp,r=e.duration;return function(e,n,o){var i=["action"];return i.push("%c"+String(e.type)),t&&i.push("%c@ "+n),r&&i.push("%c(in "+o.toFixed(2)+" ms)"),i.join(" ")}}function x(e,t){var r=t.logger,n=t.actionTransformer,o=t.titleFormatter,i=void 0===o?w(t):o,a=t.collapsed,f=t.colors,u=t.level,l=t.diff,c="undefined"==typeof t.titleFormatter;e.forEach(function(o,s){var d=o.started,p=o.startedTime,g=o.action,h=o.prevState,y=o.error,v=o.took,w=o.nextState,x=e[s+1];x&&(w=x.prevState,v=x.started-d);var S=n(g),k="function"==typeof a?a(function(){return w},g,o):a,j=D(p),E=f.title?"color: "+f.title(S)+";":"",A=["color: gray; font-weight: lighter;"];A.push(E),t.timestamp&&A.push("color: gray; font-weight: lighter;"),t.duration&&A.push("color: gray; font-weight: lighter;");var O=i(S,j,v);try{k?f.title&&c?r.groupCollapsed.apply(r,["%c "+O].concat(A)):r.groupCollapsed(O):f.title&&c?r.group.apply(r,["%c "+O].concat(A)):r.group(O)}catch(e){r.log(O)}var N=m(u,S,[h],"prevState"),P=m(u,S,[S],"action"),C=m(u,S,[y,h],"error"),F=m(u,S,[w],"nextState");if(N)if(f.prevState){var L="color: "+f.prevState(h)+"; font-weight: bold";r[N]("%c prev state",L,h)}else r[N]("prev state",h);if(P)if(f.action){var T="color: "+f.action(S)+"; font-weight: bold";r[P]("%c action    ",T,S)}else r[P]("action    ",S);if(y&&C)if(f.error){var M="color: "+f.error(y,h)+"; font-weight: bold;";r[C]("%c error     ",M,y)}else r[C]("error     ",y);if(F)if(f.nextState){var _="color: "+f.nextState(w)+"; font-weight: bold";r[F]("%c next state",_,w)}else r[F]("next state",w);l&&b(h,w,r,k);try{r.groupEnd()}catch(e){r.log("—— log end ——")}})}function S(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=Object.assign({},L,e),r=t.logger,n=t.stateTransformer,o=t.errorTransformer,i=t.predicate,a=t.logErrors,f=t.diffPredicate;if("undefined"==typeof r)return function(){return function(e){return function(t){return e(t)}}};if(e.getState&&e.dispatch)return console.error("[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:\n// Logger with default options\nimport { logger } from 'redux-logger'\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n// Or you can create your own logger with custom options http://bit.ly/redux-logger-options\nimport createLogger from 'redux-logger'\nconst logger = createLogger({\n  // ...options\n});\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n"),function(){return function(e){return function(t){return e(t)}}};var u=[];return function(e){var r=e.getState;return function(e){return function(l){if("function"==typeof i&&!i(r,l))return e(l);var c={};u.push(c),c.started=O.now(),c.startedTime=new Date,c.prevState=n(r()),c.action=l;var s=void 0;if(a)try{s=e(l)}catch(e){c.error=o(e)}else s=e(l);c.took=O.now()-c.started,c.nextState=n(r());var d=t.diff&&"function"==typeof f?f(r,l):t.diff;if(x(u,Object.assign({},t,{diff:d})),u.length=0,c.error)throw c.error;return s}}}}var k,j,E=function(e,t){return new Array(t+1).join(e)},A=function(e,t){return E("0",t-e.toString().length)+e},D=function(e){return A(e.getHours(),2)+":"+A(e.getMinutes(),2)+":"+A(e.getSeconds(),2)+"."+A(e.getMilliseconds(),3)},O="undefined"!=typeof performance&&null!==performance&&"function"==typeof performance.now?performance:Date,N="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},P=function(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)},C=[];k="object"===("undefined"==typeof global?"undefined":N(global))&&global?global:"undefined"!=typeof window?window:{},j=k.DeepDiff,j&&C.push(function(){"undefined"!=typeof j&&k.DeepDiff===c&&(k.DeepDiff=j,j=void 0)}),t(n,r),t(o,r),t(i,r),t(a,r),Object.defineProperties(c,{diff:{value:c,enumerable:!0},observableDiff:{value:l,enumerable:!0},applyDiff:{value:h,enumerable:!0},applyChange:{value:d,enumerable:!0},revertChange:{value:g,enumerable:!0},isConflict:{value:function(){return"undefined"!=typeof j},enumerable:!0},noConflict:{value:function(){return C&&(C.forEach(function(e){e()}),C=null),c},enumerable:!0}});var F={E:{color:"#2196F3",text:"CHANGED:"},N:{color:"#4CAF50",text:"ADDED:"},D:{color:"#F44336",text:"DELETED:"},A:{color:"#2196F3",text:"ARRAY:"}},L={level:"log",logger:console,logErrors:!0,collapsed:void 0,predicate:void 0,duration:!1,timestamp:!0,stateTransformer:function(e){return e},actionTransformer:function(e){return e},errorTransformer:function(e){return e},colors:{title:function(){return"inherit"},prevState:function(){return"#9E9E9E"},action:function(){return"#03A9F4"},nextState:function(){return"#4CAF50"},error:function(){return"#F20404"}},diff:!1,diffPredicate:void 0,transformer:void 0},T=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=e.dispatch,r=e.getState;return"function"==typeof t||"function"==typeof r?S()({dispatch:t,getState:r}):void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n")};e.defaults=L,e.createLogger=S,e.logger=T,e.default=T,Object.defineProperty(e,"__esModule",{value:!0})});
@@ -51334,7 +51416,7 @@ exports['default'] = thunk;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51354,6 +51436,7 @@ var initialState = {
   auth: false,
   err: '',
   hasMoreMessages: true,
+  loading: false,
   messages: [],
   missedMsg: [],
   notice: '',
@@ -51361,7 +51444,8 @@ var initialState = {
   typingUsers: [],
   username: '',
   users: [],
-  verbs: ''
+  verbs: '',
+  user: ''
 };
 
 var rootReducer = function rootReducer() {
@@ -51384,6 +51468,7 @@ var rootReducer = function rootReducer() {
         messages: [].concat(_toConsumableArray(payload))
       });
     case _constants.FETCH_USERS:
+      debugger;
       return _extends({}, state, {
         users: [].concat(_toConsumableArray(payload))
       });
@@ -51391,11 +51476,16 @@ var rootReducer = function rootReducer() {
       return _extends({}, state, {
         messages: [].concat(_toConsumableArray(state.messages), [payload])
       });
+    case _constants.LOADING:
+      return _extends({}, state, {
+        loading: payload
+      });
     case _constants.LOGGED_IN:
       return _extends({}, state, {
         auth: true,
         missedMsg: payload.missedMsg,
-        username: payload.username
+        username: payload.user.username,
+        user: payload.user
       });
     case _constants.LOGIN_ERROR:
       return _extends({}, state, {
@@ -51420,13 +51510,15 @@ var rootReducer = function rootReducer() {
       });
     case _constants.USER_CONNECTED:
       return _extends({}, state, {
-        users: [].concat(_toConsumableArray(state.users), [payload.user]),
+        users: payload.users.sort(function (a, b) {
+          return b.onlineStatus - a.onlineStatus;
+        }),
         notice: payload.notice
       });
     case _constants.USER_DISCONNECTED:
       return _extends({}, state, {
-        users: state.users.filter(function (user) {
-          return user.username != payload.username;
+        users: payload.users.sort(function (a, b) {
+          return b.onlineStatus - a.onlineStatus;
         }),
         notice: payload.notice
       });
@@ -51436,58 +51528,6 @@ var rootReducer = function rootReducer() {
 };
 
 exports.default = rootReducer;
-
-/***/ }),
-/* 279 */,
-/* 280 */,
-/* 281 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var MissedMessages = function MissedMessages(_ref) {
-  var handleLogOut = _ref.handleLogOut,
-      missedMsg = _ref.missedMsg,
-      toggleMissed = _ref.toggleMissed,
-      missed = _ref.missed;
-
-  return _react2.default.createElement(
-    "div",
-    { className: "missed-msg-btns" },
-    _react2.default.createElement(
-      "button",
-      { className: "logout", onClick: handleLogOut },
-      _react2.default.createElement("i", { className: "fas fa-power-off" })
-    ),
-    !missed ? _react2.default.createElement(
-      "button",
-      { className: "unread-btn", onClick: toggleMissed },
-      "missed"
-    ) : _react2.default.createElement(
-      "button",
-      { className: "back-btn", onClick: toggleMissed },
-      _react2.default.createElement("i", { className: "fas fa-undo-alt fa-2x" })
-    ),
-    !missed && _react2.default.createElement(
-      "p",
-      { className: "missed-count" },
-      missedMsg.length
-    )
-  );
-};
-
-exports.default = MissedMessages;
 
 /***/ })
 /******/ ]);
