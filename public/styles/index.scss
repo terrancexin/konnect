@@ -11,7 +11,7 @@ $black: rgb(72, 72, 72);
 $noticegreen: rgba(#4bc127, 0.85);
 $twitterblue: #1da1f2;
 $white: white;
-$mintGreen:#00ffbf;
+$mintGreen: #00ffbf;
 
 .app {
   width: 100%;
@@ -111,6 +111,7 @@ input.login {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background: floralwhite;
 }
 
 .chatroom-header {
@@ -163,6 +164,8 @@ input.login {
   height: 450px;
   margin: 0 50px 50px 50px;
   background: white;
+  border-radius: 5px;
+  box-shadow: 0 3px 15px rgba(0,0,0,.2);
 }
 
 .chat-left-bar {
@@ -179,7 +182,7 @@ input.login {
 }
 
 .users-list {
-  height: 386px;
+  height: 359px;
   overflow: scroll;
   margin-bottom: 2em;  
 }
@@ -193,12 +196,36 @@ input.login {
   }
 }
 
-.online-icon {
-
-
+.online-users {
+  text-align: center;
+  padding: 3px 0;
+  font-family: 'Fredoka One', sans-serif;
+  background: $black;
+  color: $mintGreen;
+  border-radius: 10px;
+  margin-bottom: 2px;
 }
-.each-user-name {
-  margin: 15px;
+
+img.online-inactive,
+img.online-active {
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+  margin-left: 10px;
+  filter: brightness(1.2);
+}
+
+img.online-inactive {
+  filter: brightness(0.5);
+}
+
+.each-user-name-inactive,
+.each-user-name-active {
+  margin: 14px;
+}
+
+.each-user-name-inactive {
+  font-style: italic;
 }
 
 .missed-msg-btns {
