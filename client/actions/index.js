@@ -5,6 +5,7 @@ import {
   CLEAR_NOTICES,
   FETCH_MESSAGES,
   FETCH_USERS,
+  LOADING,
   LOGIN_ERROR,
   LOGGED_IN,
   LOGOUT,
@@ -42,7 +43,7 @@ export const fetchUsers = () => dispatch => {
     .then(({ data }) => {
       dispatch({
         type: FETCH_USERS,
-        payload: data
+        payload: data.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
       });
     })
     .catch(err => {
@@ -77,7 +78,7 @@ const loginSuccess = ({ token, newUser, missedMsg }, dispatch) => {
   dispatch({
     type: LOGGED_IN,
     payload: {
-      username: newUser.username,
+      user: newUser,
       missedMsg
     },
   });
@@ -98,8 +99,8 @@ export const signUpUser = ({username, password, passwordConfirmation }) => dispa
     });
 }
 
-export const signOutUser = username => dispatch => {
-  socket.emit(LOGOUT, username);
+export const signOutUser = user => dispatch => {
+  socket.emit(LOGOUT, user);
   dispatch({
     type: LOGOUT
   });
@@ -108,12 +109,15 @@ export const signOutUser = username => dispatch => {
 
 // Message actions
 export const fetchMessages = () => dispatch => {
+  dispatch({ type: LOADING, payload: true });
   axios.get(`${ROOT_URL}/messages`)
     .then(({ data }) => {
       dispatch({
         type: FETCH_MESSAGES,
         payload: data
-      })
+      });
+      
+      setTimeout(() => dispatch({ type: LOADING, payload: false }), 500);
     })
     .catch(err => {
       console.log(`fetch messages failed: ${err}`);

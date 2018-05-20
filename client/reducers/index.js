@@ -4,6 +4,7 @@ import {
   FETCH_MESSAGES,
   FETCH_USERS,
   MESSAGE_SENT,
+  LOADING,
   LOGGED_IN,
   LOGIN_ERROR,
   LOGOUT,
@@ -17,6 +18,7 @@ const initialState = {
   auth: false,
   err: '',
   hasMoreMessages: true,
+  loading: false,
   messages: [],
   missedMsg: [],
   notice: '',
@@ -25,6 +27,7 @@ const initialState = {
   username: '',
   users: [],
   verbs: '',
+  user: ''
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -54,12 +57,18 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         messages: [ ...state.messages, payload ]
       };
+    case LOADING:
+      return {
+        ...state,
+        loading: payload
+      }
     case LOGGED_IN:
       return {
         ...state,
         auth: true,
         missedMsg: payload.missedMsg,
-        username: payload.username,
+        username: payload.user.username,
+        user: payload.user
       };
     case LOGIN_ERROR:
       return {
@@ -89,13 +98,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case USER_CONNECTED:
       return {
         ...state,
-        users: [ ...state.users, payload.user ],
+        users: payload.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
         notice: payload.notice
       };
     case USER_DISCONNECTED:
       return {
         ...state,
-        users: state.users.filter(user => user.username != payload.username),
+        users: payload.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
         notice: payload.notice
       };
     default:

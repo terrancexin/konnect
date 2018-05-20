@@ -14,7 +14,7 @@ class LogIn extends Component {
       username: '',
       password: 'password',
       passwordConfirmation: 'password',
-      toggleLogin: ''
+      toggleLogin: 'signup'
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
