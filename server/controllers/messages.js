@@ -6,8 +6,6 @@ const fetch = (req, res, next) => {
     .exec((err, messages) => {
       if (err) return next(err);
       
-      if (!messages) return res.send({ error: 'error fetching messages'});
-
       res.json(messages);
     });
 };
@@ -16,7 +14,7 @@ const send = (req, res, next) => {
   const { username, text, date } = req.body;
 
   if (!username || !text || !date) {
-    return res.send({ error: 'missing requests' });
+    return res.send({ error: 'missing params in request' });
   }
   
   const message = new MessageModel({

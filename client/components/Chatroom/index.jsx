@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  socketOff,
   fetchMessages,
   fetchUsers,
+  isTyping,
   sendMessage,
-  isTyping
+  signOutUser,
+  socketOff
 } from '../../actions';
-import UsersList from './UsersList';
 import MessagesList from './MessagesList';
 import Notice from '../Notice';
+import UsersList from './UsersList';
 import PrivateChat from './PrivateChat';
 
 class Chatroom extends Component {
@@ -26,6 +27,7 @@ class Chatroom extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.togglePrivateMsg = this.togglePrivateMsg.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
     
     this.handleTypingTime = null;
   }
@@ -35,9 +37,10 @@ class Chatroom extends Component {
     this.props.fetchUsers();
   }
 
-  // componentWillUnmount() {
-  //   this.props.socketOff();
-  // }
+  componentWillUnmount() {
+    console.log('componentWillUnmount');
+    this.props.socketOff();
+  }
 
   handleSubmit(e) {
     e.preventDefault();
@@ -62,31 +65,30 @@ class Chatroom extends Component {
         
     this.setState({ text: e.target.value, textCount: e.target.value.length });
   }
-
+  
+  handleLogOut() {
+    this.props.signOutUser(this.props.username)
+  }
   render() {
     const userCount = this.props.users.length <= 1 ? 'user' : 'users';
+    
     return (
-      <div className="chatroom-wrapper">
-        <div className="chatroom-header-section">
-          <h1 className="chatroom-header-title">
+      <div className="chatroom">
+        <section className="chatroom-header">
+          <h1 className="chatroom-title">
             Hi, {this.props.username}!
           </h1>
-          <div className="chatroom-current-users">
+          <div className="current-users">
             You are connected to {this.props.users.length - 1} {userCount} on Konnect
           </div>
-        </div>
-        <Notice />
+        </section>
         <div className="chat-window">
-          <div className="users-section">
+          <Notice />
+          <section className="chat-left-bar">
+            <button className="logout" onClick={this.handleLogOut}>logout</button>
             <UsersList users={this.props.users} />
-            <div className="private-chat-btn-wrapper">
-              <button onClick={this.togglePrivateMsg} className="private-message-btn">
-                {this.state.privateMsg ? 'General Chat' : 'Private Message'}
-              </button>
-            </div>
-          </div>
-          { this.state.privateMsg && <PrivateChat />}
-          {!this.state.privateMsg && <div className="messages-section">
+          </section>
+          <div className="messages-section">
             <MessagesList currentUser={this.props.username} messages={this.props.messages} />
             
             <form onSubmit={this.handleSubmit} className="message-form">
@@ -114,7 +116,7 @@ class Chatroom extends Component {
                 </button>
               </div>
             </form>
-          </div>}
+          </div>
         </div>
       </div>
     );
@@ -138,5 +140,6 @@ export default connect(mapStateToProps, {
   fetchMessages,
   fetchUsers,
   sendMessage,
-  isTyping
+  isTyping,
+  signOutUser
 })(Chatroom);

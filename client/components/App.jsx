@@ -11,16 +11,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app-wrapper">
+      <div className="app">
         {this.props.auth ? <Chatroom /> : <LogIn />}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
-});
+const mapStateToProps = state => {
+  return ({ auth: state.auth })
+};
 
 export default connect(
   mapStateToProps,

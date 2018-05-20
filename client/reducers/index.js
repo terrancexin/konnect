@@ -1,28 +1,28 @@
 import {
+  CLEAR_NOTICES,
+  FETCH_MESSAGES,
+  FETCH_USERS,
+  MESSAGE_SENT,
+  LOGGED_IN,
+  LOGIN_ERROR,
+  LOGOUT,
+  STOPPED_TYPING,
+  TYPING,
   USER_CONNECTED,
   USER_DISCONNECTED,
-  TYPING,
-  STOPPED_TYPING,
-  FETCH_USERS,
-  FETCH_MESSAGES,
-  LOGIN_ERROR,
-  LOG_IN_FAILED,
-  LOG_IN_SUCCEED,
-  MESSAGE_SENT,
-  CLEAR_NOTICES
 } from '../../constants';
 
 const initialState = {
-  err: '',
   auth: false,
+  err: '',
+  hasMoreMessages: true,
+  messages: [],
+  notice: '',
+  typing: false,
+  typingUsers: [],
   username: '',
   users: [],
-  typing: false,
-  messages: [],
-  hasMoreMessages: true,
-  typingUsers: [],
   verbs: '',
-  notice: ''
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -32,22 +32,42 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         notice: ''
       };
-    case LOG_IN_SUCCEED:
+    case FETCH_MESSAGES:
+      return {
+        ...state,
+        messages: [ ...payload ]
+      };
+    case FETCH_USERS:
+      return {
+        ...state,
+        users: [ ...payload ]
+      };
+    case MESSAGE_SENT:
+      return {
+        ...state,
+        messages: [ ...state.messages, payload ]
+      };
+    case LOGGED_IN:
       return {
         ...state,
         username: payload.username,
-        auth: payload.auth,
+        auth: true
       };
-    case LOG_IN_FAILED:
+    case LOGIN_ERROR:
       return {
         ...state,
-        err: payload,
+        err: payload
       };
-    case USER_DISCONNECTED:
+    case LOGOUT:
       return {
         ...state,
-        users: state.users.filter(user => user.username != payload.user.username),
-        notice: payload.notice
+        auth: false
+      };
+    case STOPPED_TYPING:
+      return {
+        ...state,
+        typing: false,
+        typingUsers: state.typingUsers.filter(username => username != payload),
       };
     case TYPING:
       return {
@@ -58,36 +78,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
           : [ ...state.typingUsers, payload ],
         verbs: state.typingUsers.length > 1 ? 'are' : 'is'
       };
-    case STOPPED_TYPING:
-      return {
-        ...state,
-        typing: false,
-        typingUsers: state.typingUsers.filter(username => username != payload),
-      };
-    case FETCH_USERS:
-      return {
-        ...state,
-        users: [ ...payload ]
-      };
-    case FETCH_MESSAGES:
-      return {
-        ...state,
-        messages: [ ...payload ]
-      };
-    case LOGIN_ERROR:
-      return {
-        ...state,
-        err: payload
-      };
-    case MESSAGE_SENT:
-      return {
-        ...state,
-        messages: [ ...state.messages, payload ]
-      };
     case USER_CONNECTED:
       return {
         ...state,
         users: [ ...state.users, payload.user ],
+        notice: payload.notice
+      };
+    case USER_DISCONNECTED:
+      return {
+        ...state,
+        users: state.users.filter(user => user.username != payload.username),
         notice: payload.notice
       };
     default:

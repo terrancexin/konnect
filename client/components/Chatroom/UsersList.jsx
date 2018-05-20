@@ -2,14 +2,15 @@ import React from 'react';
 
 const UsersList = ({ users }) => {
   return (
-    <div className="users-list-wrapper">
-      <div className="users-list-title">Online Users</div>
-      <div className="users-list-online">
-        {users.map(obj => {
+    <div className="users-list">
+      <div className="users-list-title">Members</div>
+      <div className="users-list">
+        {users.map(user => {
           return (
-            <div key={obj._id} className="current-users-wrapper">
-              <div className="current-users-row">
-                {obj.username}
+            <div key={user._id} className="each-user">
+              <div className="online-icon"> . </div>
+              <div className="each-user-name">
+                {user.username}
               </div>
             </div>
           );
