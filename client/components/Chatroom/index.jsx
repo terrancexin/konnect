@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   clearMissedMsg,
   fetchMessages,
@@ -142,24 +143,41 @@ class Chatroom extends Component {
 
 const mapStateToProps = state => {
   return {
-    username: state.username,
-    users: state.users,
     loading: state.loading,
     messages: state.messages,
     missedMsg: state.missedMsg,
-    hasMoreMessages: state.hasMoreMessages,
     typing: state.typing,
     typingUsers: state.typingUsers,
+    username: state.username,
+    users: state.users,
     verbs: state.verbs
   };
 };
 
+Chatroom.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  messages: PropTypes.array.isRequired,
+  missedMsg: PropTypes.array.isRequired,
+  typing: PropTypes.bool.isRequired,
+  typingUsers: PropTypes.array.isRequired,
+  username: PropTypes.string.isRequired,
+  users: PropTypes.array.isRequired,
+  verbs: PropTypes.string.isRequired,
+  clearMissedMsg: PropTypes.func.isRequired,
+  fetchMessages: PropTypes.func.isRequired,
+  fetchUsers: PropTypes.func.isRequired,
+  isTyping: PropTypes.func.isRequired,
+  sendMessage: PropTypes.func.isRequired,
+  signOutUser: PropTypes.func.isRequired,
+  socketOff: PropTypes.func.isRequired,
+}
+
 export default connect(mapStateToProps, {
   clearMissedMsg,
-  socketOff,
   fetchMessages,
   fetchUsers,
-  sendMessage,
   isTyping,
-  signOutUser
+  sendMessage,
+  signOutUser,
+  socketOff,
 })(Chatroom);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { clearNotices } from '../../actions';
+import PropTypes from 'prop-types';
 
 class Notice extends React.Component {
   componentWillReceiveProps(nextProps) {
@@ -32,6 +33,11 @@ class Notice extends React.Component {
 const mapStateToProps = state => ({
   notice: state.notice
 });
+
+Notice.propTypes = {
+  notice: PropTypes.string.isRequired,
+  clearNotices: PropTypes.func.isRequired,
+}
 
 export default connect(
   mapStateToProps,

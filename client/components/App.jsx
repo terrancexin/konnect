@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types';
 import LogIn from './LogIn';
 import Chatroom from './Chatroom';
 
@@ -25,6 +25,10 @@ class App extends Component {
 const mapStateToProps = state => {
   return ({ auth: state.auth })
 };
+
+App.propTypes = {
+  auth: PropTypes.bool.isRequired,
+}
 
 export default connect(
   mapStateToProps,

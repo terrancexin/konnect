@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   logInUser,
   signUpUser,
@@ -90,6 +91,13 @@ class LogIn extends Component {
 const mapStateToProps = state => {
   return ({ err: state.err })
 };
+
+LogIn.propTypes = {
+  err: PropTypes.string.isRequired,
+  logInUser: PropTypes.func.isRequired,
+  removeErrorMessage: PropTypes.func.isRequired,
+  signUpUser: PropTypes.func.isRequired
+}
 
 export default connect(mapStateToProps, {
   removeErrorMessage,
