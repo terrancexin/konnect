@@ -41,12 +41,13 @@ const login = (req, res) => {
           let tracker = messages.length - 1;
           const missedMsg = [];
           const { bookMark } = updatedUser;
+          console.log(bookMark);
 
-          if (tracker > 0) {
+          if (tracker >= 0) {
             while (
               tracker >= 0 &&
-              messages[tracker]._id !== bookMark &&
-              messages[tracker].username !== username
+              String(messages[tracker]._id) !== String(bookMark)
+              && messages[tracker].username !== username
             ) {
               missedMsg.unshift(messages[tracker]);
               tracker--;
