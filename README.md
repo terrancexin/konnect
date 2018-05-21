@@ -2,7 +2,6 @@
 ###### Konnect is a real-time chat app. If you're passionate about something, why do it alone? Let's Konnect!
 ![screenshot](./public/images/demo.png)
 
-
 # Tech Stack
 - [Node.js](https://nodejs.org/en/)
 - [Express](http://expressjs.com/)
@@ -18,7 +17,7 @@
 2. `cd` into `konnect` folder and run `npm install`
 3. please make sure `mongod` database is running
 4. please make sure `webpack -w` is running
-5. `npm run dev`
+5. start the app by `npm run dev`
 6. open a new browser and go to `http://localhost:3000/`
 setup extras: enable fake seeds by going into `index.js` on line:31 & 32, uncomment and restart the server
 

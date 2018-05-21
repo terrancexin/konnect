@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logInUser, signUpUser, removeErrorMessage } from '../../actions';
 import Form from './Form';
+import Footer from '../Footer';
 
 class LogIn extends Component {
   constructor() {
@@ -87,6 +88,7 @@ class LogIn extends Component {
           toggleLogin={toggleLogin}
           username={username}
         />
+        <Footer />
       </div>
     );
   }

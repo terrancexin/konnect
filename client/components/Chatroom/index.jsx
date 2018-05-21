@@ -12,6 +12,7 @@ import {
   socketOff,
 } from '../../actions';
 
+import Footer from '../Footer';
 import MessagesList from './MessagesList';
 import MissedMessages from './MissedMessages';
 import Notice from '../Notice';
@@ -154,6 +155,7 @@ class Chatroom extends Component {
             </form>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
