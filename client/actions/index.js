@@ -17,9 +17,10 @@ import {
 } from '../../constants';
 
 const { protocol, hostname, port } = window.location;
-// const publicUrl = `${protocol}//${hostname}:${port}`;
-const localhost = 'http://localhost:3000';
-const ROOT_URL = localhost || publicUrl;
+// LAN mode
+const ROOT_URL = `${protocol}//${hostname}:${port}`;
+
+// const ROOT_URL = 'http://localhost:3000';
 
 // Socket actions
 const socket = io(ROOT_URL);

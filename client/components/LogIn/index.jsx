@@ -12,8 +12,8 @@ class LogIn extends Component {
     super();
     this.state = {
       username: '',
-      password: 'password',
-      passwordConfirmation: 'password',
+      password: '',
+      passwordConfirmation: '',
       toggleLogin: 'signup'
     };
 

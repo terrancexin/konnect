@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import LogIn from './LogIn';
 import Chatroom from './Chatroom';
 
+// LAN mode
+const { protocol, hostname, port } = window.location;
+window.ROOT_URL = `${protocol}//${hostname}:${port}`;
+
 class App extends Component {
   constructor(props) {
     super(props);

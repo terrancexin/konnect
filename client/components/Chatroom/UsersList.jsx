@@ -9,7 +9,7 @@ const UsersList = ({ users }) => {
           
           return (
             <div key={user._id} className="each-user">
-              <img className={`online-${onlineStatus}`}src="http://localhost:3000/images/online.png" alt="online" />
+              <img className={`online-${onlineStatus}`} src={`${ROOT_URL}/images/online.png`} alt="online" />
               <div className={`each-user-name-${onlineStatus}`}>
                 {user.username}
               </div>

@@ -1,5 +1,4 @@
 @import 'reset.scss';
-@import 'mobile.scss';
 $placeholdergray: #e6ecf0;
 $messagebackground: #e6ecf0;
 $bordergray: #e6ecf0;
@@ -200,10 +199,8 @@ input.login {
   text-align: center;
   padding: 3px 0;
   font-family: 'Fredoka One', sans-serif;
-  background: $black;
-  color: $mintGreen;
-  border-radius: 10px;
-  margin-bottom: 2px;
+  color: #3adcb3;
+  margin-bottom: 3px;
 }
 
 img.online-inactive,
@@ -389,6 +386,7 @@ input#message {
 .other-user.message-text {
   background-color: #00b0ff;
   color: white;
+  font-weight: 400;
 }
 
 .thread-username {
@@ -433,5 +431,51 @@ button.send {
   &:disabled {
     background-color: lightgray;
     color: gray;
+  }
+}
+
+// Mobile
+@media screen and (max-width: 700px) {
+  .konnect-title {
+    font-size: 3em;
+    text-align: center;
+  }
+  
+  .chat-window {
+    width: 350px;
+  }
+  
+  .chat-left-bar {
+    width: 100px;
+  }
+    
+  button.send {
+    height: 53px;
+    width: 53px;
+    font-size: 10px;
+    margin-left: 4px;
+  }
+  
+  .notice {
+    width: 340px;
+  }
+  
+  input#message {
+    width: 157px;
+  }
+  
+  .messages-list {
+    width: 217px;
+  }
+  
+  .users-list {
+    height: 339px;
+  }
+  
+  button.back-btn {
+    width: 5em;
+    height: 2.9em;
+    line-height: 0;
+    margin: 0;
   }
 }

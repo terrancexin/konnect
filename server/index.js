@@ -9,6 +9,7 @@ const router = require('./router');
 const socketManager = require('./services/socketManager');
 
 mongoose.connect('mongodb://localhost:27017/konnect');
+// clear database
 // mongoose.connect('mongodb://localhost:27017/konnect', () => mongoose.connection.db.dropDatabase());
 mongoose.set('debug', true);
 
