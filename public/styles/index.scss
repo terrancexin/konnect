@@ -271,6 +271,7 @@ button.unread-btn {
   color: white;
   text-align: center;
   padding: 2px;
+  cursor: pointer;
 }
 
 button.back-btn {
@@ -278,7 +279,7 @@ button.back-btn {
   color: white;
   
   .fas.fa-undo-alt.fa-2x {
-    margin-left: 16px
+    margin-left: 16px;
   }
   
   &:hover {

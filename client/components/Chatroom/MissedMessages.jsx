@@ -7,6 +7,7 @@ const MissedMessages = ({
   missed,
   missedMsg,
   toggleMissed,
+  username,
 }) => (
   <div className="missed-msg-btns">
     <button className="logout" onClick={handleLogOut}>
@@ -20,14 +21,14 @@ const MissedMessages = ({
       <button
         className="back-btn"
         onClick={() => {
+          clearMissedMsg(username);
           toggleMissed();
-          clearMissedMsg();
         }}
       >
         <i className="fas fa-undo-alt fa-2x" />
       </button>
     )}
-    {!missed && <p className="missed-count">{missedMsg.length}</p>}
+    {!missed && <p className="missed-count" onClick={toggleMissed}>{missedMsg.length}</p>}
   </div>
 );
 
@@ -37,6 +38,7 @@ MissedMessages.propTypes = {
   missed: PropTypes.bool.isRequired,
   missedMsg: PropTypes.array.isRequired,
   toggleMissed: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 export default MissedMessages;

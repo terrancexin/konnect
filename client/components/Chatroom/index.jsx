@@ -107,6 +107,7 @@ class Chatroom extends Component {
               missedMsg={missedMsg}
               toggleMissed={this.toggleMissed}
               clearMissedMsg={this.props.clearMissedMsg}
+              username={username}
             />
             <div className="online-users">{onlineUsers} online</div>
             <UsersList users={users} />

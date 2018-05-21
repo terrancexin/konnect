@@ -158,10 +158,21 @@ export const sendMessage = ({ username, date, text }) => () => {
     });
 };
 
-export const clearMissedMsg = () => (dispatch) => {
-  dispatch({
-    type: CLEAR_MISSED_MSG,
-  });
+export const clearMissedMsg = username => (dispatch) => {
+  axios
+    .post(`${ROOT_URL}/bookmark`, { username })
+    .then(({ data }) => {
+      if (data.error) {
+        console.log(`unable to find the username: ${username} to remove`);
+      } else {
+        dispatch({
+          type: CLEAR_MISSED_MSG,
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(`remove bookmark failed: ${err}`);
+    });
 };
 
 // Notice actions
