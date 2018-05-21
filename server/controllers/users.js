@@ -14,7 +14,7 @@ const fetchAll = (req, res, next) => {
 const login = (req, res) => {
   const { username, password } = req.body;
   
-  UserModel.update({ username }, {onlineStatus: true}, err => {    
+  UserModel.update({ username }, {onlineStatus: true}, err => {
     if (err) {
       return console.log(`updating user's book mark failed: ${err}`);
     }
@@ -35,7 +35,12 @@ const login = (req, res) => {
               missedMsg.unshift(messages[tracker]);
               tracker--;
             }
-            
+            res.send({ 
+              token: tokenForUser(updatedUser),
+              newUser: updatedUser,
+              missedMsg
+            });
+          } else {
             res.send({ 
               token: tokenForUser(updatedUser),
               newUser: updatedUser,
