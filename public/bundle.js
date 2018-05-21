@@ -5416,6 +5416,41 @@ module.exports = emptyFunction;
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(191)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(192)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
 
 /**
  * Expose `Emitter`.
@@ -5582,7 +5617,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6195,7 +6230,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6292,7 +6327,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6311,7 +6346,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6335,7 +6370,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6404,7 +6439,7 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports) {
 
 /**
@@ -6447,7 +6482,7 @@ exports.decode = function(qs){
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 
@@ -6459,7 +6494,7 @@ module.exports = function(a, b){
 };
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6474,8 +6509,8 @@ module.exports = function(a, b){
 
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(6);
-  var warning = __webpack_require__(13);
-  var ReactPropTypesSecret = __webpack_require__(17);
+  var warning = __webpack_require__(14);
+  var ReactPropTypesSecret = __webpack_require__(18);
   var loggedTypeFailures = {};
 }
 
@@ -6526,7 +6561,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6543,41 +6578,6 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(191)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(192)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 19 */
@@ -6631,15 +6631,11 @@ var _constants = __webpack_require__(53);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _window$location = window.location,
-    protocol = _window$location.protocol,
-    hostname = _window$location.hostname,
-    port = _window$location.port;
 // LAN mode
+// const { protocol, hostname, port } = window.location;
+// const ROOT_URL = `${protocol}//${hostname}:${port}`;
 
-var ROOT_URL = protocol + '//' + hostname + ':' + port;
-
-// const ROOT_URL = 'http://localhost:3000';
+var ROOT_URL = 'http://localhost:3000';
 
 // Socket actions
 var socket = (0, _socket2.default)(ROOT_URL);
@@ -6656,7 +6652,7 @@ var initSocket = function initSocket(dispatch) {
 };
 
 var socketOff = exports.socketOff = function socketOff() {
-  return function (dispatch) {
+  return function () {
     _constants.SOCKET_EVENTS.forEach(function (type) {
       return socket.off(type);
     });
@@ -6671,7 +6667,7 @@ var fetchUsers = exports.fetchUsers = function fetchUsers() {
 
       dispatch({
         type: _constants.FETCH_USERS,
-        payload: data.users.sort(function (a, b) {
+        payload: data.length <= 1 ? data : data.sort(function (a, b) {
           return b.onlineStatus - a.onlineStatus;
         })
       });
@@ -6694,7 +6690,10 @@ var logInUser = exports.logInUser = function logInUser(_ref2) {
         loginSuccess(data, dispatch);
       }
     }).catch(function () {
-      dispatch({ type: _constants.LOGIN_ERROR, payload: 'log in failed, bad login info.' });
+      dispatch({
+        type: _constants.LOGIN_ERROR,
+        payload: 'log in failed, bad login info.'
+      });
     });
   };
 };
@@ -6737,7 +6736,10 @@ var signUpUser = exports.signUpUser = function signUpUser(_ref5) {
         loginSuccess(data, dispatch);
       }
     }).catch(function () {
-      dispatch({ type: _constants.LOGIN_ERROR, payload: 'sign up failed, bad login info.' });
+      dispatch({
+        type: _constants.LOGIN_ERROR,
+        payload: 'sign up failed, bad login info.'
+      });
     });
   };
 };
@@ -6785,7 +6787,7 @@ var sendMessage = exports.sendMessage = function sendMessage(_ref8) {
   var username = _ref8.username,
       date = _ref8.date,
       text = _ref8.text;
-  return function (dispatch) {
+  return function () {
     _axios2.default.post(ROOT_URL + '/send', { username: username, date: date, text: text }).then(function (_ref9) {
       var data = _ref9.data;
 
@@ -6796,10 +6798,20 @@ var sendMessage = exports.sendMessage = function sendMessage(_ref8) {
   };
 };
 
-var clearMissedMsg = exports.clearMissedMsg = function clearMissedMsg() {
+var clearMissedMsg = exports.clearMissedMsg = function clearMissedMsg(username) {
   return function (dispatch) {
-    dispatch({
-      type: _constants.CLEAR_MISSED_MSG
+    _axios2.default.post(ROOT_URL + '/bookmark', { username: username }).then(function (_ref10) {
+      var data = _ref10.data;
+
+      if (data.error) {
+        console.log('unable to find the username: ' + username + ' to remove');
+      } else {
+        dispatch({
+          type: _constants.CLEAR_MISSED_MSG
+        });
+      }
+    }).catch(function (err) {
+      console.log('remove bookmark failed: ' + err);
     });
   };
 };
@@ -6812,7 +6824,7 @@ var clearNotices = exports.clearNotices = function clearNotices() {
 };
 
 var isTyping = exports.isTyping = function isTyping(username, bool) {
-  return function (dispatch) {
+  return function () {
     if (bool) {
       socket.emit(_constants.TYPING, username);
     } else {
@@ -6935,7 +6947,7 @@ module.exports = defaults;
  */
 
 var debug = __webpack_require__(5)('socket.io-parser');
-var Emitter = __webpack_require__(8);
+var Emitter = __webpack_require__(9);
 var binary = __webpack_require__(239);
 var isArray = __webpack_require__(23);
 var isBuf = __webpack_require__(42);
@@ -7411,8 +7423,8 @@ module.exports = function (opts) {
  * Module dependencies.
  */
 
-var parser = __webpack_require__(9);
-var Emitter = __webpack_require__(8);
+var parser = __webpack_require__(10);
+var Emitter = __webpack_require__(9);
 
 /**
  * Module exports.
@@ -7768,7 +7780,7 @@ module.exports = containsNode;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return subscriptionShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return storeShape; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
 
 
@@ -9159,7 +9171,7 @@ function isBuf(obj) {
 
 var eio = __webpack_require__(240);
 var Socket = __webpack_require__(50);
-var Emitter = __webpack_require__(8);
+var Emitter = __webpack_require__(9);
 var parser = __webpack_require__(22);
 var on = __webpack_require__(51);
 var bind = __webpack_require__(52);
@@ -9796,9 +9808,9 @@ function polling (opts) {
  */
 
 var Transport = __webpack_require__(25);
-var parseqs = __webpack_require__(14);
-var parser = __webpack_require__(9);
-var inherit = __webpack_require__(15);
+var parseqs = __webpack_require__(15);
+var parser = __webpack_require__(10);
+var inherit = __webpack_require__(16);
 var yeast = __webpack_require__(48);
 var debug = __webpack_require__(5)('engine.io-client:polling');
 
@@ -10235,12 +10247,12 @@ module.exports = function(arr, obj){
  */
 
 var parser = __webpack_require__(22);
-var Emitter = __webpack_require__(8);
+var Emitter = __webpack_require__(9);
 var toArray = __webpack_require__(253);
 var on = __webpack_require__(51);
 var bind = __webpack_require__(52);
 var debug = __webpack_require__(5)('socket.io-client:socket');
-var parseqs = __webpack_require__(14);
+var parseqs = __webpack_require__(15);
 var hasBin = __webpack_require__(46);
 
 /**
@@ -10733,20 +10745,20 @@ module.exports = function(obj, fn){
 
 
 module.exports = {
-	CLEAR_MISSED_MSG: "CLEAR_MISSED_MSG",
-	CLEAR_NOTICES: "CLEAR_NOTICES",
-	FETCH_MESSAGES: "FETCH_MESSAGES",
-	FETCH_USERS: "FETCH_USERS",
-	MESSAGE_SENT: "MESSAGE_SENT",
-	LOADING: "LOADING",
-	LOGGED_IN: "LOGGED_IN",
-	LOGIN_ERROR: "LOGIN_ERROR",
-	LOGOUT: "LOGOUT",
-	STOPPED_TYPING: "STOPPED_TYPING",
-	TYPING: "TYPING",
-	SOCKET_EVENTS: ["MESSAGE_SENT", "STOPPED_TYPING", "TYPING", "USER_CONNECTED", "USER_DISCONNECTED"],
-	USER_CONNECTED: "USER_CONNECTED",
-	USER_DISCONNECTED: "USER_DISCONNECTED"
+  CLEAR_MISSED_MSG: 'CLEAR_MISSED_MSG',
+  CLEAR_NOTICES: 'CLEAR_NOTICES',
+  FETCH_MESSAGES: 'FETCH_MESSAGES',
+  FETCH_USERS: 'FETCH_USERS',
+  MESSAGE_SENT: 'MESSAGE_SENT',
+  LOADING: 'LOADING',
+  LOGGED_IN: 'LOGGED_IN',
+  LOGIN_ERROR: 'LOGIN_ERROR',
+  LOGOUT: 'LOGOUT',
+  STOPPED_TYPING: 'STOPPED_TYPING',
+  TYPING: 'TYPING',
+  SOCKET_EVENTS: ['MESSAGE_SENT', 'STOPPED_TYPING', 'TYPING', 'USER_CONNECTED', 'USER_DISCONNECTED'],
+  USER_CONNECTED: 'USER_CONNECTED',
+  USER_DISCONNECTED: 'USER_DISCONNECTED'
 };
 
 /***/ }),
@@ -22609,28 +22621,26 @@ var _reactDom = __webpack_require__(180);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _reactRedux = __webpack_require__(12);
+
+__webpack_require__(270);
+
+var _store = __webpack_require__(275);
+
+var _store2 = _interopRequireDefault(_store);
+
 var _App = __webpack_require__(189);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _styles = __webpack_require__(271);
-
-var _styles2 = _interopRequireDefault(_styles);
-
-var _reactRedux = __webpack_require__(11);
-
-var _store = __webpack_require__(276);
-
-var _store2 = _interopRequireDefault(_store);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   _reactDom2.default.render(_react2.default.createElement(
     _reactRedux.Provider,
     { store: _store2.default },
     _react2.default.createElement(_App2.default, null)
-  ), document.getElementById("root"));
+  ), document.getElementById('root'));
 });
 
 /***/ }),
@@ -22647,7 +22657,7 @@ document.addEventListener("DOMContentLoaded", function () {
  * LICENSE file in the root directory of this source tree.
  */
 
-var m=__webpack_require__(10),n=__webpack_require__(6),p=__webpack_require__(12),q=__webpack_require__(7),r="function"===typeof Symbol&&Symbol["for"],t=r?Symbol["for"]("react.element"):60103,u=r?Symbol["for"]("react.portal"):60106,v=r?Symbol["for"]("react.fragment"):60107,w=r?Symbol["for"]("react.strict_mode"):60108,x=r?Symbol["for"]("react.provider"):60109,y=r?Symbol["for"]("react.context"):60110,z=r?Symbol["for"]("react.async_mode"):60111,A=r?Symbol["for"]("react.forward_ref"):
+var m=__webpack_require__(11),n=__webpack_require__(6),p=__webpack_require__(13),q=__webpack_require__(7),r="function"===typeof Symbol&&Symbol["for"],t=r?Symbol["for"]("react.element"):60103,u=r?Symbol["for"]("react.portal"):60106,v=r?Symbol["for"]("react.fragment"):60107,w=r?Symbol["for"]("react.strict_mode"):60108,x=r?Symbol["for"]("react.provider"):60109,y=r?Symbol["for"]("react.context"):60110,z=r?Symbol["for"]("react.async_mode"):60111,A=r?Symbol["for"]("react.forward_ref"):
 60112,B="function"===typeof Symbol&&Symbol.iterator;function C(a){for(var b=arguments.length-1,e="http://reactjs.org/docs/error-decoder.html?invariant\x3d"+a,c=0;c<b;c++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[c+1]);n(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",e)}var D={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};
 function E(a,b,e){this.props=a;this.context=b;this.refs=p;this.updater=e||D}E.prototype.isReactComponent={};E.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?C("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};E.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function F(){}F.prototype=E.prototype;function G(a,b,e){this.props=a;this.context=b;this.refs=p;this.updater=e||D}var H=G.prototype=new F;
 H.constructor=G;m(H,E.prototype);H.isPureReactComponent=!0;var I={current:null},J=Object.prototype.hasOwnProperty,K={key:!0,ref:!0,__self:!0,__source:!0};
@@ -22684,12 +22694,12 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(10);
+var _assign = __webpack_require__(11);
 var invariant = __webpack_require__(6);
-var emptyObject = __webpack_require__(12);
-var warning = __webpack_require__(13);
+var emptyObject = __webpack_require__(13);
+var warning = __webpack_require__(14);
 var emptyFunction = __webpack_require__(7);
-var checkPropTypes = __webpack_require__(16);
+var checkPropTypes = __webpack_require__(17);
 
 // TODO: this is special because it gets imported during build.
 
@@ -24147,7 +24157,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var ba=__webpack_require__(6),ea=__webpack_require__(3),m=__webpack_require__(26),A=__webpack_require__(10),C=__webpack_require__(7),fa=__webpack_require__(27),ha=__webpack_require__(28),ja=__webpack_require__(29),ka=__webpack_require__(12);
+var ba=__webpack_require__(6),ea=__webpack_require__(3),m=__webpack_require__(26),A=__webpack_require__(11),C=__webpack_require__(7),fa=__webpack_require__(27),ha=__webpack_require__(28),ja=__webpack_require__(29),ka=__webpack_require__(13);
 function D(a){for(var b=arguments.length-1,c="http://reactjs.org/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);ba(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",c)}ea?void 0:D("227");
 function ma(a,b,c,d,e,f,h,g,k){this._hasCaughtError=!1;this._caughtError=null;var v=Array.prototype.slice.call(arguments,3);try{b.apply(c,v)}catch(l){this._caughtError=l,this._hasCaughtError=!0}}
 var E={_caughtError:null,_hasCaughtError:!1,_rethrowError:null,_hasRethrowError:!1,invokeGuardedCallback:function(a,b,c,d,e,f,h,g,k){ma.apply(E,arguments)},invokeGuardedCallbackAndCatchFirstError:function(a,b,c,d,e,f,h,g,k){E.invokeGuardedCallback.apply(this,arguments);if(E.hasCaughtError()){var v=E.clearCaughtError();E._hasRethrowError||(E._hasRethrowError=!0,E._rethrowError=v)}},rethrowCaughtError:function(){return na.apply(E,arguments)},hasCaughtError:function(){return E._hasCaughtError},clearCaughtError:function(){if(E._hasCaughtError){var a=
@@ -24463,15 +24473,15 @@ if (process.env.NODE_ENV !== "production") {
 
 var invariant = __webpack_require__(6);
 var React = __webpack_require__(3);
-var warning = __webpack_require__(13);
+var warning = __webpack_require__(14);
 var ExecutionEnvironment = __webpack_require__(26);
-var _assign = __webpack_require__(10);
+var _assign = __webpack_require__(11);
 var emptyFunction = __webpack_require__(7);
-var checkPropTypes = __webpack_require__(16);
+var checkPropTypes = __webpack_require__(17);
 var getActiveElement = __webpack_require__(27);
 var shallowEqual = __webpack_require__(28);
 var containsNode = __webpack_require__(29);
-var emptyObject = __webpack_require__(12);
+var emptyObject = __webpack_require__(13);
 var hyphenateStyleName = __webpack_require__(185);
 var camelizeStyleName = __webpack_require__(187);
 
@@ -41274,7 +41284,11 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(11);
+var _reactRedux = __webpack_require__(12);
+
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _LogIn = __webpack_require__(215);
 
@@ -41303,10 +41317,10 @@ window.ROOT_URL = protocol + '//' + hostname + ':' + port;
 var App = function (_Component) {
   _inherits(App, _Component);
 
-  function App(props) {
+  function App() {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
   }
 
   _createClass(App, [{
@@ -41324,7 +41338,13 @@ var App = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-  return { auth: state.auth };
+  return {
+    auth: state.auth
+  };
+};
+
+App.propTypes = {
+  auth: _propTypes2.default.bool.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(App);
@@ -41337,7 +41357,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(App);
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = createProvider;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(19);
@@ -41431,11 +41451,11 @@ function createProvider() {
 
 var emptyFunction = __webpack_require__(7);
 var invariant = __webpack_require__(6);
-var warning = __webpack_require__(13);
-var assign = __webpack_require__(10);
+var warning = __webpack_require__(14);
+var assign = __webpack_require__(11);
 
-var ReactPropTypesSecret = __webpack_require__(17);
-var checkPropTypes = __webpack_require__(16);
+var ReactPropTypesSecret = __webpack_require__(18);
+var checkPropTypes = __webpack_require__(17);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -41981,7 +42001,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 var emptyFunction = __webpack_require__(7);
 var invariant = __webpack_require__(6);
-var ReactPropTypesSecret = __webpack_require__(17);
+var ReactPropTypesSecret = __webpack_require__(18);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -43059,7 +43079,11 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(11);
+var _reactRedux = __webpack_require__(12);
+
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _actions = __webpack_require__(20);
 
@@ -43092,18 +43116,30 @@ var LogIn = function (_Component) {
       toggleLogin: 'signup'
     };
 
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleKeyPress = _this.handleKeyPress.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.handleToggleLogin = _this.handleToggleLogin.bind(_this);
     return _this;
   }
 
   _createClass(LogIn, [{
-    key: 'handleToggleLogin',
-    value: function handleToggleLogin(toggleLogin) {
-      this.props.removeErrorMessage();
-      this.setState({ toggleLogin: toggleLogin });
+    key: 'handleChange',
+    value: function handleChange(inputName) {
+      var _this2 = this;
+
+      return function (e) {
+        e.preventDefault();
+        _this2.setState(_defineProperty({}, inputName, e.target.value));
+        _this2.props.removeErrorMessage();
+      };
+    }
+  }, {
+    key: 'handleKeyPress',
+    value: function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        this.handleSubmit(e);
+      }
     }
   }, {
     key: 'handleSubmit',
@@ -43114,25 +43150,18 @@ var LogIn = function (_Component) {
           password = _state.password,
           passwordConfirmation = _state.passwordConfirmation;
 
-      this.state.toggleLogin === 'signup' ? this.props.signUpUser({ username: username, password: password, passwordConfirmation: passwordConfirmation }) : this.props.logInUser({ username: username, password: password });
-    }
-  }, {
-    key: 'handleKeyPress',
-    value: function handleKeyPress(e) {
-      if (e.key === 'Enter') {
-        this.handleSubmit(e);
+
+      if (this.state.toggleLogin === 'signup') {
+        this.props.signUpUser({ username: username, password: password, passwordConfirmation: passwordConfirmation });
+      } else {
+        this.props.logInUser({ username: username, password: password });
       }
     }
   }, {
-    key: 'handleChange',
-    value: function handleChange(inputName) {
-      var _this2 = this;
-
-      return function (e) {
-        e.preventDefault();
-        _this2.setState(_defineProperty({}, inputName, e.target.value));
-        _this2.props.removeErrorMessage();
-      };
+    key: 'handleToggleLogin',
+    value: function handleToggleLogin(toggleLogin) {
+      this.props.removeErrorMessage();
+      this.setState({ toggleLogin: toggleLogin });
     }
   }, {
     key: 'render',
@@ -43167,16 +43196,18 @@ var LogIn = function (_Component) {
                 className: 'login-btn-' + (toggleLogin === 'signup' ? 'on' : 'off'),
                 onClick: function onClick() {
                   return _this3.handleToggleLogin('signup');
-                } },
+                }
+              },
               'Sign up'
             ),
             _react2.default.createElement(
               'button',
               {
-                className: 'login-btn-' + (toggleLogin != 'signup' ? 'on' : 'off'),
+                className: 'login-btn-' + (toggleLogin !== 'signup' ? 'on' : 'off'),
                 onClick: function onClick() {
                   return _this3.handleToggleLogin('login');
-                } },
+                }
+              },
               'Log in'
             )
           )
@@ -43198,13 +43229,22 @@ var LogIn = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-  return { err: state.err };
+  return {
+    err: state.err
+  };
+};
+
+LogIn.propTypes = {
+  err: _propTypes2.default.string.isRequired,
+  logInUser: _propTypes2.default.func.isRequired,
+  removeErrorMessage: _propTypes2.default.func.isRequired,
+  signUpUser: _propTypes2.default.func.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
+  logInUser: _actions.logInUser,
   removeErrorMessage: _actions.removeErrorMessage,
-  signUpUser: _actions.signUpUser,
-  logInUser: _actions.logInUser
+  signUpUser: _actions.signUpUser
 })(LogIn);
 
 /***/ }),
@@ -44804,7 +44844,7 @@ module.exports = __webpack_require__(241);
  * @api public
  *
  */
-module.exports.parser = __webpack_require__(9);
+module.exports.parser = __webpack_require__(10);
 
 
 /***/ }),
@@ -44816,12 +44856,12 @@ module.exports.parser = __webpack_require__(9);
  */
 
 var transports = __webpack_require__(44);
-var Emitter = __webpack_require__(8);
+var Emitter = __webpack_require__(9);
 var debug = __webpack_require__(5)('engine.io-client:socket');
 var index = __webpack_require__(49);
-var parser = __webpack_require__(9);
+var parser = __webpack_require__(10);
 var parseuri = __webpack_require__(41);
-var parseqs = __webpack_require__(14);
+var parseqs = __webpack_require__(15);
 
 /**
  * Module exports.
@@ -44956,7 +44996,7 @@ Socket.protocol = parser.protocol; // this is an int
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(25);
 Socket.transports = __webpack_require__(44);
-Socket.parser = __webpack_require__(9);
+Socket.parser = __webpack_require__(10);
 
 /**
  * Creates transport of the given type.
@@ -45590,8 +45630,8 @@ try {
 
 var XMLHttpRequest = __webpack_require__(24);
 var Polling = __webpack_require__(45);
-var Emitter = __webpack_require__(8);
-var inherit = __webpack_require__(15);
+var Emitter = __webpack_require__(9);
+var inherit = __webpack_require__(16);
 var debug = __webpack_require__(5)('engine.io-client:polling-xhr');
 
 /**
@@ -46540,7 +46580,7 @@ module.exports = (function() {
  */
 
 var Polling = __webpack_require__(45);
-var inherit = __webpack_require__(15);
+var inherit = __webpack_require__(16);
 
 /**
  * Module exports.
@@ -46777,9 +46817,9 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
  */
 
 var Transport = __webpack_require__(25);
-var parser = __webpack_require__(9);
-var parseqs = __webpack_require__(14);
-var inherit = __webpack_require__(15);
+var parser = __webpack_require__(10);
+var parseqs = __webpack_require__(15);
+var inherit = __webpack_require__(16);
 var yeast = __webpack_require__(48);
 var debug = __webpack_require__(5)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
@@ -47192,6 +47232,10 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Form = function Form(_ref) {
@@ -47202,45 +47246,54 @@ var Form = function Form(_ref) {
       passwordConfirmation = _ref.passwordConfirmation,
       toggleLogin = _ref.toggleLogin,
       username = _ref.username;
-
   return _react2.default.createElement(
-    "form",
-    { autoComplete: "off", className: "login-form", onSubmit: handleSubmit },
+    'form',
+    { autoComplete: 'off', className: 'login-form', onSubmit: handleSubmit },
     _react2.default.createElement(
-      "div",
-      { className: "login-error" },
-      err ? err : ''
+      'div',
+      { className: 'login-error' },
+      err || ''
     ),
-    _react2.default.createElement("input", {
-      type: "text",
-      className: "login",
+    _react2.default.createElement('input', {
+      type: 'text',
+      className: 'login',
       value: username,
       onChange: handleChange('username'),
-      maxLength: "16",
+      maxLength: '16',
       placeholder: 'username'
     }),
-    _react2.default.createElement("input", {
-      type: "password",
-      className: "login",
+    _react2.default.createElement('input', {
+      type: 'password',
+      className: 'login',
       value: password,
-      maxLength: "16",
+      maxLength: '16',
       onChange: handleChange('password'),
       placeholder: 'password'
     }),
-    toggleLogin === 'signup' && _react2.default.createElement("input", {
-      type: "password",
-      className: "login",
+    toggleLogin === 'signup' && _react2.default.createElement('input', {
+      type: 'password',
+      className: 'login',
       value: passwordConfirmation,
-      maxLength: "16",
+      maxLength: '16',
       onChange: handleChange('passwordConfirmation'),
-      placeholder: 'password'
+      placeholder: 'confirm again'
     }),
     _react2.default.createElement(
-      "button",
-      { onClick: handleSubmit, className: "enter" },
-      "Enter"
+      'button',
+      { onClick: handleSubmit, className: 'enter' },
+      'Enter'
     )
   );
+};
+
+Form.propTypes = {
+  err: _propTypes2.default.string.isRequired,
+  handleChange: _propTypes2.default.func.isRequired,
+  handleSubmit: _propTypes2.default.func.isRequired,
+  password: _propTypes2.default.string.isRequired,
+  passwordConfirmation: _propTypes2.default.string.isRequired,
+  toggleLogin: _propTypes2.default.string.isRequired,
+  username: _propTypes2.default.string.isRequired
 };
 
 exports.default = Form;
@@ -47262,7 +47315,11 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(11);
+var _reactRedux = __webpack_require__(12);
+
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _actions = __webpack_require__(20);
 
@@ -47270,21 +47327,17 @@ var _MessagesList = __webpack_require__(257);
 
 var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
-var _Notice = __webpack_require__(267);
+var _MissedMessages = __webpack_require__(267);
+
+var _MissedMessages2 = _interopRequireDefault(_MissedMessages);
+
+var _Notice = __webpack_require__(268);
 
 var _Notice2 = _interopRequireDefault(_Notice);
 
-var _UsersList = __webpack_require__(268);
+var _UsersList = __webpack_require__(269);
 
 var _UsersList2 = _interopRequireDefault(_UsersList);
-
-var _PrivateChat = __webpack_require__(269);
-
-var _PrivateChat2 = _interopRequireDefault(_PrivateChat);
-
-var _MissedMessages = __webpack_require__(270);
-
-var _MissedMessages2 = _interopRequireDefault(_MissedMessages);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47303,18 +47356,17 @@ var Chatroom = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Chatroom.__proto__ || Object.getPrototypeOf(Chatroom)).call(this, props));
 
     _this.state = {
-      text: '',
-      username: _this.props.username,
       date: new Date(),
+      missed: false,
+      text: '',
       textCount: 0,
-      missed: false
+      username: _this.props.username
     };
 
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleLogOut = _this.handleLogOut.bind(_this);
     _this.toggleMissed = _this.toggleMissed.bind(_this);
-
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.handleTypingTime = null;
     return _this;
   }
@@ -47331,10 +47383,41 @@ var Chatroom = function (_Component) {
       this.props.socketOff();
     }
   }, {
+    key: 'handleChange',
+    value: function handleChange(e) {
+      var _this2 = this;
+
+      var username = this.props.username;
+
+      var text = e.target.value || '';
+
+      clearTimeout(this.handleTypingTime);
+      this.props.isTyping(username, true);
+      this.handleTypingTime = setTimeout(function () {
+        _this2.props.isTyping(username, false);
+      }, 2000);
+
+      this.setState({ text: text, textCount: text.length });
+    }
+  }, {
+    key: 'toggleMissed',
+    value: function toggleMissed() {
+      this.setState({ missed: !this.state.missed });
+    }
+  }, {
+    key: 'handleLogOut',
+    value: function handleLogOut() {
+      var username = this.props.username;
+
+
+      this.props.signOutUser(username);
+    }
+  }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
       this.setState({ text: '', textCount: 0, date: new Date() });
+
       var _state = this.state,
           username = _state.username,
           text = _state.text,
@@ -47343,33 +47426,26 @@ var Chatroom = function (_Component) {
       this.props.sendMessage({ username: username, text: text, date: date });
     }
   }, {
-    key: 'toggleMissed',
-    value: function toggleMissed() {
-      this.setState({ missed: !this.state.missed });
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(e) {
-      var _this2 = this;
-
-      // const value = e.target.value || ''
-      clearTimeout(this.handleTypingTime);
-      this.props.isTyping(this.props.username, true);
-      this.handleTypingTime = setTimeout(function () {
-        _this2.props.isTyping(_this2.props.username, false);
-      }, 2000);
-
-      this.setState({ text: e.target.value, textCount: e.target.value.length });
-    }
-  }, {
-    key: 'handleLogOut',
-    value: function handleLogOut() {
-      this.props.signOutUser(this.props.username);
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var userCount = this.props.users.length <= 1 ? 'user' : 'users';
+      var _state2 = this.state,
+          missed = _state2.missed,
+          text = _state2.text,
+          textCount = _state2.textCount;
+      var _props = this.props,
+          username = _props.username,
+          users = _props.users,
+          missedMsg = _props.missedMsg,
+          messages = _props.messages,
+          loading = _props.loading,
+          typing = _props.typing,
+          typingUsers = _props.typingUsers,
+          verbs = _props.verbs;
+
+      var userCount = users.length <= 1 ? 'user' : 'users';
+      var onlineUsers = users.filter(function (user) {
+        return user.onlineStatus;
+      }).length;
 
       return _react2.default.createElement(
         'div',
@@ -47381,14 +47457,14 @@ var Chatroom = function (_Component) {
             'h1',
             { className: 'chatroom-title' },
             'Hi, ',
-            this.props.username,
+            username,
             '!'
           ),
           _react2.default.createElement(
             'div',
             { className: 'current-users' },
             'You are connected to ',
-            this.props.users.length - 1,
+            users.length - 1,
             ' ',
             userCount,
             ' on Konnect'
@@ -47403,33 +47479,32 @@ var Chatroom = function (_Component) {
             { className: 'chat-left-bar' },
             _react2.default.createElement(_MissedMessages2.default, {
               handleLogOut: this.handleLogOut,
-              missed: this.state.missed,
-              missedMsg: this.props.missedMsg,
+              missed: missed,
+              missedMsg: missedMsg,
               toggleMissed: this.toggleMissed,
-              clearMissedMsg: this.props.clearMissedMsg
+              clearMissedMsg: this.props.clearMissedMsg,
+              username: username
             }),
             _react2.default.createElement(
               'div',
               { className: 'online-users' },
-              this.props.users.filter(function (user) {
-                return user.onlineStatus;
-              }).length,
-              ' users online'
+              onlineUsers,
+              ' online'
             ),
-            _react2.default.createElement(_UsersList2.default, { users: this.props.users })
+            _react2.default.createElement(_UsersList2.default, { users: users })
           ),
           _react2.default.createElement(
             'div',
             { className: 'messages-section' },
-            !this.state.missed && _react2.default.createElement(_MessagesList2.default, {
-              currentUser: this.props.username,
-              messages: this.props.messages,
-              loading: this.props.loading
+            !missed && _react2.default.createElement(_MessagesList2.default, {
+              currentUser: username,
+              messages: messages,
+              loading: loading
             }),
-            this.state.missed && _react2.default.createElement(_MessagesList2.default, {
-              currentUser: this.props.username,
-              messages: this.props.missedMsg,
-              loading: this.props.loading
+            missed && _react2.default.createElement(_MessagesList2.default, {
+              currentUser: username,
+              messages: missedMsg,
+              loading: loading
             }),
             _react2.default.createElement(
               'form',
@@ -47437,7 +47512,7 @@ var Chatroom = function (_Component) {
               _react2.default.createElement(
                 'div',
                 { className: 'display-typing' },
-                this.props.typing ? this.props.typingUsers.join(', ') + ' ' + this.props.verbs + ' typing...' : ''
+                typing ? typingUsers.join(', ') + ' ' + verbs + ' typing...' : ''
               ),
               _react2.default.createElement(
                 'div',
@@ -47445,23 +47520,24 @@ var Chatroom = function (_Component) {
                 _react2.default.createElement('input', {
                   id: 'message',
                   type: 'text',
-                  value: this.state.text,
+                  value: text,
                   autoComplete: 'off',
                   placeholder: 'enter your message',
                   maxLength: '45',
                   onChange: this.handleChange
                 }),
                 _react2.default.createElement(
-                  'label',
+                  'p',
                   { className: 'text-character-count' },
-                  this.state.textCount + '/45'
+                  textCount + '/45'
                 ),
                 _react2.default.createElement(
                   'button',
                   {
-                    disabled: this.state.text.length < 1,
+                    disabled: text.length < 1,
                     onClick: this.handleSubmit,
-                    className: 'send' },
+                    className: 'send'
+                  },
                   'Send'
                 )
               )
@@ -47477,26 +47553,43 @@ var Chatroom = function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    username: state.username,
-    users: state.users,
     loading: state.loading,
     messages: state.messages,
     missedMsg: state.missedMsg,
-    hasMoreMessages: state.hasMoreMessages,
     typing: state.typing,
     typingUsers: state.typingUsers,
+    username: state.username,
+    users: state.users,
     verbs: state.verbs
   };
 };
 
+Chatroom.propTypes = {
+  loading: _propTypes2.default.bool.isRequired,
+  messages: _propTypes2.default.array.isRequired,
+  missedMsg: _propTypes2.default.array.isRequired,
+  typing: _propTypes2.default.bool.isRequired,
+  typingUsers: _propTypes2.default.array.isRequired,
+  username: _propTypes2.default.string.isRequired,
+  users: _propTypes2.default.array.isRequired,
+  verbs: _propTypes2.default.string.isRequired,
+  clearMissedMsg: _propTypes2.default.func.isRequired,
+  fetchMessages: _propTypes2.default.func.isRequired,
+  fetchUsers: _propTypes2.default.func.isRequired,
+  isTyping: _propTypes2.default.func.isRequired,
+  sendMessage: _propTypes2.default.func.isRequired,
+  signOutUser: _propTypes2.default.func.isRequired,
+  socketOff: _propTypes2.default.func.isRequired
+};
+
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   clearMissedMsg: _actions.clearMissedMsg,
-  socketOff: _actions.socketOff,
   fetchMessages: _actions.fetchMessages,
   fetchUsers: _actions.fetchUsers,
-  sendMessage: _actions.sendMessage,
   isTyping: _actions.isTyping,
-  signOutUser: _actions.signOutUser
+  sendMessage: _actions.sendMessage,
+  signOutUser: _actions.signOutUser,
+  socketOff: _actions.socketOff
 })(Chatroom);
 
 /***/ }),
@@ -47515,6 +47608,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactLinkify = __webpack_require__(258);
 
@@ -47535,10 +47632,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MessagesList = function (_Component) {
   _inherits(MessagesList, _Component);
 
-  function MessagesList(props) {
+  function MessagesList() {
     _classCallCheck(this, MessagesList);
 
-    var _this = _possibleConstructorReturn(this, (MessagesList.__proto__ || Object.getPrototypeOf(MessagesList)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (MessagesList.__proto__ || Object.getPrototypeOf(MessagesList)).call(this));
 
     _this.scrollToBottom = _this.scrollToBottom.bind(_this);
     _this.messagesEnd = null;
@@ -47546,11 +47643,6 @@ var MessagesList = function (_Component) {
   }
 
   _createClass(MessagesList, [{
-    key: 'scrollToBottom',
-    value: function scrollToBottom() {
-      this.messagesEnd.scrollIntoView();
-    }
-  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.scrollToBottom();
@@ -47559,6 +47651,11 @@ var MessagesList = function (_Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       this.scrollToBottom();
+    }
+  }, {
+    key: 'scrollToBottom',
+    value: function scrollToBottom() {
+      this.messagesEnd.scrollIntoView();
     }
   }, {
     key: 'render',
@@ -47570,11 +47667,16 @@ var MessagesList = function (_Component) {
           currentUser = _props.currentUser,
           loading = _props.loading;
 
+
       if (loading) {
         return _react2.default.createElement(
           'div',
           { className: 'loading' },
-          _react2.default.createElement('img', { className: 'loading-spinner', src: ROOT_URL + '/images/fidget-loading-spinner.gif', alt: 'loading-spinner' }),
+          _react2.default.createElement('img', {
+            className: 'loading-spinner',
+            src: ROOT_URL + '/images/fidget-loading-spinner.gif',
+            alt: 'loading-spinner'
+          }),
           _react2.default.createElement('div', { ref: function ref(el) {
               return _this2.messagesEnd = el;
             } })
@@ -47595,22 +47697,28 @@ var MessagesList = function (_Component) {
         'div',
         { className: 'messages-list' },
         messages.map(function (msg) {
-          var threadType = msg.username === currentUser ? 'current-user' : 'other-user';
+          var date = msg.date,
+              _id = msg._id,
+              text = msg.text,
+              username = msg.username;
+
+          var threadType = username === currentUser ? 'current-user' : 'other-user';
+
           return _react2.default.createElement(
             'div',
-            { className: threadType + ' message-input ', key: msg._id },
+            { className: threadType + ' message-input ', key: _id },
             _react2.default.createElement(
               'div',
               { className: threadType + ' timestamp-user-row' },
               _react2.default.createElement(
                 'div',
                 { className: 'thread-username' },
-                msg.username
+                username
               ),
               _react2.default.createElement(
                 'div',
                 { className: 'thread-timestamp' },
-                (0, _moment2.default)(msg.date).format('h:mm a')
+                (0, _moment2.default)(date).format('h:mm a')
               )
             ),
             _react2.default.createElement(
@@ -47619,7 +47727,7 @@ var MessagesList = function (_Component) {
               _react2.default.createElement(
                 'div',
                 { className: threadType + ' message-text' },
-                msg.text
+                text
               )
             )
           );
@@ -47633,6 +47741,12 @@ var MessagesList = function (_Component) {
 
   return MessagesList;
 }(_react.Component);
+
+MessagesList.propTypes = {
+  loading: _propTypes2.default.bool.isRequired,
+  messages: _propTypes2.default.array.isRequired,
+  currentUser: _propTypes2.default.string.isRequired
+};
 
 exports.default = MessagesList;
 
@@ -47662,7 +47776,7 @@ var _tlds = __webpack_require__(265);
 
 var _tlds2 = _interopRequireDefault(_tlds);
 
-var _propTypes = __webpack_require__(18);
+var _propTypes = __webpack_require__(8);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -50474,13 +50588,87 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MissedMessages = function MissedMessages(_ref) {
+  var clearMissedMsg = _ref.clearMissedMsg,
+      handleLogOut = _ref.handleLogOut,
+      missed = _ref.missed,
+      missedMsg = _ref.missedMsg,
+      toggleMissed = _ref.toggleMissed,
+      username = _ref.username;
+  return _react2.default.createElement(
+    'div',
+    { className: 'missed-msg-btns' },
+    _react2.default.createElement(
+      'button',
+      { className: 'logout', onClick: handleLogOut },
+      _react2.default.createElement('i', { className: 'fas fa-power-off' })
+    ),
+    !missed ? _react2.default.createElement(
+      'button',
+      { className: 'unread-btn', onClick: toggleMissed },
+      'New'
+    ) : _react2.default.createElement(
+      'button',
+      {
+        className: 'back-btn',
+        onClick: function onClick() {
+          clearMissedMsg(username);
+          toggleMissed();
+        }
+      },
+      _react2.default.createElement('i', { className: 'fas fa-undo-alt fa-2x' })
+    ),
+    !missed && _react2.default.createElement(
+      'p',
+      { className: 'missed-count', onClick: toggleMissed },
+      missedMsg.length
+    )
+  );
+};
+
+MissedMessages.propTypes = {
+  clearMissedMsg: _propTypes2.default.func.isRequired,
+  handleLogOut: _propTypes2.default.func.isRequired,
+  missed: _propTypes2.default.bool.isRequired,
+  missedMsg: _propTypes2.default.array.isRequired,
+  toggleMissed: _propTypes2.default.func.isRequired,
+  username: _propTypes2.default.string.isRequired
+};
+
+exports.default = MissedMessages;
+
+/***/ }),
+/* 268 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(11);
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRedux = __webpack_require__(12);
 
 var _actions = __webpack_require__(20);
 
@@ -50502,21 +50690,23 @@ var Notice = function (_React$Component) {
   }
 
   _createClass(Notice, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.clearNoticesTimeout(this.props.notice);
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.clearNoticesTimeout(nextProps);
     }
   }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.clearNoticesTimeout(this.props);
-    }
-  }, {
     key: 'clearNoticesTimeout',
-    value: function clearNoticesTimeout(props) {
-      if (!props.notice) return;
+    value: function clearNoticesTimeout(notice) {
+      var _this2 = this;
+
+      if (!notice) return;
       setTimeout(function () {
-        props.clearNotices();
+        _this2.props.clearNotices();
       }, 3000);
     }
   }, {
@@ -50541,53 +50731,12 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { clearNotices: _actions.clearNotices })(Notice);
-
-/***/ }),
-/* 268 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var UsersList = function UsersList(_ref) {
-  var users = _ref.users;
-
-  return _react2.default.createElement(
-    "div",
-    { className: "users-list" },
-    _react2.default.createElement(
-      "div",
-      { className: "users-list" },
-      users.map(function (user) {
-        var onlineStatus = user.onlineStatus ? 'active' : 'inactive';
-
-        return _react2.default.createElement(
-          "div",
-          { key: user._id, className: "each-user" },
-          _react2.default.createElement("img", { className: "online-" + onlineStatus, src: ROOT_URL + "/images/online.png", alt: "online" }),
-          _react2.default.createElement(
-            "div",
-            { className: "each-user-name-" + onlineStatus },
-            user.username
-          )
-        );
-      })
-    )
-  );
+Notice.propTypes = {
+  notice: _propTypes2.default.string.isRequired,
+  clearNotices: _propTypes2.default.func.isRequired
 };
 
-exports.default = UsersList;
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { clearNotices: _actions.clearNotices })(Notice);
 
 /***/ }),
 /* 269 */
@@ -50600,135 +50749,62 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var UsersList = function UsersList(_ref) {
+  var users = _ref.users;
+  return _react2.default.createElement(
+    'div',
+    { className: 'users-list' },
+    _react2.default.createElement(
+      'div',
+      { className: 'users-list' },
+      users.map(function (user) {
+        var _id = user._id,
+            onlineStatus = user.onlineStatus,
+            username = user.username;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+        var isOnline = onlineStatus ? 'active' : 'inactive';
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+        return _react2.default.createElement(
+          'div',
+          { key: _id, className: 'each-user' },
+          _react2.default.createElement('img', {
+            className: 'online-' + isOnline,
+            src: ROOT_URL + '/images/online.png',
+            alt: 'online'
+          }),
+          _react2.default.createElement(
+            'div',
+            { className: 'each-user-name-' + isOnline },
+            username
+          )
+        );
+      })
+    )
+  );
+};
 
-var PrivateChat = function (_Component) {
-  _inherits(PrivateChat, _Component);
+UsersList.propTypes = {
+  users: _propTypes2.default.array.isRequired
+};
 
-  function PrivateChat(props) {
-    _classCallCheck(this, PrivateChat);
-
-    var _this = _possibleConstructorReturn(this, (PrivateChat.__proto__ || Object.getPrototypeOf(PrivateChat)).call(this, props));
-
-    _this.state = {
-      username: '',
-      password: ''
-    };
-
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.handleUsername = _this.handleUsername.bind(_this);
-    _this.handlePassword = _this.handlePassword.bind(_this);
-    return _this;
-  }
-
-  _createClass(PrivateChat, [{
-    key: 'handleSubmit',
-    value: function handleSubmit(e) {
-      e.preventDefault();
-    }
-  }, {
-    key: 'handleUsername',
-    value: function handleUsername(e) {
-      this.setState({ username: e.target.value });
-    }
-  }, {
-    key: 'handlePassword',
-    value: function handlePassword(e) {
-      this.setState({ password: e.target.value });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'form',
-          { onSubmit: this.handleSubmit, className: 'private-chat-form' },
-          _react2.default.createElement('input', { type: 'text', autoComplete: 'off', onChange: this.handleUsername, placeholder: 'username' }),
-          _react2.default.createElement('input', { onChange: this.handlePassword, placeholder: 'password' }),
-          _react2.default.createElement('input', { type: 'submit', value: 'submit' })
-        )
-      );
-    }
-  }]);
-
-  return PrivateChat;
-}(_react.Component);
-
-exports.default = PrivateChat;
+exports.default = UsersList;
 
 /***/ }),
 /* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var MissedMessages = function MissedMessages(_ref) {
-  var handleLogOut = _ref.handleLogOut,
-      missedMsg = _ref.missedMsg,
-      toggleMissed = _ref.toggleMissed,
-      missed = _ref.missed,
-      clearMissedMsg = _ref.clearMissedMsg;
-
-  return _react2.default.createElement(
-    "div",
-    { className: "missed-msg-btns" },
-    _react2.default.createElement(
-      "button",
-      { className: "logout", onClick: handleLogOut },
-      _react2.default.createElement("i", { className: "fas fa-power-off" })
-    ),
-    !missed ? _react2.default.createElement(
-      "button",
-      { className: "unread-btn", onClick: toggleMissed },
-      "New"
-    ) : _react2.default.createElement(
-      "button",
-      { className: "back-btn", onClick: function onClick() {
-          toggleMissed();clearMissedMsg();
-        } },
-      _react2.default.createElement("i", { className: "fas fa-undo-alt fa-2x" })
-    ),
-    !missed && _react2.default.createElement(
-      "p",
-      { className: "missed-count" },
-      missedMsg.length
-    )
-  );
-};
-
-exports.default = MissedMessages;
-
-/***/ }),
-/* 271 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(272);
+var content = __webpack_require__(271);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -50742,7 +50818,7 @@ var options = {"hmr":true}
 options.transform = transform
 options.insertInto = undefined;
 
-var update = __webpack_require__(274)(content, options);
+var update = __webpack_require__(273)(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -50774,21 +50850,21 @@ if(false) {
 }
 
 /***/ }),
-/* 272 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(273)(false);
+exports = module.exports = __webpack_require__(272)(false);
 // imports
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  align-items: center;\n  flex-direction: column;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  background: floralwhite; }\n\n.chatroom-header {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.chatroom-title {\n  font-size: 4em;\n  margin-top: 10px;\n  margin-bottom: 10px;\n  color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n\n.chat-left-bar {\n  border-right: 1px solid #e6ecf0;\n  width: 150px; }\n\n.users-list-title {\n  text-align: center;\n  padding: 1em;\n  border-bottom: 1px solid #e6ecf0;\n  border-top: 1px solid #e6ecf0;\n  margin-top: 1em; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 14px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.missed-msg-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n\nbutton.logout {\n  width: 3em;\n  height: 2.9em;\n  line-height: 0;\n  padding: 0;\n  background-color: gray;\n  margin: 0; }\n  button.logout:hover {\n    background: #d30303; }\n\nbutton.back-btn,\nbutton.unread-btn {\n  width: 7em;\n  height: 2.9em;\n  line-height: 0;\n  padding-right: 35px;\n  margin: 0; }\n\nbutton.unread-btn:hover {\n  background-color: #00ffbf; }\n\n.missed-count {\n  position: absolute;\n  bottom: 10px;\n  right: 10px;\n  background-color: red;\n  border: 1px solid red;\n  border-radius: 100px;\n  height: 17px;\n  width: 17px;\n  color: white;\n  text-align: center;\n  padding: 2px; }\n\nbutton.back-btn {\n  background-color: #00ffbf;\n  color: white; }\n  button.back-btn .fas.fa-undo-alt.fa-2x {\n    margin-left: 16px; }\n  button.back-btn:hover {\n    background-color: black;\n    color: #00ffbf; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.text-character-count {\n  position: absolute;\n  right: 62px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.display-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-input {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column; }\n\n.timestamp-user-row {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.85em;\n  font-weight: 300; }\n\n.current-user.message-input {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-row {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-input {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-button-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n@media screen and (max-width: 700px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-left-bar {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 217px; }\n  .users-list {\n    height: 339px; }\n  button.back-btn {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; } }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  align-items: center;\n  flex-direction: column;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  background: floralwhite; }\n\n.chatroom-header {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.chatroom-title {\n  font-size: 4em;\n  margin-top: 10px;\n  margin-bottom: 10px;\n  color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n\n.chat-left-bar {\n  border-right: 1px solid #e6ecf0;\n  width: 150px; }\n\n.users-list-title {\n  text-align: center;\n  padding: 1em;\n  border-bottom: 1px solid #e6ecf0;\n  border-top: 1px solid #e6ecf0;\n  margin-top: 1em; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 14px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.missed-msg-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n\nbutton.logout {\n  width: 3em;\n  height: 2.9em;\n  line-height: 0;\n  padding: 0;\n  background-color: gray;\n  margin: 0; }\n  button.logout:hover {\n    background: #d30303; }\n\nbutton.back-btn,\nbutton.unread-btn {\n  width: 7em;\n  height: 2.9em;\n  line-height: 0;\n  padding-right: 35px;\n  margin: 0; }\n\nbutton.unread-btn:hover {\n  background-color: #00ffbf; }\n\n.missed-count {\n  position: absolute;\n  bottom: 10px;\n  right: 10px;\n  background-color: red;\n  border: 1px solid red;\n  border-radius: 100px;\n  height: 17px;\n  width: 17px;\n  color: white;\n  text-align: center;\n  padding: 2px;\n  cursor: pointer; }\n\nbutton.back-btn {\n  background-color: #00ffbf;\n  color: white; }\n  button.back-btn .fas.fa-undo-alt.fa-2x {\n    margin-left: 16px; }\n  button.back-btn:hover {\n    background-color: black;\n    color: #00ffbf; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.text-character-count {\n  position: absolute;\n  right: 62px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.display-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-input {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column; }\n\n.timestamp-user-row {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.85em;\n  font-weight: 300; }\n\n.current-user.message-input {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-row {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-input {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-button-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n@media screen and (max-width: 700px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-left-bar {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 217px; }\n  .users-list {\n    height: 339px; }\n  button.back-btn {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; } }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 273 */
+/* 272 */
 /***/ (function(module, exports) {
 
 /*
@@ -50870,7 +50946,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 274 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -50936,7 +51012,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(275);
+var	fixUrls = __webpack_require__(274);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -51256,7 +51332,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 275 */
+/* 274 */
 /***/ (function(module, exports) {
 
 
@@ -51351,7 +51427,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 276 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51363,21 +51439,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(32);
 
-var _reduxThunk = __webpack_require__(277);
+var _reduxThunk = __webpack_require__(276);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _reduxLogger = __webpack_require__(278);
-
-var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
-
-var _reducers = __webpack_require__(279);
+var _reducers = __webpack_require__(278);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var middlewares = [_reduxThunk2.default, _reduxLogger2.default];
+// const middlewares = [thunk, logger];
+var middlewares = [_reduxThunk2.default];
+// import logger from 'redux-logger';
 
 var configureStore = function configureStore(preloadedState) {
   return (0, _redux.createStore)(_reducers2.default, preloadedState, _redux.applyMiddleware.apply(undefined, middlewares));
@@ -51386,7 +51460,7 @@ var configureStore = function configureStore(preloadedState) {
 exports.default = configureStore();
 
 /***/ }),
-/* 277 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51415,15 +51489,8 @@ thunk.withExtraArgument = createThunkMiddleware;
 exports['default'] = thunk;
 
 /***/ }),
+/* 277 */,
 /* 278 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {!function(e,t){ true?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t(e.reduxLogger=e.reduxLogger||{})}(this,function(e){"use strict";function t(e,t){e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}})}function r(e,t){Object.defineProperty(this,"kind",{value:e,enumerable:!0}),t&&t.length&&Object.defineProperty(this,"path",{value:t,enumerable:!0})}function n(e,t,r){n.super_.call(this,"E",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0}),Object.defineProperty(this,"rhs",{value:r,enumerable:!0})}function o(e,t){o.super_.call(this,"N",e),Object.defineProperty(this,"rhs",{value:t,enumerable:!0})}function i(e,t){i.super_.call(this,"D",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0})}function a(e,t,r){a.super_.call(this,"A",e),Object.defineProperty(this,"index",{value:t,enumerable:!0}),Object.defineProperty(this,"item",{value:r,enumerable:!0})}function f(e,t,r){var n=e.slice((r||t)+1||e.length);return e.length=t<0?e.length+t:t,e.push.apply(e,n),e}function u(e){var t="undefined"==typeof e?"undefined":N(e);return"object"!==t?t:e===Math?"math":null===e?"null":Array.isArray(e)?"array":"[object Date]"===Object.prototype.toString.call(e)?"date":"function"==typeof e.toString&&/^\/.*\//.test(e.toString())?"regexp":"object"}function l(e,t,r,c,s,d,p){s=s||[],p=p||[];var g=s.slice(0);if("undefined"!=typeof d){if(c){if("function"==typeof c&&c(g,d))return;if("object"===("undefined"==typeof c?"undefined":N(c))){if(c.prefilter&&c.prefilter(g,d))return;if(c.normalize){var h=c.normalize(g,d,e,t);h&&(e=h[0],t=h[1])}}}g.push(d)}"regexp"===u(e)&&"regexp"===u(t)&&(e=e.toString(),t=t.toString());var y="undefined"==typeof e?"undefined":N(e),v="undefined"==typeof t?"undefined":N(t),b="undefined"!==y||p&&p[p.length-1].lhs&&p[p.length-1].lhs.hasOwnProperty(d),m="undefined"!==v||p&&p[p.length-1].rhs&&p[p.length-1].rhs.hasOwnProperty(d);if(!b&&m)r(new o(g,t));else if(!m&&b)r(new i(g,e));else if(u(e)!==u(t))r(new n(g,e,t));else if("date"===u(e)&&e-t!==0)r(new n(g,e,t));else if("object"===y&&null!==e&&null!==t)if(p.filter(function(t){return t.lhs===e}).length)e!==t&&r(new n(g,e,t));else{if(p.push({lhs:e,rhs:t}),Array.isArray(e)){var w;e.length;for(w=0;w<e.length;w++)w>=t.length?r(new a(g,w,new i(void 0,e[w]))):l(e[w],t[w],r,c,g,w,p);for(;w<t.length;)r(new a(g,w,new o(void 0,t[w++])))}else{var x=Object.keys(e),S=Object.keys(t);x.forEach(function(n,o){var i=S.indexOf(n);i>=0?(l(e[n],t[n],r,c,g,n,p),S=f(S,i)):l(e[n],void 0,r,c,g,n,p)}),S.forEach(function(e){l(void 0,t[e],r,c,g,e,p)})}p.length=p.length-1}else e!==t&&("number"===y&&isNaN(e)&&isNaN(t)||r(new n(g,e,t)))}function c(e,t,r,n){return n=n||[],l(e,t,function(e){e&&n.push(e)},r),n.length?n:void 0}function s(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":s(o[r.path[n]],r.index,r.item);break;case"D":delete o[r.path[n]];break;case"E":case"N":o[r.path[n]]=r.rhs}}else switch(r.kind){case"A":s(e[t],r.index,r.item);break;case"D":e=f(e,t);break;case"E":case"N":e[t]=r.rhs}return e}function d(e,t,r){if(e&&t&&r&&r.kind){for(var n=e,o=-1,i=r.path?r.path.length-1:0;++o<i;)"undefined"==typeof n[r.path[o]]&&(n[r.path[o]]="number"==typeof r.path[o]?[]:{}),n=n[r.path[o]];switch(r.kind){case"A":s(r.path?n[r.path[o]]:n,r.index,r.item);break;case"D":delete n[r.path[o]];break;case"E":case"N":n[r.path[o]]=r.rhs}}}function p(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":p(o[r.path[n]],r.index,r.item);break;case"D":o[r.path[n]]=r.lhs;break;case"E":o[r.path[n]]=r.lhs;break;case"N":delete o[r.path[n]]}}else switch(r.kind){case"A":p(e[t],r.index,r.item);break;case"D":e[t]=r.lhs;break;case"E":e[t]=r.lhs;break;case"N":e=f(e,t)}return e}function g(e,t,r){if(e&&t&&r&&r.kind){var n,o,i=e;for(o=r.path.length-1,n=0;n<o;n++)"undefined"==typeof i[r.path[n]]&&(i[r.path[n]]={}),i=i[r.path[n]];switch(r.kind){case"A":p(i[r.path[n]],r.index,r.item);break;case"D":i[r.path[n]]=r.lhs;break;case"E":i[r.path[n]]=r.lhs;break;case"N":delete i[r.path[n]]}}}function h(e,t,r){if(e&&t){var n=function(n){r&&!r(e,t,n)||d(e,t,n)};l(e,t,n)}}function y(e){return"color: "+F[e].color+"; font-weight: bold"}function v(e){var t=e.kind,r=e.path,n=e.lhs,o=e.rhs,i=e.index,a=e.item;switch(t){case"E":return[r.join("."),n,"→",o];case"N":return[r.join("."),o];case"D":return[r.join(".")];case"A":return[r.join(".")+"["+i+"]",a];default:return[]}}function b(e,t,r,n){var o=c(e,t);try{n?r.groupCollapsed("diff"):r.group("diff")}catch(e){r.log("diff")}o?o.forEach(function(e){var t=e.kind,n=v(e);r.log.apply(r,["%c "+F[t].text,y(t)].concat(P(n)))}):r.log("—— no diff ——");try{r.groupEnd()}catch(e){r.log("—— diff end —— ")}}function m(e,t,r,n){switch("undefined"==typeof e?"undefined":N(e)){case"object":return"function"==typeof e[n]?e[n].apply(e,P(r)):e[n];case"function":return e(t);default:return e}}function w(e){var t=e.timestamp,r=e.duration;return function(e,n,o){var i=["action"];return i.push("%c"+String(e.type)),t&&i.push("%c@ "+n),r&&i.push("%c(in "+o.toFixed(2)+" ms)"),i.join(" ")}}function x(e,t){var r=t.logger,n=t.actionTransformer,o=t.titleFormatter,i=void 0===o?w(t):o,a=t.collapsed,f=t.colors,u=t.level,l=t.diff,c="undefined"==typeof t.titleFormatter;e.forEach(function(o,s){var d=o.started,p=o.startedTime,g=o.action,h=o.prevState,y=o.error,v=o.took,w=o.nextState,x=e[s+1];x&&(w=x.prevState,v=x.started-d);var S=n(g),k="function"==typeof a?a(function(){return w},g,o):a,j=D(p),E=f.title?"color: "+f.title(S)+";":"",A=["color: gray; font-weight: lighter;"];A.push(E),t.timestamp&&A.push("color: gray; font-weight: lighter;"),t.duration&&A.push("color: gray; font-weight: lighter;");var O=i(S,j,v);try{k?f.title&&c?r.groupCollapsed.apply(r,["%c "+O].concat(A)):r.groupCollapsed(O):f.title&&c?r.group.apply(r,["%c "+O].concat(A)):r.group(O)}catch(e){r.log(O)}var N=m(u,S,[h],"prevState"),P=m(u,S,[S],"action"),C=m(u,S,[y,h],"error"),F=m(u,S,[w],"nextState");if(N)if(f.prevState){var L="color: "+f.prevState(h)+"; font-weight: bold";r[N]("%c prev state",L,h)}else r[N]("prev state",h);if(P)if(f.action){var T="color: "+f.action(S)+"; font-weight: bold";r[P]("%c action    ",T,S)}else r[P]("action    ",S);if(y&&C)if(f.error){var M="color: "+f.error(y,h)+"; font-weight: bold;";r[C]("%c error     ",M,y)}else r[C]("error     ",y);if(F)if(f.nextState){var _="color: "+f.nextState(w)+"; font-weight: bold";r[F]("%c next state",_,w)}else r[F]("next state",w);l&&b(h,w,r,k);try{r.groupEnd()}catch(e){r.log("—— log end ——")}})}function S(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=Object.assign({},L,e),r=t.logger,n=t.stateTransformer,o=t.errorTransformer,i=t.predicate,a=t.logErrors,f=t.diffPredicate;if("undefined"==typeof r)return function(){return function(e){return function(t){return e(t)}}};if(e.getState&&e.dispatch)return console.error("[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:\n// Logger with default options\nimport { logger } from 'redux-logger'\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n// Or you can create your own logger with custom options http://bit.ly/redux-logger-options\nimport createLogger from 'redux-logger'\nconst logger = createLogger({\n  // ...options\n});\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n"),function(){return function(e){return function(t){return e(t)}}};var u=[];return function(e){var r=e.getState;return function(e){return function(l){if("function"==typeof i&&!i(r,l))return e(l);var c={};u.push(c),c.started=O.now(),c.startedTime=new Date,c.prevState=n(r()),c.action=l;var s=void 0;if(a)try{s=e(l)}catch(e){c.error=o(e)}else s=e(l);c.took=O.now()-c.started,c.nextState=n(r());var d=t.diff&&"function"==typeof f?f(r,l):t.diff;if(x(u,Object.assign({},t,{diff:d})),u.length=0,c.error)throw c.error;return s}}}}var k,j,E=function(e,t){return new Array(t+1).join(e)},A=function(e,t){return E("0",t-e.toString().length)+e},D=function(e){return A(e.getHours(),2)+":"+A(e.getMinutes(),2)+":"+A(e.getSeconds(),2)+"."+A(e.getMilliseconds(),3)},O="undefined"!=typeof performance&&null!==performance&&"function"==typeof performance.now?performance:Date,N="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},P=function(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)},C=[];k="object"===("undefined"==typeof global?"undefined":N(global))&&global?global:"undefined"!=typeof window?window:{},j=k.DeepDiff,j&&C.push(function(){"undefined"!=typeof j&&k.DeepDiff===c&&(k.DeepDiff=j,j=void 0)}),t(n,r),t(o,r),t(i,r),t(a,r),Object.defineProperties(c,{diff:{value:c,enumerable:!0},observableDiff:{value:l,enumerable:!0},applyDiff:{value:h,enumerable:!0},applyChange:{value:d,enumerable:!0},revertChange:{value:g,enumerable:!0},isConflict:{value:function(){return"undefined"!=typeof j},enumerable:!0},noConflict:{value:function(){return C&&(C.forEach(function(e){e()}),C=null),c},enumerable:!0}});var F={E:{color:"#2196F3",text:"CHANGED:"},N:{color:"#4CAF50",text:"ADDED:"},D:{color:"#F44336",text:"DELETED:"},A:{color:"#2196F3",text:"ARRAY:"}},L={level:"log",logger:console,logErrors:!0,collapsed:void 0,predicate:void 0,duration:!1,timestamp:!0,stateTransformer:function(e){return e},actionTransformer:function(e){return e},errorTransformer:function(e){return e},colors:{title:function(){return"inherit"},prevState:function(){return"#9E9E9E"},action:function(){return"#03A9F4"},nextState:function(){return"#4CAF50"},error:function(){return"#F20404"}},diff:!1,diffPredicate:void 0,transformer:void 0},T=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=e.dispatch,r=e.getState;return"function"==typeof t||"function"==typeof r?S()({dispatch:t,getState:r}):void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n")};e.defaults=L,e.createLogger=S,e.logger=T,e.default=T,Object.defineProperty(e,"__esModule",{value:!0})});
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
-/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51505,7 +51572,7 @@ var rootReducer = function rootReducer() {
       return _extends({}, state, {
         typing: false,
         typingUsers: state.typingUsers.filter(function (username) {
-          return username != payload;
+          return username !== payload;
         })
       });
     case _constants.TYPING:
@@ -51516,7 +51583,7 @@ var rootReducer = function rootReducer() {
       });
     case _constants.USER_CONNECTED:
       return _extends({}, state, {
-        users: payload.users.sort(function (a, b) {
+        users: payload.users.length <= 1 ? payload.users : payload.users.sort(function (a, b) {
           return b.onlineStatus - a.onlineStatus;
         }),
         notice: payload.notice

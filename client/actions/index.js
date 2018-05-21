@@ -12,48 +12,52 @@ import {
   MESSAGE_SENT,
   STOPPED_TYPING,
   SOCKET_EVENTS,
-	TYPING,
+  TYPING,
   USER_CONNECTED,
 } from '../../constants';
 
-const { protocol, hostname, port } = window.location;
 // LAN mode
-const ROOT_URL = `${protocol}//${hostname}:${port}`;
+// const { protocol, hostname, port } = window.location;
+// const ROOT_URL = `${protocol}//${hostname}:${port}`;
 
-// const ROOT_URL = 'http://localhost:3000';
+const ROOT_URL = 'http://localhost:3000';
 
 // Socket actions
 const socket = io(ROOT_URL);
-const initSocket = dispatch => {
+const initSocket = (dispatch) => {
   socket.on('connect', () => {
     console.log('welcome to konnect!');
   });
-  
-  SOCKET_EVENTS.forEach(type => socket.on(type, payload => {
-    dispatch({ type, payload });
-  }));
-}
 
-export const socketOff = () => dispatch => {
+  SOCKET_EVENTS.forEach(type =>
+    socket.on(type, (payload) => {
+      dispatch({ type, payload });
+    }));
+};
+
+export const socketOff = () => () => {
   SOCKET_EVENTS.forEach(type => socket.off(type));
-}
+};
 
 // User actions
-export const fetchUsers = () => dispatch => {
-  axios.get(`${ROOT_URL}/users`)
+export const fetchUsers = () => (dispatch) => {
+  axios
+    .get(`${ROOT_URL}/users`)
     .then(({ data }) => {
       dispatch({
         type: FETCH_USERS,
-        payload: data.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
+        payload: data.length <= 1 ? data
+          : data.sort((a, b) => b.onlineStatus - a.onlineStatus),
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(`fetching all users failed: ${err}`);
     });
 };
 
-export const logInUser = ({username, password }) => dispatch => {
-  axios.post(`${ROOT_URL}/login`, {username, password})
+export const logInUser = ({ username, password }) => (dispatch) => {
+  axios
+    .post(`${ROOT_URL}/login`, { username, password })
     .then(({ data }) => {
       if (data.error) {
         loginFailed(data.error, dispatch);
@@ -62,9 +66,12 @@ export const logInUser = ({username, password }) => dispatch => {
       }
     })
     .catch(() => {
-      dispatch({type: LOGIN_ERROR, payload: 'log in failed, bad login info.'});
-    })
-}
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: 'log in failed, bad login info.',
+      });
+    });
+};
 
 const loginFailed = (error, dispatch) => {
   dispatch({
@@ -74,20 +81,25 @@ const loginFailed = (error, dispatch) => {
 };
 
 const loginSuccess = ({ token, newUser, missedMsg }, dispatch) => {
-  localStorage.setItem('token', token)
+  localStorage.setItem('token', token);
   initSocket(dispatch);
   dispatch({
     type: LOGGED_IN,
     payload: {
       user: newUser,
-      missedMsg
+      missedMsg,
     },
   });
   socket.emit(USER_CONNECTED, newUser);
 };
 
-export const signUpUser = ({username, password, passwordConfirmation }) => dispatch => {
-  axios.post(`${ROOT_URL}/signup`, {username, password, passwordConfirmation})
+export const signUpUser = ({
+  username,
+  password,
+  passwordConfirmation,
+}) => (dispatch) => {
+  axios
+    .post(`${ROOT_URL}/signup`, { username, password, passwordConfirmation })
     .then(({ data }) => {
       if (data.error) {
         loginFailed(data.error, dispatch);
@@ -96,67 +108,82 @@ export const signUpUser = ({username, password, passwordConfirmation }) => dispa
       }
     })
     .catch(() => {
-      dispatch({type: LOGIN_ERROR, payload: 'sign up failed, bad login info.'});
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: 'sign up failed, bad login info.',
+      });
     });
-}
+};
 
-export const signOutUser = user => dispatch => {
+export const signOutUser = user => (dispatch) => {
   socket.emit(LOGOUT, user);
   dispatch({
-    type: LOGOUT
+    type: LOGOUT,
   });
-  localStorage.removeItem('token')
-}
+  localStorage.removeItem('token');
+};
 
 // Message actions
-export const fetchMessages = () => dispatch => {
+export const fetchMessages = () => (dispatch) => {
   dispatch({ type: LOADING, payload: true });
-  axios.get(`${ROOT_URL}/messages`)
+  axios
+    .get(`${ROOT_URL}/messages`)
     .then(({ data }) => {
       dispatch({
         type: FETCH_MESSAGES,
-        payload: data
+        payload: data,
       });
-      
+
       setTimeout(() => dispatch({ type: LOADING, payload: false }), 500);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(`fetch messages failed: ${err}`);
     });
-}
-export const removeErrorMessage = () => dispatch => {
+};
+export const removeErrorMessage = () => (dispatch) => {
   dispatch({
     type: LOGIN_ERROR,
-    payload: ''
+    payload: '',
   });
-}
+};
 
-export const sendMessage = ({ username, date, text }) => dispatch => {
-  axios.post(`${ROOT_URL}/send`, {username, date, text})
+export const sendMessage = ({ username, date, text }) => () => {
+  axios
+    .post(`${ROOT_URL}/send`, { username, date, text })
     .then(({ data }) => {
       socket.emit(MESSAGE_SENT, data);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(`send message failed: ${err}`);
     });
-}
+};
 
-export const clearMissedMsg = () => dispatch => {
-  dispatch({
-    type: CLEAR_MISSED_MSG,
-  });
-}
+export const clearMissedMsg = username => (dispatch) => {
+  axios
+    .post(`${ROOT_URL}/bookmark`, { username })
+    .then(({ data }) => {
+      if (data.error) {
+        console.log(`unable to find the username: ${username} to remove`);
+      } else {
+        dispatch({
+          type: CLEAR_MISSED_MSG,
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(`remove bookmark failed: ${err}`);
+    });
+};
 
 // Notice actions
 export const clearNotices = () => ({
-  type: CLEAR_NOTICES
+  type: CLEAR_NOTICES,
 });
 
-export const isTyping = (username, bool) => dispatch => {
+export const isTyping = (username, bool) => () => {
   if (bool) {
-    socket.emit(TYPING, username)
+    socket.emit(TYPING, username);
   } else {
     socket.emit(STOPPED_TYPING, username);
   }
-}
-
+};

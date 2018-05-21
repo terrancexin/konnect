@@ -1,12 +1,11 @@
 const MessageModel = require('../models/message');
 
 const fetch = (req, res, next) => {
-  MessageModel.find({})
-    .exec((err, messages) => {
-      if (err) return next(err);
-      
-      res.json(messages);
-    });
+  MessageModel.find({}).exec((err, messages) => {
+    if (err) return next(err);
+
+    res.json(messages);
+  });
 };
 
 const send = (req, res, next) => {
@@ -15,20 +14,20 @@ const send = (req, res, next) => {
   if (!username || !text || !date) {
     return res.send({ error: 'missing params in request' });
   }
-  
+
   const message = new MessageModel({
     username,
     text,
-    date
+    date,
   });
-  
-  message.save(err => {
+
+  message.save((err) => {
     if (err) return next(err);
-  })
+  });
 
   res.json(message);
-}
+};
 module.exports = {
   fetch,
-  send
+  send,
 };
