@@ -15,7 +15,6 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "jwt-simple": "^0.5.1",
-    "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "mongoose": "^5.1.0",
     "node-sass": "^4.9.0",
@@ -25,16 +24,13 @@
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "react-infinite-scroller": "^1.1.4",
     "react-linkify": "^0.2.2",
     "react-redux": "^5.0.7",
-    "react-toastify": "^4.0.1",
     "redis": "^2.8.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
     "socket.io": "^2.1.0",
-    "socket.io-client": "^2.1.0",
-    "uuid": "^3.2.1"
+    "socket.io-client": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
