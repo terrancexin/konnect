@@ -41,7 +41,6 @@ const login = (req, res) => {
           let tracker = messages.length - 1;
           const missedMsg = [];
           const { bookMark } = updatedUser;
-          console.log(bookMark);
 
           if (tracker >= 0) {
             while (
@@ -146,7 +145,7 @@ const removeBookMark = (req, res) => {
     return res.send({ error: 'username not found, cannot remove bookmark' });
   }
 
-  UserModel.update({ username }, { bookMark: null }, (updateUserError) => {
+  UserModel.update({ username }, { bookMark: '' }, (updateUserError) => {
     if (updateUserError) {
       return console.log(`updating user's online status failed: ${updateUserError}`);
     }

@@ -8,7 +8,6 @@ module.exports = {
     "react/forbid-prop-types": 0,
     "camelcase":"off",
     "object-curly-newline":"off",
-    "no-console":"off",
     "consistent-return": "off",
     "no-param-reassign": "off",
     "no-restricted-globals": "off",
