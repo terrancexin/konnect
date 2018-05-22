@@ -3,10 +3,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   context: __dirname,
-  entry: "./client/index.jsx",
+  entry: './client/index.jsx',
   output: {
     path: path.resolve(__dirname + '/public/'),
-    filename: "bundle.js"
+    filename: 'bundle.js',
   },
   module: {
     loaders: [
@@ -15,11 +15,11 @@ module.exports = {
         exclude: /(node_modules)/,
         loader: 'babel-loader',
         query: {
-          presets: ['env', 'react']
-        }
+          presets: ['env', 'react'],
+        },
       }, {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader']
+        loaders: ['style-loader', 'css-loader', 'sass-loader'],
       }, {
         test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         use: [{
@@ -27,16 +27,16 @@ module.exports = {
           options: {
             name: '[name].[ext]',
             outputPath: './assets/font/',
-            publicPath: '../'       // override the default path
-          }
-        }]
+            publicPath: '../',
+          },
+        }],
       },
-    ]
+    ],
   },
   plugins: [
     new ExtractTextPlugin('dist/styles/main.css', {
-      allChunks: true
-    })
+      allChunks: true,
+    }),
   ],
   devtool: 'source-map',
   resolve: {
