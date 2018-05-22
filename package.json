@@ -4,7 +4,12 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
+    "start": "node server/index.js",
     "dev": "nodemon server/index.js"
+  },
+  "engines": {
+    "node": "8.11.1",
+    "npm": "5.8.0"
   },
   "author": "Terrance Xin",
   "license": "ISC",

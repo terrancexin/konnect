@@ -28,6 +28,9 @@ Build real-time chat functionality
 - Responsive design UI/UX
 - Scalable and flexible system
 
+## Demo
+![gif](./public/images/konnect.gif)
+
 ## Features
 - Join & leave a chatroom
 - Link detection in message
@@ -39,9 +42,6 @@ Build real-time chat functionality
 - Secure authentication and session by using BCrypt to salt passwords
 - Send & receive messages in real-time across different users
 - User join & leave notification in real time
-
-## Demo
-![gif](./public/images/konnect.gif)
 
 ## User Stories
 - As a user, I want to authenticate my username and password.
@@ -59,3 +59,4 @@ Build real-time chat functionality
 - Add tests
 - Add more responsiveness on the UI
 - Set up load balancer for scaling
+- Remove libraries and write my own functions to enhance security
