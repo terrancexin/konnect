@@ -15,7 +15,16 @@ const fetchAll = (req, res, next) => {
   UserModel.find({}).exec((err, users) => {
     if (err) return next(err);
 
-    res.json(users);
+    const newUsersList = users.map((user) => {
+      const { _id, username, onlineStatus } = user;
+      return ({
+        _id,
+        username,
+        onlineStatus,
+      });
+    });
+
+    res.json(newUsersList);
   });
 };
 
