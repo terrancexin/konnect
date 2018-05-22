@@ -10792,7 +10792,7 @@ var Footer = function Footer() {
       ),
       _react2.default.createElement(
         "a",
-        { href: "https://github.com/terrancexin", title: "github", target: "_blank" },
+        { href: "https://github.com/terrancexin/konnect", title: "github", target: "_blank" },
         _react2.default.createElement("i", { className: "fab fa-github" })
       ),
       _react2.default.createElement(
