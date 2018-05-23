@@ -6638,6 +6638,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ROOT_URL = 'http://localhost:3000';
 
 // Socket actions
+/* global localStorage */
+
 var socket = (0, _socket2.default)(ROOT_URL);
 var initSocket = function initSocket(dispatch) {
   socket.on('connect', function () {
@@ -6677,12 +6679,36 @@ var fetchUsers = exports.fetchUsers = function fetchUsers() {
   };
 };
 
-var logInUser = exports.logInUser = function logInUser(_ref2) {
-  var username = _ref2.username,
-      password = _ref2.password;
+var loginFailed = function loginFailed(error, dispatch) {
+  dispatch({
+    type: _constants.LOGIN_ERROR,
+    payload: error
+  });
+};
+
+var loginSuccess = function loginSuccess(_ref2, dispatch) {
+  var token = _ref2.token,
+      newUser = _ref2.newUser,
+      missedMsg = _ref2.missedMsg;
+
+  localStorage.setItem('token', token);
+  initSocket(dispatch);
+  dispatch({
+    type: _constants.LOGGED_IN,
+    payload: {
+      user: newUser,
+      missedMsg: missedMsg
+    }
+  });
+  socket.emit(_constants.USER_CONNECTED, newUser);
+};
+
+var logInUser = exports.logInUser = function logInUser(_ref3) {
+  var username = _ref3.username,
+      password = _ref3.password;
   return function (dispatch) {
-    _axios2.default.post(ROOT_URL + '/login', { username: username, password: password }).then(function (_ref3) {
-      var data = _ref3.data;
+    _axios2.default.post(ROOT_URL + '/login', { username: username, password: password }).then(function (_ref4) {
+      var data = _ref4.data;
 
       if (data.error) {
         loginFailed(data.error, dispatch);
@@ -6696,30 +6722,6 @@ var logInUser = exports.logInUser = function logInUser(_ref2) {
       });
     });
   };
-};
-
-var loginFailed = function loginFailed(error, dispatch) {
-  dispatch({
-    type: _constants.LOGIN_ERROR,
-    payload: error
-  });
-};
-
-var loginSuccess = function loginSuccess(_ref4, dispatch) {
-  var token = _ref4.token,
-      newUser = _ref4.newUser,
-      missedMsg = _ref4.missedMsg;
-
-  localStorage.setItem('token', token);
-  initSocket(dispatch);
-  dispatch({
-    type: _constants.LOGGED_IN,
-    payload: {
-      user: newUser,
-      missedMsg: missedMsg
-    }
-  });
-  socket.emit(_constants.USER_CONNECTED, newUser);
 };
 
 var signUpUser = exports.signUpUser = function signUpUser(_ref5) {
@@ -10781,30 +10783,46 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Footer = function Footer() {
   return _react2.default.createElement(
     "footer",
-    null,
+    { className: "footer-icons" },
     _react2.default.createElement(
-      "div",
-      { className: "footer-icons" },
-      _react2.default.createElement(
-        "a",
-        { href: "https://www.terrancexin.com", title: "www", target: "_blank" },
-        _react2.default.createElement("i", { className: "fa fa-globe" })
-      ),
-      _react2.default.createElement(
-        "a",
-        { href: "https://github.com/terrancexin/konnect", title: "github", target: "_blank" },
-        _react2.default.createElement("i", { className: "fab fa-github" })
-      ),
-      _react2.default.createElement(
-        "a",
-        { href: "https://www.linkedin.com/in/terrancexin/", title: "linkedin", target: "_blank" },
-        _react2.default.createElement("i", { className: "fab fa-linkedin" })
-      ),
-      _react2.default.createElement(
-        "a",
-        { href: "https://angel.co/terrancexin", title: "angellist", target: "_blank" },
-        _react2.default.createElement("i", { className: "fab fa-angellist" })
-      )
+      "a",
+      {
+        href: "https://www.terrancexin.com",
+        title: "www",
+        target: "_blank",
+        rel: "noreferrer noopener"
+      },
+      _react2.default.createElement("i", { className: "fa fa-globe" })
+    ),
+    _react2.default.createElement(
+      "a",
+      {
+        href: "https://github.com/terrancexin/konnect",
+        title: "github",
+        target: "_blank",
+        rel: "noreferrer noopener"
+      },
+      _react2.default.createElement("i", { className: "fab fa-github" })
+    ),
+    _react2.default.createElement(
+      "a",
+      {
+        href: "https://www.linkedin.com/in/terrancexin/",
+        title: "linkedin",
+        target: "_blank",
+        rel: "noreferrer noopener"
+      },
+      _react2.default.createElement("i", { className: "fab fa-linkedin" })
+    ),
+    _react2.default.createElement(
+      "a",
+      {
+        href: "https://angel.co/terrancexin",
+        title: "angellist",
+        target: "_blank",
+        rel: "noreferrer noopener"
+      },
+      _react2.default.createElement("i", { className: "fab fa-angellist" })
     )
   );
 };
@@ -22684,6 +22702,8 @@ var _App = __webpack_require__(223);
 var _App2 = _interopRequireDefault(_App);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* global document */
 
 document.addEventListener('DOMContentLoaded', function () {
   _reactDom2.default.render(_react2.default.createElement(
@@ -43089,7 +43109,7 @@ exports = module.exports = __webpack_require__(217)(false);
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  align-items: center;\n  flex-direction: column;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  background: floralwhite; }\n\n.chatroom-header {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.chatroom-title {\n  font-size: 4em;\n  margin-top: 10px;\n  margin-bottom: 10px;\n  color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n\n.chat-left-bar {\n  border-right: 1px solid #e6ecf0;\n  width: 150px; }\n\n.users-list-title {\n  text-align: center;\n  padding: 1em;\n  border-bottom: 1px solid #e6ecf0;\n  border-top: 1px solid #e6ecf0;\n  margin-top: 1em; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 14px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.missed-msg-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n\nbutton.logout {\n  width: 3em;\n  height: 2.9em;\n  line-height: 0;\n  padding: 0;\n  background-color: gray;\n  margin: 0; }\n  button.logout:hover {\n    background: #d30303; }\n\nbutton.back-btn,\nbutton.unread-btn {\n  width: 7em;\n  height: 2.9em;\n  line-height: 0;\n  padding-right: 35px;\n  margin: 0; }\n\nbutton.unread-btn:hover {\n  background-color: #00ffbf; }\n\n.missed-count {\n  position: absolute;\n  bottom: 10px;\n  right: 10px;\n  background-color: red;\n  border: 1px solid red;\n  border-radius: 100px;\n  height: 17px;\n  width: 17px;\n  color: white;\n  text-align: center;\n  padding: 2px;\n  cursor: pointer; }\n\nbutton.back-btn {\n  background-color: #00ffbf;\n  color: white; }\n  button.back-btn .fas.fa-undo-alt.fa-2x {\n    margin-left: 16px; }\n  button.back-btn:hover {\n    background-color: black;\n    color: #00ffbf; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.text-character-count {\n  position: absolute;\n  right: 62px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.display-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-input {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column; }\n\n.timestamp-user-row {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300; }\n\n.current-user.message-input {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-row {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-input {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-button-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-left-bar {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 217px; }\n  .users-list {\n    height: 339px; }\n  button.back-btn {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; } }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  align-items: center;\n  flex-direction: column;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  background: floralwhite; }\n\n.chatroom-header {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.chatroom-title {\n  font-size: 4em;\n  margin-top: 10px;\n  margin-bottom: 10px;\n  color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n\n.chat-left-bar {\n  border-right: 1px solid #e6ecf0;\n  width: 150px; }\n\n.users-list-title {\n  text-align: center;\n  padding: 1em;\n  border-bottom: 1px solid #e6ecf0;\n  border-top: 1px solid #e6ecf0;\n  margin-top: 1em; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 14px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.missed-msg-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n\nbutton.logout {\n  width: 3em;\n  height: 2.9em;\n  line-height: 0;\n  padding: 0;\n  background-color: gray;\n  margin: 0; }\n  button.logout:hover {\n    background: #d30303; }\n\nbutton.back-btn,\nbutton.unread-btn {\n  width: 7em;\n  height: 2.9em;\n  line-height: 0;\n  padding-right: 35px;\n  margin: 0; }\n\nbutton.unread-btn:hover {\n  background-color: #00ffbf; }\n\n.missed-count {\n  position: absolute;\n  bottom: 10px;\n  right: 10px;\n  background-color: red;\n  border: 1px solid red;\n  border-radius: 100px;\n  height: 17px;\n  width: 17px;\n  color: white;\n  text-align: center;\n  padding: 2px;\n  cursor: pointer; }\n\nbutton.back-btn {\n  background-color: #00ffbf;\n  color: white; }\n  button.back-btn .fas.fa-undo-alt.fa-2x {\n    margin-left: 16px; }\n  button.back-btn:hover {\n    background-color: black;\n    color: #00ffbf; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.text-character-count {\n  position: absolute;\n  right: 62px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.display-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-input {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column; }\n\n.timestamp-user-row {\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300; }\n\n.current-user.message-input {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-row {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-input {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-button-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-left-bar {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 217px; }\n  .users-list {\n    height: 339px; }\n  button.back-btn {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; } }\n", ""]);
 
 // exports
 
@@ -43820,7 +43840,7 @@ var rootReducer = function rootReducer() {
       });
     case _constants.USER_DISCONNECTED:
       return _extends({}, state, {
-        users: payload.users.sort(function (a, b) {
+        users: payload.users.length <= 1 ? payload.users : payload.users.sort(function (a, b) {
           return b.onlineStatus - a.onlineStatus;
         }),
         notice: payload.notice
@@ -43869,7 +43889,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global window */
 
 // LAN mode
 var _window$location = window.location,
@@ -48107,7 +48127,7 @@ var Form = function Form(_ref) {
     'form',
     { autoComplete: 'off', className: 'login-form', onSubmit: handleSubmit },
     _react2.default.createElement(
-      'div',
+      'span',
       { className: 'login-error' },
       err || ''
     ),
@@ -48322,7 +48342,7 @@ var Chatroom = function (_Component) {
             '!'
           ),
           _react2.default.createElement(
-            'div',
+            'span',
             { className: 'current-users' },
             'You are connected to ',
             users.length - 1,
@@ -48388,7 +48408,7 @@ var Chatroom = function (_Component) {
                   onChange: this.handleChange
                 }),
                 _react2.default.createElement(
-                  'p',
+                  'span',
                   { className: 'text-character-count' },
                   textCount + '/45'
                 ),
@@ -48489,7 +48509,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global ROOT_URL */
 
 var MessagesList = function (_Component) {
   _inherits(MessagesList, _Component);
@@ -48546,18 +48566,18 @@ var MessagesList = function (_Component) {
         var threadType = username === currentUser ? 'current-user' : 'other-user';
 
         return _react2.default.createElement(
-          'div',
+          'li',
           { className: threadType + ' message-input ', key: _id },
           _react2.default.createElement(
             'div',
             { className: threadType + ' timestamp-user-row' },
             _react2.default.createElement(
-              'div',
+              'span',
               { className: 'thread-username' },
               username
             ),
             _react2.default.createElement(
-              'div',
+              'span',
               { className: 'thread-timestamp' },
               (0, _moment2.default)(date).format('h:mm a')
             )
@@ -48591,7 +48611,7 @@ var MessagesList = function (_Component) {
 
       if (messages.length) {
         return _react2.default.createElement(
-          'div',
+          'ul',
           { className: 'messages-list' },
           this.renderMessages(messages, currentUser),
           _react2.default.createElement('div', { ref: function ref(el) {
@@ -48601,7 +48621,7 @@ var MessagesList = function (_Component) {
       }
 
       return _react2.default.createElement(
-        'div',
+        'span',
         { className: 'no-new-msg' },
         'There are no new messages'
       );
@@ -51498,7 +51518,7 @@ var MissedMessages = function MissedMessages(_ref) {
       _react2.default.createElement('i', { className: 'fas fa-undo-alt fa-2x' })
     ),
     !missed && _react2.default.createElement(
-      'p',
+      'span',
       { className: 'missed-count', onClick: toggleMissed },
       missedMsg.length
     )
@@ -51628,10 +51648,12 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* global ROOT_URL */
+
 var UsersList = function UsersList(_ref) {
   var users = _ref.users;
   return _react2.default.createElement(
-    'div',
+    'ul',
     { className: 'users-list' },
     users.map(function (user) {
       var _id = user._id,
@@ -51641,7 +51663,7 @@ var UsersList = function UsersList(_ref) {
       var isOnline = onlineStatus ? 'active' : 'inactive';
 
       return _react2.default.createElement(
-        'div',
+        'li',
         { key: _id, className: 'each-user' },
         _react2.default.createElement('img', {
           className: 'online-' + isOnline,
@@ -51649,7 +51671,7 @@ var UsersList = function UsersList(_ref) {
           alt: 'online'
         }),
         _react2.default.createElement(
-          'div',
+          'span',
           { className: 'each-user-name-' + isOnline },
           username
         )

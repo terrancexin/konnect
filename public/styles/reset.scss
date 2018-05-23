@@ -1,4 +1,4 @@
-html, body, section, article, h1, h2, p {
+html, body, section, article, h1, h2, p, span, label {
   margin: 0;
   border: 0;
   padding: 0;
@@ -10,6 +10,14 @@ html, body, section, article, h1, h2, p {
   background: transparent;
   width: inherit;
   height: inherit;
+}
+
+ul, li {
+  margin:0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: 0;
+  list-style: none;
 }
 
 body {
@@ -56,7 +64,6 @@ footer {
   width: 100%;
   height: 100px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
