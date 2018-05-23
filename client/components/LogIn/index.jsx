@@ -16,9 +16,11 @@ class LogIn extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleGuest = this.handleGuest.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleLogin = this.handleToggleLogin.bind(this);
+    this.typeValue = this.typeValue.bind(this);
   }
 
   handleChange(inputName) {
@@ -49,6 +51,30 @@ class LogIn extends Component {
   handleToggleLogin(toggleLogin) {
     this.props.removeErrorMessage();
     this.setState({ toggleLogin });
+  }
+
+  handleGuest() {
+    this.setState({
+      username: '',
+      password: 'password',
+      toggleLogin: 'login',
+    }, () => {
+      this.typeValue('awesome guest', () => {
+        this.props.logInUser({
+          username: this.state.username,
+          password: this.state.password,
+        });
+      });
+    });
+  }
+
+  typeValue(guestName, callback) {
+    if (!guestName) return callback();
+    this.setState({ username: this.state.username + guestName[0] });
+    this.props.removeErrorMessage();
+    setTimeout(() => {
+      this.typeValue(guestName.slice(1), callback);
+    }, 100);
   }
 
   render() {
@@ -87,6 +113,7 @@ class LogIn extends Component {
           passwordConfirmation={passwordConfirmation}
           toggleLogin={toggleLogin}
           username={username}
+          handleGuest={this.handleGuest}
         />
         <Footer />
       </div>

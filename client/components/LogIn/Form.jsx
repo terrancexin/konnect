@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 const Form = ({
   err,
   handleChange,
+  handleGuest,
   handleSubmit,
   password,
   passwordConfirmation,
@@ -39,12 +40,14 @@ const Form = ({
       />
     )}
     <button onClick={handleSubmit} className="enter">Enter</button>
+    <button onClick={handleGuest} className="guest">Guest Demo</button>
   </form>
 );
 
 Form.propTypes = {
   err: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
+  handleGuest: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   password: PropTypes.string.isRequired,
   passwordConfirmation: PropTypes.string.isRequired,

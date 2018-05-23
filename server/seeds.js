@@ -106,7 +106,17 @@ const seedMessages = () => {
   });
 };
 
+const seedGuest = () => {
+  UserModel.create({
+    username: 'awesome guest',
+    password: 'password',
+    bookMark: '',
+    onlineStatus: false,
+  });
+};
+
 module.exports = {
+  seedGuest,
   seedMessages,
   seedUsers,
 };

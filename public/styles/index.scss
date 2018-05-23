@@ -80,6 +80,19 @@ button.enter {
   }
 }
 
+button.guest {
+  margin-top: 1.5em;
+  background-color: $mintGreen;
+  color: gray;
+  width: 116px;
+  font-size: 0.9em;
+  
+  &:hover {
+    color: $mintGreen;
+    background-color: $black;
+  }
+}
+
 input.login {
   width: 7em;
   border-top: none;
@@ -218,7 +231,7 @@ img.online-inactive {
 
 .each-user-name-inactive,
 .each-user-name-active {
-  margin: 14px;
+  margin: 11px 9px;
 }
 
 .each-user-name-inactive {
