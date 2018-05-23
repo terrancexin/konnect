@@ -13,6 +13,7 @@ module.exports = {
     "no-restricted-globals": "off",
     "no-continue": "off",
     "no-await-in-loop": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-console": "off"
   }
 }
