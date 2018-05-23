@@ -91,6 +91,10 @@ const signup = (req, res, next) => {
     return res.send({ error: 'hey, enter something!' });
   }
 
+  if (username === 'username') {
+    return res.send({ error: 'c\'mon, be more creative than that!' });
+  }
+
   if (username.length < 3) {
     return res.send({ error: '3 characters minimum' });
   }
