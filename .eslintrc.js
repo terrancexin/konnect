@@ -12,6 +12,7 @@ module.exports = {
     "no-param-reassign": "off",
     "no-restricted-globals": "off",
     "no-continue": "off",
-    "no-await-in-loop": "off"
+    "no-await-in-loop": "off",
+    "class-methods-use-this": "off"
   }
 }

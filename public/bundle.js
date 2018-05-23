@@ -48494,10 +48494,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MessagesList = function (_Component) {
   _inherits(MessagesList, _Component);
 
-  function MessagesList() {
+  function MessagesList(props) {
     _classCallCheck(this, MessagesList);
 
-    var _this = _possibleConstructorReturn(this, (MessagesList.__proto__ || Object.getPrototypeOf(MessagesList)).call(this));
+    var _this = _possibleConstructorReturn(this, (MessagesList.__proto__ || Object.getPrototypeOf(MessagesList)).call(this, props));
 
     _this.scrollToBottom = _this.scrollToBottom.bind(_this);
     _this.messagesEnd = null;
@@ -48517,7 +48517,62 @@ var MessagesList = function (_Component) {
   }, {
     key: 'scrollToBottom',
     value: function scrollToBottom() {
-      this.messagesEnd.scrollIntoView();
+      if (this.messagesEnd) {
+        this.messagesEnd.scrollIntoView();
+      }
+    }
+  }, {
+    key: 'renderLoading',
+    value: function renderLoading() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'loading' },
+        _react2.default.createElement('img', {
+          className: 'loading-spinner',
+          src: ROOT_URL + '/images/fidget-loading-spinner.gif',
+          alt: 'loading-spinner'
+        })
+      );
+    }
+  }, {
+    key: 'renderMessages',
+    value: function renderMessages(messages, currentUser) {
+      return messages.map(function (msg) {
+        var date = msg.date,
+            _id = msg._id,
+            text = msg.text,
+            username = msg.username;
+
+        var threadType = username === currentUser ? 'current-user' : 'other-user';
+
+        return _react2.default.createElement(
+          'div',
+          { className: threadType + ' message-input ', key: _id },
+          _react2.default.createElement(
+            'div',
+            { className: threadType + ' timestamp-user-row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'thread-username' },
+              username
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'thread-timestamp' },
+              (0, _moment2.default)(date).format('h:mm a')
+            )
+          ),
+          _react2.default.createElement(
+            _reactLinkify2.default,
+            { properties: { target: '_blank', style: { color: 'blue' } } },
+            _react2.default.createElement(
+              'div',
+              { className: threadType + ' message-text' },
+              text
+            )
+          )
+        );
+      });
     }
   }, {
     key: 'render',
@@ -48531,72 +48586,24 @@ var MessagesList = function (_Component) {
 
 
       if (loading) {
+        return this.renderLoading();
+      }
+
+      if (messages.length) {
         return _react2.default.createElement(
           'div',
-          { className: 'loading' },
-          _react2.default.createElement('img', {
-            className: 'loading-spinner',
-            src: ROOT_URL + '/images/fidget-loading-spinner.gif',
-            alt: 'loading-spinner'
-          }),
+          { className: 'messages-list' },
+          this.renderMessages(messages, currentUser),
           _react2.default.createElement('div', { ref: function ref(el) {
               return _this2.messagesEnd = el;
             } })
         );
       }
 
-      if (messages.length === 0) {
-        return _react2.default.createElement(
-          'div',
-          { className: 'no-new-msg' },
-          'There are no new messages',
-          _react2.default.createElement('div', { ref: function ref(el) {
-              return _this2.messagesEnd = el;
-            } })
-        );
-      }
       return _react2.default.createElement(
         'div',
-        { className: 'messages-list' },
-        messages.map(function (msg) {
-          var date = msg.date,
-              _id = msg._id,
-              text = msg.text,
-              username = msg.username;
-
-          var threadType = username === currentUser ? 'current-user' : 'other-user';
-
-          return _react2.default.createElement(
-            'div',
-            { className: threadType + ' message-input ', key: _id },
-            _react2.default.createElement(
-              'div',
-              { className: threadType + ' timestamp-user-row' },
-              _react2.default.createElement(
-                'div',
-                { className: 'thread-username' },
-                username
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'thread-timestamp' },
-                (0, _moment2.default)(date).format('h:mm a')
-              )
-            ),
-            _react2.default.createElement(
-              _reactLinkify2.default,
-              { properties: { target: '_blank', style: { color: 'blue' } } },
-              _react2.default.createElement(
-                'div',
-                { className: threadType + ' message-text' },
-                text
-              )
-            )
-          );
-        }),
-        _react2.default.createElement('div', { ref: function ref(el) {
-            return _this2.messagesEnd = el;
-          } })
+        { className: 'no-new-msg' },
+        'There are no new messages'
       );
     }
   }]);
@@ -51626,32 +51633,28 @@ var UsersList = function UsersList(_ref) {
   return _react2.default.createElement(
     'div',
     { className: 'users-list' },
-    _react2.default.createElement(
-      'div',
-      { className: 'users-list' },
-      users.map(function (user) {
-        var _id = user._id,
-            onlineStatus = user.onlineStatus,
-            username = user.username;
+    users.map(function (user) {
+      var _id = user._id,
+          onlineStatus = user.onlineStatus,
+          username = user.username;
 
-        var isOnline = onlineStatus ? 'active' : 'inactive';
+      var isOnline = onlineStatus ? 'active' : 'inactive';
 
-        return _react2.default.createElement(
+      return _react2.default.createElement(
+        'div',
+        { key: _id, className: 'each-user' },
+        _react2.default.createElement('img', {
+          className: 'online-' + isOnline,
+          src: ROOT_URL + '/images/online.png',
+          alt: 'online'
+        }),
+        _react2.default.createElement(
           'div',
-          { key: _id, className: 'each-user' },
-          _react2.default.createElement('img', {
-            className: 'online-' + isOnline,
-            src: ROOT_URL + '/images/online.png',
-            alt: 'online'
-          }),
-          _react2.default.createElement(
-            'div',
-            { className: 'each-user-name-' + isOnline },
-            username
-          )
-        );
-      })
-    )
+          { className: 'each-user-name-' + isOnline },
+          username
+        )
+      );
+    })
   );
 };
 
