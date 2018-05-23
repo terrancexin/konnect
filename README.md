@@ -17,6 +17,10 @@
 2. run `npm install`
 3. open 3 terminal windows:
   - please make sure `mongod` database is running
+    - `brew install mongodb`
+    - `sudo mkdir -p /data/db`
+    - `sudo chown -R $USER /data/db`
+    - start mongodb by running`mongod`
   - please make sure `webpack -w` is running
   - start the app by `npm run dev`
 4. open a new browser and go to `http://localhost:3000/`
