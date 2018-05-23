@@ -13,17 +13,26 @@
 
 # Set up
 ###### Set up process assumes that all of the above technologies are available on your machine
-1. `git clone https://github.com/terrancexin/konnect.git`
-2. `cd` into `konnect` folder and run `npm install`
-3. please make sure `mongod` database is running
-4. please make sure `webpack -w` is running
-5. start the app by `npm run dev`
-6. open a new browser and go to `http://localhost:3000/`
-setup extras: enable fake seeds by going into `index.js` on line:31 & 32, uncomment and restart the server
+1. run `git clone https://github.com/terrancexin/konnect.git && cd konnect`
+2. run `npm install`
+3. open 3 terminal windows:
+  - please make sure `mongod` database is running
+  - please make sure `webpack -w` is running
+  - start the app by `npm run dev`
+4. open a new browser and go to `http://localhost:3000/`
+
+##### Set up extras
+- insert fake seeds by uncommenting line:31 in `server/index.js` and restart the server
+- clear the database by uncommenting line:14 in `server/index.js`
+- enable LAN mode on line:23 in `client/actions/index.js` and comment out line:25
+  - run `ipconfig getifaddr en0` in the terminal
+  - open a new browser with the ip address and port 3000 on any connected devices in the same network
+  - e.g. `http://192.168.1.123:3000`
+  - now you're able to chat across devices in real time
 
 ## High Level Overview
 Build real-time chat functionality
-- A single-room chatroom
+- A single chatroom
 - Persist user info and messages
 - Responsive design UI/UX
 - Scalable and flexible system
@@ -56,7 +65,7 @@ Build real-time chat functionality
 
 ## Tech Debts
 - Implement redis cache for inefficient queries and reduce db queries
-- Add tests
+- Add automation tests
 - Add more responsiveness on the UI
 - Set up load balancer for scaling
 - Remove libraries and write my own functions to enhance security
