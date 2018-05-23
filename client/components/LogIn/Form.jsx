@@ -11,7 +11,7 @@ const Form = ({
   username,
 }) => (
   <form autoComplete="off" className="login-form" onSubmit={handleSubmit}>
-    <div className="login-error">{err || ''}</div>
+    <span className="login-error">{err || ''}</span>
     <input
       type="text"
       className="login"

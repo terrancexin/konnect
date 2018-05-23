@@ -1,3 +1,5 @@
+/* global localStorage */
+
 import axios from 'axios';
 import io from 'socket.io-client';
 import {
@@ -55,24 +57,6 @@ export const fetchUsers = () => (dispatch) => {
     });
 };
 
-export const logInUser = ({ username, password }) => (dispatch) => {
-  axios
-    .post(`${ROOT_URL}/login`, { username, password })
-    .then(({ data }) => {
-      if (data.error) {
-        loginFailed(data.error, dispatch);
-      } else {
-        loginSuccess(data, dispatch);
-      }
-    })
-    .catch(() => {
-      dispatch({
-        type: LOGIN_ERROR,
-        payload: 'log in failed, bad login info.',
-      });
-    });
-};
-
 const loginFailed = (error, dispatch) => {
   dispatch({
     type: LOGIN_ERROR,
@@ -91,6 +75,24 @@ const loginSuccess = ({ token, newUser, missedMsg }, dispatch) => {
     },
   });
   socket.emit(USER_CONNECTED, newUser);
+};
+
+export const logInUser = ({ username, password }) => (dispatch) => {
+  axios
+    .post(`${ROOT_URL}/login`, { username, password })
+    .then(({ data }) => {
+      if (data.error) {
+        loginFailed(data.error, dispatch);
+      } else {
+        loginSuccess(data, dispatch);
+      }
+    })
+    .catch(() => {
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: 'log in failed, bad login info.',
+      });
+    });
 };
 
 export const signUpUser = ({

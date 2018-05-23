@@ -1,3 +1,5 @@
+/* global ROOT_URL */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Linkify from 'react-linkify';
@@ -43,15 +45,15 @@ class MessagesList extends Component {
       const threadType = username === currentUser ? 'current-user' : 'other-user';
 
       return (
-        <div className={`${threadType} message-input `} key={_id}>
+        <li className={`${threadType} message-input `} key={_id}>
           <div className={`${threadType} timestamp-user-row`}>
-            <div className="thread-username">{username}</div>
-            <div className="thread-timestamp">{moment(date).format('h:mm a')}</div>
+            <span className="thread-username">{username}</span>
+            <span className="thread-timestamp">{moment(date).format('h:mm a')}</span>
           </div>
           <Linkify properties={{ target: '_blank', style: { color: 'blue' } }}>
             <div className={`${threadType} message-text`}>{text}</div>
           </Linkify>
-        </div>
+        </li>
       );
     });
   }
@@ -65,14 +67,14 @@ class MessagesList extends Component {
 
     if (messages.length) {
       return (
-        <div className="messages-list">
+        <ul className="messages-list">
           { this.renderMessages(messages, currentUser) }
           <div ref={el => (this.messagesEnd = el)} />
-        </div>
+        </ul>
       );
     }
 
-    return <div className="no-new-msg">There are no new messages</div>;
+    return <span className="no-new-msg">There are no new messages</span>;
   }
 }
 

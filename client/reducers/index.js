@@ -105,7 +105,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case USER_DISCONNECTED:
       return {
         ...state,
-        users: payload.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
+        users: payload.users.length <= 1 ? payload.users
+          : payload.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
         notice: payload.notice,
       };
     default:

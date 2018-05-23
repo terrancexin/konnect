@@ -28,7 +28,7 @@ const MissedMessages = ({
         <i className="fas fa-undo-alt fa-2x" />
       </button>
     )}
-    {!missed && <p className="missed-count" onClick={toggleMissed}>{missedMsg.length}</p>}
+    {!missed && <span className="missed-count" onClick={toggleMissed}>{missedMsg.length}</span>}
   </div>
 );
 

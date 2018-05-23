@@ -95,12 +95,14 @@ class Chatroom extends Component {
       <div className="chatroom">
         <section className="chatroom-header">
           <h1 className="chatroom-title">Hi, {username}!</h1>
-          <div className="current-users">
+          <span className="current-users">
             You are connected to {users.length - 1} {userCount} on Konnect
-          </div>
+          </span>
         </section>
+
         <div className="chat-window">
           <Notice />
+
           <section className="chat-left-bar">
             <MissedMessages
               handleLogOut={this.handleLogOut}
@@ -113,25 +115,26 @@ class Chatroom extends Component {
             <div className="online-users">{onlineUsers} online</div>
             <UsersList users={users} />
           </section>
+
           <div className="messages-section">
-            {!missed && <MessagesList
-              currentUser={username}
-              messages={messages}
-              loading={loading}
-            />}
-            {missed && <MessagesList
-              currentUser={username}
-              messages={missedMsg}
-              loading={loading}
-            />}
+            {!missed && (
+              <MessagesList
+                currentUser={username}
+                messages={messages}
+                loading={loading}
+              />
+            )}
+            {missed && (
+              <MessagesList
+                currentUser={username}
+                messages={missedMsg}
+                loading={loading}
+              />
+            )}
 
             <form onSubmit={this.handleSubmit} className="message-form">
               <div className="display-typing">
-                {typing
-                  ? `${typingUsers.join(', ')} ${
-                      verbs
-                    } typing...`
-                  : ''}
+                {typing ? `${typingUsers.join(', ')} ${verbs} typing...` : ''}
               </div>
               <div className="message-input-button-wrapper">
                 <input
@@ -143,7 +146,7 @@ class Chatroom extends Component {
                   maxLength="45"
                   onChange={this.handleChange}
                 />
-                <p className="text-character-count">{`${textCount}/45`}</p>
+                <span className="text-character-count">{`${textCount}/45`}</span>
                 <button
                   disabled={text.length < 1}
                   onClick={this.handleSubmit}
@@ -155,6 +158,7 @@ class Chatroom extends Component {
             </form>
           </div>
         </div>
+
         <Footer />
       </div>
     );
