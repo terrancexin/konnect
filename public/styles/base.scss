@@ -1,0 +1,55 @@
+// base colors
+$placeholdergray: #e6ecf0;
+$messagebackground: #e6ecf0;
+$bordergray: #e6ecf0;
+$red: #d30303;
+$blue: #4080ff;
+$borderblue: rgb(99, 168, 250);
+$lightgray: rgb(230, 230, 230);
+$black: rgb(72, 72, 72);
+$noticegreen: rgba(#4bc127, 0.85);
+$twitterblue: #1da1f2;
+$white: white;
+$mintGreen: #00ffbf;
+
+// flexbox
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin flex-center-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-column-center-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-column-end {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+@mixin flex-space-between-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
