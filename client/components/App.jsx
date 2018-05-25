@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import LogIn from './LogIn';
 import Chatroom from './Chatroom';
 
-window.ROOT_URL = 'https://konnect-chat.herokuapp.com';
+window.ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
 
 class App extends Component {
   render() {
