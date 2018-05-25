@@ -13,21 +13,26 @@
 
 # Local set up
 ###### Set up process assumes that all of the above technologies are available on your machine
-1. run `git clone https://github.com/terrancexin/konnect.git && cd konnect && npm i`
-2. please make sure `mongod` database is running
-  * `brew install mongodb`
-  * `sudo mkdir -p /data/db`
-  * `sudo chown -R $USER /data/db`
-  * start mongodb by running `mongod`
-3. start the app by `npm run dev`
+1. Run `git clone https://github.com/terrancexin/konnect.git && cd konnect && npm i`
+2. Please make sure `mongod` database is running
+3. Start the app by `npm run dev`
 ###### Ready! Go to: [http://localhost:3000](http://localhost:3000)
 
 ##### Set up extras
-- insert fake seeds by uncommenting line:31 in `server/index.js` and restart the server
-- clear the database by uncommenting line:14 in `server/index.js`
+- Insert fake seeds by uncommenting line:31 in `server/index.js` and restart the server
+- Clear the database by uncommenting line:14 in `server/index.js`
 
 ##### Set up troubleshoots
-- check node version: 8+ 
+- Check node version: 8+ 
+- MongoDB set up
+  - run `brew install mongodb`
+  - run `sudo mkdir -p /data/db`
+  - run `sudo chown -R $USER /data/db`
+  - start mongodb by running `mongod`
+- MongoDB existing database error
+  - run `ps ax | grep mongod`
+  - terminate the current running database number. e.g. run `kill 90233`
+  - start mongodb by running `mongod`
 
 ## High Level Overview
 Build real-time chat functionality
