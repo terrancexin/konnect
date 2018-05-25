@@ -6612,7 +6612,7 @@ function warning(message) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6631,8 +6631,7 @@ var _constants = __webpack_require__(36);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ROOT_URL = 'https://konnect-chat.herokuapp.com';
-// const ROOT_URL = 'http://localhost:3000';
+var ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
 
 // Socket actions
 /* global localStorage */
@@ -6831,6 +6830,7 @@ var isTyping = exports.isTyping = function isTyping(username, bool) {
     }
   };
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 21 */
@@ -43854,7 +43854,7 @@ exports.default = rootReducer;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -43888,7 +43888,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global window */
 
-window.ROOT_URL = 'https://konnect-chat.herokuapp.com';
+window.ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
 
 var App = function (_Component) {
   _inherits(App, _Component);
@@ -43924,6 +43924,7 @@ App.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(App);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 224 */
