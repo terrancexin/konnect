@@ -28,11 +28,6 @@
 ##### Set up extras
 - insert fake seeds by uncommenting line:31 in `server/index.js` and restart the server
 - clear the database by uncommenting line:14 in `server/index.js`
-- enable LAN mode on line:23 in `client/actions/index.js` and comment out line:25
-  - run `ipconfig getifaddr en0` in the terminal
-  - open a new browser with the ip address and port 3000 on any connected devices in the same network
-  - e.g. `http://192.168.1.123:3000`
-  - now you're able to chat across devices in real time
 
 ## High Level Overview
 Build real-time chat functionality

@@ -6,9 +6,7 @@ import PropTypes from 'prop-types';
 import LogIn from './LogIn';
 import Chatroom from './Chatroom';
 
-// LAN mode
-const { protocol, hostname, port } = window.location;
-window.ROOT_URL = `${protocol}//${hostname}:${port}`;
+window.ROOT_URL = 'https://konnect-chat.herokuapp.com/';
 
 class App extends Component {
   render() {

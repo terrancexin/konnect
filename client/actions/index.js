@@ -18,11 +18,8 @@ import {
   USER_CONNECTED,
 } from '../../constants';
 
-// LAN mode
-// const { protocol, hostname, port } = window.location;
-// const ROOT_URL = `${protocol}//${hostname}:${port}`;
-
-const ROOT_URL = 'http://localhost:3000';
+const ROOT_URL = 'https://konnect-chat.herokuapp.com/';
+// const ROOT_URL = 'http://localhost:3000';
 
 // Socket actions
 const socket = io(ROOT_URL);
