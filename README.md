@@ -1,6 +1,6 @@
 # Konnect
 ###### Konnect is a real-time chat app. If you're passionate about something, why do it alone? Let's Konnect!
-![screenshot](./public/images/demo.png)
+![screenshot](./docs/demo.png)
 
 # Tech Stack
 - [Node.js](https://nodejs.org/en/)
@@ -11,23 +11,23 @@
 - [Redux](https://redux.js.org/)
 - [Webpack](https://webpack.js.org/)
 
-# Set up
+# Local set up
 ###### Set up process assumes that all of the above technologies are available on your machine
-1. run `git clone https://github.com/terrancexin/konnect.git && cd konnect`
-2. run `npm install`
-3. open 3 terminal windows:
-  - please make sure `mongod` database is running
-    - `brew install mongodb`
-    - `sudo mkdir -p /data/db`
-    - `sudo chown -R $USER /data/db`
-    - start mongodb by running`mongod`
-  - please make sure `webpack -w` is running
-  - start the app by `npm run dev`
-4. open a new browser and go to `http://localhost:3000/`
+1. run `git clone https://github.com/terrancexin/konnect.git && cd konnect && npm i`
+2. please make sure `mongod` database is running
+  * `brew install mongodb`
+  * `sudo mkdir -p /data/db`
+  * `sudo chown -R $USER /data/db`
+  * start mongodb by running `mongod`
+3. start the app by `npm run dev`
+###### Ready! Go to: [http://localhost:3000](http://localhost:3000)
 
 ##### Set up extras
 - insert fake seeds by uncommenting line:31 in `server/index.js` and restart the server
 - clear the database by uncommenting line:14 in `server/index.js`
+
+##### Set up troubleshoots
+- check node version: 8+ 
 
 ## High Level Overview
 Build real-time chat functionality
@@ -37,7 +37,7 @@ Build real-time chat functionality
 - Scalable and flexible system
 
 ## Demo
-![gif](./public/images/konnect.gif)
+![gif](./docs/konnect.gif)
 
 ## Features
 - Join & leave a chatroom
