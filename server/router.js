@@ -1,16 +1,27 @@
-const UsersController = require('./controllers/users');
-const MessagesController = require('./controllers/messages');
-const passportService = require('./services/passport');
 const passport = require('passport');
+const { jwtLogin, localLogin } = require('./services/passport');
+const { getMessages, sendMessage } = require('./controllers/messages');
+const {
+  getUsers,
+  logInUser,
+  removeBookMark,
+  signUpUser,
+} = require('./controllers/users');
 
-const requireSignin = passport.authenticate('local', { session: false });
+passport.use(jwtLogin);
+passport.use(localLogin);
+
+const requireAuth = passport.authenticate('jwt', { session: false });
+const requireLogIn = passport.authenticate('local', { session: false });
 
 module.exports = (app) => {
-  app.post('/bookmark', UsersController.removeBookMark);
-  app.post('/login', requireSignin, UsersController.login);
-  app.post('/signup', UsersController.signup);
-  app.get('/users', UsersController.fetchAll);
+  // Users routes
+  app.post('/bookmark', removeBookMark);
+  app.post('/login', requireLogIn, logInUser);
+  app.post('/signup', signUpUser);
+  app.get('/users', requireAuth, getUsers);
 
-  app.get('/messages', MessagesController.fetch);
-  app.post('/send', MessagesController.send);
+  // Messages routes
+  app.get('/messages', requireAuth, getMessages);
+  app.post('/send', sendMessage);
 };
