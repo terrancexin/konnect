@@ -1,6 +1,6 @@
 const MessageModel = require('../models/message');
 
-const fetch = (req, res, next) => {
+const getMessages = (req, res, next) => {
   MessageModel.find({}).exec((err, messages) => {
     if (err) return next(err);
 
@@ -8,7 +8,7 @@ const fetch = (req, res, next) => {
   });
 };
 
-const send = (req, res, next) => {
+const sendMessage = (req, res, next) => {
   const { username, text, date } = req.body;
 
   if (!username || !text || !date) {
@@ -23,11 +23,12 @@ const send = (req, res, next) => {
 
   message.save((err) => {
     if (err) return next(err);
-  });
 
-  res.json(message);
+    res.json(message);
+  });
 };
+
 module.exports = {
-  fetch,
-  send,
+  getMessages,
+  sendMessage,
 };
