@@ -1,13 +1,10 @@
-const passport = require('passport');
-const UserModel = require('../models/user');
-const { Strategy } = require('passport-jwt');
-const { ExtractJwt } = require('passport-jwt');
-
 const LocalStrategy = require('passport-local');
+const { Strategy, ExtractJwt } = require('passport-jwt');
+const UserModel = require('../models/user');
 
-// Would extract `mySecretJwtKey` into a file and not push the file into github
-// declared here for demo purposes
-const mySecretJwtKey = 'my secret';
+// In production, `mySecretJwtKey` would be extract into a file,
+// and should never be commited to GitHub or post it publicly.
+const mySecretJwtKey = process.env.SECRET_JWT_KEY || 'secretjwt';
 
 const localLogin = new LocalStrategy((username, password, done) => {
   UserModel.findOne({ username }, (findUserError, user) => {
@@ -50,5 +47,7 @@ const jwtLogin = new Strategy(jwtOptions, (payload, done) => {
   });
 });
 
-passport.use(jwtLogin);
-passport.use(localLogin);
+module.exports = {
+  jwtLogin,
+  localLogin,
+};
