@@ -1,8 +1,8 @@
 import {
   CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
-  FETCH_MESSAGES,
-  FETCH_USERS,
+  GET_MESSAGES,
+  GET_USERS,
   MESSAGE_SENT,
   LOADING,
   LOGGED_IN,
@@ -42,12 +42,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         notice: '',
       };
-    case FETCH_MESSAGES:
+    case GET_MESSAGES:
       return {
         ...state,
         messages: [...payload],
       };
-    case FETCH_USERS:
+    case GET_USERS:
       return {
         ...state,
         users: [...payload],

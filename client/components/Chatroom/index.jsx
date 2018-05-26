@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 
 import {
   clearMissedMsg,
-  fetchMessages,
-  fetchUsers,
+  getMessages,
+  getUsers,
   isTyping,
   sendMessage,
-  signOutUser,
+  logOutUser,
   socketOff,
 } from '../../actions';
 
@@ -37,8 +37,8 @@ class Chatroom extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchMessages();
-    this.props.fetchUsers();
+    this.props.getMessages();
+    this.props.getUsers();
   }
 
   componentWillUnmount() {
@@ -65,7 +65,7 @@ class Chatroom extends Component {
   handleLogOut() {
     const { username } = this.props;
 
-    this.props.signOutUser(username);
+    this.props.logOutUser(username);
   }
 
   handleSubmit(e) {
@@ -186,20 +186,20 @@ Chatroom.propTypes = {
   users: PropTypes.array.isRequired,
   verbs: PropTypes.string.isRequired,
   clearMissedMsg: PropTypes.func.isRequired,
-  fetchMessages: PropTypes.func.isRequired,
-  fetchUsers: PropTypes.func.isRequired,
+  getMessages: PropTypes.func.isRequired,
+  getUsers: PropTypes.func.isRequired,
   isTyping: PropTypes.func.isRequired,
   sendMessage: PropTypes.func.isRequired,
-  signOutUser: PropTypes.func.isRequired,
+  logOutUser: PropTypes.func.isRequired,
   socketOff: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
   clearMissedMsg,
-  fetchMessages,
-  fetchUsers,
+  getMessages,
+  getUsers,
   isTyping,
   sendMessage,
-  signOutUser,
+  logOutUser,
   socketOff,
 })(Chatroom);
