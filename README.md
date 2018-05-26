@@ -20,7 +20,6 @@
 
 ##### Set up extras
 - Insert fake seeds by uncommenting line:31 in `server/index.js` and restart the server
-- Clear the database by uncommenting line:14 in `server/index.js`
 
 ##### Set up troubleshoots
 - Check node version: 8+ 

@@ -11,8 +11,6 @@ const fakeSeeds = require('./seeds');
 
 const mongodbServer = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/konnect';
 mongoose.connect(mongodbServer);
-// clear database
-// mongoose.connect(mongodbServer, () => mongoose.connection.db.dropDatabase());
 mongoose.set('debug', true);
 
 app.use(bodyParser.json());
