@@ -2,16 +2,16 @@ const jwt = require('jwt-simple');
 const MessageModel = require('../models/message');
 const UserModel = require('../models/user');
 
-// Would extract `mySecretJwtKey` into a file and not push the file into github
-// declared here for demo purposes
-const mySecretJwtKey = 'my secret';
+// In production, `mySecretJwtKey` would be extract into a file,
+// and should never be commited to GitHub or post it publicly.
+const mySecretJwtKey = process.env.SECRET_JWT_KEY || 'secretjwt';
 
 const tokenForUser = (user) => {
   const timestamp = new Date().getTime();
   return jwt.encode({ sub: user.id, iat: timestamp }, mySecretJwtKey);
 };
 
-const fetchAll = (req, res, next) => {
+const getUsers = (req, res, next) => {
   UserModel.find({}).exec((err, users) => {
     if (err) return next(err);
 
@@ -28,8 +28,8 @@ const fetchAll = (req, res, next) => {
   });
 };
 
-const login = (req, res) => {
-  const { username, password } = req.body;
+const logInUser = (req, res) => {
+  const { username } = req.body;
 
   UserModel.update({ username }, { onlineStatus: true }, (updateUserError) => {
     if (updateUserError) {
@@ -75,8 +75,8 @@ const login = (req, res) => {
         });
       } else {
         res.send({
-          token: tokenForUser({ username, password }),
-          newUser: { username, password },
+          token: tokenForUser(updatedUser),
+          newUser: updatedUser,
           missedMsg: [],
         });
       }
@@ -84,7 +84,7 @@ const login = (req, res) => {
   });
 };
 
-const signup = (req, res, next) => {
+const signUpUser = (req, res, next) => {
   const { username, password, passwordConfirmation } = req.body;
 
   if (!username) {
@@ -141,12 +141,12 @@ const signup = (req, res, next) => {
       if (saveError) {
         return next(saveError);
       }
-    });
 
-    res.json({
-      token: tokenForUser(newUser),
-      missedMsg: [],
-      newUser,
+      res.json({
+        token: tokenForUser(newUser),
+        missedMsg: [],
+        newUser,
+      });
     });
   });
 };
@@ -168,8 +168,8 @@ const removeBookMark = (req, res) => {
 };
 
 module.exports = {
-  fetchAll,
-  login,
+  getUsers,
+  logInUser,
   removeBookMark,
-  signup,
+  signUpUser,
 };
