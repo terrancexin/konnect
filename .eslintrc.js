@@ -14,6 +14,7 @@ module.exports = {
     "no-continue": "off",
     "no-await-in-loop": "off",
     "class-methods-use-this": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "func-names": "off"
   }
 }
