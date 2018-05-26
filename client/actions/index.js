@@ -5,8 +5,8 @@ import io from 'socket.io-client';
 import {
   CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
-  FETCH_MESSAGES,
-  FETCH_USERS,
+  GET_MESSAGES,
+  GET_USERS,
   LOADING,
   LOGIN_ERROR,
   LOGGED_IN,
@@ -38,12 +38,14 @@ export const socketOff = () => () => {
 };
 
 // User actions
-export const fetchUsers = () => (dispatch) => {
+export const getUsers = () => (dispatch) => {
   axios
-    .get(`${ROOT_URL}/users`)
+    .get(`${ROOT_URL}/users`, {
+      headers: { authorization: localStorage.getItem('token') },
+    })
     .then(({ data }) => {
       dispatch({
-        type: FETCH_USERS,
+        type: GET_USERS,
         payload: data.length <= 1 ? data
           : data.sort((a, b) => b.onlineStatus - a.onlineStatus),
       });
@@ -113,7 +115,7 @@ export const signUpUser = ({
     });
 };
 
-export const signOutUser = user => (dispatch) => {
+export const logOutUser = user => (dispatch) => {
   socket.emit(LOGOUT, user);
   dispatch({
     type: LOGOUT,
@@ -122,13 +124,15 @@ export const signOutUser = user => (dispatch) => {
 };
 
 // Message actions
-export const fetchMessages = () => (dispatch) => {
+export const getMessages = () => (dispatch) => {
   dispatch({ type: LOADING, payload: true });
   axios
-    .get(`${ROOT_URL}/messages`)
+    .get(`${ROOT_URL}/messages`, {
+      headers: { authorization: localStorage.getItem('token') },
+    })
     .then(({ data }) => {
       dispatch({
-        type: FETCH_MESSAGES,
+        type: GET_MESSAGES,
         payload: data,
       });
 
