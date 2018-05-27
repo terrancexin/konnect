@@ -320,7 +320,7 @@ input#message {
 
 .text-character-count {
   position: absolute;
-  right: 62px;
+  right: 72px;
   bottom: 3px;
   text-align: center;
   font-size: 11px;
@@ -356,6 +356,8 @@ input#message {
   border-radius: 5px;
   font-size: 0.95em;
   font-weight: 300;
+  max-width: 400px;
+  overflow-wrap: break-word;
 }
 
 .current-user {
