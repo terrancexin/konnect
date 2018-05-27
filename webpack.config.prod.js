@@ -41,6 +41,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
+        MONGOLAB_URI: JSON.stringify(process.env.MONGOLAB_URI),
+        ROOT_URL: JSON.stringify(process.env.ROOT_URL),
+        SECRET_JWT_KEY: JSON.stringify(process.env.SECRET_JWT_KEY),
       },
     }),
     new webpack.optimize.UglifyJsPlugin({
