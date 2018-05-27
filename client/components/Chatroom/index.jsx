@@ -143,10 +143,10 @@ class Chatroom extends Component {
                   value={text}
                   autoComplete="off"
                   placeholder="enter your message"
-                  maxLength="45"
+                  maxLength="500"
                   onChange={this.handleChange}
                 />
-                <span className="text-character-count">{`${textCount}/45`}</span>
+                <span className="text-character-count">{`${textCount}/500`}</span>
                 <button
                   disabled={text.length < 1}
                   onClick={this.handleSubmit}
