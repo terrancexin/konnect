@@ -53,7 +53,8 @@ class LogIn extends Component {
     this.setState({ toggleLogin });
   }
 
-  handleGuest() {
+  handleGuest(e) {
+    e.preventDefault();
     this.setState({
       username: '',
       password: 'password',
