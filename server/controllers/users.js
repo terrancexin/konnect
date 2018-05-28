@@ -2,9 +2,7 @@ const jwt = require('jwt-simple');
 const MessageModel = require('../models/message');
 const UserModel = require('../models/user');
 
-// In production, `mySecretJwtKey` would be extract into a file,
-// and should never be commited to GitHub or post it publicly.
-const mySecretJwtKey = process.env.SECRET_JWT_KEY || 'secretjwt';
+const mySecretJwtKey = process.env.SECRET_JWT_KEY || 'secret dev jwt';
 
 const tokenForUser = (user) => {
   const timestamp = new Date().getTime();
@@ -16,9 +14,10 @@ const getUsers = (req, res, next) => {
     if (err) return next(err);
 
     const newUsersList = users.map((user) => {
-      const { _id, username, onlineStatus } = user;
+      const { id, username, onlineStatus } = user;
+
       return ({
-        _id,
+        id,
         username,
         onlineStatus,
       });
@@ -41,45 +40,47 @@ const logInUser = (req, res) => {
         return console.log(`finding a user from login failed: ${findUserError}`);
       }
 
-      if (updatedUser.bookMark) {
-        MessageModel.find({}, (messageModelError, messages) => {
-          if (messageModelError) {
-            return console.log(`fetching all msgs in login failed: ${messageModelError}`);
-          }
+      const { bookMark } = updatedUser;
+      const missedMsg = [];
 
-          let tracker = messages.length - 1;
-          const missedMsg = [];
-          const { bookMark } = updatedUser;
-
-          if (tracker >= 0) {
-            while (
-              tracker >= 0 &&
-              String(messages[tracker]._id) !== String(bookMark)
-              && messages[tracker].username !== username
-            ) {
-              missedMsg.unshift(messages[tracker]);
-              tracker--;
-            }
-            res.send({
-              token: tokenForUser(updatedUser),
-              newUser: updatedUser,
-              missedMsg,
-            });
-          } else {
-            res.send({
-              token: tokenForUser(updatedUser),
-              newUser: updatedUser,
-              missedMsg,
-            });
-          }
-        });
-      } else {
-        res.send({
+      if (!bookMark) {
+        return res.send({
           token: tokenForUser(updatedUser),
           newUser: updatedUser,
-          missedMsg: [],
+          missedMsg,
         });
       }
+
+      MessageModel.find({}, (messageModelError, messages) => {
+        if (messageModelError) {
+          return console.log(`fetching all msgs in login failed: ${messageModelError}`);
+        }
+
+        let tracker = messages.length - 1;
+
+        if (tracker < 1) {
+          return res.send({
+            token: tokenForUser(updatedUser),
+            newUser: updatedUser,
+            missedMsg,
+          });
+        }
+
+        while (
+          tracker >= 0 &&
+          String(messages[tracker].id) !== String(bookMark)
+          && messages[tracker].username !== username
+        ) {
+          missedMsg.unshift(messages[tracker]);
+          tracker -= 1;
+        }
+
+        return res.send({
+          token: tokenForUser(updatedUser),
+          newUser: updatedUser,
+          missedMsg,
+        });
+      });
     });
   });
 };
