@@ -6,11 +6,11 @@ import PropTypes from 'prop-types';
 const UsersList = ({ users }) => (
   <ul className="users-list">
     {users.map((user) => {
-      const { _id, onlineStatus, username } = user;
+      const { id, onlineStatus, username } = user;
       const isOnline = onlineStatus ? 'active' : 'inactive';
 
       return (
-        <li key={_id} className="each-user">
+        <li key={id} className="each-user">
           <img
             className={`online-${isOnline}`}
             src={`${ROOT_URL}/images/online.png`}
