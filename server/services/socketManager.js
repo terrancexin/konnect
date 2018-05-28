@@ -19,8 +19,18 @@ module.exports = (socket) => {
         return console.log(`socket connected fetch all users failed: ${err}`);
       }
 
+      const newUsersList = users.map((eachUser) => {
+        const { id, username, onlineStatus } = eachUser;
+
+        return ({
+          id,
+          username,
+          onlineStatus,
+        });
+      });
+
       io.emit(USER_CONNECTED, {
-        users,
+        users: newUsersList,
         notice: `${user.username} has joined Konnect 🔥`,
       });
     });
@@ -33,22 +43,31 @@ module.exports = (socket) => {
           return console.log(`finding the last seen msg by user failed: ${err}`);
         }
 
-        UserModel.update({ username: user.username },
-          {
-            bookMark: message ? message._id : '',
-            onlineStatus: false,
-          },
+        UserModel.update(
+          { username: user.username },
+          { bookMark: message ? message.id : '', onlineStatus: false },
           (updateUserError) => {
             if (updateUserError) {
               return console.log(`updating user's book mark failed: ${updateUserError}`);
             }
+
             UserModel.find({}, (findUserError, users) => {
               if (findUserError) {
                 return console.log(`socket disconnect finding user failed: ${findUserError}`);
               }
 
+              const newUsersList = users.map((eachUser) => {
+                const { id, username, onlineStatus } = eachUser;
+
+                return ({
+                  id,
+                  username,
+                  onlineStatus,
+                });
+              });
+
               socket.broadcast.emit(USER_DISCONNECTED, {
-                users,
+                users: newUsersList,
                 notice: `Bye ${user.username}! Come back soon!🥂`,
               });
             });
@@ -66,22 +85,31 @@ module.exports = (socket) => {
         return console.log(`finding the last seen msg by user failed: ${err}`);
       }
 
-      UserModel.update({ username },
-        {
-          bookMark: message ? message._id : '',
-          onlineStatus: false,
-        },
+      UserModel.update(
+        { username },
+        { bookMark: message ? message.id : '', onlineStatus: false },
         (updateUserError) => {
           if (updateUserError) {
             return console.log(`updating user's book mark failed: ${updateUserError}`);
           }
+
           UserModel.find({}, (findUserError, users) => {
             if (findUserError) {
               return console.log(`socket disconnect finding user failed: ${findUserError}`);
             }
 
+            const newUsersList = users.map((eachUser) => {
+              const { id, onlineStatus } = eachUser;
+
+              return ({
+                id,
+                username: eachUser.username,
+                onlineStatus,
+              });
+            });
+
             socket.broadcast.emit(USER_DISCONNECTED, {
-              users,
+              users: newUsersList,
               notice: `Bye ${username}! Come back soon!🥂`,
             });
           });
