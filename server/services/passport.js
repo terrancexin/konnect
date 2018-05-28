@@ -2,9 +2,7 @@ const LocalStrategy = require('passport-local');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const UserModel = require('../models/user');
 
-// In production, `mySecretJwtKey` would be extract into a file,
-// and should never be commited to GitHub or post it publicly.
-const mySecretJwtKey = process.env.SECRET_JWT_KEY || 'secretjwt';
+const mySecretJwtKey = process.env.SECRET_JWT_KEY || 'secret dev jwt';
 
 const localLogin = new LocalStrategy((username, password, done) => {
   UserModel.findOne({ username }, (findUserError, user) => {

@@ -1,10 +1,12 @@
 const express = require('express');
+
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const http = require('http').Server(app);
 const io = module.exports.io = require('socket.io')(http);
 const mongoose = require('mongoose');
+
 const router = require('./router');
 const socketManager = require('./services/socketManager');
 const fakeSeeds = require('./seeds');

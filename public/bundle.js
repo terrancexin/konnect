@@ -54480,7 +54480,7 @@ var UsersList = function UsersList(_ref) {
     'ul',
     { className: 'users-list' },
     users.map(function (user) {
-      var _id = user._id,
+      var id = user.id,
           onlineStatus = user.onlineStatus,
           username = user.username;
 
@@ -54488,7 +54488,7 @@ var UsersList = function UsersList(_ref) {
 
       return _react2.default.createElement(
         'li',
-        { key: _id, className: 'each-user' },
+        { key: id, className: 'each-user' },
         _react2.default.createElement('img', {
           className: 'online-' + isOnline,
           src: ROOT_URL + '/images/online.png',
