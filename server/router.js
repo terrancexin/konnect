@@ -2,7 +2,6 @@ const passport = require('passport');
 const { jwtLogin, localLogin } = require('./services/passport');
 const { getMessages, sendMessage } = require('./controllers/messages');
 const {
-  getUsers,
   logInUser,
   removeBookMark,
   signUpUser,
@@ -19,7 +18,6 @@ module.exports = (app) => {
   app.post('/bookmark', removeBookMark);
   app.post('/login', requireLogIn, logInUser);
   app.post('/signup', signUpUser);
-  app.get('/users', requireAuth, getUsers);
 
   // Messages routes
   app.get('/messages', requireAuth, getMessages);

@@ -45,8 +45,8 @@ class MessagesList extends Component {
       const threadType = username === currentUser ? 'current-user' : 'other-user';
 
       return (
-        <li className={`${threadType} message-input `} key={_id}>
-          <div className={`${threadType} timestamp-user-row`}>
+        <li className={`${threadType} message-sent`} key={_id}>
+          <div className={`${threadType} timestamp-user-box`}>
             <span className="thread-username">{username}</span>
             <span className="thread-timestamp">{moment(date).format('h:mm a')}</span>
           </div>

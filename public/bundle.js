@@ -6638,7 +6638,7 @@ function warning(message) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isTyping = exports.clearNotices = exports.clearMissedMsg = exports.sendMessage = exports.removeErrorMessage = exports.getMessages = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.getUsers = exports.socketOff = undefined;
+exports.isTyping = exports.clearNotices = exports.clearMissedMsg = exports.sendMessage = exports.removeErrorMessage = exports.getMessages = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
 
 var _axios = __webpack_require__(225);
 
@@ -6678,26 +6678,6 @@ var socketOff = exports.socketOff = function socketOff() {
   };
 };
 
-// User actions
-var getUsers = exports.getUsers = function getUsers() {
-  return function (dispatch) {
-    _axios2.default.get(ROOT_URL + '/users', {
-      headers: { authorization: localStorage.getItem('token') }
-    }).then(function (_ref) {
-      var data = _ref.data;
-
-      dispatch({
-        type: _constants.GET_USERS,
-        payload: data.length <= 1 ? data : data.sort(function (a, b) {
-          return b.onlineStatus - a.onlineStatus;
-        })
-      });
-    }).catch(function (err) {
-      console.log('fetching all users failed: ' + err);
-    });
-  };
-};
-
 var loginFailed = function loginFailed(error, dispatch) {
   dispatch({
     type: _constants.LOGIN_ERROR,
@@ -6705,10 +6685,10 @@ var loginFailed = function loginFailed(error, dispatch) {
   });
 };
 
-var loginSuccess = function loginSuccess(_ref2, dispatch) {
-  var token = _ref2.token,
-      newUser = _ref2.newUser,
-      missedMsg = _ref2.missedMsg;
+var loginSuccess = function loginSuccess(_ref, dispatch) {
+  var token = _ref.token,
+      newUser = _ref.newUser,
+      missedMsg = _ref.missedMsg;
 
   localStorage.setItem('token', token);
   initSocket(dispatch);
@@ -6722,12 +6702,12 @@ var loginSuccess = function loginSuccess(_ref2, dispatch) {
   socket.emit(_constants.USER_CONNECTED, newUser);
 };
 
-var logInUser = exports.logInUser = function logInUser(_ref3) {
-  var username = _ref3.username,
-      password = _ref3.password;
+var logInUser = exports.logInUser = function logInUser(_ref2) {
+  var username = _ref2.username,
+      password = _ref2.password;
   return function (dispatch) {
-    _axios2.default.post(ROOT_URL + '/login', { username: username, password: password }).then(function (_ref4) {
-      var data = _ref4.data;
+    _axios2.default.post(ROOT_URL + '/login', { username: username, password: password }).then(function (_ref3) {
+      var data = _ref3.data;
 
       if (data.error) {
         loginFailed(data.error, dispatch);
@@ -6743,13 +6723,13 @@ var logInUser = exports.logInUser = function logInUser(_ref3) {
   };
 };
 
-var signUpUser = exports.signUpUser = function signUpUser(_ref5) {
-  var username = _ref5.username,
-      password = _ref5.password,
-      passwordConfirmation = _ref5.passwordConfirmation;
+var signUpUser = exports.signUpUser = function signUpUser(_ref4) {
+  var username = _ref4.username,
+      password = _ref4.password,
+      passwordConfirmation = _ref4.passwordConfirmation;
   return function (dispatch) {
-    _axios2.default.post(ROOT_URL + '/signup', { username: username, password: password, passwordConfirmation: passwordConfirmation }).then(function (_ref6) {
-      var data = _ref6.data;
+    _axios2.default.post(ROOT_URL + '/signup', { username: username, password: password, passwordConfirmation: passwordConfirmation }).then(function (_ref5) {
+      var data = _ref5.data;
 
       if (data.error) {
         loginFailed(data.error, dispatch);
@@ -6781,8 +6761,8 @@ var getMessages = exports.getMessages = function getMessages() {
     dispatch({ type: _constants.LOADING, payload: true });
     _axios2.default.get(ROOT_URL + '/messages', {
       headers: { authorization: localStorage.getItem('token') }
-    }).then(function (_ref7) {
-      var data = _ref7.data;
+    }).then(function (_ref6) {
+      var data = _ref6.data;
 
       dispatch({
         type: _constants.GET_MESSAGES,
@@ -6806,13 +6786,13 @@ var removeErrorMessage = exports.removeErrorMessage = function removeErrorMessag
   };
 };
 
-var sendMessage = exports.sendMessage = function sendMessage(_ref8) {
-  var username = _ref8.username,
-      date = _ref8.date,
-      text = _ref8.text;
+var sendMessage = exports.sendMessage = function sendMessage(_ref7) {
+  var username = _ref7.username,
+      date = _ref7.date,
+      text = _ref7.text;
   return function () {
-    _axios2.default.post(ROOT_URL + '/send', { username: username, date: date, text: text }).then(function (_ref9) {
-      var data = _ref9.data;
+    _axios2.default.post(ROOT_URL + '/send', { username: username, date: date, text: text }).then(function (_ref8) {
+      var data = _ref8.data;
 
       socket.emit(_constants.MESSAGE_SENT, data);
     }).catch(function (err) {
@@ -6823,8 +6803,8 @@ var sendMessage = exports.sendMessage = function sendMessage(_ref8) {
 
 var clearMissedMsg = exports.clearMissedMsg = function clearMissedMsg(username) {
   return function (dispatch) {
-    _axios2.default.post(ROOT_URL + '/bookmark', { username: username }).then(function (_ref10) {
-      var data = _ref10.data;
+    _axios2.default.post(ROOT_URL + '/bookmark', { username: username }).then(function (_ref9) {
+      var data = _ref9.data;
 
       if (data.error) {
         console.log('unable to find the username: ' + username + ' to remove');
@@ -8839,7 +8819,6 @@ module.exports = {
   CLEAR_MISSED_MSG: 'CLEAR_MISSED_MSG',
   CLEAR_NOTICES: 'CLEAR_NOTICES',
   GET_MESSAGES: 'GET_MESSAGES',
-  GET_USERS: 'GET_USERS',
   MESSAGE_SENT: 'MESSAGE_SENT',
   LOADING: 'LOADING',
   LOGGED_IN: 'LOGGED_IN',
@@ -43829,7 +43808,7 @@ exports = module.exports = __webpack_require__(217)(false);
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin-top: 1.5em;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n\n.chatroom-header {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center; }\n\n.chatroom-title {\n  font-size: 4em;\n  margin-top: 10px;\n  margin-bottom: 10px;\n  color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n\n.chat-left-bar {\n  border-right: 1px solid #e6ecf0;\n  width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.missed-msg-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n\nbutton.logout {\n  width: 3em;\n  height: 2.9em;\n  line-height: 0;\n  padding: 0;\n  background-color: gray;\n  margin: 0; }\n  button.logout:hover {\n    background: #d30303; }\n\nbutton.back-btn,\nbutton.unread-btn {\n  width: 7em;\n  height: 2.9em;\n  line-height: 0;\n  padding-right: 35px;\n  margin: 0; }\n\nbutton.unread-btn:hover {\n  background-color: #00ffbf; }\n\n.missed-count {\n  position: absolute;\n  bottom: 10px;\n  right: 10px;\n  background-color: red;\n  border: 1px solid red;\n  border-radius: 100px;\n  height: 17px;\n  width: 17px;\n  color: white;\n  text-align: center;\n  padding: 2px;\n  cursor: pointer; }\n\nbutton.back-btn {\n  background-color: #00ffbf;\n  color: white; }\n  button.back-btn .fas.fa-undo-alt.fa-2x {\n    margin-left: 16px; }\n  button.back-btn:hover {\n    background-color: black;\n    color: #00ffbf; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.text-character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.display-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-input {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-row {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-input {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-row {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-input {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-button-wrapper {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-left-bar {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 217px; }\n  .users-list {\n    height: 339px; }\n  button.back-btn {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; } }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin-top: 1.5em;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    color: white;\n    text-align: center;\n    padding: 2px;\n    cursor: pointer; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.avatar {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; } }\n", ""]);
 
 // exports
 
@@ -44432,12 +44411,10 @@ exports.default = configureStore();
 
 /***/ }),
 /* 221 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-exports.__esModule = true;
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 function createThunkMiddleware(extraArgument) {
   return function (_ref) {
     var dispatch = _ref.dispatch,
@@ -44457,7 +44434,7 @@ function createThunkMiddleware(extraArgument) {
 var thunk = createThunkMiddleware();
 thunk.withExtraArgument = createThunkMiddleware;
 
-exports['default'] = thunk;
+/* harmony default export */ __webpack_exports__["default"] = (thunk);
 
 /***/ }),
 /* 222 */
@@ -44488,8 +44465,7 @@ var initialState = {
   typingUsers: [],
   username: '',
   users: [],
-  verbs: '',
-  user: ''
+  verbs: ''
 };
 
 var rootReducer = function rootReducer() {
@@ -44511,10 +44487,6 @@ var rootReducer = function rootReducer() {
       return _extends({}, state, {
         messages: [].concat(_toConsumableArray(payload))
       });
-    case _constants.GET_USERS:
-      return _extends({}, state, {
-        users: [].concat(_toConsumableArray(payload))
-      });
     case _constants.MESSAGE_SENT:
       return _extends({}, state, {
         messages: [].concat(_toConsumableArray(state.messages), [payload])
@@ -44527,8 +44499,7 @@ var rootReducer = function rootReducer() {
       return _extends({}, state, {
         auth: true,
         missedMsg: payload.missedMsg,
-        username: payload.user.username,
-        user: payload.user
+        username: payload.user.username
       });
     case _constants.LOGIN_ERROR:
       return _extends({}, state, {
@@ -51032,9 +51003,9 @@ var _MessagesList = __webpack_require__(269);
 
 var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
-var _MissedMessages = __webpack_require__(279);
+var _NavBtns = __webpack_require__(282);
 
-var _MissedMessages2 = _interopRequireDefault(_MissedMessages);
+var _NavBtns2 = _interopRequireDefault(_NavBtns);
 
 var _Notice = __webpack_require__(280);
 
@@ -51080,7 +51051,6 @@ var Chatroom = function (_Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.props.getMessages();
-      this.props.getUsers();
     }
   }, {
     key: 'componentWillUnmount',
@@ -51138,13 +51108,13 @@ var Chatroom = function (_Component) {
           text = _state2.text,
           textCount = _state2.textCount;
       var _props = this.props,
-          username = _props.username,
-          users = _props.users,
+          loading = _props.loading,
           missedMsg = _props.missedMsg,
           messages = _props.messages,
-          loading = _props.loading,
           typing = _props.typing,
           typingUsers = _props.typingUsers,
+          username = _props.username,
+          users = _props.users,
           verbs = _props.verbs;
 
       var userCount = users.length <= 1 ? 'user' : 'users';
@@ -51181,13 +51151,13 @@ var Chatroom = function (_Component) {
           _react2.default.createElement(_Notice2.default, null),
           _react2.default.createElement(
             'section',
-            { className: 'chat-left-bar' },
-            _react2.default.createElement(_MissedMessages2.default, {
+            { className: 'chat-window-left-section' },
+            _react2.default.createElement(_NavBtns2.default, {
+              clearMissedMsg: this.props.clearMissedMsg,
               handleLogOut: this.handleLogOut,
               missed: missed,
               missedMsg: missedMsg,
               toggleMissed: this.toggleMissed,
-              clearMissedMsg: this.props.clearMissedMsg,
               username: username
             }),
             _react2.default.createElement(
@@ -51203,45 +51173,45 @@ var Chatroom = function (_Component) {
             { className: 'messages-section' },
             !missed && _react2.default.createElement(_MessagesList2.default, {
               currentUser: username,
-              messages: messages,
-              loading: loading
+              loading: loading,
+              messages: messages
             }),
             missed && _react2.default.createElement(_MessagesList2.default, {
               currentUser: username,
-              messages: missedMsg,
-              loading: loading
+              loading: loading,
+              messages: missedMsg
             }),
             _react2.default.createElement(
               'form',
               { onSubmit: this.handleSubmit, className: 'message-form' },
               _react2.default.createElement(
                 'div',
-                { className: 'display-typing' },
+                { className: 'is-typing' },
                 typing ? typingUsers.join(', ') + ' ' + verbs + ' typing...' : ''
               ),
               _react2.default.createElement(
                 'div',
-                { className: 'message-input-button-wrapper' },
+                { className: 'message-input-box' },
                 _react2.default.createElement('input', {
-                  id: 'message',
-                  type: 'text',
-                  value: text,
                   autoComplete: 'off',
-                  placeholder: 'enter your message',
+                  id: 'message',
                   maxLength: '500',
-                  onChange: this.handleChange
+                  onChange: this.handleChange,
+                  placeholder: 'enter your message',
+                  type: 'text',
+                  value: text
                 }),
                 _react2.default.createElement(
                   'span',
-                  { className: 'text-character-count' },
+                  { className: 'character-count' },
                   textCount + '/500'
                 ),
                 _react2.default.createElement(
                   'button',
                   {
+                    className: 'send',
                     disabled: text.length < 1,
-                    onClick: this.handleSubmit,
-                    className: 'send'
+                    onClick: this.handleSubmit
                   },
                   'Send'
                 )
@@ -51281,20 +51251,18 @@ Chatroom.propTypes = {
   verbs: _propTypes2.default.string.isRequired,
   clearMissedMsg: _propTypes2.default.func.isRequired,
   getMessages: _propTypes2.default.func.isRequired,
-  getUsers: _propTypes2.default.func.isRequired,
   isTyping: _propTypes2.default.func.isRequired,
-  sendMessage: _propTypes2.default.func.isRequired,
   logOutUser: _propTypes2.default.func.isRequired,
+  sendMessage: _propTypes2.default.func.isRequired,
   socketOff: _propTypes2.default.func.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   clearMissedMsg: _actions.clearMissedMsg,
   getMessages: _actions.getMessages,
-  getUsers: _actions.getUsers,
   isTyping: _actions.isTyping,
-  sendMessage: _actions.sendMessage,
   logOutUser: _actions.logOutUser,
+  sendMessage: _actions.sendMessage,
   socketOff: _actions.socketOff
 })(Chatroom);
 
@@ -51391,10 +51359,10 @@ var MessagesList = function (_Component) {
 
         return _react2.default.createElement(
           'li',
-          { className: threadType + ' message-input ', key: _id },
+          { className: threadType + ' message-sent', key: _id },
           _react2.default.createElement(
             'div',
-            { className: threadType + ' timestamp-user-row' },
+            { className: threadType + ' timestamp-user-box' },
             _react2.default.createElement(
               'span',
               { className: 'thread-username' },
@@ -54291,76 +54259,7 @@ module.exports = webpackContext;
 webpackContext.id = 278;
 
 /***/ }),
-/* 279 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(5);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var MissedMessages = function MissedMessages(_ref) {
-  var clearMissedMsg = _ref.clearMissedMsg,
-      handleLogOut = _ref.handleLogOut,
-      missed = _ref.missed,
-      missedMsg = _ref.missedMsg,
-      toggleMissed = _ref.toggleMissed,
-      username = _ref.username;
-  return _react2.default.createElement(
-    'div',
-    { className: 'missed-msg-btns' },
-    _react2.default.createElement(
-      'button',
-      { className: 'logout', onClick: handleLogOut },
-      _react2.default.createElement('i', { className: 'fas fa-power-off' })
-    ),
-    !missed ? _react2.default.createElement(
-      'button',
-      { className: 'unread-btn', onClick: toggleMissed },
-      'New'
-    ) : _react2.default.createElement(
-      'button',
-      {
-        className: 'back-btn',
-        onClick: function onClick() {
-          clearMissedMsg(username);
-          toggleMissed();
-        }
-      },
-      _react2.default.createElement('i', { className: 'fas fa-undo-alt fa-2x' })
-    ),
-    !missed && _react2.default.createElement(
-      'span',
-      { className: 'missed-count', onClick: toggleMissed },
-      missedMsg.length
-    )
-  );
-};
-
-MissedMessages.propTypes = {
-  clearMissedMsg: _propTypes2.default.func.isRequired,
-  handleLogOut: _propTypes2.default.func.isRequired,
-  missed: _propTypes2.default.bool.isRequired,
-  missedMsg: _propTypes2.default.array.isRequired,
-  toggleMissed: _propTypes2.default.func.isRequired,
-  username: _propTypes2.default.string.isRequired
-};
-
-exports.default = MissedMessages;
-
-/***/ }),
+/* 279 */,
 /* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -54509,6 +54408,76 @@ UsersList.propTypes = {
 };
 
 exports.default = UsersList;
+
+/***/ }),
+/* 282 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(5);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NavBtns = function NavBtns(_ref) {
+  var clearMissedMsg = _ref.clearMissedMsg,
+      handleLogOut = _ref.handleLogOut,
+      missed = _ref.missed,
+      missedMsg = _ref.missedMsg,
+      toggleMissed = _ref.toggleMissed,
+      username = _ref.username;
+  return _react2.default.createElement(
+    'div',
+    { className: 'nav-btns' },
+    _react2.default.createElement(
+      'button',
+      { className: 'nav-btns-logout', onClick: handleLogOut },
+      _react2.default.createElement('i', { className: 'fas fa-power-off' })
+    ),
+    !missed ? _react2.default.createElement(
+      'button',
+      { className: 'nav-btns-unread', onClick: toggleMissed },
+      'New'
+    ) : _react2.default.createElement(
+      'button',
+      {
+        className: 'nav-btns-back',
+        onClick: function onClick() {
+          clearMissedMsg(username);
+          toggleMissed();
+        }
+      },
+      _react2.default.createElement('i', { className: 'fas fa-undo-alt fa-2x' })
+    ),
+    !missed && _react2.default.createElement(
+      'span',
+      { className: 'nav-btns-missed', onClick: toggleMissed },
+      missedMsg.length
+    )
+  );
+};
+
+NavBtns.propTypes = {
+  clearMissedMsg: _propTypes2.default.func.isRequired,
+  handleLogOut: _propTypes2.default.func.isRequired,
+  missed: _propTypes2.default.bool.isRequired,
+  missedMsg: _propTypes2.default.array.isRequired,
+  toggleMissed: _propTypes2.default.func.isRequired,
+  username: _propTypes2.default.string.isRequired
+};
+
+exports.default = NavBtns;
 
 /***/ })
 /******/ ]);

@@ -8,7 +8,7 @@
     width: 350px;
   }
   
-  .chat-left-bar {
+  .chat-window-left-section {
     width: 100px;
   }
     
@@ -21,6 +21,8 @@
   
   .notice {
     width: 340px;
+    top: 90px;
+    font-size: 17px;
   }
   
   input#message {
@@ -28,14 +30,14 @@
   }
   
   .messages-list {
-    width: 217px;
+    width: 233px;
   }
   
   .users-list {
     height: 339px;
   }
   
-  button.back-btn {
+  button.nav-btns-back {
     width: 5em;
     height: 2.9em;
     line-height: 0;
@@ -44,5 +46,9 @@
   
   .chatroom-title {
     font-size: 2.4em;
+  }
+  
+  .message-text {
+    max-width: 200px;
   }
 }

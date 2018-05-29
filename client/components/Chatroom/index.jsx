@@ -5,16 +5,15 @@ import PropTypes from 'prop-types';
 import {
   clearMissedMsg,
   getMessages,
-  getUsers,
   isTyping,
-  sendMessage,
   logOutUser,
+  sendMessage,
   socketOff,
 } from '../../actions';
 
 import Footer from '../Footer';
 import MessagesList from './MessagesList';
-import MissedMessages from './MissedMessages';
+import NavBtns from './NavBtns';
 import Notice from '../Notice';
 import UsersList from './UsersList';
 
@@ -38,7 +37,6 @@ class Chatroom extends Component {
 
   componentWillMount() {
     this.props.getMessages();
-    this.props.getUsers();
   }
 
   componentWillUnmount() {
@@ -79,13 +77,13 @@ class Chatroom extends Component {
   render() {
     const { missed, text, textCount } = this.state;
     const {
-      username,
-      users,
+      loading,
       missedMsg,
       messages,
-      loading,
       typing,
       typingUsers,
+      username,
+      users,
       verbs,
     } = this.props;
     const userCount = users.length <= 1 ? 'user' : 'users';
@@ -103,13 +101,13 @@ class Chatroom extends Component {
         <div className="chat-window">
           <Notice />
 
-          <section className="chat-left-bar">
-            <MissedMessages
+          <section className="chat-window-left-section">
+            <NavBtns
+              clearMissedMsg={this.props.clearMissedMsg}
               handleLogOut={this.handleLogOut}
               missed={missed}
               missedMsg={missedMsg}
               toggleMissed={this.toggleMissed}
-              clearMissedMsg={this.props.clearMissedMsg}
               username={username}
             />
             <div className="online-users">{onlineUsers} online</div>
@@ -120,37 +118,37 @@ class Chatroom extends Component {
             {!missed && (
               <MessagesList
                 currentUser={username}
-                messages={messages}
                 loading={loading}
+                messages={messages}
               />
             )}
             {missed && (
               <MessagesList
                 currentUser={username}
-                messages={missedMsg}
                 loading={loading}
+                messages={missedMsg}
               />
             )}
 
             <form onSubmit={this.handleSubmit} className="message-form">
-              <div className="display-typing">
+              <div className="is-typing">
                 {typing ? `${typingUsers.join(', ')} ${verbs} typing...` : ''}
               </div>
-              <div className="message-input-button-wrapper">
+              <div className="message-input-box">
                 <input
-                  id="message"
-                  type="text"
-                  value={text}
                   autoComplete="off"
-                  placeholder="enter your message"
+                  id="message"
                   maxLength="500"
                   onChange={this.handleChange}
+                  placeholder="enter your message"
+                  type="text"
+                  value={text}
                 />
-                <span className="text-character-count">{`${textCount}/500`}</span>
+                <span className="character-count">{`${textCount}/500`}</span>
                 <button
+                  className="send"
                   disabled={text.length < 1}
                   onClick={this.handleSubmit}
-                  className="send"
                 >
                   Send
                 </button>
@@ -187,19 +185,17 @@ Chatroom.propTypes = {
   verbs: PropTypes.string.isRequired,
   clearMissedMsg: PropTypes.func.isRequired,
   getMessages: PropTypes.func.isRequired,
-  getUsers: PropTypes.func.isRequired,
   isTyping: PropTypes.func.isRequired,
-  sendMessage: PropTypes.func.isRequired,
   logOutUser: PropTypes.func.isRequired,
+  sendMessage: PropTypes.func.isRequired,
   socketOff: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
   clearMissedMsg,
   getMessages,
-  getUsers,
   isTyping,
-  sendMessage,
   logOutUser,
+  sendMessage,
   socketOff,
 })(Chatroom);

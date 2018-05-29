@@ -9,24 +9,6 @@ const tokenForUser = (user) => {
   return jwt.encode({ sub: user.id, iat: timestamp }, mySecretJwtKey);
 };
 
-const getUsers = (req, res, next) => {
-  UserModel.find({}).exec((err, users) => {
-    if (err) return next(err);
-
-    const newUsersList = users.map((user) => {
-      const { id, username, onlineStatus } = user;
-
-      return ({
-        id,
-        username,
-        onlineStatus,
-      });
-    });
-
-    res.json(newUsersList);
-  });
-};
-
 const logInUser = (req, res) => {
   const { username } = req.body;
 
@@ -169,7 +151,6 @@ const removeBookMark = (req, res) => {
 };
 
 module.exports = {
-  getUsers,
   logInUser,
   removeBookMark,
   signUpUser,
