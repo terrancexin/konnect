@@ -11,7 +11,7 @@ const Form = ({
   handleSubmit,
   password,
   passwordConfirmation,
-  toggleLogin,
+  toggleSignUp,
   username,
 }) => (
   <form autoComplete="off" className="login-form" onSubmit={handleSubmit}>
@@ -32,7 +32,7 @@ const Form = ({
       onChange={handleChange('password')}
       placeholder="password"
     />
-    {toggleLogin === 'signup' && (
+    {toggleSignUp && (
       <input
         type="password"
         className="login"
@@ -42,8 +42,8 @@ const Form = ({
         placeholder="confirm again"
       />
     )}
-    {toggleLogin === 'signup' && <p className="pick-avatar">Pick an avatar</p>}
-    {toggleLogin === 'signup' && <Avatar handleAvatar={handleAvatar} />}
+    {toggleSignUp && <p className="pick-avatar">Pick an avatar</p>}
+    {toggleSignUp && <Avatar handleAvatar={handleAvatar} />}
     <button onClick={handleSubmit} className="enter">Enter</button>
     <button onClick={handleGuest} className="guest">Guest Demo</button>
   </form>
@@ -57,7 +57,7 @@ Form.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   password: PropTypes.string.isRequired,
   passwordConfirmation: PropTypes.string.isRequired,
-  toggleLogin: PropTypes.string.isRequired,
+  toggleSignUp: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired,
 };
 

@@ -13,7 +13,7 @@ class LogIn extends Component {
       username: '',
       password: '',
       passwordConfirmation: '',
-      toggleLogin: 'signup',
+      toggleSignUp: true,
     };
 
     this.handleAvatar = this.handleAvatar.bind(this);
@@ -21,7 +21,7 @@ class LogIn extends Component {
     this.handleGuest = this.handleGuest.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleToggleLogin = this.handleToggleLogin.bind(this);
+    this.handleToggleSignUp = this.handleToggleSignUp.bind(this);
     this.typeValue = this.typeValue.bind(this);
   }
 
@@ -47,7 +47,7 @@ class LogIn extends Component {
     e.preventDefault();
     const { avatar, username, password, passwordConfirmation } = this.state;
 
-    if (this.state.toggleLogin === 'signup') {
+    if (this.state.toggleSignUp) {
       this.props.signUpUser({
         avatar,
         username: username.trim(),
@@ -59,9 +59,9 @@ class LogIn extends Component {
     }
   }
 
-  handleToggleLogin(toggleLogin) {
+  handleToggleSignUp(bool) {
     this.props.removeErrorMessage();
-    this.setState({ toggleLogin });
+    this.setState({ toggleSignUp: bool });
   }
 
   handleGuest(e) {
@@ -69,7 +69,7 @@ class LogIn extends Component {
     this.setState({
       username: '',
       password: 'password',
-      toggleLogin: 'login',
+      toggleSignUp: false,
     }, () => {
       this.typeValue('awesome guest', () => {
         this.props.logInUser({
@@ -94,24 +94,24 @@ class LogIn extends Component {
       username,
       password,
       passwordConfirmation,
-      toggleLogin,
+      toggleSignUp,
     } = this.state;
     const { err } = this.props;
 
     return (
       <div className="login-page">
         <section className="login-header">
-          <h1 className="konnect-title">Let's Konnect!</h1>
+          <h1 className="konnect-title">{'Let\'s Konnect!'}</h1>
           <div className="login-btns">
             <button
-              className={`login-btn-${toggleLogin === 'signup' ? 'on' : 'off'}`}
-              onClick={() => this.handleToggleLogin('signup')}
+              className={`login-btn-${toggleSignUp ? 'on' : 'off'}`}
+              onClick={() => this.handleToggleSignUp(true)}
             >
               Sign up
             </button>
             <button
-              className={`login-btn-${toggleLogin !== 'signup' ? 'on' : 'off'}`}
-              onClick={() => this.handleToggleLogin('login')}
+              className={`login-btn-${!toggleSignUp ? 'on' : 'off'}`}
+              onClick={() => this.handleToggleSignUp(false)}
             >
               Log in
             </button>
@@ -124,7 +124,7 @@ class LogIn extends Component {
           handleSubmit={this.handleSubmit}
           password={password}
           passwordConfirmation={passwordConfirmation}
-          toggleLogin={toggleLogin}
+          toggleSignUp={toggleSignUp}
           username={username}
           handleGuest={this.handleGuest}
         />
