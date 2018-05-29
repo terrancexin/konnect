@@ -75,12 +75,17 @@ export const logInUser = ({ username, password }) => (dispatch) => {
 };
 
 export const signUpUser = ({
+  avatar,
   username,
   password,
   passwordConfirmation,
 }) => (dispatch) => {
+  if (!avatar) {
+    avatar = `${ROOT_URL}/images/avatars/0.png`;
+  }
+
   axios
-    .post(`${ROOT_URL}/signup`, { username, password, passwordConfirmation })
+    .post(`${ROOT_URL}/signup`, { avatar, username, password, passwordConfirmation })
     .then(({ data }) => {
       if (data.error) {
         loginFailed(data.error, dispatch);
@@ -130,9 +135,9 @@ export const removeErrorMessage = () => (dispatch) => {
   });
 };
 
-export const sendMessage = ({ username, date, text }) => () => {
+export const sendMessage = ({ userAvatar, username, date, text }) => () => {
   axios
-    .post(`${ROOT_URL}/send`, { username, date, text })
+    .post(`${ROOT_URL}/send`, { userAvatar, username, date, text })
     .then(({ data }) => {
       socket.emit(MESSAGE_SENT, data);
     })

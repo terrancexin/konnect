@@ -24,6 +24,7 @@ const initialState = {
   typing: false,
   typingUsers: [],
   username: '',
+  user: '',
   users: [],
   verbs: '',
 };
@@ -61,6 +62,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         auth: true,
         missedMsg: payload.missedMsg,
         username: payload.user.username,
+        user: payload.user,
       };
     case LOGIN_ERROR:
       return {
