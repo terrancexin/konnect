@@ -87,7 +87,7 @@ class Chatroom extends Component {
       users,
       verbs,
     } = this.props;
-    const userCount = users.length <= 1 ? 'user' : 'users';
+    const userPluralCheck = users.length <= 1 ? 'user' : 'users';
     const onlineUsers = users.filter(user => user.onlineStatus).length;
 
     return (
@@ -95,7 +95,7 @@ class Chatroom extends Component {
         <section className="chatroom-header">
           <h1 className="chatroom-title">Hi, {username}!</h1>
           <span className="current-users">
-            You are connected to {users.length - 1} {userCount} on Konnect
+            You are connected to {users.length - 1} {userPluralCheck} on Konnect
           </span>
         </section>
 

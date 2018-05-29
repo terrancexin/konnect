@@ -48,8 +48,8 @@ class MessagesList extends Component {
         <li className={`${threadType} message-sent`} key={_id}>
           <div className={`${threadType} timestamp-user-box`}>
             <img
-              src={userAvatar}
-              className="avatar"
+              src={`${ROOT_URL}/images/avatars/${userAvatar}.png`}
+              className="avatar-img"
               alt="avatar"
             />
             <span className="thread-username">{username}</span>

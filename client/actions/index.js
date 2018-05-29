@@ -43,6 +43,7 @@ const loginFailed = (error, dispatch) => {
   });
 };
 
+// User actions
 const loginSuccess = ({ token, newUser, missedMsg }, dispatch) => {
   localStorage.setItem('token', token);
   initSocket(dispatch);
@@ -81,11 +82,16 @@ export const signUpUser = ({
   passwordConfirmation,
 }) => (dispatch) => {
   if (!avatar) {
-    avatar = `${ROOT_URL}/images/avatars/0.png`;
+    avatar = 'default';
   }
 
   axios
-    .post(`${ROOT_URL}/signup`, { avatar, username, password, passwordConfirmation })
+    .post(`${ROOT_URL}/signup`, {
+      avatar,
+      username,
+      password,
+      passwordConfirmation,
+    })
     .then(({ data }) => {
       if (data.error) {
         loginFailed(data.error, dispatch);
@@ -109,9 +115,17 @@ export const logOutUser = user => (dispatch) => {
   localStorage.removeItem('token');
 };
 
+export const removeErrorMessage = () => (dispatch) => {
+  dispatch({
+    type: LOGIN_ERROR,
+    payload: '',
+  });
+};
+
 // Message actions
 export const getMessages = () => (dispatch) => {
   dispatch({ type: LOADING, payload: true });
+
   axios
     .get(`${ROOT_URL}/messages`, {
       headers: { authorization: localStorage.getItem('token') },
@@ -127,12 +141,6 @@ export const getMessages = () => (dispatch) => {
     .catch((err) => {
       console.log(`fetch messages failed: ${err}`);
     });
-};
-export const removeErrorMessage = () => (dispatch) => {
-  dispatch({
-    type: LOGIN_ERROR,
-    payload: '',
-  });
 };
 
 export const sendMessage = ({ userAvatar, username, date, text }) => () => {
