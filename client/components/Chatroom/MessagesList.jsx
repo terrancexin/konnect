@@ -41,12 +41,17 @@ class MessagesList extends Component {
 
   renderMessages(messages, currentUser) {
     return messages.map((msg) => {
-      const { date, _id, text, username } = msg;
+      const { date, _id, text, username, userAvatar } = msg;
       const threadType = username === currentUser ? 'current-user' : 'other-user';
 
       return (
         <li className={`${threadType} message-sent`} key={_id}>
           <div className={`${threadType} timestamp-user-box`}>
+            <img
+              src={userAvatar}
+              className="avatar"
+              alt="avatar"
+            />
             <span className="thread-username">{username}</span>
             <span className="thread-timestamp">{moment(date).format('h:mm a')}</span>
           </div>

@@ -26,6 +26,7 @@ class Chatroom extends Component {
       text: '',
       textCount: 0,
       username: this.props.username,
+      userAvatar: this.props.user.avatar,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -70,8 +71,8 @@ class Chatroom extends Component {
     e.preventDefault();
     this.setState({ text: '', textCount: 0, date: new Date() });
 
-    const { username, text, date } = this.state;
-    this.props.sendMessage({ username, text, date });
+    const { userAvatar, username, text, date } = this.state;
+    this.props.sendMessage({ userAvatar, username, text, date });
   }
 
   render() {
@@ -170,6 +171,7 @@ const mapStateToProps = state => ({
   typing: state.typing,
   typingUsers: state.typingUsers,
   username: state.username,
+  user: state.user,
   users: state.users,
   verbs: state.verbs,
 });
@@ -181,6 +183,7 @@ Chatroom.propTypes = {
   typing: PropTypes.bool.isRequired,
   typingUsers: PropTypes.array.isRequired,
   username: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
   users: PropTypes.array.isRequired,
   verbs: PropTypes.string.isRequired,
   clearMissedMsg: PropTypes.func.isRequired,
