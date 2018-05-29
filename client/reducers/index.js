@@ -16,7 +16,6 @@ import {
 const initialState = {
   auth: false,
   err: '',
-  hasMoreMessages: true,
   loading: false,
   messages: [],
   missedMsg: [],
