@@ -9,18 +9,24 @@ class LogIn extends Component {
   constructor() {
     super();
     this.state = {
+      avatar: '',
       username: '',
       password: '',
       passwordConfirmation: '',
       toggleLogin: 'signup',
     };
 
+    this.handleAvatar = this.handleAvatar.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleGuest = this.handleGuest.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleLogin = this.handleToggleLogin.bind(this);
     this.typeValue = this.typeValue.bind(this);
+  }
+
+  handleAvatar(avatar) {
+    this.setState({ avatar });
   }
 
   handleChange(inputName) {
@@ -39,10 +45,15 @@ class LogIn extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { username, password, passwordConfirmation } = this.state;
+    const { avatar, username, password, passwordConfirmation } = this.state;
 
     if (this.state.toggleLogin === 'signup') {
-      this.props.signUpUser({ username, password, passwordConfirmation });
+      this.props.signUpUser({
+        avatar,
+        username: username.trim(),
+        password,
+        passwordConfirmation,
+      });
     } else {
       this.props.logInUser({ username, password });
     }
@@ -107,6 +118,7 @@ class LogIn extends Component {
           </div>
         </section>
         <Form
+          handleAvatar={this.handleAvatar}
           err={err}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
