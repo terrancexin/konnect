@@ -15,6 +15,7 @@ module.exports = {
     "no-await-in-loop": "off",
     "class-methods-use-this": "off",
     "no-console": "off",
-    "func-names": "off"
+    "func-names": "off",
+    "no-plusplus": "off"
   }
 }
