@@ -1,4 +1,4 @@
-/* global ROOT_URL, document */
+/* global ROOT_URL */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,38 +6,39 @@ class Avatar extends Component {
   constructor(props) {
     super(props);
 
-    this.handleClick = this.handleClick.bind(this);
+    this.state = { avatarRadio: null };
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleClick(avatar) {
-    return (e) => {
-      e.preventDefault();
-      if (document.querySelector('.avatar.selected')) {
-        document.querySelector('.avatar.selected').className = 'avatar not-selected';
-      }
+  handleChange(e) {
+    const { value } = e.target;
 
-      e.target.className = 'avatar selected';
-      this.props.handleAvatar(avatar);
-    };
+    if (value) {
+      this.setState({ avatarRadio: parseInt(value, 10) });
+      this.props.handleAvatar(value);
+    }
   }
 
   render() {
     const avatars = [];
+
     for (let i = 1; i < 12; i++) {
-      avatars.push(`${ROOT_URL}/images/avatars/${i}.png`);
+      avatars.push(
+        <label key={i} htmlFor={`avatar${i}`} className="radio-label">
+          <input
+            id={`avatar${i}`}
+            type="radio"
+            className="avatar-input"
+            value={i}
+            checked={this.state.avatarRadio === i}
+          />
+          <img src={`${ROOT_URL}/images/avatars/${i}.png`} alt="avatar" />
+        </label>);
     }
 
     return (
-      <div className="avatar-list">
-        {avatars.map((avatar, idx) => (
-          <img
-            key={idx}
-            onClick={this.handleClick(avatar)}
-            src={avatar}
-            className="avatar not-selected"
-            alt="avatar"
-          />
-        ))}
+      <div className="avatar-list" onChange={this.handleChange}>
+        {avatars}
       </div>
     );
   }
@@ -48,4 +49,3 @@ Avatar.propTypes = {
 };
 
 export default Avatar;
-
