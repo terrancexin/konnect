@@ -104,17 +104,17 @@ input.login {
 .chatroom {
   @include flex-column-center-center;
   background: floralwhite;
-}
-
-.chatroom-header {
-  @include flex-column-center-center;
-}
-
-.chatroom-title {
-  font-size: 4em;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  color: $blue;
+  
+  &-header {
+    @include flex-column-center-center;
+  }
+  
+  &-title {
+    font-size: 4em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: $blue;
+  }
 }
 
 .current-users {
@@ -155,11 +155,11 @@ input.login {
   background: white;
   border-radius: 5px;
   box-shadow: 0 3px 15px rgba(0,0,0,.2);
-}
-
-.chat-left-bar {
-  border-right: 1px solid $bordergray;
-  width: 150px;
+  
+  &-left-section {
+    border-right: 1px solid $bordergray;
+    width: 150px;
+  }
 }
 
 .users-list {
@@ -195,6 +195,7 @@ input.login {
 img.online-inactive,
 img.online-active {
   width: 15px;
+  min-width: 15px;
   height: 15px;
   border-radius: 10px;
   margin-left: 10px;
@@ -214,66 +215,66 @@ img.online-inactive {
   font-style: italic;
 }
 
-.missed-msg-btns {
+.nav-btns {
   display: flex;
   position: relative;
   margin: 10px 0;
-}
-
-button.logout {
-  width: 3em;
-  height: 2.9em;
-  line-height: 0;
-  padding: 0;
-  background-color: gray;
-  margin: 0;
   
-  &:hover {
-    background: $red;
+  &-logout {
+    width: 3em;
+    height: 2.9em;
+    line-height: 0;
+    padding: 0;
+    background-color: gray;
+    margin: 0;
+    
+    &:hover {
+      background: $red;
+    }
   }
-}
-
-button.back-btn,
-button.unread-btn {
-  width: 7em;
-  height: 2.9em;
-  line-height: 0;
-  padding-right: 35px;
-  margin: 0;
-}
-
-button.unread-btn {
-  &:hover {
+  
+  &-unread,
+  &-back {
+    width: 7em;
+    height: 2.9em;
+    line-height: 0;
+    padding-right: 35px;
+    margin: 0;
+  }
+  
+  &-unread {
+    &:hover {
+      background-color: $mintGreen;
+    }
+  }
+  
+  &-back {
     background-color: $mintGreen;
-  }
-}
-
-.missed-count {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background-color: red;
-  border: 1px solid red;
-  border-radius: 100px;
-  height: 17px;
-  width: 17px;
-  color: white;
-  text-align: center;
-  padding: 2px;
-  cursor: pointer;
-}
-
-button.back-btn {
-  background-color: $mintGreen;
-  color: white;
-  
-  .fas.fa-undo-alt.fa-2x {
-    margin-left: 16px;
+    color: white;
+    
+    .fas.fa-undo-alt.fa-2x {
+      margin-left: 16px;
+    }
+    
+    &:hover {
+      background-color: black;
+      color: $mintGreen;
+    }
   }
   
-  &:hover {
-    background-color: black;
-    color: $mintGreen;
+  &-missed {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: red;
+    border: 1px solid red;
+    border-radius: 100px;
+    height: 17px;
+    width: 17px;
+    color: white;
+    text-align: center;
+    padding: 2px;
+    cursor: pointer;
   }
 }
 
@@ -318,7 +319,7 @@ input#message {
   }
 }
 
-.text-character-count {
+.character-count {
   position: absolute;
   right: 72px;
   bottom: 3px;
@@ -329,7 +330,7 @@ input#message {
   color: $black;
 }
 
-.display-typing {
+.is-typing {
   height: 18px;
   line-height: 18px;
   font-size: 13px;
@@ -342,12 +343,12 @@ input#message {
   overflow: scroll;
 }
 
-.message-input {
+.message-sent {
   @include flex-column;
   margin-bottom: 10px;
 }
 
-.timestamp-user-row {
+.timestamp-user-box {
   @include flex-center-center;
 }
 
@@ -361,11 +362,11 @@ input#message {
 }
 
 .current-user {
-  &.message-input {
+  &.message-sent {
     align-items: flex-end;
   }
   
-  &.timestamp-user-row {
+  &.timestamp-user-box {
      flex-direction: row-reverse;
   }
   
@@ -375,7 +376,7 @@ input#message {
 }
 
 .other-user {
-  &.message-input {
+  &.message-sent {
     align-items: flex-start;
   }
   
@@ -400,7 +401,7 @@ input#message {
   margin: 0 7px;
 }
 
-.message-input-button-wrapper {
+.message-input-box {
   @include flex-space-between-center;
   position: relative;
 }
@@ -451,6 +452,12 @@ footer {
   &:hover {
     color: red;
   }
+}
+
+.avatar {
+  width: 26px;
+  height: 26px;
+  margin: 0 2px 1px 2px;
 }
 
 @import 'mobile.scss';
