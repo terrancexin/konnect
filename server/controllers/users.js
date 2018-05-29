@@ -68,7 +68,7 @@ const logInUser = (req, res) => {
 };
 
 const signUpUser = (req, res, next) => {
-  const { username, password, passwordConfirmation } = req.body;
+  const { avatar, username, password, passwordConfirmation } = req.body;
 
   if (!username) {
     return res.send({ error: 'hey, enter something!' });
@@ -114,6 +114,7 @@ const signUpUser = (req, res, next) => {
     }
 
     const newUser = new UserModel({
+      avatar,
       username,
       password,
       bookMark: '',

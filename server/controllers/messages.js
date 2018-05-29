@@ -9,13 +9,14 @@ const getMessages = (req, res, next) => {
 };
 
 const sendMessage = (req, res, next) => {
-  const { username, text, date } = req.body;
+  const { userAvatar, username, text, date } = req.body;
 
   if (!username || !text || !date) {
     return res.send({ error: 'missing params in request' });
   }
 
   const message = new MessageModel({
+    userAvatar,
     username,
     text,
     date,

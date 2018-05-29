@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
+  avatar: String,
   bookMark: String,
   onlineStatus: Boolean,
   password: String,
