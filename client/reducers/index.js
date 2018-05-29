@@ -2,7 +2,6 @@ import {
   CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
   GET_MESSAGES,
-  GET_USERS,
   MESSAGE_SENT,
   LOADING,
   LOGGED_IN,
@@ -27,7 +26,6 @@ const initialState = {
   username: '',
   users: [],
   verbs: '',
-  user: '',
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -47,11 +45,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         messages: [...payload],
       };
-    case GET_USERS:
-      return {
-        ...state,
-        users: [...payload],
-      };
     case MESSAGE_SENT:
       return {
         ...state,
@@ -68,7 +61,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
         auth: true,
         missedMsg: payload.missedMsg,
         username: payload.user.username,
-        user: payload.user,
       };
     case LOGIN_ERROR:
       return {

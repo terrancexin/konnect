@@ -6,7 +6,6 @@ import {
   CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
   GET_MESSAGES,
-  GET_USERS,
   LOADING,
   LOGIN_ERROR,
   LOGGED_IN,
@@ -35,24 +34,6 @@ const initSocket = (dispatch) => {
 
 export const socketOff = () => () => {
   SOCKET_EVENTS.forEach(type => socket.off(type));
-};
-
-// User actions
-export const getUsers = () => (dispatch) => {
-  axios
-    .get(`${ROOT_URL}/users`, {
-      headers: { authorization: localStorage.getItem('token') },
-    })
-    .then(({ data }) => {
-      dispatch({
-        type: GET_USERS,
-        payload: data.length <= 1 ? data
-          : data.sort((a, b) => b.onlineStatus - a.onlineStatus),
-      });
-    })
-    .catch((err) => {
-      console.log(`fetching all users failed: ${err}`);
-    });
 };
 
 const loginFailed = (error, dispatch) => {
