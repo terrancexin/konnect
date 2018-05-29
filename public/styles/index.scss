@@ -387,6 +387,12 @@ input#message {
   }
 }
 
+.avatar-img {
+  width: 26px;
+  height: 26px;
+  margin: 0 2px 1px 2px;
+}
+
 .thread-username {
   font-weight: 700;
   font-size: 15px;
@@ -467,25 +473,25 @@ footer {
   font-weight: bold;
 }
 
-.avatar {
-  width: 26px;
-  height: 26px;
-  margin: 0 2px 1px 2px;
-  cursor: pointer;
-  transition:all .2s ease-in;
-
-  &.selected {
-    filter: brightness(1);
-    width: 35px;
-    height: 35px;
-  }
-  
-  &.not-selected {
+.radio-label {
+  input + img {
+    width: 26px;
+    height: 26px;
+    margin: 0 2px 1px 2px;
+    line-height: 35px;
+    cursor: pointer;
+    transition:all .3s ease-in;
     filter: brightness(0.4);
     
     &:hover {
       filter: brightness(1);
     }
+  }
+  
+  input:checked + img {
+    filter: brightness(1);
+    width: 35px;
+    height: 35px;
   }
 }
 

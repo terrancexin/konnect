@@ -1902,7 +1902,7 @@
             try {
                 oldLocale = globalLocale._abbr;
                 var aliasedRequire = require;
-                __webpack_require__(278)("./" + name);
+                __webpack_require__(279)("./" + name);
                 getSetGlobalLocale(oldLocale);
             } catch (e) {}
         }
@@ -4812,6 +4812,41 @@ module.exports = g;
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(191)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(192)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -5117,41 +5152,6 @@ module.exports = {
   trim: trim
 };
 
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(191)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(192)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 6 */
@@ -6638,7 +6638,7 @@ function warning(message) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isTyping = exports.clearNotices = exports.clearMissedMsg = exports.sendMessage = exports.removeErrorMessage = exports.getMessages = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
+exports.isTyping = exports.clearNotices = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = exports.removeErrorMessage = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
 
 var _axios = __webpack_require__(225);
 
@@ -6685,6 +6685,7 @@ var loginFailed = function loginFailed(error, dispatch) {
   });
 };
 
+// User actions
 var loginSuccess = function loginSuccess(_ref, dispatch) {
   var token = _ref.token,
       newUser = _ref.newUser,
@@ -6730,10 +6731,15 @@ var signUpUser = exports.signUpUser = function signUpUser(_ref4) {
       passwordConfirmation = _ref4.passwordConfirmation;
   return function (dispatch) {
     if (!avatar) {
-      avatar = ROOT_URL + '/images/avatars/0.png';
+      avatar = 'default';
     }
 
-    _axios2.default.post(ROOT_URL + '/signup', { avatar: avatar, username: username, password: password, passwordConfirmation: passwordConfirmation }).then(function (_ref5) {
+    _axios2.default.post(ROOT_URL + '/signup', {
+      avatar: avatar,
+      username: username,
+      password: password,
+      passwordConfirmation: passwordConfirmation
+    }).then(function (_ref5) {
       var data = _ref5.data;
 
       if (data.error) {
@@ -6760,10 +6766,20 @@ var logOutUser = exports.logOutUser = function logOutUser(user) {
   };
 };
 
+var removeErrorMessage = exports.removeErrorMessage = function removeErrorMessage() {
+  return function (dispatch) {
+    dispatch({
+      type: _constants.LOGIN_ERROR,
+      payload: ''
+    });
+  };
+};
+
 // Message actions
 var getMessages = exports.getMessages = function getMessages() {
   return function (dispatch) {
     dispatch({ type: _constants.LOADING, payload: true });
+
     _axios2.default.get(ROOT_URL + '/messages', {
       headers: { authorization: localStorage.getItem('token') }
     }).then(function (_ref6) {
@@ -6779,14 +6795,6 @@ var getMessages = exports.getMessages = function getMessages() {
       }, 500);
     }).catch(function (err) {
       console.log('fetch messages failed: ' + err);
-    });
-  };
-};
-var removeErrorMessage = exports.removeErrorMessage = function removeErrorMessage() {
-  return function (dispatch) {
-    dispatch({
-      type: _constants.LOGIN_ERROR,
-      payload: ''
     });
   };
 };
@@ -6850,7 +6858,7 @@ var isTyping = exports.isTyping = function isTyping(username, bool) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var normalizeHeaderName = __webpack_require__(229);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -7779,7 +7787,7 @@ module.exports = containsNode;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return subscriptionShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return storeShape; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
 
 
@@ -8862,7 +8870,7 @@ module.exports = function bind(fn, thisArg) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var settle = __webpack_require__(230);
 var buildURL = __webpack_require__(232);
 var parseHeaders = __webpack_require__(233);
@@ -10782,49 +10790,32 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Footer = function Footer() {
+  var icons = {
+    globe: 'https://www.terrancexin.com',
+    github: 'https://github.com/terrancexin/konnect',
+    linkedin: 'https://www.linkedin.com/in/terrancexin/',
+    angellist: 'https://angel.co/terrancexin'
+  };
+
   return _react2.default.createElement(
-    "footer",
-    { className: "footer-icons" },
-    _react2.default.createElement(
-      "a",
-      {
-        href: "https://www.terrancexin.com",
-        title: "www",
-        target: "_blank",
-        rel: "noreferrer noopener"
-      },
-      _react2.default.createElement("i", { className: "fa fa-globe" })
-    ),
-    _react2.default.createElement(
-      "a",
-      {
-        href: "https://github.com/terrancexin/konnect",
-        title: "github",
-        target: "_blank",
-        rel: "noreferrer noopener"
-      },
-      _react2.default.createElement("i", { className: "fab fa-github" })
-    ),
-    _react2.default.createElement(
-      "a",
-      {
-        href: "https://www.linkedin.com/in/terrancexin/",
-        title: "linkedin",
-        target: "_blank",
-        rel: "noreferrer noopener"
-      },
-      _react2.default.createElement("i", { className: "fab fa-linkedin" })
-    ),
-    _react2.default.createElement(
-      "a",
-      {
-        href: "https://angel.co/terrancexin",
-        title: "angellist",
-        target: "_blank",
-        rel: "noreferrer noopener"
-      },
-      _react2.default.createElement("i", { className: "fab fa-angellist" })
-    )
+    'footer',
+    { className: 'footer-icons' },
+    Object.keys(icons).map(function (key) {
+      var link = icons[key];
+
+      return _react2.default.createElement(
+        'a',
+        {
+          href: link,
+          title: key,
+          target: '_blank',
+          rel: 'noreferrer noopener',
+          key: key
+        },
+        key !== 'globe' && _react2.default.createElement('i', { className: 'fab fa-' + key }),
+        key === 'globe' && _react2.default.createElement('i', { className: 'fa fa-' + key })
+      );
+    })
   );
 };
 
@@ -42050,7 +42041,7 @@ module.exports = camelize;
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (immutable) */ __webpack_exports__["a"] = createProvider;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(20);
@@ -43814,7 +43805,7 @@ exports = module.exports = __webpack_require__(217)(false);
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin-top: 1.5em;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    color: white;\n    text-align: center;\n    padding: 2px;\n    cursor: pointer; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.avatar-list {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.pick-avatar {\n  margin-top: 15px;\n  margin-bottom: 5px;\n  color: #4080ff;\n  font-weight: bold; }\n\n.avatar {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px;\n  cursor: pointer;\n  transition: all .2s ease-in; }\n  .avatar.selected {\n    filter: brightness(1);\n    width: 35px;\n    height: 35px; }\n  .avatar.not-selected {\n    filter: brightness(0.4); }\n    .avatar.not-selected:hover {\n      filter: brightness(1); }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; } }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\ninput[type=\"radio\"] {\n  visibility: hidden;\n  position: absolute; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin-top: 1.5em;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    color: white;\n    text-align: center;\n    padding: 2px;\n    cursor: pointer; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.avatar-img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.avatar-list {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.pick-avatar {\n  margin-top: 15px;\n  margin-bottom: 5px;\n  color: #4080ff;\n  font-weight: bold; }\n\n.radio-label input + img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px;\n  line-height: 35px;\n  cursor: pointer;\n  transition: all .3s ease-in;\n  filter: brightness(0.4); }\n  .radio-label input + img:hover {\n    filter: brightness(1); }\n\n.radio-label input:checked + img {\n  filter: brightness(1);\n  width: 35px;\n  height: 35px; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; } }\n", ""]);
 
 // exports
 
@@ -44462,7 +44453,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var initialState = {
   auth: false,
   err: '',
-  hasMoreMessages: true,
   loading: false,
   messages: [],
   missedMsg: [],
@@ -44570,7 +44560,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(12);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -44578,7 +44568,7 @@ var _LogIn = __webpack_require__(224);
 
 var _LogIn2 = _interopRequireDefault(_LogIn);
 
-var _Chatroom = __webpack_require__(268);
+var _Chatroom = __webpack_require__(269);
 
 var _Chatroom2 = _interopRequireDefault(_Chatroom);
 
@@ -44647,7 +44637,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(12);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -44684,7 +44674,7 @@ var LogIn = function (_Component) {
       username: '',
       password: '',
       passwordConfirmation: '',
-      toggleLogin: 'signup'
+      toggleSignUp: true
     };
 
     _this.handleAvatar = _this.handleAvatar.bind(_this);
@@ -44692,7 +44682,7 @@ var LogIn = function (_Component) {
     _this.handleGuest = _this.handleGuest.bind(_this);
     _this.handleKeyPress = _this.handleKeyPress.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.handleToggleLogin = _this.handleToggleLogin.bind(_this);
+    _this.handleToggleSignUp = _this.handleToggleSignUp.bind(_this);
     _this.typeValue = _this.typeValue.bind(_this);
     return _this;
   }
@@ -44731,7 +44721,7 @@ var LogIn = function (_Component) {
           passwordConfirmation = _state.passwordConfirmation;
 
 
-      if (this.state.toggleLogin === 'signup') {
+      if (this.state.toggleSignUp) {
         this.props.signUpUser({
           avatar: avatar,
           username: username.trim(),
@@ -44743,10 +44733,10 @@ var LogIn = function (_Component) {
       }
     }
   }, {
-    key: 'handleToggleLogin',
-    value: function handleToggleLogin(toggleLogin) {
+    key: 'handleToggleSignUp',
+    value: function handleToggleSignUp(bool) {
       this.props.removeErrorMessage();
-      this.setState({ toggleLogin: toggleLogin });
+      this.setState({ toggleSignUp: bool });
     }
   }, {
     key: 'handleGuest',
@@ -44757,7 +44747,7 @@ var LogIn = function (_Component) {
       this.setState({
         username: '',
         password: 'password',
-        toggleLogin: 'login'
+        toggleSignUp: false
       }, function () {
         _this3.typeValue('awesome guest', function () {
           _this3.props.logInUser({
@@ -44788,7 +44778,7 @@ var LogIn = function (_Component) {
           username = _state2.username,
           password = _state2.password,
           passwordConfirmation = _state2.passwordConfirmation,
-          toggleLogin = _state2.toggleLogin;
+          toggleSignUp = _state2.toggleSignUp;
       var err = this.props.err;
 
 
@@ -44809,9 +44799,9 @@ var LogIn = function (_Component) {
             _react2.default.createElement(
               'button',
               {
-                className: 'login-btn-' + (toggleLogin === 'signup' ? 'on' : 'off'),
+                className: 'login-btn-' + (toggleSignUp ? 'on' : 'off'),
                 onClick: function onClick() {
-                  return _this5.handleToggleLogin('signup');
+                  return _this5.handleToggleSignUp(true);
                 }
               },
               'Sign up'
@@ -44819,9 +44809,9 @@ var LogIn = function (_Component) {
             _react2.default.createElement(
               'button',
               {
-                className: 'login-btn-' + (toggleLogin !== 'signup' ? 'on' : 'off'),
+                className: 'login-btn-' + (!toggleSignUp ? 'on' : 'off'),
                 onClick: function onClick() {
-                  return _this5.handleToggleLogin('login');
+                  return _this5.handleToggleSignUp(false);
                 }
               },
               'Log in'
@@ -44835,7 +44825,7 @@ var LogIn = function (_Component) {
           handleSubmit: this.handleSubmit,
           password: password,
           passwordConfirmation: passwordConfirmation,
-          toggleLogin: toggleLogin,
+          toggleSignUp: toggleSignUp,
           username: username,
           handleGuest: this.handleGuest
         }),
@@ -44879,7 +44869,7 @@ module.exports = __webpack_require__(226);
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var bind = __webpack_require__(37);
 var Axios = __webpack_require__(228);
 var defaults = __webpack_require__(22);
@@ -44966,7 +44956,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(22);
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var InterceptorManager = __webpack_require__(237);
 var dispatchRequest = __webpack_require__(238);
 
@@ -45051,7 +45041,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -45131,7 +45121,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -45204,7 +45194,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -45264,7 +45254,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -45382,7 +45372,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -45442,7 +45432,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -45501,7 +45491,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var transformData = __webpack_require__(239);
 var isCancel = __webpack_require__(40);
 var defaults = __webpack_require__(22);
@@ -45594,7 +45584,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 /**
  * Transform the data for a request or a response
@@ -50919,11 +50909,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Avatar = __webpack_require__(282);
+var _Avatar = __webpack_require__(268);
 
 var _Avatar2 = _interopRequireDefault(_Avatar);
 
@@ -50937,7 +50927,7 @@ var Form = function Form(_ref) {
       handleSubmit = _ref.handleSubmit,
       password = _ref.password,
       passwordConfirmation = _ref.passwordConfirmation,
-      toggleLogin = _ref.toggleLogin,
+      toggleSignUp = _ref.toggleSignUp,
       username = _ref.username;
   return _react2.default.createElement(
     'form',
@@ -50963,7 +50953,7 @@ var Form = function Form(_ref) {
       onChange: handleChange('password'),
       placeholder: 'password'
     }),
-    toggleLogin === 'signup' && _react2.default.createElement('input', {
+    toggleSignUp && _react2.default.createElement('input', {
       type: 'password',
       className: 'login',
       value: passwordConfirmation,
@@ -50971,12 +50961,12 @@ var Form = function Form(_ref) {
       onChange: handleChange('passwordConfirmation'),
       placeholder: 'confirm again'
     }),
-    toggleLogin === 'signup' && _react2.default.createElement(
+    toggleSignUp && _react2.default.createElement(
       'p',
       { className: 'pick-avatar' },
       'Pick an avatar'
     ),
-    toggleLogin === 'signup' && _react2.default.createElement(_Avatar2.default, { handleAvatar: handleAvatar }),
+    toggleSignUp && _react2.default.createElement(_Avatar2.default, { handleAvatar: handleAvatar }),
     _react2.default.createElement(
       'button',
       { onClick: handleSubmit, className: 'enter' },
@@ -50998,7 +50988,7 @@ Form.propTypes = {
   handleSubmit: _propTypes2.default.func.isRequired,
   password: _propTypes2.default.string.isRequired,
   passwordConfirmation: _propTypes2.default.string.isRequired,
-  toggleLogin: _propTypes2.default.string.isRequired,
+  toggleSignUp: _propTypes2.default.bool.isRequired,
   username: _propTypes2.default.string.isRequired
 };
 
@@ -51021,9 +51011,100 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(4);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global ROOT_URL */
+
+
+var Avatar = function (_Component) {
+  _inherits(Avatar, _Component);
+
+  function Avatar(props) {
+    _classCallCheck(this, Avatar);
+
+    var _this = _possibleConstructorReturn(this, (Avatar.__proto__ || Object.getPrototypeOf(Avatar)).call(this, props));
+
+    _this.state = { avatarRadio: null };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(Avatar, [{
+    key: 'handleChange',
+    value: function handleChange(e) {
+      var value = e.target.value;
+
+
+      if (value) {
+        this.setState({ avatarRadio: parseInt(value, 10) });
+        this.props.handleAvatar(value);
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var avatars = [];
+
+      for (var i = 1; i < 12; i++) {
+        avatars.push(_react2.default.createElement(
+          'label',
+          { key: i, htmlFor: 'avatar' + i, className: 'radio-label' },
+          _react2.default.createElement('input', {
+            id: 'avatar' + i,
+            type: 'radio',
+            className: 'avatar-input',
+            value: i,
+            checked: this.state.avatarRadio === i
+          }),
+          _react2.default.createElement('img', { src: ROOT_URL + '/images/avatars/' + i + '.png', alt: 'avatar' })
+        ));
+      }
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'avatar-list', onChange: this.handleChange },
+        avatars
+      );
+    }
+  }]);
+
+  return Avatar;
+}(_react.Component);
+
+Avatar.propTypes = {
+  handleAvatar: _propTypes2.default.func.isRequired
+};
+
+exports.default = Avatar;
+
+/***/ }),
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
 var _reactRedux = __webpack_require__(12);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -51033,19 +51114,19 @@ var _Footer = __webpack_require__(54);
 
 var _Footer2 = _interopRequireDefault(_Footer);
 
-var _MessagesList = __webpack_require__(269);
+var _MessagesList = __webpack_require__(270);
 
 var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
-var _NavBtns = __webpack_require__(279);
+var _NavBtns = __webpack_require__(280);
 
 var _NavBtns2 = _interopRequireDefault(_NavBtns);
 
-var _Notice = __webpack_require__(280);
+var _Notice = __webpack_require__(281);
 
 var _Notice2 = _interopRequireDefault(_Notice);
 
-var _UsersList = __webpack_require__(281);
+var _UsersList = __webpack_require__(282);
 
 var _UsersList2 = _interopRequireDefault(_UsersList);
 
@@ -51153,7 +51234,7 @@ var Chatroom = function (_Component) {
           users = _props.users,
           verbs = _props.verbs;
 
-      var userCount = users.length <= 1 ? 'user' : 'users';
+      var userPluralCheck = users.length <= 1 ? 'user' : 'users';
       var onlineUsers = users.filter(function (user) {
         return user.onlineStatus;
       }).length;
@@ -51177,7 +51258,7 @@ var Chatroom = function (_Component) {
             'You are connected to ',
             users.length - 1,
             ' ',
-            userCount,
+            userPluralCheck,
             ' on Konnect'
           )
         ),
@@ -51305,7 +51386,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
 })(Chatroom);
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51321,11 +51402,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactLinkify = __webpack_require__(270);
+var _reactLinkify = __webpack_require__(271);
 
 var _reactLinkify2 = _interopRequireDefault(_reactLinkify);
 
@@ -51403,8 +51484,8 @@ var MessagesList = function (_Component) {
             'div',
             { className: threadType + ' timestamp-user-box' },
             _react2.default.createElement('img', {
-              src: userAvatar,
-              className: 'avatar',
+              src: ROOT_URL + '/images/avatars/' + userAvatar + '.png',
+              className: 'avatar-img',
               alt: 'avatar'
             }),
             _react2.default.createElement(
@@ -51476,7 +51557,7 @@ MessagesList.propTypes = {
 exports.default = MessagesList;
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51493,15 +51574,15 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _linkifyIt = __webpack_require__(271);
+var _linkifyIt = __webpack_require__(272);
 
 var _linkifyIt2 = _interopRequireDefault(_linkifyIt);
 
-var _tlds = __webpack_require__(277);
+var _tlds = __webpack_require__(278);
 
 var _tlds2 = _interopRequireDefault(_tlds);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -51632,7 +51713,7 @@ exports.default = Linkify;
 
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51788,7 +51869,7 @@ function createNormalizer() {
 function compile(self) {
 
   // Load & clone RE patterns.
-  var re = self.re = __webpack_require__(272)(self.__opts__);
+  var re = self.re = __webpack_require__(273)(self.__opts__);
 
   // Define dynamic patterns
   var tlds = self.__tlds__.slice();
@@ -52276,7 +52357,7 @@ module.exports = LinkifyIt;
 
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52287,10 +52368,10 @@ module.exports = function (opts) {
   var re = {};
 
   // Use direct extract instead of `regenerate` to reduse browserified size
-  re.src_Any = __webpack_require__(273).source;
-  re.src_Cc  = __webpack_require__(274).source;
-  re.src_Z   = __webpack_require__(275).source;
-  re.src_P   = __webpack_require__(276).source;
+  re.src_Any = __webpack_require__(274).source;
+  re.src_Cc  = __webpack_require__(275).source;
+  re.src_Z   = __webpack_require__(276).source;
+  re.src_P   = __webpack_require__(277).source;
 
   // \p{\Z\P\Cc\CF} (white spaces + control + format + punctuation)
   re.src_ZPCc = [ re.src_Z, re.src_P, re.src_Cc ].join('|');
@@ -52460,31 +52541,31 @@ module.exports = function (opts) {
 
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports) {
 
 module.exports=/[\0-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports) {
 
 module.exports=/[\0-\x1F\x7F-\x9F]/
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports) {
 
 module.exports=/[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports) {
 
 module.exports=/[!-#%-\*,-/:;\?@\[-\]_\{\}\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u09FD\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E49\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDC4B-\uDC4F\uDC5B\uDC5D\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDE60-\uDE6C\uDF3C-\uDF3E]|\uD806[\uDE3F-\uDE46\uDE9A-\uDE9C\uDE9E-\uDEA2]|\uD807[\uDC41-\uDC45\uDC70\uDC71]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B]|\uD83A[\uDD5E\uDD5F]/
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports) {
 
 module.exports = [
@@ -54035,7 +54116,7 @@ module.exports = [
 
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -54300,10 +54381,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 278;
+webpackContext.id = 279;
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54317,7 +54398,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -54373,7 +54454,7 @@ NavBtns.propTypes = {
 exports.default = NavBtns;
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54389,7 +54470,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -54464,7 +54545,7 @@ Notice.propTypes = {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, { clearNotices: _actions.clearNotices })(Notice);
 
 /***/ }),
-/* 281 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54478,7 +54559,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -54521,98 +54602,6 @@ UsersList.propTypes = {
 };
 
 exports.default = UsersList;
-
-/***/ }),
-/* 282 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(5);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global ROOT_URL, document */
-
-
-var Avatar = function (_Component) {
-  _inherits(Avatar, _Component);
-
-  function Avatar(props) {
-    _classCallCheck(this, Avatar);
-
-    var _this = _possibleConstructorReturn(this, (Avatar.__proto__ || Object.getPrototypeOf(Avatar)).call(this, props));
-
-    _this.handleClick = _this.handleClick.bind(_this);
-    return _this;
-  }
-
-  _createClass(Avatar, [{
-    key: 'handleClick',
-    value: function handleClick(avatar) {
-      var _this2 = this;
-
-      return function (e) {
-        e.preventDefault();
-        if (document.querySelector('.avatar.selected')) {
-          document.querySelector('.avatar.selected').className = 'avatar not-selected';
-        }
-
-        e.target.className = 'avatar selected';
-        _this2.props.handleAvatar(avatar);
-      };
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      var avatars = [];
-      for (var i = 1; i < 12; i++) {
-        avatars.push(ROOT_URL + '/images/avatars/' + i + '.png');
-      }
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'avatar-list' },
-        avatars.map(function (avatar, idx) {
-          return _react2.default.createElement('img', {
-            key: idx,
-            onClick: _this3.handleClick(avatar),
-            src: avatar,
-            className: 'avatar not-selected',
-            alt: 'avatar'
-          });
-        })
-      );
-    }
-  }]);
-
-  return Avatar;
-}(_react.Component);
-
-Avatar.propTypes = {
-  handleAvatar: _propTypes2.default.func.isRequired
-};
-
-exports.default = Avatar;
 
 /***/ })
 /******/ ]);
