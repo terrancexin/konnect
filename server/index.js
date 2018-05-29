@@ -9,7 +9,6 @@ const mongoose = require('mongoose');
 
 const router = require('./router');
 const socketManager = require('./services/socketManager');
-const fakeSeeds = require('./seeds');
 
 const mongodbServer = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/konnect';
 mongoose.connect(mongodbServer);
@@ -27,8 +26,4 @@ const PORT = process.env.PORT || 3000;
 
 http.listen(PORT, () => {
   console.log('Server listening on port:', PORT);
-
-  // fakeSeeds.seedGuest();
-  // fakeSeeds.seedMessages();
-  // fakeSeeds.seedUsers();
 });

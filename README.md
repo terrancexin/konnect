@@ -18,9 +18,6 @@
 3. Start the app by `npm run dev`
 ###### Ready! Go to: [http://localhost:3000](http://localhost:3000)
 
-##### Set up extras
-- Insert fake seeds by uncommenting line:31 in `server/index.js` and restart the server
-
 ##### Set up troubleshoots
 - Check node version: 8+ 
 - MongoDB set up
