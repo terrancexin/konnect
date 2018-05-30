@@ -43805,7 +43805,7 @@ exports = module.exports = __webpack_require__(217)(false);
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\ninput[type=\"radio\"] {\n  visibility: hidden;\n  position: absolute; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin-top: 1.5em;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    color: white;\n    text-align: center;\n    padding: 2px;\n    cursor: pointer; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.avatar-img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.avatar-list {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.pick-avatar {\n  margin-top: 15px;\n  margin-bottom: 5px;\n  color: #4080ff;\n  font-weight: bold; }\n\n.radio-label input + img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px;\n  line-height: 35px;\n  cursor: pointer;\n  transition: all .3s ease-in;\n  filter: brightness(0.4); }\n  .radio-label input + img:hover {\n    filter: brightness(1); }\n\n.radio-label input:checked + img {\n  filter: brightness(1);\n  width: 35px;\n  height: 35px; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; } }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\ninput[type=\"radio\"] {\n  visibility: hidden;\n  position: absolute; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin-top: 1.5em;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 50px 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    padding: 2px; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.avatar-img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 53px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.avatar-list {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.pick-avatar {\n  margin-top: 15px;\n  margin-bottom: 5px;\n  color: #4080ff;\n  font-weight: bold; }\n\n.radio-label input + img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px;\n  line-height: 35px;\n  cursor: pointer;\n  transition: all .3s ease-in;\n  filter: brightness(0.4); }\n  .radio-label input + img:hover {\n    filter: brightness(1); }\n\n.radio-label input:checked + img {\n  filter: brightness(1);\n  width: 35px;\n  height: 35px; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; } }\n", ""]);
 
 // exports
 
@@ -44460,7 +44460,7 @@ var initialState = {
   typing: false,
   typingUsers: [],
   username: '',
-  user: '',
+  user: null,
   users: [],
   verbs: ''
 };
@@ -44522,17 +44522,17 @@ var rootReducer = function rootReducer() {
       });
     case _constants.USER_CONNECTED:
       return _extends({}, state, {
+        notice: payload.notice,
         users: payload.users.length <= 1 ? payload.users : payload.users.sort(function (a, b) {
           return b.onlineStatus - a.onlineStatus;
-        }),
-        notice: payload.notice
+        })
       });
     case _constants.USER_DISCONNECTED:
       return _extends({}, state, {
+        notice: payload.notice,
         users: payload.users.length <= 1 ? payload.users : payload.users.sort(function (a, b) {
           return b.onlineStatus - a.onlineStatus;
-        }),
-        notice: payload.notice
+        })
       });
     default:
       return state;
@@ -51032,7 +51032,7 @@ var Avatar = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Avatar.__proto__ || Object.getPrototypeOf(Avatar)).call(this, props));
 
-    _this.state = { avatarRadio: null };
+    _this.state = { avatarSelected: null };
     _this.handleChange = _this.handleChange.bind(_this);
     return _this;
   }
@@ -51044,7 +51044,7 @@ var Avatar = function (_Component) {
 
 
       if (value) {
-        this.setState({ avatarRadio: parseInt(value, 10) });
+        this.setState({ avatarSelected: parseInt(value, 10) });
         this.props.handleAvatar(value);
       }
     }
@@ -51062,7 +51062,7 @@ var Avatar = function (_Component) {
             type: 'radio',
             className: 'avatar-input',
             value: i,
-            checked: this.state.avatarRadio === i
+            checked: this.state.avatarSelected === i
           }),
           _react2.default.createElement('img', { src: ROOT_URL + '/images/avatars/' + i + '.png', alt: 'avatar' })
         ));
@@ -51148,7 +51148,7 @@ var Chatroom = function (_Component) {
 
     _this.state = {
       date: new Date(),
-      missed: false,
+      toggleMissedMsg: false,
       text: '',
       textCount: 0,
       username: _this.props.username,
@@ -51157,8 +51157,8 @@ var Chatroom = function (_Component) {
 
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleLogOut = _this.handleLogOut.bind(_this);
-    _this.toggleMissed = _this.toggleMissed.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleToggleMissedMsg = _this.handleToggleMissedMsg.bind(_this);
     _this.handleTypingTime = null;
     return _this;
   }
@@ -51191,9 +51191,9 @@ var Chatroom = function (_Component) {
       this.setState({ text: text, textCount: text.length });
     }
   }, {
-    key: 'toggleMissed',
-    value: function toggleMissed() {
-      this.setState({ missed: !this.state.missed });
+    key: 'handleToggleMissedMsg',
+    value: function handleToggleMissedMsg() {
+      this.setState({ toggleMissedMsg: !this.state.toggleMissedMsg });
     }
   }, {
     key: 'handleLogOut',
@@ -51221,7 +51221,7 @@ var Chatroom = function (_Component) {
     key: 'render',
     value: function render() {
       var _state2 = this.state,
-          missed = _state2.missed,
+          toggleMissedMsg = _state2.toggleMissedMsg,
           text = _state2.text,
           textCount = _state2.textCount;
       var _props = this.props,
@@ -51272,9 +51272,9 @@ var Chatroom = function (_Component) {
             _react2.default.createElement(_NavBtns2.default, {
               clearMissedMsg: this.props.clearMissedMsg,
               handleLogOut: this.handleLogOut,
-              missed: missed,
+              handleToggleMissedMsg: this.handleToggleMissedMsg,
               missedMsg: missedMsg,
-              toggleMissed: this.toggleMissed,
+              toggleMissedMsg: toggleMissedMsg,
               username: username
             }),
             _react2.default.createElement(
@@ -51288,12 +51288,12 @@ var Chatroom = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'messages-section' },
-            !missed && _react2.default.createElement(_MessagesList2.default, {
+            !toggleMissedMsg && _react2.default.createElement(_MessagesList2.default, {
               currentUser: username,
               loading: loading,
               messages: messages
             }),
-            missed && _react2.default.createElement(_MessagesList2.default, {
+            toggleMissedMsg && _react2.default.createElement(_MessagesList2.default, {
               currentUser: username,
               loading: loading,
               messages: missedMsg
@@ -54407,9 +54407,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var NavBtns = function NavBtns(_ref) {
   var clearMissedMsg = _ref.clearMissedMsg,
       handleLogOut = _ref.handleLogOut,
-      missed = _ref.missed,
+      handleToggleMissedMsg = _ref.handleToggleMissedMsg,
       missedMsg = _ref.missedMsg,
-      toggleMissed = _ref.toggleMissed,
+      toggleMissedMsg = _ref.toggleMissedMsg,
       username = _ref.username;
   return _react2.default.createElement(
     'div',
@@ -54419,25 +54419,25 @@ var NavBtns = function NavBtns(_ref) {
       { className: 'nav-btns-logout', onClick: handleLogOut },
       _react2.default.createElement('i', { className: 'fas fa-power-off' })
     ),
-    !missed ? _react2.default.createElement(
+    !toggleMissedMsg ? _react2.default.createElement(
       'button',
-      { className: 'nav-btns-unread', onClick: toggleMissed },
-      'New'
+      { className: 'nav-btns-unread', onClick: handleToggleMissedMsg },
+      'New',
+      _react2.default.createElement(
+        'span',
+        { className: 'nav-btns-missed' },
+        missedMsg.length
+      )
     ) : _react2.default.createElement(
       'button',
       {
         className: 'nav-btns-back',
         onClick: function onClick() {
           clearMissedMsg(username);
-          toggleMissed();
+          handleToggleMissedMsg();
         }
       },
       _react2.default.createElement('i', { className: 'fas fa-undo-alt fa-2x' })
-    ),
-    !missed && _react2.default.createElement(
-      'span',
-      { className: 'nav-btns-missed', onClick: toggleMissed },
-      missedMsg.length
     )
   );
 };
@@ -54445,9 +54445,9 @@ var NavBtns = function NavBtns(_ref) {
 NavBtns.propTypes = {
   clearMissedMsg: _propTypes2.default.func.isRequired,
   handleLogOut: _propTypes2.default.func.isRequired,
-  missed: _propTypes2.default.bool.isRequired,
+  handleToggleMissedMsg: _propTypes2.default.func.isRequired,
   missedMsg: _propTypes2.default.array.isRequired,
-  toggleMissed: _propTypes2.default.func.isRequired,
+  toggleMissedMsg: _propTypes2.default.bool.isRequired,
   username: _propTypes2.default.string.isRequired
 };
 

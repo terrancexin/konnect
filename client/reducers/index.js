@@ -23,7 +23,7 @@ const initialState = {
   typing: false,
   typingUsers: [],
   username: '',
-  user: '',
+  user: null,
   users: [],
   verbs: '',
 };
@@ -91,16 +91,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case USER_CONNECTED:
       return {
         ...state,
+        notice: payload.notice,
         users: payload.users.length <= 1 ? payload.users
           : payload.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
-        notice: payload.notice,
       };
     case USER_DISCONNECTED:
       return {
         ...state,
+        notice: payload.notice,
         users: payload.users.length <= 1 ? payload.users
           : payload.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
-        notice: payload.notice,
       };
     default:
       return state;

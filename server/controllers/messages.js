@@ -16,10 +16,10 @@ const sendMessage = (req, res, next) => {
   }
 
   const message = new MessageModel({
+    date,
+    text,
     userAvatar,
     username,
-    text,
-    date,
   });
 
   message.save((err) => {

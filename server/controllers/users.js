@@ -27,9 +27,9 @@ const logInUser = (req, res) => {
 
       if (!bookMark) {
         return res.send({
-          token: tokenForUser(updatedUser),
-          newUser: updatedUser,
           missedMsg,
+          newUser: updatedUser,
+          token: tokenForUser(updatedUser),
         });
       }
 
@@ -42,9 +42,9 @@ const logInUser = (req, res) => {
 
         if (tracker < 1) {
           return res.send({
-            token: tokenForUser(updatedUser),
-            newUser: updatedUser,
             missedMsg,
+            newUser: updatedUser,
+            token: tokenForUser(updatedUser),
           });
         }
 
@@ -58,9 +58,9 @@ const logInUser = (req, res) => {
         }
 
         return res.send({
-          token: tokenForUser(updatedUser),
-          newUser: updatedUser,
           missedMsg,
+          newUser: updatedUser,
+          token: tokenForUser(updatedUser),
         });
       });
     });
@@ -115,10 +115,10 @@ const signUpUser = (req, res, next) => {
 
     const newUser = new UserModel({
       avatar,
-      username,
-      password,
       bookMark: '',
       onlineStatus: true,
+      password,
+      username,
     });
 
     newUser.save((saveError) => {
@@ -127,9 +127,9 @@ const signUpUser = (req, res, next) => {
       }
 
       res.json({
-        token: tokenForUser(newUser),
         missedMsg: [],
         newUser,
+        token: tokenForUser(newUser),
       });
     });
   });

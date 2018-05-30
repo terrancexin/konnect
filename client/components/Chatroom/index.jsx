@@ -22,7 +22,7 @@ class Chatroom extends Component {
     super(props);
     this.state = {
       date: new Date(),
-      missed: false,
+      toggleMissedMsg: false,
       text: '',
       textCount: 0,
       username: this.props.username,
@@ -31,8 +31,8 @@ class Chatroom extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
-    this.toggleMissed = this.toggleMissed.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleToggleMissedMsg = this.handleToggleMissedMsg.bind(this);
     this.handleTypingTime = null;
   }
 
@@ -57,8 +57,8 @@ class Chatroom extends Component {
     this.setState({ text, textCount: text.length });
   }
 
-  toggleMissed() {
-    this.setState({ missed: !this.state.missed });
+  handleToggleMissedMsg() {
+    this.setState({ toggleMissedMsg: !this.state.toggleMissedMsg });
   }
 
   handleLogOut() {
@@ -76,7 +76,7 @@ class Chatroom extends Component {
   }
 
   render() {
-    const { missed, text, textCount } = this.state;
+    const { toggleMissedMsg, text, textCount } = this.state;
     const {
       loading,
       missedMsg,
@@ -106,9 +106,9 @@ class Chatroom extends Component {
             <NavBtns
               clearMissedMsg={this.props.clearMissedMsg}
               handleLogOut={this.handleLogOut}
-              missed={missed}
+              handleToggleMissedMsg={this.handleToggleMissedMsg}
               missedMsg={missedMsg}
-              toggleMissed={this.toggleMissed}
+              toggleMissedMsg={toggleMissedMsg}
               username={username}
             />
             <div className="online-users">{onlineUsers} online</div>
@@ -116,14 +116,14 @@ class Chatroom extends Component {
           </section>
 
           <div className="messages-section">
-            {!missed && (
+            {!toggleMissedMsg && (
               <MessagesList
                 currentUser={username}
                 loading={loading}
                 messages={messages}
               />
             )}
-            {missed && (
+            {toggleMissedMsg && (
               <MessagesList
                 currentUser={username}
                 loading={loading}

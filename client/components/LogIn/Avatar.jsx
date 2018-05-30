@@ -6,7 +6,7 @@ class Avatar extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { avatarRadio: null };
+    this.state = { avatarSelected: null };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -14,7 +14,7 @@ class Avatar extends Component {
     const { value } = e.target;
 
     if (value) {
-      this.setState({ avatarRadio: parseInt(value, 10) });
+      this.setState({ avatarSelected: parseInt(value, 10) });
       this.props.handleAvatar(value);
     }
   }
@@ -30,7 +30,7 @@ class Avatar extends Component {
             type="radio"
             className="avatar-input"
             value={i}
-            checked={this.state.avatarRadio === i}
+            checked={this.state.avatarSelected === i}
           />
           <img src={`${ROOT_URL}/images/avatars/${i}.png`} alt="avatar" />
         </label>);
