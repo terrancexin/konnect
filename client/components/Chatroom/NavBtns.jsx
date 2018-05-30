@@ -4,40 +4,40 @@ import PropTypes from 'prop-types';
 const NavBtns = ({
   clearMissedMsg,
   handleLogOut,
-  missed,
+  handleToggleMissedMsg,
   missedMsg,
-  toggleMissed,
+  toggleMissedMsg,
   username,
 }) => (
   <div className="nav-btns">
     <button className="nav-btns-logout" onClick={handleLogOut}>
       <i className="fas fa-power-off" />
     </button>
-    {!missed ? (
-      <button className="nav-btns-unread" onClick={toggleMissed}>
+    {!toggleMissedMsg ? (
+      <button className="nav-btns-unread" onClick={handleToggleMissedMsg}>
         New
+        <span className="nav-btns-missed">{missedMsg.length}</span>
       </button>
     ) : (
       <button
         className="nav-btns-back"
         onClick={() => {
           clearMissedMsg(username);
-          toggleMissed();
+          handleToggleMissedMsg();
         }}
       >
         <i className="fas fa-undo-alt fa-2x" />
       </button>
     )}
-    {!missed && <span className="nav-btns-missed" onClick={toggleMissed}>{missedMsg.length}</span>}
   </div>
 );
 
 NavBtns.propTypes = {
   clearMissedMsg: PropTypes.func.isRequired,
   handleLogOut: PropTypes.func.isRequired,
-  missed: PropTypes.bool.isRequired,
+  handleToggleMissedMsg: PropTypes.func.isRequired,
   missedMsg: PropTypes.array.isRequired,
-  toggleMissed: PropTypes.func.isRequired,
+  toggleMissedMsg: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired,
 };
 

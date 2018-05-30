@@ -263,6 +263,7 @@ img.online-inactive {
   }
   
   &-missed {
+    @include flex-center-center;
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -271,10 +272,7 @@ img.online-inactive {
     border-radius: 100px;
     height: 17px;
     width: 17px;
-    color: white;
-    text-align: center;
     padding: 2px;
-    cursor: pointer;
   }
 }
 
