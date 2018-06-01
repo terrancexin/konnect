@@ -1,6 +1,7 @@
 const jwt = require('jwt-simple');
 const MessageModel = require('../models/message');
 const UserModel = require('../models/user');
+const { validateInputInfo } = require('../utils');
 
 const mySecretJwtKey = process.env.SECRET_JWT_KEY || 'secret dev jwt';
 
@@ -69,39 +70,10 @@ const logInUser = (req, res) => {
 
 const signUpUser = (req, res, next) => {
   const { avatar, username, password, passwordConfirmation } = req.body;
+  const error = validateInputInfo(username, password, passwordConfirmation);
 
-  if (!username) {
-    return res.send({ error: 'hey, enter something!' });
-  }
-
-  if (username === 'username') {
-    return res.send({ error: 'c\'mon, be more creative than that!' });
-  }
-
-  if (username.length < 3) {
-    return res.send({ error: '3 characters minimum' });
-  }
-
-  if (username.length > 15) {
-    return res.send({ error: '15 characters max' });
-  }
-  if (password.length > 15) {
-    return res.send({ error: 'password has exceeded the character limit' });
-  }
-  if (passwordConfirmation.length > 15) {
-    return res.send({ error: 'password has exceeded the character limit' });
-  }
-
-  if (!password) {
-    return res.send({ error: "password can't be blank" });
-  }
-
-  if (!passwordConfirmation) {
-    return res.send({ error: 'please confirm your password' });
-  }
-
-  if (password !== passwordConfirmation) {
-    return res.send({ error: 'passwords do not match' });
+  if (error) {
+    return res.send({ error });
   }
 
   UserModel.findOne({ username }, (err, user) => {
