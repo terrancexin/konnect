@@ -10794,7 +10794,8 @@ var Footer = function Footer() {
     globe: 'https://www.terrancexin.com',
     github: 'https://github.com/terrancexin/konnect',
     linkedin: 'https://www.linkedin.com/in/terrancexin/',
-    angellist: 'https://angel.co/terrancexin'
+    angellist: 'https://angel.co/terrancexin',
+    instagram: 'https://www.instagram.com/txin/'
   };
 
   return _react2.default.createElement(

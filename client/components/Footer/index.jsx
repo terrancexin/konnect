@@ -6,6 +6,7 @@ const Footer = () => {
     github: 'https://github.com/terrancexin/konnect',
     linkedin: 'https://www.linkedin.com/in/terrancexin/',
     angellist: 'https://angel.co/terrancexin',
+    instagram: 'https://www.instagram.com/txin/',
   };
 
   return (
