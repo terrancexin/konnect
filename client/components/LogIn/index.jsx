@@ -83,7 +83,6 @@ class LogIn extends Component {
   typeValue(guestName, callback) {
     if (!guestName) return callback();
     this.setState({ username: this.state.username + guestName[0] });
-    this.props.removeErrorMessage();
     setTimeout(() => {
       this.typeValue(guestName.slice(1), callback);
     }, 100);

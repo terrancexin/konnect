@@ -44765,7 +44765,6 @@ var LogIn = function (_Component) {
 
       if (!guestName) return callback();
       this.setState({ username: this.state.username + guestName[0] });
-      this.props.removeErrorMessage();
       setTimeout(function () {
         _this4.typeValue(guestName.slice(1), callback);
       }, 100);
