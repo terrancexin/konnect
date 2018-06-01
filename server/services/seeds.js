@@ -92,16 +92,10 @@ const seedUsers = () => {
 
 const seedMessages = () => {
   messages.forEach((message) => {
-    const newMessage = new MessageModel({
+    MessageModel.create({
       username: message.username,
       text: message.text,
       date: message.date,
-    });
-
-    newMessage.save((err) => {
-      if (err) {
-        console.log(`seednig message error: ${err}`);
-      }
     });
   });
 };
