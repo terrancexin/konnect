@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Linkify from 'react-linkify';
-import moment from 'moment';
+import { formatTime } from '../../utils';
 
 class MessagesList extends Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class MessagesList extends Component {
               alt="avatar"
             />
             <span className="thread-username">{username}</span>
-            <span className="thread-timestamp">{moment(date).format('h:mm a')}</span>
+            <span className="thread-timestamp">{formatTime(date)}</span>
           </div>
           <Linkify properties={{ target: '_blank', style: { color: 'blue' } }}>
             <div className={`${threadType} message-text`}>{text}</div>
