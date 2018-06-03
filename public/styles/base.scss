@@ -53,3 +53,18 @@ $mintGreen: #00ffbf;
   justify-content: space-between;
   align-items: center;
 }
+
+// reset button
+@mixin reset-btn-style {
+  background-color: transparent;
+  border: none;
+  transition:all .1s ease-in;
+  border-radius: 0;
+  margin: 0;
+  line-height: 0;
+  padding: 0;
+  
+  &:focus {
+    outline: none;
+  }
+}

@@ -1,5 +1,6 @@
 @import 'reset.scss';
 @import 'base.scss';
+@import 'emoji';
 
 .app {
   width: 100%;
@@ -290,6 +291,7 @@ img.online-inactive {
 }
 
 .message-form {
+  position: relative;
   border-top: 1px solid $bordergray;
   padding: 0px 10px 10px 10px;
 }
@@ -411,7 +413,7 @@ input#message {
 }
 
 button.send {
-  height: 53px;
+  height: 51px;
   width: 53px;
   background-color: $blue;
   border: solid 1px white;
