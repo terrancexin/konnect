@@ -19,6 +19,7 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
+    "emoji-mart": "^2.6.1",
     "express": "^4.16.3",
     "jwt-simple": "^0.5.1",
     "mongoose": "^5.1.0",
