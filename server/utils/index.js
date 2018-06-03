@@ -6,14 +6,10 @@ const disconnectUser = (socket, user) => {
   const { username } = user;
 
   MessageModel.findOne({}, {}, { sort: { _id: -1 } })
-    .then((message) => {
-      const { id } = message;
-
-      return UserModel.update(
-        { username },
-        { bookMark: message ? id : '', onlineStatus: false },
-      );
-    })
+    .then(message => UserModel.update(
+      { username },
+      { bookMark: message ? message.id : null, onlineStatus: false },
+    ))
     .then(() => UserModel.find({}))
     .then((users) => {
       const updatedUsers = users.map((_user) => {
