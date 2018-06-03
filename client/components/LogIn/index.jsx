@@ -19,7 +19,6 @@ class LogIn extends Component {
     this.handleAvatar = this.handleAvatar.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleGuest = this.handleGuest.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleSignUp = this.handleToggleSignUp.bind(this);
     this.typeValue = this.typeValue.bind(this);
@@ -35,12 +34,6 @@ class LogIn extends Component {
       this.setState({ [inputName]: e.target.value });
       this.props.removeErrorMessage();
     };
-  }
-
-  handleKeyPress(e) {
-    if (e.key === 'Enter') {
-      this.handleSubmit(e);
-    }
   }
 
   handleSubmit(e) {
