@@ -62,9 +62,9 @@ class Chatroom extends Component {
   }
 
   handleLogOut() {
-    const { username } = this.props;
+    const { user } = this.props;
 
-    this.props.logOutUser(username);
+    this.props.logOutUser(user);
   }
 
   handleSubmit(e) {
