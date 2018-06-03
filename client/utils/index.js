@@ -11,6 +11,6 @@ export const formatTime = (strDate) => {
   return `${hours}:${minutes} ${ampm}`;
 };
 
-export const func = () => {
-  console.log();
-};
+export const sortOnlineStatus = users => (
+  users.sort((a, b) => b.onlineStatus - a.onlineStatus)
+);
