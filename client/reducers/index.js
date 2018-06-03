@@ -1,3 +1,4 @@
+import { sortOnlineStatus } from '../utils';
 import {
   CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
@@ -92,15 +93,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         notice: payload.notice,
-        users: payload.users.length <= 1 ? payload.users
-          : payload.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
+        users: payload.users.length <= 1 ? payload.users : sortOnlineStatus(payload.users),
       };
     case USER_DISCONNECTED:
       return {
         ...state,
         notice: payload.notice,
-        users: payload.users.length <= 1 ? payload.users
-          : payload.users.sort((a, b) => b.onlineStatus - a.onlineStatus),
+        users: payload.users.length <= 1 ? payload.users : sortOnlineStatus(payload.users),
       };
     default:
       return state;

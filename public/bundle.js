@@ -28011,9 +28011,10 @@ var _reducers2 = _interopRequireDefault(_reducers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import logger from 'redux-logger';
+
 // const middlewares = [thunk, logger];
 var middlewares = [_reduxThunk2.default];
-// import logger from 'redux-logger';
 
 var configureStore = function configureStore(preloadedState) {
   return (0, _redux.createStore)(_reducers2.default, preloadedState, _redux.applyMiddleware.apply(undefined, middlewares));
@@ -28060,6 +28061,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _utils = __webpack_require__(155);
 
 var _constants = __webpack_require__(35);
 
@@ -28138,16 +28141,12 @@ var rootReducer = function rootReducer() {
     case _constants.USER_CONNECTED:
       return _extends({}, state, {
         notice: payload.notice,
-        users: payload.users.length <= 1 ? payload.users : payload.users.sort(function (a, b) {
-          return b.onlineStatus - a.onlineStatus;
-        })
+        users: payload.users.length <= 1 ? payload.users : (0, _utils.sortOnlineStatus)(payload.users)
       });
     case _constants.USER_DISCONNECTED:
       return _extends({}, state, {
         notice: payload.notice,
-        users: payload.users.length <= 1 ? payload.users : payload.users.sort(function (a, b) {
-          return b.onlineStatus - a.onlineStatus;
-        })
+        users: payload.users.length <= 1 ? payload.users : (0, _utils.sortOnlineStatus)(payload.users)
       });
     default:
       return state;
@@ -37778,8 +37777,10 @@ var formatTime = exports.formatTime = function formatTime(strDate) {
   return hours + ':' + minutes + ' ' + ampm;
 };
 
-var func = exports.func = function func() {
-  console.log();
+var sortOnlineStatus = exports.sortOnlineStatus = function sortOnlineStatus(users) {
+  return users.sort(function (a, b) {
+    return b.onlineStatus - a.onlineStatus;
+  });
 };
 
 /***/ }),
