@@ -11,6 +11,7 @@ import {
   socketOff,
 } from '../../actions';
 
+import Emoji from './Emoji';
 import Footer from '../Footer';
 import MessagesList from './MessagesList';
 import NavBtns from './NavBtns';
@@ -23,6 +24,7 @@ class Chatroom extends Component {
     super(props);
     this.state = {
       date: new Date(),
+      toggleEmojiPicker: false,
       toggleMissedMsg: false,
       text: '',
       textCount: 0,
@@ -30,7 +32,10 @@ class Chatroom extends Component {
       userAvatar: this.props.user.avatar,
     };
 
+    this.addEmoji = this.addEmoji.bind(this);
+    this.handleEmojiPicker = this.handleEmojiPicker.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleMissedMsg = this.handleToggleMissedMsg.bind(this);
@@ -45,6 +50,15 @@ class Chatroom extends Component {
     this.props.socketOff();
   }
 
+  addEmoji(emoji) {
+    this.setState({ text: `${this.state.text}${emoji.native}` });
+  }
+
+  handleEmojiPicker(e) {
+    e.preventDefault();
+    this.setState({ toggleEmojiPicker: !this.state.toggleEmojiPicker });
+  }
+
   handleChange(e) {
     const { username } = this.props;
     const text = e.target.value || '';
@@ -56,6 +70,12 @@ class Chatroom extends Component {
     }, 2000);
 
     this.setState({ text, textCount: text.length });
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.handleSubmit(e);
+    }
   }
 
   handleToggleMissedMsg() {
@@ -77,7 +97,7 @@ class Chatroom extends Component {
   }
 
   render() {
-    const { toggleMissedMsg, text, textCount } = this.state;
+    const { toggleMissedMsg, text, textCount, toggleEmojiPicker } = this.state;
     const {
       loading,
       missedMsg,
@@ -134,12 +154,19 @@ class Chatroom extends Component {
 
             <form onSubmit={this.handleSubmit} className="message-form">
               <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
+              <Emoji
+                addEmoji={this.addEmoji}
+                handleEmojiPicker={this.handleEmojiPicker}
+                toggleEmojiPicker={toggleEmojiPicker}
+              />
               <div className="message-input-box">
                 <input
                   autoComplete="off"
                   id="message"
                   maxLength="500"
                   onChange={this.handleChange}
+                  onKeyPress={this.handleKeyPress}
+                  onClick={() => this.setState({ toggleEmojiPicker: false })}
                   placeholder="enter your message"
                   type="text"
                   value={text}
