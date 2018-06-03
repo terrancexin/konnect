@@ -12,60 +12,41 @@ const tokenForUser = (user) => {
 
 const logInUser = (req, res) => {
   const { username } = req.body;
+  const missedMsg = [];
+  let updatedUser;
 
-  UserModel.update({ username }, { onlineStatus: true }, (updateUserError) => {
-    if (updateUserError) {
-      return console.log(`updating user's online status failed: ${updateUserError}`);
-    }
+  UserModel.update({ username }, { onlineStatus: true })
+    .then(() => UserModel.findOne({ username }))
+    .then((_updatedUser) => {
+      updatedUser = _updatedUser;
 
-    UserModel.findOne({ username }, (findUserError, updatedUser) => {
-      if (findUserError) {
-        return console.log(`finding a user from login failed: ${findUserError}`);
+      if (!updatedUser.bookMark) {
+        return Promise.resolve([]);
       }
 
-      const { bookMark } = updatedUser;
-      const missedMsg = [];
+      return MessageModel.find({});
+    })
+    .then((messages) => {
+      let tracker = messages.length - 1;
 
-      if (!bookMark) {
-        return res.send({
-          missedMsg,
-          newUser: updatedUser,
-          token: tokenForUser(updatedUser),
-        });
+      while (
+        tracker >= 0 &&
+        String(messages[tracker].id) !== String(updatedUser.bookMark)
+        && messages[tracker].username !== username
+      ) {
+        missedMsg.unshift(messages[tracker]);
+        tracker -= 1;
       }
 
-      MessageModel.find({}, (messageModelError, messages) => {
-        if (messageModelError) {
-          return console.log(`fetching all msgs in login failed: ${messageModelError}`);
-        }
-
-        let tracker = messages.length - 1;
-
-        if (tracker < 1) {
-          return res.send({
-            missedMsg,
-            newUser: updatedUser,
-            token: tokenForUser(updatedUser),
-          });
-        }
-
-        while (
-          tracker >= 0 &&
-          String(messages[tracker].id) !== String(bookMark)
-          && messages[tracker].username !== username
-        ) {
-          missedMsg.unshift(messages[tracker]);
-          tracker -= 1;
-        }
-
-        return res.send({
-          missedMsg,
-          newUser: updatedUser,
-          token: tokenForUser(updatedUser),
-        });
+      return res.send({
+        missedMsg,
+        newUser: updatedUser,
+        token: tokenForUser(updatedUser),
       });
+    })
+    .catch((err) => {
+      console.log(`log in user failed: ${err}`);
     });
-  });
 };
 
 const signUpUser = (req, res, next) => {
@@ -87,7 +68,7 @@ const signUpUser = (req, res, next) => {
 
     const newUser = new UserModel({
       avatar,
-      bookMark: '',
+      bookMark: null,
       onlineStatus: true,
       password,
       username,
