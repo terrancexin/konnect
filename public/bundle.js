@@ -34767,6 +34767,10 @@ var _Notice = __webpack_require__(157);
 
 var _Notice2 = _interopRequireDefault(_Notice);
 
+var _Typing = __webpack_require__(159);
+
+var _Typing2 = _interopRequireDefault(_Typing);
+
 var _UsersList = __webpack_require__(158);
 
 var _UsersList2 = _interopRequireDefault(_UsersList);
@@ -34942,11 +34946,7 @@ var Chatroom = function (_Component) {
             _react2.default.createElement(
               'form',
               { onSubmit: this.handleSubmit, className: 'message-form' },
-              _react2.default.createElement(
-                'div',
-                { className: 'is-typing' },
-                typing ? typingUsers.join(', ') + ' ' + verbs + ' typing...' : ''
-              ),
+              _react2.default.createElement(_Typing2.default, { typing: typing, typingUsers: typingUsers, verbs: verbs }),
               _react2.default.createElement(
                 'div',
                 { className: 'message-input-box' },
@@ -38002,6 +38002,57 @@ UsersList.propTypes = {
 };
 
 exports.default = UsersList;
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Typing = function Typing(_ref) {
+  var typing = _ref.typing,
+      typingUsers = _ref.typingUsers,
+      verbs = _ref.verbs;
+
+  if (typing && typingUsers.length > 3) {
+    var remaining = typingUsers.length - 3;
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'is-typing' },
+      typingUsers.slice(0, 3).join(', ') + ' and ' + remaining + ' others are typing...'
+    );
+  }
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'is-typing' },
+    typing ? typingUsers.join(', ') + ' ' + verbs + ' typing...' : ''
+  );
+};
+
+Typing.propTypes = {
+  typing: _propTypes2.default.bool.isRequired,
+  typingUsers: _propTypes2.default.array.isRequired,
+  verbs: _propTypes2.default.string.isRequired
+};
+
+exports.default = Typing;
 
 /***/ })
 /******/ ]);

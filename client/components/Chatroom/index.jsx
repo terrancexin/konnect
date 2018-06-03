@@ -15,6 +15,7 @@ import Footer from '../Footer';
 import MessagesList from './MessagesList';
 import NavBtns from './NavBtns';
 import Notice from '../Notice';
+import Typing from './Typing';
 import UsersList from './UsersList';
 
 class Chatroom extends Component {
@@ -132,9 +133,7 @@ class Chatroom extends Component {
             )}
 
             <form onSubmit={this.handleSubmit} className="message-form">
-              <div className="is-typing">
-                {typing ? `${typingUsers.join(', ')} ${verbs} typing...` : ''}
-              </div>
+              <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
               <div className="message-input-box">
                 <input
                   autoComplete="off"
