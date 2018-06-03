@@ -4,10 +4,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const http = require('http').Server(app);
-const io = module.exports.io = require('socket.io')(http);
+const io = require('socket.io')(http);
 const mongoose = require('mongoose');
-
 const router = require('./router');
+
+module.exports = { io };
 const socketManager = require('./services/socketManager');
 
 const mongodbServer = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/konnect';
@@ -23,7 +24,6 @@ router(app);
 io.on('connection', socketManager);
 
 const PORT = process.env.PORT || 3000;
-
 http.listen(PORT, () => {
   console.log('Server listening on port:', PORT);
 });
