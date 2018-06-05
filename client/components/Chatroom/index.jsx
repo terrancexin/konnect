@@ -33,6 +33,7 @@ class Chatroom extends Component {
     };
 
     this.addEmoji = this.addEmoji.bind(this);
+    this.closeEmojiPicker = this.closeEmojiPicker.bind(this);
     this.handleEmojiPicker = this.handleEmojiPicker.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -52,6 +53,10 @@ class Chatroom extends Component {
 
   addEmoji(emoji) {
     this.setState({ text: `${this.state.text}${emoji.native}` });
+  }
+
+  closeEmojiPicker() {
+    this.setState({ toggleEmojiPicker: false });
   }
 
   handleEmojiPicker(e) {
@@ -166,7 +171,7 @@ class Chatroom extends Component {
                   maxLength="500"
                   onChange={this.handleChange}
                   onKeyPress={this.handleKeyPress}
-                  onClick={() => this.setState({ toggleEmojiPicker: false })}
+                  onClick={this.closeEmojiPicker}
                   placeholder="enter your message"
                   type="text"
                   value={text}

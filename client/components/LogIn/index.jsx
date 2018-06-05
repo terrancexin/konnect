@@ -53,8 +53,12 @@ class LogIn extends Component {
   }
 
   handleToggleSignUp(bool) {
-    this.props.removeErrorMessage();
-    this.setState({ toggleSignUp: bool });
+    return (
+      () => {
+        this.props.removeErrorMessage();
+        this.setState({ toggleSignUp: bool });
+      }
+    );
   }
 
   handleGuest(e) {
@@ -73,11 +77,11 @@ class LogIn extends Component {
     });
   }
 
-  typeValue(guestName, callback) {
-    if (!guestName) return callback();
+  typeValue(guestName, logInCallback) {
+    if (!guestName) return logInCallback();
     this.setState({ username: this.state.username + guestName[0] });
     setTimeout(() => {
-      this.typeValue(guestName.slice(1), callback);
+      this.typeValue(guestName.slice(1), logInCallback);
     }, 100);
   }
 
@@ -97,13 +101,13 @@ class LogIn extends Component {
           <div className="login-btns">
             <button
               className={`login-btn-${toggleSignUp ? 'on' : 'off'}`}
-              onClick={() => this.handleToggleSignUp(true)}
+              onClick={this.handleToggleSignUp(true)}
             >
               Sign up
             </button>
             <button
               className={`login-btn-${!toggleSignUp ? 'on' : 'off'}`}
-              onClick={() => this.handleToggleSignUp(false)}
+              onClick={this.handleToggleSignUp(false)}
             >
               Log in
             </button>
