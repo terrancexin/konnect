@@ -10,6 +10,7 @@ class MessagesList extends Component {
     super(props);
 
     this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.setRef = this.setRef.bind(this);
     this.messagesEnd = null;
   }
 
@@ -19,6 +20,10 @@ class MessagesList extends Component {
 
   componentDidUpdate() {
     this.scrollToBottom();
+  }
+
+  setRef(node) {
+    this.messagesEnd = node;
   }
 
   scrollToBottom() {
@@ -74,7 +79,7 @@ class MessagesList extends Component {
       return (
         <ul className="messages-list">
           { this.renderMessages(messages, currentUser) }
-          <div ref={el => (this.messagesEnd = el)} />
+          <div ref={this.setRef} />
         </ul>
       );
     }
