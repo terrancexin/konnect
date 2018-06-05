@@ -11,6 +11,7 @@ const EmojiBtn = ({ addEmoji, toggleEmojiPicker, handleEmojiPicker }) => (
       <Picker
         emojiSize={20}
         onSelect={addEmoji}
+        sheetSize={20}
         showPreview={false}
         showSkinTones={false}
         perLine={5}
