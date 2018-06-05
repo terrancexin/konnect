@@ -21,9 +21,10 @@ class Avatar extends Component {
 
   render() {
     const avatars = [];
+    let avatar;
 
     for (let i = 1; i < 12; i++) {
-      avatars.push(
+      avatar = (
         <label key={i} htmlFor={`avatar${i}`} className="radio-label">
           <input
             id={`avatar${i}`}
@@ -33,7 +34,10 @@ class Avatar extends Component {
             checked={this.state.avatarSelected === i}
           />
           <img src={`${ROOT_URL}/images/avatars/${i}.png`} alt="avatar" />
-        </label>);
+        </label>
+      );
+
+      avatars.push(avatar);
     }
 
     return (
