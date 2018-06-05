@@ -51,6 +51,8 @@ Build real-time chat functionality
 - Secure authentication and session by using BCrypt to salt passwords
 - Send & receive messages in real-time across different users
 - User join & leave notification in real time
+- User can select an avatar at sign up
+- User can pick emojis when sending a message
 
 ## User Stories
 - As a user, I want to authenticate my username and password.
