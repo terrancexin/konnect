@@ -6,14 +6,18 @@ import {
   CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
   GET_MESSAGES,
+  GIPHY,
   LOADING,
   LOGIN_ERROR,
   LOGGED_IN,
   LOGOUT,
   MESSAGE_SENT,
+  RECEIVE_GIPHY,
   STOPPED_TYPING,
   SOCKET_EVENTS,
   TYPING,
+  TOGGLE_EMOJI,
+  TOGGLE_GIPHY,
   USER_CONNECTED,
 } from '../../constants';
 
@@ -143,9 +147,15 @@ export const getMessages = () => (dispatch) => {
     });
 };
 
-export const sendMessage = ({ userAvatar, username, date, text }) => () => {
+export const sendMessage = ({
+  userAvatar,
+  username,
+  date,
+  text,
+  imageMsg,
+}) => () => {
   axios
-    .post(`${ROOT_URL}/send`, { userAvatar, username, date, text })
+    .post(`${ROOT_URL}/send`, { userAvatar, username, date, text, imageMsg })
     .then(({ data }) => {
       socket.emit(MESSAGE_SENT, data);
     })
@@ -183,3 +193,45 @@ export const isTyping = (username, bool) => () => {
     socket.emit(STOPPED_TYPING, username);
   }
 };
+
+// Emoji actions
+export const handleToggleEmoji = bool => ({
+  type: TOGGLE_EMOJI,
+  payload: bool,
+});
+
+// Giphy actions
+export const fetchGiphy = search => (dispatch) => {
+  let url = `${GIPHY.searchUrl}?api_key=${GIPHY.api_key}&q=yay&limit=${GIPHY.limit}&rating=${GIPHY.rating}`;
+
+  if (search) {
+    url = `${
+      GIPHY.searchUrl
+    }?api_key=${
+      GIPHY.api_key
+    }&q=${
+      search
+    }&limit=${
+      GIPHY.limit
+    }&rating=${
+      GIPHY.rating
+    }`;
+  }
+
+  axios
+    .get(url)
+    .then(({ data: { data } }) => {
+      dispatch({
+        type: RECEIVE_GIPHY,
+        payload: data,
+      });
+    })
+    .catch((err) => {
+      console.log(`fetch random giphy failed: ${err}`);
+    });
+};
+
+export const handleToggleGiphy = bool => ({
+  type: TOGGLE_GIPHY,
+  payload: bool,
+});
