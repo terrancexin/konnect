@@ -9,9 +9,9 @@ const getMessages = (req, res, next) => {
 };
 
 const sendMessage = (req, res, next) => {
-  const { userAvatar, username, text, date } = req.body;
+  const { userAvatar, username, text, date, imageMsg } = req.body;
 
-  if (!username || !text || !date) {
+  if (!username || !userAvatar || !date) {
     return res.send({ error: 'missing params in request' });
   }
 
@@ -20,6 +20,7 @@ const sendMessage = (req, res, next) => {
     text,
     userAvatar,
     username,
+    imageMsg,
   });
 
   message.save((err) => {

@@ -7,6 +7,7 @@ const MessageSchema = new Schema({
   text: String,
   userAvatar: String,
   username: String,
+  imageMsg: String,
 });
 
 module.exports = mongoose.model('message', MessageSchema);
