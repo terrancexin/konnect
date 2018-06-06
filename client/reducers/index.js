@@ -8,7 +8,10 @@ import {
   LOGGED_IN,
   LOGIN_ERROR,
   LOGOUT,
+  RECEIVE_GIPHY,
   STOPPED_TYPING,
+  TOGGLE_GIPHY,
+  TOGGLE_EMOJI,
   TYPING,
   USER_CONNECTED,
   USER_DISCONNECTED,
@@ -16,11 +19,14 @@ import {
 
 const initialState = {
   auth: false,
+  toggleEmoji: false,
   err: '',
+  giphy: [],
   loading: false,
   messages: [],
   missedMsg: [],
   notice: '',
+  toggleGiphy: false,
   typing: false,
   typingUsers: [],
   username: '',
@@ -74,11 +80,26 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         auth: false,
       };
+    case RECEIVE_GIPHY:
+      return {
+        ...state,
+        giphy: payload,
+      };
     case STOPPED_TYPING:
       return {
         ...state,
         typing: false,
         typingUsers: state.typingUsers.filter(username => username !== payload),
+      };
+    case TOGGLE_GIPHY:
+      return {
+        ...state,
+        toggleGiphy: payload,
+      };
+    case TOGGLE_EMOJI:
+      return {
+        ...state,
+        toggleEmoji: payload,
       };
     case TYPING:
       return {
