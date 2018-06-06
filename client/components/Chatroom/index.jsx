@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 
 import {
   clearMissedMsg,
+  fetchGiphy,
   getMessages,
+  handleToggleEmoji,
+  handleToggleGiphy,
   isTyping,
   logOutUser,
   sendMessage,
@@ -12,6 +15,7 @@ import {
 } from '../../actions';
 
 import Emoji from './Emoji';
+import Giphy from './Giphy';
 import Footer from '../Footer';
 import MessagesList from './MessagesList';
 import NavBtns from './NavBtns';
@@ -24,17 +28,13 @@ class Chatroom extends Component {
     super(props);
     this.state = {
       date: new Date(),
-      toggleEmojiPicker: false,
       toggleMissedMsg: false,
       text: '',
       textCount: 0,
-      username: this.props.username,
-      userAvatar: this.props.user.avatar,
     };
 
     this.addEmoji = this.addEmoji.bind(this);
-    this.closeEmojiPicker = this.closeEmojiPicker.bind(this);
-    this.handleEmojiPicker = this.handleEmojiPicker.bind(this);
+    this.closeEmojiGiphy = this.closeEmojiGiphy.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
@@ -45,6 +45,7 @@ class Chatroom extends Component {
 
   componentWillMount() {
     this.props.getMessages();
+    this.props.fetchGiphy();
   }
 
   componentWillUnmount() {
@@ -55,13 +56,9 @@ class Chatroom extends Component {
     this.setState({ text: `${this.state.text}${emoji.native}` });
   }
 
-  closeEmojiPicker() {
-    this.setState({ toggleEmojiPicker: false });
-  }
-
-  handleEmojiPicker(e) {
-    e.preventDefault();
-    this.setState({ toggleEmojiPicker: !this.state.toggleEmojiPicker });
+  closeEmojiGiphy() {
+    this.props.handleToggleGiphy(false);
+    this.props.handleToggleEmoji(false);
   }
 
   handleChange(e) {
@@ -97,12 +94,21 @@ class Chatroom extends Component {
     e.preventDefault();
     this.setState({ text: '', textCount: 0, date: new Date() });
 
-    const { userAvatar, username, text, date } = this.state;
-    this.props.sendMessage({ userAvatar, username, text, date });
+    const { text, date } = this.state;
+    const { username, avatar } = this.props.user;
+    this.props.handleToggleGiphy(false);
+    this.props.handleToggleEmoji(false);
+    this.props.sendMessage({
+      userAvatar: avatar,
+      username,
+      text,
+      date,
+      imageMsg: null,
+    });
   }
 
   render() {
-    const { toggleMissedMsg, text, textCount, toggleEmojiPicker } = this.state;
+    const { text, textCount, toggleMissedMsg } = this.state;
     const {
       loading,
       missedMsg,
@@ -159,11 +165,8 @@ class Chatroom extends Component {
 
             <form onSubmit={this.handleSubmit} className="message-form">
               <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
-              <Emoji
-                addEmoji={this.addEmoji}
-                handleEmojiPicker={this.handleEmojiPicker}
-                toggleEmojiPicker={toggleEmojiPicker}
-              />
+              <Emoji addEmoji={this.addEmoji} />
+              <Giphy />
               <div className="message-input-box">
                 <input
                   autoComplete="off"
@@ -171,7 +174,7 @@ class Chatroom extends Component {
                   maxLength="500"
                   onChange={this.handleChange}
                   onKeyPress={this.handleKeyPress}
-                  onClick={this.closeEmojiPicker}
+                  onClick={this.closeEmojiGiphy}
                   placeholder="enter your message"
                   type="text"
                   value={text}
@@ -208,6 +211,9 @@ const mapStateToProps = state => ({
 });
 
 Chatroom.propTypes = {
+  fetchGiphy: PropTypes.func.isRequired,
+  handleToggleEmoji: PropTypes.func.isRequired,
+  handleToggleGiphy: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   messages: PropTypes.array.isRequired,
   missedMsg: PropTypes.array.isRequired,
@@ -227,6 +233,9 @@ Chatroom.propTypes = {
 
 export default connect(mapStateToProps, {
   clearMissedMsg,
+  fetchGiphy,
+  handleToggleEmoji,
+  handleToggleGiphy,
   getMessages,
   isTyping,
   logOutUser,

@@ -46,7 +46,7 @@ class MessagesList extends Component {
 
   renderMessages(messages, currentUser) {
     return messages.map((msg) => {
-      const { date, _id, text, username, userAvatar } = msg;
+      const { date, _id, text, username, userAvatar, imageMsg } = msg;
       const threadType = username === currentUser ? 'current-user' : 'other-user';
 
       return (
@@ -61,7 +61,8 @@ class MessagesList extends Component {
             <span className="thread-timestamp">{formatTime(date)}</span>
           </div>
           <Linkify properties={{ target: '_blank', style: { color: 'blue' } }}>
-            <div className={`${threadType} message-text`}>{text}</div>
+            {imageMsg && <img src={imageMsg} alt="gif" className={`${threadType} message-img`} />}
+            {!imageMsg && <div className={`${threadType} message-text`}>{text}</div>}
           </Linkify>
         </li>
       );
