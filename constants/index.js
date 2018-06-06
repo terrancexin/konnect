@@ -7,8 +7,11 @@ module.exports = {
   LOGGED_IN: 'LOGGED_IN',
   LOGIN_ERROR: 'LOGIN_ERROR',
   LOGOUT: 'LOGOUT',
+  RECEIVE_GIPHY: 'RECEIVE_GIPHY',
   STOPPED_TYPING: 'STOPPED_TYPING',
   TYPING: 'TYPING',
+  TOGGLE_GIPHY: 'TOGGLE_GIPHY',
+  TOGGLE_EMOJI: 'TOGGLE_EMOJI',
   SOCKET_EVENTS: [
     'MESSAGE_SENT',
     'STOPPED_TYPING',
@@ -18,5 +21,12 @@ module.exports = {
   ],
   USER_CONNECTED: 'USER_CONNECTED',
   USER_DISCONNECTED: 'USER_DISCONNECTED',
+  GIPHY: {
+    searchUrl: 'https://api.giphy.com/v1/gifs/search',
+    api_key: 'dc6zaTOxFJmzC',
+    limit: 6,
+    offset: 0,
+    rating: 'G',
+  },
 };
 
