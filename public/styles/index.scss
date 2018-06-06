@@ -1,6 +1,7 @@
 @import 'reset.scss';
 @import 'base.scss';
 @import 'emoji';
+@import 'giphy';
 
 .app {
   width: 100%;
@@ -350,6 +351,11 @@ input#message {
 
 .timestamp-user-box {
   @include flex-center-center;
+}
+
+.message-img {
+  height: 100px;
+  border-radius: 5px;
 }
 
 .message-text {
