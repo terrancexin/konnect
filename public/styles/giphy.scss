@@ -1,0 +1,109 @@
+.giphy {
+  position: absolute;
+  z-index: 1;
+  top: 2.22px;
+  right: 26px;
+
+  &__btn {
+    @include reset-btn-style;
+    width: 7px;
+    height: 7px;
+    color: lightgray;
+    
+    .fa-hand-peace {
+      font-size: 17px;
+    }
+    
+    &:hover {
+      color: $blue;
+    }
+  }
+}
+
+.giphy--active {
+  position: absolute;
+  z-index: 1;
+  bottom: 25px;
+  right: 25px;
+  width: 300px;
+  height: 146px;
+  border: solid 1px #d9d9d9;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 10px 17px rgba(0, 0, 0, 0.3);
+}
+
+.giphy__list {  
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.giphy__list--single {
+  flex: 0 0 auto;
+
+  input + img {
+    margin: 3px;
+    border-radius: 5px;
+    border: solid 1px #d9d9d9;
+    cursor: pointer;
+    transition:all .3s ease-in;
+    
+    &:hover {
+      border: 3px solid $blue;
+    }
+  }
+  
+  input:checked + img {
+    border: 3px solid $blue;
+  }
+}
+
+.giphy__search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  input {
+    font-size: 14px;
+    width: 150px;
+    border-radius: 25px;
+    border: 1px solid #d9d9d9;
+    outline: 0;
+    margin: 5px 5px 5px 0;
+    padding: 3px;
+    
+    &::placeholder {
+      font-style: italic;
+      color: $placeholdergray;
+    }
+  }
+
+  button {
+    @include reset-btn-style;
+    width: 100px;
+    background-color: $blue;
+    border: solid 1px white;
+    font-size: 11px;
+    transition:all .3s ease-in;
+    border-radius: 0;
+    margin: 0;
+    line-height: 0;
+    padding: 0;
+    border-radius: 15px;
+    
+    &:focus {
+      outline: none;
+    }
+    
+    &:disabled {
+      background-color: lightgray;
+      color: gray;
+    }
+  }
+}
+
