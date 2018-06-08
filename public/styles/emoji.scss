@@ -1,13 +1,13 @@
 .emoji {
   position: absolute;
   z-index: 1;
-  top: 2.22px;
-  right: 48px;
+  top: 2px;
+  right: 37px;
 
   &-btn {
     @include reset-btn-style;
-    width: 7px;
-    height: 7px;
+    width: 17px;
+    height: 17px;
     color: lightgray;
     
     .fa-smile {

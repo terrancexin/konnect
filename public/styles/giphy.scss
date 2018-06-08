@@ -1,13 +1,13 @@
 .giphy {
   position: absolute;
   z-index: 1;
-  top: 2.22px;
-  right: 26px;
+  top: 2px;
+  right: 18px;
 
   &__btn {
     @include reset-btn-style;
-    width: 7px;
-    height: 7px;
+    width: 17px;
+    height: 17px;
     color: lightgray;
     
     .fa-hand-peace {
