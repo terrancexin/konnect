@@ -53,6 +53,8 @@ Build real-time chat functionality
 - User join & leave notification in real time
 - User can select an avatar at sign up
 - User can pick emojis when sending a message
+- User can send giphys
+- User can search for giphys
 
 ## User Stories
 - As a user, I want to authenticate my username and password.
@@ -71,3 +73,5 @@ Build real-time chat functionality
 - Add more responsiveness on the UI
 - Set up load balancer for scaling
 - Remove libraries and write my own functions to enhance security
+  - [x] moment.js removed
+  
