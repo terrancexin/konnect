@@ -43,7 +43,7 @@ class Chatroom extends Component {
     this.handleTypingTime = null;
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getMessages();
     this.props.fetchGiphy();
   }

@@ -36697,8 +36697,8 @@ var Chatroom = function (_Component) {
   }
 
   _createClass(Chatroom, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       this.props.getMessages();
       this.props.fetchGiphy();
     }
