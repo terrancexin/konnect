@@ -10,8 +10,8 @@ import {
 } from '../../actions';
 
 class Giphy extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = { giphySelected: null, giphySearch: '' };
 

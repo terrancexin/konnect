@@ -6,8 +6,8 @@ import Form from './Form';
 import Footer from '../Footer';
 
 class LogIn extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       avatar: '',
       username: '',

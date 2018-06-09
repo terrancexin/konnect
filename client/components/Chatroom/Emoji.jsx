@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { handleToggleEmoji, handleToggleGiphy } from '../../actions';
 
 class Emoji extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handleClick = this.handleClick.bind(this);
   }
