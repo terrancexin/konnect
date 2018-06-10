@@ -7,12 +7,16 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const mongoose = require('mongoose');
 const router = require('./router');
+const { seedGuest } = require('./services/seeds');
 
 module.exports = { io };
 const socketManager = require('./services/socketManager');
 
 const mongodbServer = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/konnect';
-mongoose.connect(mongodbServer);
+mongoose.connect(mongodbServer, () => {
+  // mongoose.connection.db.dropDatabase();
+  seedGuest();
+});
 mongoose.set('debug', true);
 
 app.use(bodyParser.json());

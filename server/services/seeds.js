@@ -101,12 +101,22 @@ const seedMessages = () => {
 };
 
 const seedGuest = () => {
-  UserModel.create({
-    username: 'awesome guest',
-    password: 'password',
-    bookMark: '',
-    onlineStatus: false,
-  });
+  UserModel
+    .findOne({ username: 'awesome guest' })
+    .then((guest) => {
+      if (!guest) {
+        UserModel.create({
+          username: 'awesome guest',
+          password: 'password',
+          bookMark: '',
+          onlineStatus: false,
+          avatar: '4',
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(`creating guest failed: ${err}`);
+    });
 };
 
 module.exports = {
