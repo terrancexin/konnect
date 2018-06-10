@@ -13,7 +13,10 @@ class Giphy extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { giphySelected: null, giphySearch: '' };
+    this.state = {
+      giphySelected: null,
+      giphySearch: '',
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -51,6 +54,7 @@ class Giphy extends Component {
 
     if (this.props.toggleGiphy) {
       this.props.handleToggleGiphy(false);
+      this.setState({ giphySearch: '' });
     } else {
       this.props.handleToggleGiphy(true);
       this.props.handleToggleEmoji(false);
@@ -90,6 +94,7 @@ class Giphy extends Component {
 
   render() {
     const { giphy, toggleGiphy } = this.props;
+    const { giphySearch } = this.state;
 
     return (
       <div className="giphy">
@@ -97,28 +102,25 @@ class Giphy extends Component {
           <i className="far fa-hand-peace" />
         </button>
         {toggleGiphy && (
-          <div className="giphy--active">
+          <div className="giphy__picker">
             <div className="giphy__search">
               <input
                 type="text"
                 onChange={this.handleChange}
                 className="giphy_search--input"
-                placeholder="find your giphy.."
+                placeholder=" cute puppies..."
                 onKeyPress={this.handleKeyPress}
               />
               <button
                 onClick={this.handleSearch}
                 className="giphy__search--btn"
-                disabled={this.state.giphySearch.length < 1}
+                disabled={giphySearch.length < 1}
               >
                 Search
               </button>
             </div>
 
-            <div
-              className="giphy__list"
-              onChange={this.handleGiphySelect}
-            >
+            <div className="giphy__list" onChange={this.handleGiphySelect}>
               {this.renderGiphy(giphy)}
             </div>
           </div>

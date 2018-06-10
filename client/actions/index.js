@@ -227,7 +227,7 @@ export const fetchGiphy = search => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(`fetch random giphy failed: ${err}`);
+      console.log(`fetching giphy failed: ${err}`);
     });
 };
 

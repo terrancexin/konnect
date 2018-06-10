@@ -15,8 +15,8 @@ import {
 } from '../../actions';
 
 import Emoji from './Emoji';
-import Giphy from './Giphy';
 import Footer from '../Footer';
+import Giphy from './Giphy';
 import MessagesList from './MessagesList';
 import NavBtns from './NavBtns';
 import Notice from '../Notice';
