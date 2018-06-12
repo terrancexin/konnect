@@ -51,4 +51,12 @@
   .message-text {
     max-width: 200px;
   }
+  
+  .imageUpload__fileName {
+    display: none;
+  }
+  
+  .imageUpload__fileName--mobile {
+    display: flex;
+  }
 }
