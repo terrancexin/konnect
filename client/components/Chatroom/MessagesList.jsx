@@ -62,7 +62,7 @@ class MessagesList extends Component {
           </div>
           <Linkify properties={{ target: '_blank', style: { color: 'blue' } }}>
             {imageMsg && <img src={imageMsg} alt="pic" className={`${threadType} message-img`} />}
-            {!imageMsg && <div className={`${threadType} message-text`}>{text}</div>}
+            {text && <div className={`${threadType} message-text`}>{text}</div>}
           </Linkify>
         </li>
       );
