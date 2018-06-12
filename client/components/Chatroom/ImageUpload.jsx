@@ -53,7 +53,7 @@ class ImageUpload extends Component {
   }
 
   render() {
-    const { imgFileName } = this.props;
+    const { imgFileName, imgSrc } = this.props;
 
     return (
       <div className="imageUpload">
@@ -63,6 +63,7 @@ class ImageUpload extends Component {
           ref={this.setRef}
           className="imageUpload__input"
           id="imageUploadInput"
+          accept="image/*"
         />
         {imgFileName && (
           <button
@@ -72,7 +73,14 @@ class ImageUpload extends Component {
             cancel
           </button>
         )}
-        <span className="imageUpload__fileName">{imgFileName.slice(0, 50)}</span>
+        <span className="imageUpload__fileName">
+          {imgFileName.slice(0, 50)}
+          {imgFileName && <img alt="preview" src={imgSrc} />}
+        </span>
+        <span className="imageUpload__fileName--mobile">
+          {imgFileName.slice(0, 20)}
+          {imgFileName && <img alt="preview" src={imgSrc} />}
+        </span>
         <button onClick={this.handleClick} className="imageUpload__btn">
           <i className="far fa-image" />
         </button>
@@ -83,12 +91,14 @@ class ImageUpload extends Component {
 
 const mapStateToProps = state => ({
   imgFileName: state.imgFileName,
+  imgSrc: state.imgSrc,
 });
 
 ImageUpload.propTypes = {
   setImgSrc: PropTypes.func.isRequired,
   setFileName: PropTypes.func.isRequired,
   imgFileName: PropTypes.string.isRequired,
+  imgSrc: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, {
