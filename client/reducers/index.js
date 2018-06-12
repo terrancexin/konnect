@@ -15,10 +15,14 @@ import {
   TYPING,
   USER_CONNECTED,
   USER_DISCONNECTED,
+  SET_IMAGE_SRC,
+  SET_FILE_NAME,
 } from '../../constants';
 
 const initialState = {
   auth: false,
+  imgSrc: '',
+  imgFileName: '',
   toggleEmoji: false,
   err: '',
   giphy: [],
@@ -121,6 +125,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         notice: payload.notice,
         users: payload.users.length <= 1 ? payload.users : sortOnlineStatus(payload.users),
+      };
+    case SET_IMAGE_SRC:
+      return {
+        ...state,
+        imgSrc: payload,
+      };
+    case SET_FILE_NAME:
+      return {
+        ...state,
+        imgFileName: payload,
       };
     default:
       return state;

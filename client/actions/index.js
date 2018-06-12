@@ -19,6 +19,8 @@ import {
   TOGGLE_EMOJI,
   TOGGLE_GIPHY,
   USER_CONNECTED,
+  SET_IMAGE_SRC,
+  SET_FILE_NAME,
 } from '../../constants';
 
 const ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
@@ -234,4 +236,15 @@ export const fetchGiphy = search => (dispatch) => {
 export const handleToggleGiphy = bool => ({
   type: TOGGLE_GIPHY,
   payload: bool,
+});
+
+// Image upload
+export const setImgSrc = imgSrc => ({
+  type: SET_IMAGE_SRC,
+  payload: imgSrc,
+});
+
+export const setFileName = file => ({
+  type: SET_FILE_NAME,
+  payload: file,
 });
