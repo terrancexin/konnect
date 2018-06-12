@@ -844,6 +844,25 @@ function localstorage() {
 
 /***/ }),
 /* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(89);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -858,7 +877,7 @@ exports.default = function (instance, Constructor) {
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -883,7 +902,7 @@ var _Object = Object;
 })());
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -943,7 +962,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -983,25 +1002,6 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(83);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(89);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
 
 /***/ }),
 /* 11 */
@@ -1062,6 +1062,282 @@ function inherits(subClass, superClass) {
 
 /***/ }),
 /* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setFileName = exports.setImgSrc = exports.handleToggleGiphy = exports.fetchGiphy = exports.handleToggleEmoji = exports.isTyping = exports.clearNotices = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = exports.removeErrorMessage = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
+
+var _axios = __webpack_require__(118);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _socket = __webpack_require__(137);
+
+var _socket2 = _interopRequireDefault(_socket);
+
+var _constants = __webpack_require__(51);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
+
+// Socket actions
+/* global localStorage */
+
+var socket = (0, _socket2.default)(ROOT_URL);
+var initSocket = function initSocket(dispatch) {
+  socket.on('connect', function () {
+    console.log('welcome to konnect!');
+  });
+
+  _constants.SOCKET_EVENTS.forEach(function (type) {
+    return socket.on(type, function (payload) {
+      dispatch({ type: type, payload: payload });
+    });
+  });
+};
+
+var socketOff = exports.socketOff = function socketOff() {
+  return function () {
+    _constants.SOCKET_EVENTS.forEach(function (type) {
+      return socket.off(type);
+    });
+  };
+};
+
+var loginFailed = function loginFailed(error, dispatch) {
+  dispatch({
+    type: _constants.LOGIN_ERROR,
+    payload: error
+  });
+};
+
+// User actions
+var loginSuccess = function loginSuccess(_ref, dispatch) {
+  var token = _ref.token,
+      newUser = _ref.newUser,
+      missedMsg = _ref.missedMsg;
+
+  localStorage.setItem('token', token);
+  initSocket(dispatch);
+  dispatch({
+    type: _constants.LOGGED_IN,
+    payload: {
+      user: newUser,
+      missedMsg: missedMsg
+    }
+  });
+  socket.emit(_constants.USER_CONNECTED, newUser);
+};
+
+var logInUser = exports.logInUser = function logInUser(_ref2) {
+  var username = _ref2.username,
+      password = _ref2.password;
+  return function (dispatch) {
+    _axios2.default.post(ROOT_URL + '/login', { username: username, password: password }).then(function (_ref3) {
+      var data = _ref3.data;
+
+      if (data.error) {
+        loginFailed(data.error, dispatch);
+      } else {
+        loginSuccess(data, dispatch);
+      }
+    }).catch(function () {
+      dispatch({
+        type: _constants.LOGIN_ERROR,
+        payload: 'log in failed, bad login info.'
+      });
+    });
+  };
+};
+
+var signUpUser = exports.signUpUser = function signUpUser(_ref4) {
+  var avatar = _ref4.avatar,
+      username = _ref4.username,
+      password = _ref4.password,
+      passwordConfirmation = _ref4.passwordConfirmation;
+  return function (dispatch) {
+    if (!avatar) {
+      avatar = 'default';
+    }
+
+    _axios2.default.post(ROOT_URL + '/signup', {
+      avatar: avatar,
+      username: username,
+      password: password,
+      passwordConfirmation: passwordConfirmation
+    }).then(function (_ref5) {
+      var data = _ref5.data;
+
+      if (data.error) {
+        loginFailed(data.error, dispatch);
+      } else {
+        loginSuccess(data, dispatch);
+      }
+    }).catch(function () {
+      dispatch({
+        type: _constants.LOGIN_ERROR,
+        payload: 'sign up failed, bad login info.'
+      });
+    });
+  };
+};
+
+var logOutUser = exports.logOutUser = function logOutUser(user) {
+  return function (dispatch) {
+    socket.emit(_constants.LOGOUT, user);
+    dispatch({
+      type: _constants.LOGOUT
+    });
+    localStorage.removeItem('token');
+  };
+};
+
+var removeErrorMessage = exports.removeErrorMessage = function removeErrorMessage() {
+  return function (dispatch) {
+    dispatch({
+      type: _constants.LOGIN_ERROR,
+      payload: ''
+    });
+  };
+};
+
+// Message actions
+var getMessages = exports.getMessages = function getMessages() {
+  return function (dispatch) {
+    dispatch({ type: _constants.LOADING, payload: true });
+
+    _axios2.default.get(ROOT_URL + '/messages', {
+      headers: { authorization: localStorage.getItem('token') }
+    }).then(function (_ref6) {
+      var data = _ref6.data;
+
+      dispatch({
+        type: _constants.GET_MESSAGES,
+        payload: data
+      });
+
+      setTimeout(function () {
+        return dispatch({ type: _constants.LOADING, payload: false });
+      }, 500);
+    }).catch(function (err) {
+      console.log('fetch messages failed: ' + err);
+    });
+  };
+};
+
+var sendMessage = exports.sendMessage = function sendMessage(_ref7) {
+  var userAvatar = _ref7.userAvatar,
+      username = _ref7.username,
+      date = _ref7.date,
+      text = _ref7.text,
+      imageMsg = _ref7.imageMsg;
+  return function () {
+    _axios2.default.post(ROOT_URL + '/send', { userAvatar: userAvatar, username: username, date: date, text: text, imageMsg: imageMsg }).then(function (_ref8) {
+      var data = _ref8.data;
+
+      socket.emit(_constants.MESSAGE_SENT, data);
+    }).catch(function (err) {
+      console.log('send message failed: ' + err);
+    });
+  };
+};
+
+var clearMissedMsg = exports.clearMissedMsg = function clearMissedMsg(username) {
+  return function (dispatch) {
+    _axios2.default.post(ROOT_URL + '/bookmark', { username: username }).then(function (_ref9) {
+      var data = _ref9.data;
+
+      if (data.error) {
+        console.log('unable to find the username: ' + username + ' to remove');
+      } else {
+        dispatch({
+          type: _constants.CLEAR_MISSED_MSG
+        });
+      }
+    }).catch(function (err) {
+      console.log('remove bookmark failed: ' + err);
+    });
+  };
+};
+
+// Notice actions
+var clearNotices = exports.clearNotices = function clearNotices() {
+  return {
+    type: _constants.CLEAR_NOTICES
+  };
+};
+
+var isTyping = exports.isTyping = function isTyping(username, bool) {
+  return function () {
+    if (bool) {
+      socket.emit(_constants.TYPING, username);
+    } else {
+      socket.emit(_constants.STOPPED_TYPING, username);
+    }
+  };
+};
+
+// Emoji actions
+var handleToggleEmoji = exports.handleToggleEmoji = function handleToggleEmoji(bool) {
+  return {
+    type: _constants.TOGGLE_EMOJI,
+    payload: bool
+  };
+};
+
+// Giphy actions
+var fetchGiphy = exports.fetchGiphy = function fetchGiphy(search) {
+  return function (dispatch) {
+    var url = _constants.GIPHY.searchUrl + '?api_key=' + _constants.GIPHY.api_key + '&q=yay&limit=' + _constants.GIPHY.limit + '&rating=' + _constants.GIPHY.rating;
+
+    if (search) {
+      url = _constants.GIPHY.searchUrl + '?api_key=' + _constants.GIPHY.api_key + '&q=' + search + '&limit=' + _constants.GIPHY.limit + '&rating=' + _constants.GIPHY.rating;
+    }
+
+    _axios2.default.get(url).then(function (_ref10) {
+      var data = _ref10.data.data;
+
+      dispatch({
+        type: _constants.RECEIVE_GIPHY,
+        payload: data
+      });
+    }).catch(function (err) {
+      console.log('fetching giphy failed: ' + err);
+    });
+  };
+};
+
+var handleToggleGiphy = exports.handleToggleGiphy = function handleToggleGiphy(bool) {
+  return {
+    type: _constants.TOGGLE_GIPHY,
+    payload: bool
+  };
+};
+
+// Image upload
+var setImgSrc = exports.setImgSrc = function setImgSrc(imgSrc) {
+  return {
+    type: _constants.SET_IMAGE_SRC,
+    payload: imgSrc
+  };
+};
+
+var setFileName = exports.setFileName = function setFileName(file) {
+  return {
+    type: _constants.SET_FILE_NAME,
+    payload: file
+  };
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1230,7 +1506,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -1843,7 +2119,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1938,267 +2214,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.handleToggleGiphy = exports.fetchGiphy = exports.handleToggleEmoji = exports.isTyping = exports.clearNotices = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = exports.removeErrorMessage = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
-
-var _axios = __webpack_require__(118);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _socket = __webpack_require__(137);
-
-var _socket2 = _interopRequireDefault(_socket);
-
-var _constants = __webpack_require__(51);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
-
-// Socket actions
-/* global localStorage */
-
-var socket = (0, _socket2.default)(ROOT_URL);
-var initSocket = function initSocket(dispatch) {
-  socket.on('connect', function () {
-    console.log('welcome to konnect!');
-  });
-
-  _constants.SOCKET_EVENTS.forEach(function (type) {
-    return socket.on(type, function (payload) {
-      dispatch({ type: type, payload: payload });
-    });
-  });
-};
-
-var socketOff = exports.socketOff = function socketOff() {
-  return function () {
-    _constants.SOCKET_EVENTS.forEach(function (type) {
-      return socket.off(type);
-    });
-  };
-};
-
-var loginFailed = function loginFailed(error, dispatch) {
-  dispatch({
-    type: _constants.LOGIN_ERROR,
-    payload: error
-  });
-};
-
-// User actions
-var loginSuccess = function loginSuccess(_ref, dispatch) {
-  var token = _ref.token,
-      newUser = _ref.newUser,
-      missedMsg = _ref.missedMsg;
-
-  localStorage.setItem('token', token);
-  initSocket(dispatch);
-  dispatch({
-    type: _constants.LOGGED_IN,
-    payload: {
-      user: newUser,
-      missedMsg: missedMsg
-    }
-  });
-  socket.emit(_constants.USER_CONNECTED, newUser);
-};
-
-var logInUser = exports.logInUser = function logInUser(_ref2) {
-  var username = _ref2.username,
-      password = _ref2.password;
-  return function (dispatch) {
-    _axios2.default.post(ROOT_URL + '/login', { username: username, password: password }).then(function (_ref3) {
-      var data = _ref3.data;
-
-      if (data.error) {
-        loginFailed(data.error, dispatch);
-      } else {
-        loginSuccess(data, dispatch);
-      }
-    }).catch(function () {
-      dispatch({
-        type: _constants.LOGIN_ERROR,
-        payload: 'log in failed, bad login info.'
-      });
-    });
-  };
-};
-
-var signUpUser = exports.signUpUser = function signUpUser(_ref4) {
-  var avatar = _ref4.avatar,
-      username = _ref4.username,
-      password = _ref4.password,
-      passwordConfirmation = _ref4.passwordConfirmation;
-  return function (dispatch) {
-    if (!avatar) {
-      avatar = 'default';
-    }
-
-    _axios2.default.post(ROOT_URL + '/signup', {
-      avatar: avatar,
-      username: username,
-      password: password,
-      passwordConfirmation: passwordConfirmation
-    }).then(function (_ref5) {
-      var data = _ref5.data;
-
-      if (data.error) {
-        loginFailed(data.error, dispatch);
-      } else {
-        loginSuccess(data, dispatch);
-      }
-    }).catch(function () {
-      dispatch({
-        type: _constants.LOGIN_ERROR,
-        payload: 'sign up failed, bad login info.'
-      });
-    });
-  };
-};
-
-var logOutUser = exports.logOutUser = function logOutUser(user) {
-  return function (dispatch) {
-    socket.emit(_constants.LOGOUT, user);
-    dispatch({
-      type: _constants.LOGOUT
-    });
-    localStorage.removeItem('token');
-  };
-};
-
-var removeErrorMessage = exports.removeErrorMessage = function removeErrorMessage() {
-  return function (dispatch) {
-    dispatch({
-      type: _constants.LOGIN_ERROR,
-      payload: ''
-    });
-  };
-};
-
-// Message actions
-var getMessages = exports.getMessages = function getMessages() {
-  return function (dispatch) {
-    dispatch({ type: _constants.LOADING, payload: true });
-
-    _axios2.default.get(ROOT_URL + '/messages', {
-      headers: { authorization: localStorage.getItem('token') }
-    }).then(function (_ref6) {
-      var data = _ref6.data;
-
-      dispatch({
-        type: _constants.GET_MESSAGES,
-        payload: data
-      });
-
-      setTimeout(function () {
-        return dispatch({ type: _constants.LOADING, payload: false });
-      }, 500);
-    }).catch(function (err) {
-      console.log('fetch messages failed: ' + err);
-    });
-  };
-};
-
-var sendMessage = exports.sendMessage = function sendMessage(_ref7) {
-  var userAvatar = _ref7.userAvatar,
-      username = _ref7.username,
-      date = _ref7.date,
-      text = _ref7.text,
-      imageMsg = _ref7.imageMsg;
-  return function () {
-    _axios2.default.post(ROOT_URL + '/send', { userAvatar: userAvatar, username: username, date: date, text: text, imageMsg: imageMsg }).then(function (_ref8) {
-      var data = _ref8.data;
-
-      socket.emit(_constants.MESSAGE_SENT, data);
-    }).catch(function (err) {
-      console.log('send message failed: ' + err);
-    });
-  };
-};
-
-var clearMissedMsg = exports.clearMissedMsg = function clearMissedMsg(username) {
-  return function (dispatch) {
-    _axios2.default.post(ROOT_URL + '/bookmark', { username: username }).then(function (_ref9) {
-      var data = _ref9.data;
-
-      if (data.error) {
-        console.log('unable to find the username: ' + username + ' to remove');
-      } else {
-        dispatch({
-          type: _constants.CLEAR_MISSED_MSG
-        });
-      }
-    }).catch(function (err) {
-      console.log('remove bookmark failed: ' + err);
-    });
-  };
-};
-
-// Notice actions
-var clearNotices = exports.clearNotices = function clearNotices() {
-  return {
-    type: _constants.CLEAR_NOTICES
-  };
-};
-
-var isTyping = exports.isTyping = function isTyping(username, bool) {
-  return function () {
-    if (bool) {
-      socket.emit(_constants.TYPING, username);
-    } else {
-      socket.emit(_constants.STOPPED_TYPING, username);
-    }
-  };
-};
-
-// Emoji actions
-var handleToggleEmoji = exports.handleToggleEmoji = function handleToggleEmoji(bool) {
-  return {
-    type: _constants.TOGGLE_EMOJI,
-    payload: bool
-  };
-};
-
-// Giphy actions
-var fetchGiphy = exports.fetchGiphy = function fetchGiphy(search) {
-  return function (dispatch) {
-    var url = _constants.GIPHY.searchUrl + '?api_key=' + _constants.GIPHY.api_key + '&q=yay&limit=' + _constants.GIPHY.limit + '&rating=' + _constants.GIPHY.rating;
-
-    if (search) {
-      url = _constants.GIPHY.searchUrl + '?api_key=' + _constants.GIPHY.api_key + '&q=' + search + '&limit=' + _constants.GIPHY.limit + '&rating=' + _constants.GIPHY.rating;
-    }
-
-    _axios2.default.get(url).then(function (_ref10) {
-      var data = _ref10.data.data;
-
-      dispatch({
-        type: _constants.RECEIVE_GIPHY,
-        payload: data
-      });
-    }).catch(function (err) {
-      console.log('fetching giphy failed: ' + err);
-    });
-  };
-};
-
-var handleToggleGiphy = exports.handleToggleGiphy = function handleToggleGiphy(bool) {
-  return {
-    type: _constants.TOGGLE_GIPHY,
-    payload: bool
-  };
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 18 */
@@ -2470,7 +2485,7 @@ module.exports = emptyObject;
 
 
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -2856,7 +2871,7 @@ var PickerDefaultProps = {
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(8);
+  var invariant = __webpack_require__(9);
   var warning = __webpack_require__(21);
   var ReactPropTypesSecret = __webpack_require__(29);
   var loggedTypeFailures = {};
@@ -3069,7 +3084,7 @@ module.exports = defaults;
  */
 
 var debug = __webpack_require__(5)('socket.io-parser');
-var Emitter = __webpack_require__(14);
+var Emitter = __webpack_require__(15);
 var binary = __webpack_require__(141);
 var isArray = __webpack_require__(22);
 var isBuf = __webpack_require__(58);
@@ -3534,8 +3549,8 @@ module.exports = function (opts) {
  * Module dependencies.
  */
 
-var parser = __webpack_require__(15);
-var Emitter = __webpack_require__(14);
+var parser = __webpack_require__(16);
+var Emitter = __webpack_require__(15);
 
 /**
  * Module exports.
@@ -3700,9 +3715,9 @@ module.exports = {"compressed":true,"categories":[{"id":"people","name":"Smileys
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__polyfills_createClass__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__polyfills_createClass__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2____ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__data__);
@@ -5356,6 +5371,8 @@ module.exports = {
   LOGIN_ERROR: 'LOGIN_ERROR',
   LOGOUT: 'LOGOUT',
   RECEIVE_GIPHY: 'RECEIVE_GIPHY',
+  SET_FILE_NAME: 'SET_FILE_NAME',
+  SET_IMAGE_SRC: 'SET_IMAGE_SRC',
   STOPPED_TYPING: 'STOPPED_TYPING',
   TYPING: 'TYPING',
   TOGGLE_GIPHY: 'TOGGLE_GIPHY',
@@ -5728,7 +5745,7 @@ function isBuf(obj) {
 
 var eio = __webpack_require__(142);
 var Socket = __webpack_require__(65);
-var Emitter = __webpack_require__(14);
+var Emitter = __webpack_require__(15);
 var parser = __webpack_require__(32);
 var on = __webpack_require__(66);
 var bind = __webpack_require__(67);
@@ -6366,7 +6383,7 @@ function polling (opts) {
 
 var Transport = __webpack_require__(34);
 var parseqs = __webpack_require__(23);
-var parser = __webpack_require__(15);
+var parser = __webpack_require__(16);
 var inherit = __webpack_require__(24);
 var yeast = __webpack_require__(63);
 var debug = __webpack_require__(5)('engine.io-client:polling');
@@ -6778,7 +6795,7 @@ module.exports = function(arr, obj){
  */
 
 var parser = __webpack_require__(32);
-var Emitter = __webpack_require__(14);
+var Emitter = __webpack_require__(15);
 var toArray = __webpack_require__(159);
 var on = __webpack_require__(66);
 var bind = __webpack_require__(67);
@@ -7534,9 +7551,9 @@ NimbleEmoji.defaultProps = __WEBPACK_IMPORTED_MODULE_4__utils_shared_props__["a"
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_extends__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__polyfills_objectGetPrototypeOf__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_createClass__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_createClass__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__polyfills_possibleConstructorReturn__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__polyfills_inherits__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__vendor_raf_polyfill__ = __webpack_require__(187);
@@ -8167,7 +8184,7 @@ var _reactDom = __webpack_require__(74);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(10);
+var _reactRedux = __webpack_require__(6);
 
 __webpack_require__(108);
 
@@ -8205,7 +8222,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * LICENSE file in the root directory of this source tree.
  */
 
-var k=__webpack_require__(16),n=__webpack_require__(8),p=__webpack_require__(20),q=__webpack_require__(9),r="function"===typeof Symbol&&Symbol.for,t=r?Symbol.for("react.element"):60103,u=r?Symbol.for("react.portal"):60106,v=r?Symbol.for("react.fragment"):60107,w=r?Symbol.for("react.strict_mode"):60108,x=r?Symbol.for("react.profiler"):60114,y=r?Symbol.for("react.provider"):60109,z=r?Symbol.for("react.context"):60110,A=r?Symbol.for("react.async_mode"):60111,B=
+var k=__webpack_require__(17),n=__webpack_require__(9),p=__webpack_require__(20),q=__webpack_require__(10),r="function"===typeof Symbol&&Symbol.for,t=r?Symbol.for("react.element"):60103,u=r?Symbol.for("react.portal"):60106,v=r?Symbol.for("react.fragment"):60107,w=r?Symbol.for("react.strict_mode"):60108,x=r?Symbol.for("react.profiler"):60114,y=r?Symbol.for("react.provider"):60109,z=r?Symbol.for("react.context"):60110,A=r?Symbol.for("react.async_mode"):60111,B=
 r?Symbol.for("react.forward_ref"):60112;r&&Symbol.for("react.timeout");var C="function"===typeof Symbol&&Symbol.iterator;function D(a){for(var b=arguments.length-1,e="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=0;c<b;c++)e+="&args[]="+encodeURIComponent(arguments[c+1]);n(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",e)}
 var E={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function F(a,b,e){this.props=a;this.context=b;this.refs=p;this.updater=e||E}F.prototype.isReactComponent={};F.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?D("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};F.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};function G(){}
 G.prototype=F.prototype;function H(a,b,e){this.props=a;this.context=b;this.refs=p;this.updater=e||E}var I=H.prototype=new G;I.constructor=H;k(I,F.prototype);I.isPureReactComponent=!0;var J={current:null},K=Object.prototype.hasOwnProperty,L={key:!0,ref:!0,__self:!0,__source:!0};
@@ -8242,11 +8259,11 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(16);
-var invariant = __webpack_require__(8);
+var _assign = __webpack_require__(17);
+var invariant = __webpack_require__(9);
 var emptyObject = __webpack_require__(20);
 var warning = __webpack_require__(21);
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 var checkPropTypes = __webpack_require__(28);
 
 // TODO: this is special because it gets imported during build.
@@ -9765,7 +9782,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(8),ca=__webpack_require__(0),m=__webpack_require__(40),p=__webpack_require__(16),v=__webpack_require__(9),da=__webpack_require__(41),ea=__webpack_require__(42),fa=__webpack_require__(43),ha=__webpack_require__(20);
+var aa=__webpack_require__(9),ca=__webpack_require__(0),m=__webpack_require__(40),p=__webpack_require__(17),v=__webpack_require__(10),da=__webpack_require__(41),ea=__webpack_require__(42),fa=__webpack_require__(43),ha=__webpack_require__(20);
 function A(a){for(var b=arguments.length-1,c="https://reactjs.org/docs/error-decoder.html?invariant="+a,d=0;d<b;d++)c+="&args[]="+encodeURIComponent(arguments[d+1]);aa(!1,"Minified React error #"+a+"; visit %s for the full message or use the non-minified dev environment for full errors and additional helpful warnings. ",c)}ca?void 0:A("227");
 function ia(a,b,c,d,e,f,g,h,k){this._hasCaughtError=!1;this._caughtError=null;var n=Array.prototype.slice.call(arguments,3);try{b.apply(c,n)}catch(r){this._caughtError=r,this._hasCaughtError=!0}}
 var B={_caughtError:null,_hasCaughtError:!1,_rethrowError:null,_hasRethrowError:!1,invokeGuardedCallback:function(a,b,c,d,e,f,g,h,k){ia.apply(B,arguments)},invokeGuardedCallbackAndCatchFirstError:function(a,b,c,d,e,f,g,h,k){B.invokeGuardedCallback.apply(this,arguments);if(B.hasCaughtError()){var n=B.clearCaughtError();B._hasRethrowError||(B._hasRethrowError=!0,B._rethrowError=n)}},rethrowCaughtError:function(){return ka.apply(B,arguments)},hasCaughtError:function(){return B._hasCaughtError},clearCaughtError:function(){if(B._hasCaughtError){var a=
@@ -10071,12 +10088,12 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var invariant = __webpack_require__(8);
+var invariant = __webpack_require__(9);
 var React = __webpack_require__(0);
 var warning = __webpack_require__(21);
 var ExecutionEnvironment = __webpack_require__(40);
-var _assign = __webpack_require__(16);
-var emptyFunction = __webpack_require__(9);
+var _assign = __webpack_require__(17);
+var emptyFunction = __webpack_require__(10);
 var checkPropTypes = __webpack_require__(28);
 var getActiveElement = __webpack_require__(41);
 var shallowEqual = __webpack_require__(42);
@@ -27619,10 +27636,10 @@ function createProvider() {
 
 
 
-var emptyFunction = __webpack_require__(9);
-var invariant = __webpack_require__(8);
+var emptyFunction = __webpack_require__(10);
+var invariant = __webpack_require__(9);
 var warning = __webpack_require__(21);
-var assign = __webpack_require__(16);
+var assign = __webpack_require__(17);
 
 var ReactPropTypesSecret = __webpack_require__(29);
 var checkPropTypes = __webpack_require__(28);
@@ -28169,8 +28186,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 
-var emptyFunction = __webpack_require__(9);
-var invariant = __webpack_require__(8);
+var emptyFunction = __webpack_require__(10);
+var invariant = __webpack_require__(9);
 var ReactPropTypesSecret = __webpack_require__(29);
 
 module.exports = function() {
@@ -28224,78 +28241,75 @@ module.exports = function() {
 /* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
 /**
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-(function (global, factory) {
-     true ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global.hoistNonReactStatics = factory());
-}(this, (function () {
-    'use strict';
-    
-    var REACT_STATICS = {
-        childContextTypes: true,
-        contextTypes: true,
-        defaultProps: true,
-        displayName: true,
-        getDefaultProps: true,
-        getDerivedStateFromProps: true,
-        mixins: true,
-        propTypes: true,
-        type: true
-    };
-    
-    var KNOWN_STATICS = {
-        name: true,
-        length: true,
-        prototype: true,
-        caller: true,
-        callee: true,
-        arguments: true,
-        arity: true
-    };
-    
-    var defineProperty = Object.defineProperty;
-    var getOwnPropertyNames = Object.getOwnPropertyNames;
-    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-    var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-    var getPrototypeOf = Object.getPrototypeOf;
-    var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
-    
-    return function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
-        if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
-            
-            if (objectPrototype) {
-                var inheritedComponent = getPrototypeOf(sourceComponent);
-                if (inheritedComponent && inheritedComponent !== objectPrototype) {
-                    hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
-                }
+var REACT_STATICS = {
+    childContextTypes: true,
+    contextTypes: true,
+    defaultProps: true,
+    displayName: true,
+    getDefaultProps: true,
+    getDerivedStateFromProps: true,
+    mixins: true,
+    propTypes: true,
+    type: true
+};
+
+var KNOWN_STATICS = {
+    name: true,
+    length: true,
+    prototype: true,
+    caller: true,
+    callee: true,
+    arguments: true,
+    arity: true
+};
+
+var defineProperty = Object.defineProperty;
+var getOwnPropertyNames = Object.getOwnPropertyNames;
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+var getPrototypeOf = Object.getPrototypeOf;
+var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
+
+function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
+    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+
+        if (objectPrototype) {
+            var inheritedComponent = getPrototypeOf(sourceComponent);
+            if (inheritedComponent && inheritedComponent !== objectPrototype) {
+                hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
             }
-            
-            var keys = getOwnPropertyNames(sourceComponent);
-            
-            if (getOwnPropertySymbols) {
-                keys = keys.concat(getOwnPropertySymbols(sourceComponent));
-            }
-            
-            for (var i = 0; i < keys.length; ++i) {
-                var key = keys[i];
-                if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
-                    var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
-                    try { // Avoid failures from read-only properties
-                        defineProperty(targetComponent, key, descriptor);
-                    } catch (e) {}
-                }
-            }
-            
-            return targetComponent;
         }
-        
+
+        var keys = getOwnPropertyNames(sourceComponent);
+
+        if (getOwnPropertySymbols) {
+            keys = keys.concat(getOwnPropertySymbols(sourceComponent));
+        }
+
+        for (var i = 0; i < keys.length; ++i) {
+            var key = keys[i];
+            if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
+                var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
+                try { // Avoid failures from read-only properties
+                    defineProperty(targetComponent, key, descriptor);
+                } catch (e) {}
+            }
+        }
+
         return targetComponent;
-    };
-})));
+    }
+
+    return targetComponent;
+}
+
+module.exports = hoistNonReactStatics;
 
 
 /***/ }),
@@ -29291,7 +29305,7 @@ exports = module.exports = __webpack_require__(110)(false);
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\ninput[type=\"radio\"] {\n  visibility: hidden;\n  position: absolute; }\n\n.emoji {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 37px; }\n  .emoji-btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .emoji-btn:focus {\n      outline: none; }\n    .emoji-btn .fa-smile {\n      font-size: 17px; }\n    .emoji-btn:hover {\n      color: #4080ff; }\n\n.emoji-mart,\n.emoji-mart * {\n  box-sizing: border-box;\n  line-height: 1.15; }\n\n.emoji-mart {\n  font-family: -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  display: inline-block;\n  color: #222427;\n  border: 1px solid #d9d9d9;\n  border-radius: 5px;\n  background: #fff; }\n\n.emoji-mart .emoji-mart-emoji {\n  padding: 6px; }\n\n.emoji-mart-bar {\n  border: 0 solid #d9d9d9; }\n\n.emoji-mart-bar:first-child {\n  border-bottom-width: 1px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px; }\n\n.emoji-mart-bar:last-child {\n  border-top-width: 1px;\n  border-bottom-left-radius: 5px;\n  border-bottom-right-radius: 5px; }\n\n.emoji-mart-anchors {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 6px;\n  color: #858585;\n  line-height: 0; }\n\n.emoji-mart-anchor {\n  position: relative;\n  display: block;\n  flex: 1 1 auto;\n  text-align: center;\n  padding: 12px 4px;\n  overflow: hidden;\n  transition: color .1s ease-out; }\n\n.emoji-mart-anchor:hover,\n.emoji-mart-anchor-selected {\n  color: #464646; }\n\n.emoji-mart-anchor-selected .emoji-mart-anchor-bar {\n  bottom: 0; }\n\n.emoji-mart-anchor-bar {\n  position: absolute;\n  bottom: -3px;\n  left: 0;\n  width: 100%;\n  height: 3px;\n  background-color: #464646; }\n\n.emoji-mart-anchors i {\n  display: inline-block;\n  width: 100%;\n  max-width: 22px; }\n\n.emoji-mart-anchors svg {\n  fill: currentColor;\n  max-height: 18px; }\n\n.emoji-mart-scroll {\n  overflow-y: scroll;\n  height: 270px;\n  padding: 0 6px 6px 6px;\n  will-change: transform;\n  /* avoids \"repaints on scroll\" in mobile Chrome */ }\n\n.emoji-mart-search {\n  margin-top: 6px;\n  padding: 0 6px; }\n\n.emoji-mart-search input {\n  font-size: 16px;\n  display: block;\n  width: 100%;\n  padding: .2em .6em;\n  border-radius: 25px;\n  border: 1px solid #d9d9d9;\n  outline: 0; }\n\n.emoji-mart-category .emoji-mart-emoji span {\n  z-index: 1;\n  position: relative;\n  text-align: center;\n  cursor: pointer; }\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  z-index: 0;\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f4f4f4;\n  border-radius: 100%; }\n\n.emoji-mart-category-label {\n  z-index: 2;\n  position: relative;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0; }\n\n.emoji-mart-category-label span {\n  display: block;\n  width: 100%;\n  font-weight: 500;\n  padding: 5px 6px;\n  background-color: #fff;\n  background-color: rgba(255, 255, 255, 0.95); }\n\n.emoji-mart-emoji {\n  position: relative;\n  display: inline-block;\n  font-size: 0; }\n\n.emoji-mart-no-results {\n  font-size: 14px;\n  text-align: center;\n  padding-top: 70px;\n  color: #858585; }\n\n.emoji-mart-no-results .emoji-mart-category-label {\n  display: none; }\n\n.emoji-mart-no-results .emoji-mart-no-results-label {\n  margin-top: .2em; }\n\n.emoji-mart-no-results .emoji-mart-emoji:hover:before {\n  content: none; }\n\n.emoji-mart-preview {\n  position: relative;\n  height: 70px; }\n\n.emoji-mart-preview-emoji,\n.emoji-mart-preview-data,\n.emoji-mart-preview-skins {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%); }\n\n.emoji-mart-preview-emoji {\n  left: 12px; }\n\n.emoji-mart-preview-data {\n  left: 68px;\n  right: 12px;\n  word-break: break-all; }\n\n.emoji-mart-preview-skins {\n  right: 30px;\n  text-align: right; }\n\n.emoji-mart-preview-name {\n  font-size: 14px; }\n\n.emoji-mart-preview-shortname {\n  font-size: 12px;\n  color: #888; }\n\n.emoji-mart-preview-shortname + .emoji-mart-preview-shortname,\n.emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,\n.emoji-mart-preview-emoticon + .emoji-mart-preview-emoticon {\n  margin-left: .5em; }\n\n.emoji-mart-preview-emoticon {\n  font-size: 11px;\n  color: #bbb; }\n\n.emoji-mart-title span {\n  display: inline-block;\n  vertical-align: middle; }\n\n.emoji-mart-title .emoji-mart-emoji {\n  padding: 0; }\n\n.emoji-mart-title-label {\n  color: #999A9C;\n  font-size: 26px;\n  font-weight: 300; }\n\n.emoji-mart-skin-swatches {\n  font-size: 0;\n  padding: 2px 0;\n  border: 1px solid #d9d9d9;\n  border-radius: 12px;\n  background-color: #fff; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch {\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch-selected:after {\n  opacity: .75; }\n\n.emoji-mart-skin-swatch {\n  display: inline-block;\n  width: 0;\n  vertical-align: middle;\n  transition-property: width, padding;\n  transition-duration: .125s;\n  transition-timing-function: ease-out; }\n\n.emoji-mart-skin-swatch:nth-child(1) {\n  transition-delay: 0s; }\n\n.emoji-mart-skin-swatch:nth-child(2) {\n  transition-delay: .03s; }\n\n.emoji-mart-skin-swatch:nth-child(3) {\n  transition-delay: .06s; }\n\n.emoji-mart-skin-swatch:nth-child(4) {\n  transition-delay: .09s; }\n\n.emoji-mart-skin-swatch:nth-child(5) {\n  transition-delay: .12s; }\n\n.emoji-mart-skin-swatch:nth-child(6) {\n  transition-delay: .15s; }\n\n.emoji-mart-skin-swatch-selected {\n  position: relative;\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatch-selected:after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 4px;\n  height: 4px;\n  margin: -2px 0 0 -2px;\n  background-color: #fff;\n  border-radius: 100%;\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity .2s ease-out; }\n\n.emoji-mart-skin {\n  display: inline-block;\n  width: 100%;\n  padding-top: 100%;\n  max-width: 12px;\n  border-radius: 100%; }\n\n.emoji-mart-skin-tone-1 {\n  background-color: #ffc93a; }\n\n.emoji-mart-skin-tone-2 {\n  background-color: #fadcbc; }\n\n.emoji-mart-skin-tone-3 {\n  background-color: #e0bb95; }\n\n.emoji-mart-skin-tone-4 {\n  background-color: #bf8f68; }\n\n.emoji-mart-skin-tone-5 {\n  background-color: #9b643d; }\n\n.emoji-mart-skin-tone-6 {\n  background-color: #594539; }\n\n.giphy {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 18px; }\n  .giphy__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .giphy__btn:focus {\n      outline: none; }\n    .giphy__btn .fa-hand-peace {\n      font-size: 17px; }\n    .giphy__btn:hover {\n      color: #4080ff; }\n\n.giphy__picker {\n  position: absolute;\n  z-index: 1;\n  bottom: 25px;\n  right: 25px;\n  width: 300px;\n  height: 146px;\n  border: solid 1px #d9d9d9;\n  border-radius: 10px;\n  background: white;\n  box-shadow: 0 10px 17px rgba(0, 0, 0, 0.3); }\n\n.giphy__list {\n  display: flex;\n  flex-wrap: nowrap;\n  overflow-x: auto; }\n  .giphy__list::-webkit-scrollbar {\n    display: none; }\n\n.giphy__list--single {\n  flex: 0 0 auto; }\n  .giphy__list--single input + img {\n    margin: 3px;\n    border-radius: 5px;\n    border: solid 1px #d9d9d9;\n    cursor: pointer;\n    transition: all .3s ease-in; }\n    .giphy__list--single input + img:hover {\n      border: 3px solid #4080ff; }\n  .giphy__list--single input:checked + img {\n    border: 3px solid #4080ff; }\n\n.giphy__search {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n  .giphy__search input {\n    font-size: 14px;\n    width: 150px;\n    border-radius: 25px;\n    border: 1px solid #d9d9d9;\n    outline: 0;\n    margin: 5px 5px 5px 0;\n    padding: 3px; }\n    .giphy__search input::placeholder {\n      font-style: italic;\n      color: #e6ecf0; }\n  .giphy__search button {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 100px;\n    background-color: #4080ff;\n    border: solid 1px white;\n    font-size: 11px;\n    transition: all .3s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    border-radius: 15px; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:disabled {\n      background-color: lightgray;\n      color: gray; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin-top: 1.5em;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 0 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    padding: 2px; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  position: relative;\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-img {\n  height: 100px;\n  max-width: 450px;\n  border-radius: 5px; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.avatar-img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 51px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.avatar-list {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.pick-avatar {\n  margin-top: 15px;\n  margin-bottom: 5px;\n  color: #4080ff;\n  font-weight: bold; }\n\n.radio-label input + img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px;\n  line-height: 35px;\n  cursor: pointer;\n  transition: all .3s ease-in;\n  filter: brightness(0.4); }\n  .radio-label input + img:hover {\n    filter: brightness(1); }\n\n.radio-label input:checked + img {\n  filter: brightness(1);\n  width: 35px;\n  height: 35px; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; } }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\ninput[type=\"radio\"] {\n  visibility: hidden;\n  position: absolute; }\n\n.emoji {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 29px; }\n  .emoji-btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .emoji-btn:focus {\n      outline: none; }\n    .emoji-btn .fa-smile {\n      font-size: 17px; }\n    .emoji-btn:hover {\n      color: #4080ff; }\n\n.emoji-mart,\n.emoji-mart * {\n  box-sizing: border-box;\n  line-height: 1.15; }\n\n.emoji-mart {\n  font-family: -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  display: inline-block;\n  color: #222427;\n  border: 1px solid #d9d9d9;\n  border-radius: 5px;\n  background: #fff; }\n\n.emoji-mart .emoji-mart-emoji {\n  padding: 6px; }\n\n.emoji-mart-bar {\n  border: 0 solid #d9d9d9; }\n\n.emoji-mart-bar:first-child {\n  border-bottom-width: 1px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px; }\n\n.emoji-mart-bar:last-child {\n  border-top-width: 1px;\n  border-bottom-left-radius: 5px;\n  border-bottom-right-radius: 5px; }\n\n.emoji-mart-anchors {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 6px;\n  color: #858585;\n  line-height: 0; }\n\n.emoji-mart-anchor {\n  position: relative;\n  display: block;\n  flex: 1 1 auto;\n  text-align: center;\n  padding: 12px 4px;\n  overflow: hidden;\n  transition: color .1s ease-out; }\n\n.emoji-mart-anchor:hover,\n.emoji-mart-anchor-selected {\n  color: #464646; }\n\n.emoji-mart-anchor-selected .emoji-mart-anchor-bar {\n  bottom: 0; }\n\n.emoji-mart-anchor-bar {\n  position: absolute;\n  bottom: -3px;\n  left: 0;\n  width: 100%;\n  height: 3px;\n  background-color: #464646; }\n\n.emoji-mart-anchors i {\n  display: inline-block;\n  width: 100%;\n  max-width: 22px; }\n\n.emoji-mart-anchors svg {\n  fill: currentColor;\n  max-height: 18px; }\n\n.emoji-mart-scroll {\n  overflow-y: scroll;\n  height: 270px;\n  padding: 0 6px 6px 6px;\n  will-change: transform;\n  /* avoids \"repaints on scroll\" in mobile Chrome */ }\n\n.emoji-mart-search {\n  margin-top: 6px;\n  padding: 0 6px; }\n\n.emoji-mart-search input {\n  font-size: 16px;\n  display: block;\n  width: 100%;\n  padding: .2em .6em;\n  border-radius: 25px;\n  border: 1px solid #d9d9d9;\n  outline: 0; }\n\n.emoji-mart-category .emoji-mart-emoji span {\n  z-index: 1;\n  position: relative;\n  text-align: center;\n  cursor: pointer; }\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  z-index: 0;\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f4f4f4;\n  border-radius: 100%; }\n\n.emoji-mart-category-label {\n  z-index: 2;\n  position: relative;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0; }\n\n.emoji-mart-category-label span {\n  display: block;\n  width: 100%;\n  font-weight: 500;\n  padding: 5px 6px;\n  background-color: #fff;\n  background-color: rgba(255, 255, 255, 0.95); }\n\n.emoji-mart-emoji {\n  position: relative;\n  display: inline-block;\n  font-size: 0; }\n\n.emoji-mart-no-results {\n  font-size: 14px;\n  text-align: center;\n  padding-top: 70px;\n  color: #858585; }\n\n.emoji-mart-no-results .emoji-mart-category-label {\n  display: none; }\n\n.emoji-mart-no-results .emoji-mart-no-results-label {\n  margin-top: .2em; }\n\n.emoji-mart-no-results .emoji-mart-emoji:hover:before {\n  content: none; }\n\n.emoji-mart-preview {\n  position: relative;\n  height: 70px; }\n\n.emoji-mart-preview-emoji,\n.emoji-mart-preview-data,\n.emoji-mart-preview-skins {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%); }\n\n.emoji-mart-preview-emoji {\n  left: 12px; }\n\n.emoji-mart-preview-data {\n  left: 68px;\n  right: 12px;\n  word-break: break-all; }\n\n.emoji-mart-preview-skins {\n  right: 30px;\n  text-align: right; }\n\n.emoji-mart-preview-name {\n  font-size: 14px; }\n\n.emoji-mart-preview-shortname {\n  font-size: 12px;\n  color: #888; }\n\n.emoji-mart-preview-shortname + .emoji-mart-preview-shortname,\n.emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,\n.emoji-mart-preview-emoticon + .emoji-mart-preview-emoticon {\n  margin-left: .5em; }\n\n.emoji-mart-preview-emoticon {\n  font-size: 11px;\n  color: #bbb; }\n\n.emoji-mart-title span {\n  display: inline-block;\n  vertical-align: middle; }\n\n.emoji-mart-title .emoji-mart-emoji {\n  padding: 0; }\n\n.emoji-mart-title-label {\n  color: #999A9C;\n  font-size: 26px;\n  font-weight: 300; }\n\n.emoji-mart-skin-swatches {\n  font-size: 0;\n  padding: 2px 0;\n  border: 1px solid #d9d9d9;\n  border-radius: 12px;\n  background-color: #fff; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch {\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch-selected:after {\n  opacity: .75; }\n\n.emoji-mart-skin-swatch {\n  display: inline-block;\n  width: 0;\n  vertical-align: middle;\n  transition-property: width, padding;\n  transition-duration: .125s;\n  transition-timing-function: ease-out; }\n\n.emoji-mart-skin-swatch:nth-child(1) {\n  transition-delay: 0s; }\n\n.emoji-mart-skin-swatch:nth-child(2) {\n  transition-delay: .03s; }\n\n.emoji-mart-skin-swatch:nth-child(3) {\n  transition-delay: .06s; }\n\n.emoji-mart-skin-swatch:nth-child(4) {\n  transition-delay: .09s; }\n\n.emoji-mart-skin-swatch:nth-child(5) {\n  transition-delay: .12s; }\n\n.emoji-mart-skin-swatch:nth-child(6) {\n  transition-delay: .15s; }\n\n.emoji-mart-skin-swatch-selected {\n  position: relative;\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatch-selected:after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 4px;\n  height: 4px;\n  margin: -2px 0 0 -2px;\n  background-color: #fff;\n  border-radius: 100%;\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity .2s ease-out; }\n\n.emoji-mart-skin {\n  display: inline-block;\n  width: 100%;\n  padding-top: 100%;\n  max-width: 12px;\n  border-radius: 100%; }\n\n.emoji-mart-skin-tone-1 {\n  background-color: #ffc93a; }\n\n.emoji-mart-skin-tone-2 {\n  background-color: #fadcbc; }\n\n.emoji-mart-skin-tone-3 {\n  background-color: #e0bb95; }\n\n.emoji-mart-skin-tone-4 {\n  background-color: #bf8f68; }\n\n.emoji-mart-skin-tone-5 {\n  background-color: #9b643d; }\n\n.emoji-mart-skin-tone-6 {\n  background-color: #594539; }\n\n.giphy {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 10px; }\n  .giphy__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .giphy__btn:focus {\n      outline: none; }\n    .giphy__btn .fa-hand-peace {\n      font-size: 17px; }\n    .giphy__btn:hover {\n      color: #4080ff; }\n\n.giphy__picker {\n  position: absolute;\n  z-index: 1;\n  bottom: 25px;\n  right: 25px;\n  width: 300px;\n  height: 146px;\n  border: solid 1px #d9d9d9;\n  border-radius: 10px;\n  background: white;\n  box-shadow: 0 10px 17px rgba(0, 0, 0, 0.3); }\n\n.giphy__list {\n  display: flex;\n  flex-wrap: nowrap;\n  overflow-x: auto; }\n  .giphy__list::-webkit-scrollbar {\n    display: none; }\n\n.giphy__list--single {\n  flex: 0 0 auto; }\n  .giphy__list--single input + img {\n    margin: 3px;\n    border-radius: 5px;\n    border: solid 1px #d9d9d9;\n    cursor: pointer;\n    transition: all .3s ease-in; }\n    .giphy__list--single input + img:hover {\n      border: 3px solid #4080ff; }\n  .giphy__list--single input:checked + img {\n    border: 3px solid #4080ff; }\n\n.giphy__search {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n  .giphy__search input {\n    font-size: 14px;\n    width: 150px;\n    border-radius: 25px;\n    border: 1px solid #d9d9d9;\n    outline: 0;\n    margin: 5px 5px 5px 0;\n    padding: 3px; }\n    .giphy__search input::placeholder {\n      font-style: italic;\n      color: #e6ecf0; }\n  .giphy__search button {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 100px;\n    background-color: #4080ff;\n    border: solid 1px white;\n    font-size: 11px;\n    transition: all .3s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    border-radius: 15px; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:disabled {\n      background-color: lightgray;\n      color: gray; }\n\n.imageUpload {\n  position: absolute;\n  display: flex;\n  align-items: center;\n  z-index: 1;\n  top: 2px;\n  right: 49px; }\n  .imageUpload__input {\n    display: none; }\n  .imageUpload__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .imageUpload__btn:focus {\n      outline: none; }\n    .imageUpload__btn .fa-image {\n      font-size: 17px; }\n    .imageUpload__btn:hover {\n      color: #4080ff; }\n  .imageUpload__fileName {\n    margin-right: 5px;\n    font-size: 11px;\n    font-style: italic;\n    color: #484848; }\n  .imageUpload__btn--cancel {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 40px;\n    height: 16px;\n    color: #ef5d5d;\n    font-size: 10px;\n    font-style: italic; }\n    .imageUpload__btn--cancel:focus {\n      outline: none; }\n    .imageUpload__btn--cancel:hover {\n      color: #ce0909; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin-top: 1.5em;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 0 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    padding: 2px; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  position: relative;\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-img {\n  height: 100px;\n  max-width: 450px;\n  border-radius: 5px; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.avatar-img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 51px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  height: 100px;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.avatar-list {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.pick-avatar {\n  margin-top: 15px;\n  margin-bottom: 5px;\n  color: #4080ff;\n  font-weight: bold; }\n\n.radio-label input + img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px;\n  line-height: 35px;\n  cursor: pointer;\n  transition: all .3s ease-in;\n  filter: brightness(0.4); }\n  .radio-label input + img:hover {\n    filter: brightness(1); }\n\n.radio-label input:checked + img {\n  filter: brightness(1);\n  width: 35px;\n  height: 35px; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; } }\n", ""]);
 
 // exports
 
@@ -29941,6 +29955,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var initialState = {
   auth: false,
+  imgSrc: '',
+  imgFileName: '',
   toggleEmoji: false,
   err: '',
   giphy: [],
@@ -30034,6 +30050,14 @@ var rootReducer = function rootReducer() {
         notice: payload.notice,
         users: payload.users.length <= 1 ? payload.users : (0, _utils.sortOnlineStatus)(payload.users)
       });
+    case _constants.SET_IMAGE_SRC:
+      return _extends({}, state, {
+        imgSrc: payload
+      });
+    case _constants.SET_FILE_NAME:
+      return _extends({}, state, {
+        imgFileName: payload
+      });
     default:
       return state;
   }
@@ -30058,7 +30082,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(10);
+var _reactRedux = __webpack_require__(6);
 
 var _propTypes = __webpack_require__(1);
 
@@ -30135,13 +30159,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(10);
+var _reactRedux = __webpack_require__(6);
 
 var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _actions = __webpack_require__(17);
+var _actions = __webpack_require__(14);
 
 var _Form = __webpack_require__(161);
 
@@ -31965,7 +31989,7 @@ module.exports = __webpack_require__(143);
  * @api public
  *
  */
-module.exports.parser = __webpack_require__(15);
+module.exports.parser = __webpack_require__(16);
 
 
 /***/ }),
@@ -31977,10 +32001,10 @@ module.exports.parser = __webpack_require__(15);
  */
 
 var transports = __webpack_require__(60);
-var Emitter = __webpack_require__(14);
+var Emitter = __webpack_require__(15);
 var debug = __webpack_require__(5)('engine.io-client:socket');
 var index = __webpack_require__(64);
-var parser = __webpack_require__(15);
+var parser = __webpack_require__(16);
 var parseuri = __webpack_require__(57);
 var parseqs = __webpack_require__(23);
 
@@ -32117,7 +32141,7 @@ Socket.protocol = parser.protocol; // this is an int
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(34);
 Socket.transports = __webpack_require__(60);
-Socket.parser = __webpack_require__(15);
+Socket.parser = __webpack_require__(16);
 
 /**
  * Creates transport of the given type.
@@ -32751,7 +32775,7 @@ try {
 
 var XMLHttpRequest = __webpack_require__(33);
 var Polling = __webpack_require__(61);
-var Emitter = __webpack_require__(14);
+var Emitter = __webpack_require__(15);
 var inherit = __webpack_require__(24);
 var debug = __webpack_require__(5)('engine.io-client:polling-xhr');
 
@@ -36011,7 +36035,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
  */
 
 var Transport = __webpack_require__(34);
-var parser = __webpack_require__(15);
+var parser = __webpack_require__(16);
 var parseqs = __webpack_require__(23);
 var inherit = __webpack_require__(24);
 var yeast = __webpack_require__(63);
@@ -36622,13 +36646,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(10);
+var _reactRedux = __webpack_require__(6);
 
 var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _actions = __webpack_require__(17);
+var _actions = __webpack_require__(14);
 
 var _Emoji = __webpack_require__(164);
 
@@ -36642,23 +36666,27 @@ var _Giphy = __webpack_require__(188);
 
 var _Giphy2 = _interopRequireDefault(_Giphy);
 
-var _MessagesList = __webpack_require__(189);
+var _ImageUpload = __webpack_require__(189);
+
+var _ImageUpload2 = _interopRequireDefault(_ImageUpload);
+
+var _MessagesList = __webpack_require__(190);
 
 var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
-var _NavBtns = __webpack_require__(198);
+var _NavBtns = __webpack_require__(199);
 
 var _NavBtns2 = _interopRequireDefault(_NavBtns);
 
-var _Notice = __webpack_require__(199);
+var _Notice = __webpack_require__(200);
 
 var _Notice2 = _interopRequireDefault(_Notice);
 
-var _Typing = __webpack_require__(200);
+var _Typing = __webpack_require__(201);
 
 var _Typing2 = _interopRequireDefault(_Typing);
 
-var _UsersList = __webpack_require__(201);
+var _UsersList = __webpack_require__(202);
 
 var _UsersList2 = _interopRequireDefault(_UsersList);
 
@@ -36668,7 +36696,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global document */
+
 
 var Chatroom = function (_Component) {
   _inherits(Chatroom, _Component);
@@ -36760,13 +36789,15 @@ var Chatroom = function (_Component) {
     value: function handleSubmit(e) {
       e.preventDefault();
       this.setState({ text: '', textCount: 0, date: new Date() });
-
       var _state = this.state,
           text = _state.text,
           date = _state.date;
-      var _props$user = this.props.user,
+      var _props = this.props,
+          imgSrc = _props.imgSrc,
+          _props$user = _props.user,
           username = _props$user.username,
           avatar = _props$user.avatar;
+
 
       this.props.handleToggleGiphy(false);
       this.props.handleToggleEmoji(false);
@@ -36775,8 +36806,14 @@ var Chatroom = function (_Component) {
         username: username,
         text: text,
         date: date,
-        imageMsg: null
+        imageMsg: imgSrc
       });
+
+      this.props.setImgSrc('');
+      this.props.setFileName('');
+
+      // clears file input event listener
+      document.getElementById('imageUploadInput').value = '';
     }
   }, {
     key: 'render',
@@ -36785,15 +36822,16 @@ var Chatroom = function (_Component) {
           text = _state2.text,
           textCount = _state2.textCount,
           toggleMissedMsg = _state2.toggleMissedMsg;
-      var _props = this.props,
-          loading = _props.loading,
-          missedMsg = _props.missedMsg,
-          messages = _props.messages,
-          typing = _props.typing,
-          typingUsers = _props.typingUsers,
-          username = _props.username,
-          users = _props.users,
-          verbs = _props.verbs;
+      var _props2 = this.props,
+          loading = _props2.loading,
+          missedMsg = _props2.missedMsg,
+          messages = _props2.messages,
+          typing = _props2.typing,
+          typingUsers = _props2.typingUsers,
+          username = _props2.username,
+          users = _props2.users,
+          verbs = _props2.verbs,
+          imgSrc = _props2.imgSrc;
 
       var userPluralCheck = users.length <= 1 ? 'user' : 'users';
       var onlineUsers = users.filter(function (user) {
@@ -36865,6 +36903,7 @@ var Chatroom = function (_Component) {
               _react2.default.createElement(_Typing2.default, { typing: typing, typingUsers: typingUsers, verbs: verbs }),
               _react2.default.createElement(_Emoji2.default, { addEmoji: this.addEmoji }),
               _react2.default.createElement(_Giphy2.default, null),
+              _react2.default.createElement(_ImageUpload2.default, null),
               _react2.default.createElement(
                 'div',
                 { className: 'message-input-box' },
@@ -36888,7 +36927,7 @@ var Chatroom = function (_Component) {
                   'button',
                   {
                     className: 'send',
-                    disabled: text.length < 1,
+                    disabled: text.length < 1 && !imgSrc,
                     onClick: this.handleSubmit
                   },
                   'Send'
@@ -36915,7 +36954,8 @@ var mapStateToProps = function mapStateToProps(state) {
     username: state.username,
     user: state.user,
     users: state.users,
-    verbs: state.verbs
+    verbs: state.verbs,
+    imgSrc: state.imgSrc
   };
 };
 
@@ -36937,7 +36977,10 @@ Chatroom.propTypes = {
   isTyping: _propTypes2.default.func.isRequired,
   logOutUser: _propTypes2.default.func.isRequired,
   sendMessage: _propTypes2.default.func.isRequired,
-  socketOff: _propTypes2.default.func.isRequired
+  socketOff: _propTypes2.default.func.isRequired,
+  setImgSrc: _propTypes2.default.func.isRequired,
+  setFileName: _propTypes2.default.func.isRequired,
+  imgSrc: _propTypes2.default.string.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
@@ -36949,7 +36992,9 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   isTyping: _actions.isTyping,
   logOutUser: _actions.logOutUser,
   sendMessage: _actions.sendMessage,
-  socketOff: _actions.socketOff
+  socketOff: _actions.socketOff,
+  setImgSrc: _actions.setImgSrc,
+  setFileName: _actions.setFileName
 })(Chatroom);
 
 /***/ }),
@@ -36975,9 +37020,9 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _emojiMart = __webpack_require__(165);
 
-var _reactRedux = __webpack_require__(10);
+var _reactRedux = __webpack_require__(6);
 
-var _actions = __webpack_require__(17);
+var _actions = __webpack_require__(14);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37337,9 +37382,9 @@ var _String = String;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_objectGetPrototypeOf__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__polyfills_createClass__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__polyfills_createClass__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_possibleConstructorReturn__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__polyfills_inherits__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
@@ -37496,9 +37541,9 @@ var SVGs = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_extends__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__polyfills_objectGetPrototypeOf__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_createClass__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_createClass__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__polyfills_possibleConstructorReturn__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__polyfills_inherits__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
@@ -37786,9 +37831,9 @@ Category.defaultProps = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_extends__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__polyfills_objectGetPrototypeOf__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_createClass__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_createClass__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__polyfills_possibleConstructorReturn__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__polyfills_inherits__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
@@ -37941,9 +37986,9 @@ Preview.defaultProps = {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_objectGetPrototypeOf__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__polyfills_createClass__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__polyfills_createClass__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_possibleConstructorReturn__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__polyfills_inherits__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
@@ -38040,9 +38085,9 @@ Search.defaultProps = {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_objectGetPrototypeOf__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__polyfills_createClass__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__polyfills_createClass__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_possibleConstructorReturn__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__polyfills_inherits__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
@@ -38182,9 +38227,9 @@ Emoji.defaultProps = Object(__WEBPACK_IMPORTED_MODULE_0__polyfills_extends__["a"
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfills_extends__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__polyfills_objectGetPrototypeOf__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_createClass__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__polyfills_createClass__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__polyfills_possibleConstructorReturn__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__polyfills_inherits__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
@@ -38288,9 +38333,9 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(10);
+var _reactRedux = __webpack_require__(6);
 
-var _actions = __webpack_require__(17);
+var _actions = __webpack_require__(14);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38501,7 +38546,158 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactLinkify = __webpack_require__(190);
+var _reactRedux = __webpack_require__(6);
+
+var _actions = __webpack_require__(14);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global document FileReader */
+
+
+var ImageUpload = function (_Component) {
+  _inherits(ImageUpload, _Component);
+
+  function ImageUpload(props) {
+    _classCallCheck(this, ImageUpload);
+
+    var _this = _possibleConstructorReturn(this, (ImageUpload.__proto__ || Object.getPrototypeOf(ImageUpload)).call(this, props));
+
+    _this.setRef = _this.setRef.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleCancelUpload = _this.handleCancelUpload.bind(_this);
+    return _this;
+  }
+
+  _createClass(ImageUpload, [{
+    key: 'setRef',
+    value: function setRef(node) {
+      this.fileInput = node;
+    }
+  }, {
+    key: 'handleClick',
+    value: function handleClick(e) {
+      e.preventDefault();
+
+      this.fileInput.click();
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(e) {
+      var _this2 = this;
+
+      var files = e.target.files;
+
+
+      if (files) {
+        var fileSelected = files[0] || null;
+        this.reader = new FileReader();
+
+        this.reader.onload = function () {
+          _this2.props.setImgSrc(_this2.reader.result);
+        };
+
+        if (fileSelected) {
+          this.reader.readAsDataURL(fileSelected);
+          this.props.setFileName(fileSelected.name);
+        }
+      }
+    }
+  }, {
+    key: 'handleCancelUpload',
+    value: function handleCancelUpload(e) {
+      e.preventDefault();
+
+      // clear file input event listener
+      document.getElementById('imageUploadInput').value = '';
+      this.props.setImgSrc('');
+      this.props.setFileName('');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var imgFileName = this.props.imgFileName;
+
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'imageUpload' },
+        _react2.default.createElement('input', {
+          onChange: this.handleChange,
+          type: 'file',
+          ref: this.setRef,
+          className: 'imageUpload__input',
+          id: 'imageUploadInput'
+        }),
+        imgFileName && _react2.default.createElement(
+          'button',
+          {
+            onClick: this.handleCancelUpload,
+            className: 'imageUpload__btn--cancel'
+          },
+          'cancel'
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'imageUpload__fileName' },
+          imgFileName.slice(0, 50)
+        ),
+        _react2.default.createElement(
+          'button',
+          { onClick: this.handleClick, className: 'imageUpload__btn' },
+          _react2.default.createElement('i', { className: 'far fa-image' })
+        )
+      );
+    }
+  }]);
+
+  return ImageUpload;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    imgFileName: state.imgFileName
+  };
+};
+
+ImageUpload.propTypes = {
+  setImgSrc: _propTypes2.default.func.isRequired,
+  setFileName: _propTypes2.default.func.isRequired,
+  imgFileName: _propTypes2.default.string.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, {
+  setImgSrc: _actions.setImgSrc,
+  setFileName: _actions.setFileName
+})(ImageUpload);
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactLinkify = __webpack_require__(191);
 
 var _reactLinkify2 = _interopRequireDefault(_reactLinkify);
 
@@ -38603,7 +38799,7 @@ var MessagesList = function (_Component) {
             _reactLinkify2.default,
             { properties: { target: '_blank', style: { color: 'blue' } } },
             imageMsg && _react2.default.createElement('img', { src: imageMsg, alt: 'pic', className: threadType + ' message-img' }),
-            !imageMsg && _react2.default.createElement(
+            text && _react2.default.createElement(
               'div',
               { className: threadType + ' message-text' },
               text
@@ -38654,7 +38850,7 @@ MessagesList.propTypes = {
 exports.default = MessagesList;
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38671,11 +38867,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _linkifyIt = __webpack_require__(191);
+var _linkifyIt = __webpack_require__(192);
 
 var _linkifyIt2 = _interopRequireDefault(_linkifyIt);
 
-var _tlds = __webpack_require__(197);
+var _tlds = __webpack_require__(198);
 
 var _tlds2 = _interopRequireDefault(_tlds);
 
@@ -38810,7 +39006,7 @@ exports.default = Linkify;
 
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38966,7 +39162,7 @@ function createNormalizer() {
 function compile(self) {
 
   // Load & clone RE patterns.
-  var re = self.re = __webpack_require__(192)(self.__opts__);
+  var re = self.re = __webpack_require__(193)(self.__opts__);
 
   // Define dynamic patterns
   var tlds = self.__tlds__.slice();
@@ -39454,7 +39650,7 @@ module.exports = LinkifyIt;
 
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39465,10 +39661,10 @@ module.exports = function (opts) {
   var re = {};
 
   // Use direct extract instead of `regenerate` to reduse browserified size
-  re.src_Any = __webpack_require__(193).source;
-  re.src_Cc  = __webpack_require__(194).source;
-  re.src_Z   = __webpack_require__(195).source;
-  re.src_P   = __webpack_require__(196).source;
+  re.src_Any = __webpack_require__(194).source;
+  re.src_Cc  = __webpack_require__(195).source;
+  re.src_Z   = __webpack_require__(196).source;
+  re.src_P   = __webpack_require__(197).source;
 
   // \p{\Z\P\Cc\CF} (white spaces + control + format + punctuation)
   re.src_ZPCc = [ re.src_Z, re.src_P, re.src_Cc ].join('|');
@@ -39638,31 +39834,31 @@ module.exports = function (opts) {
 
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports) {
 
 module.exports=/[\0-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports) {
 
 module.exports=/[\0-\x1F\x7F-\x9F]/
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports) {
 
 module.exports=/[ \xA0\u1680\u2000-\u200A\u202F\u205F\u3000]/
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports) {
 
 module.exports=/[!-#%-\*,-/:;\?@\[-\]_\{\}\xA1\xA7\xAB\xB6\xB7\xBB\xBF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u09FD\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2308-\u230B\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E49\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA8FC\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]|\uD800[\uDD00-\uDD02\uDF9F\uDFD0]|\uD801\uDD6F|\uD802[\uDC57\uDD1F\uDD3F\uDE50-\uDE58\uDE7F\uDEF0-\uDEF6\uDF39-\uDF3F\uDF99-\uDF9C]|\uD804[\uDC47-\uDC4D\uDCBB\uDCBC\uDCBE-\uDCC1\uDD40-\uDD43\uDD74\uDD75\uDDC5-\uDDC9\uDDCD\uDDDB\uDDDD-\uDDDF\uDE38-\uDE3D\uDEA9]|\uD805[\uDC4B-\uDC4F\uDC5B\uDC5D\uDCC6\uDDC1-\uDDD7\uDE41-\uDE43\uDE60-\uDE6C\uDF3C-\uDF3E]|\uD806[\uDE3F-\uDE46\uDE9A-\uDE9C\uDE9E-\uDEA2]|\uD807[\uDC41-\uDC45\uDC70\uDC71]|\uD809[\uDC70-\uDC74]|\uD81A[\uDE6E\uDE6F\uDEF5\uDF37-\uDF3B\uDF44]|\uD82F\uDC9F|\uD836[\uDE87-\uDE8B]|\uD83A[\uDD5E\uDD5F]/
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports) {
 
 module.exports = [
@@ -41213,7 +41409,7 @@ module.exports = [
 
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41283,7 +41479,7 @@ NavBtns.propTypes = {
 exports.default = NavBtns;
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41303,9 +41499,9 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(10);
+var _reactRedux = __webpack_require__(6);
 
-var _actions = __webpack_require__(17);
+var _actions = __webpack_require__(14);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41374,7 +41570,7 @@ Notice.propTypes = {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, { clearNotices: _actions.clearNotices })(Notice);
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41425,7 +41621,7 @@ Typing.propTypes = {
 exports.default = Typing;
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

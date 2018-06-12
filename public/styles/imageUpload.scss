@@ -1,0 +1,47 @@
+.imageUpload {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  top: 2px;
+  right: 49px;
+
+  &__input {
+    display: none;
+  }
+
+  &__btn {
+    @include reset-btn-style;
+    width: 17px;
+    height: 17px;
+    color: lightgray;
+    
+    .fa-image {
+      font-size: 17px;
+    }
+    
+    &:hover {
+      color: $blue;
+    }
+  }
+  
+  &__fileName {
+    margin-right: 5px;
+    font-size: 11px;
+    font-style: italic;
+    color: $black;
+  }
+  
+  &__btn--cancel {
+    @include reset-btn-style;
+    width: 40px;
+    height: 16px;
+    color: #ef5d5d;
+    font-size: 10px;
+    font-style: italic;
+    
+    &:hover {
+      color: #ce0909;
+    }
+  }
+}
