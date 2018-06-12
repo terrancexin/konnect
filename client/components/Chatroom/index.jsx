@@ -1,3 +1,4 @@
+/* global document */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,11 +13,14 @@ import {
   logOutUser,
   sendMessage,
   socketOff,
+  setImgSrc,
+  setFileName,
 } from '../../actions';
 
 import Emoji from './Emoji';
 import Footer from '../Footer';
 import Giphy from './Giphy';
+import ImageUpload from './ImageUpload';
 import MessagesList from './MessagesList';
 import NavBtns from './NavBtns';
 import Notice from '../Notice';
@@ -93,9 +97,9 @@ class Chatroom extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.setState({ text: '', textCount: 0, date: new Date() });
-
     const { text, date } = this.state;
-    const { username, avatar } = this.props.user;
+    const { imgSrc, user: { username, avatar } } = this.props;
+
     this.props.handleToggleGiphy(false);
     this.props.handleToggleEmoji(false);
     this.props.sendMessage({
@@ -103,8 +107,14 @@ class Chatroom extends Component {
       username,
       text,
       date,
-      imageMsg: null,
+      imageMsg: imgSrc,
     });
+
+    this.props.setImgSrc('');
+    this.props.setFileName('');
+
+    // clears file input event listener
+    document.getElementById('imageUploadInput').value = '';
   }
 
   render() {
@@ -118,6 +128,7 @@ class Chatroom extends Component {
       username,
       users,
       verbs,
+      imgSrc,
     } = this.props;
     const userPluralCheck = users.length <= 1 ? 'user' : 'users';
     const onlineUsers = users.filter(user => user.onlineStatus).length;
@@ -167,6 +178,7 @@ class Chatroom extends Component {
               <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
               <Emoji addEmoji={this.addEmoji} />
               <Giphy />
+              <ImageUpload />
               <div className="message-input-box">
                 <input
                   autoComplete="off"
@@ -182,7 +194,7 @@ class Chatroom extends Component {
                 <span className="character-count">{`${textCount}/500`}</span>
                 <button
                   className="send"
-                  disabled={text.length < 1}
+                  disabled={text.length < 1 && !imgSrc}
                   onClick={this.handleSubmit}
                 >
                   Send
@@ -208,6 +220,7 @@ const mapStateToProps = state => ({
   user: state.user,
   users: state.users,
   verbs: state.verbs,
+  imgSrc: state.imgSrc,
 });
 
 Chatroom.propTypes = {
@@ -229,6 +242,9 @@ Chatroom.propTypes = {
   logOutUser: PropTypes.func.isRequired,
   sendMessage: PropTypes.func.isRequired,
   socketOff: PropTypes.func.isRequired,
+  setImgSrc: PropTypes.func.isRequired,
+  setFileName: PropTypes.func.isRequired,
+  imgSrc: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -241,4 +257,6 @@ export default connect(mapStateToProps, {
   logOutUser,
   sendMessage,
   socketOff,
+  setImgSrc,
+  setFileName,
 })(Chatroom);
