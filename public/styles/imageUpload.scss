@@ -24,14 +24,38 @@
       color: $blue;
     }
   }
-  
+
+  &__fileName--mobile,
   &__fileName {
+    position: relative;
     margin-right: 5px;
     font-size: 11px;
     font-style: italic;
     color: $black;
+    transition:all .3s ease-in;
+    cursor: zoom-in;
+    
+    img {
+      display: none;
+    }
+
+    &:hover img {
+      display: flex;
+      position: absolute;
+      bottom: 32px;
+      right: 10px;
+      max-width: 200px;
+      max-height: 200px;
+      border: 3px solid white;
+      box-shadow: 0px 0px 8px rgba(0,0,0,.3);
+      border-radius: 10px;
+    }
   }
-  
+
+  &__fileName--mobile {
+    display: none;
+  }
+
   &__btn--cancel {
     @include reset-btn-style;
     width: 40px;
