@@ -24,7 +24,7 @@ const logInUser = (req, res) => {
         return Promise.resolve([]);
       }
 
-      return MessageModel.find({});
+      return MessageModel.find({}).sort({ id: -1 });
     })
     .then((messages) => {
       let tracker = messages.length - 1;
