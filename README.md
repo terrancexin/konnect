@@ -55,6 +55,8 @@ Build real-time chat functionality
 - User can pick emojis when sending a message
 - User can send giphys
 - User can search for giphys
+- User can upload an image
+- User can preview the image before sending
 
 ## User Stories
 - As a user, I want to authenticate my username and password.
