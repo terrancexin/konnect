@@ -1,7 +1,7 @@
 const MessageModel = require('../models/message');
 
 const getMessages = (req, res, next) => {
-  MessageModel.find({}).sort({ id: -1 }).exec((err, messages) => {
+  MessageModel.find({}).sort({ date: 'asc' }).exec((err, messages) => {
     if (err) return next(err);
 
     res.json(messages);
