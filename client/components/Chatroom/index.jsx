@@ -79,7 +79,9 @@ class Chatroom extends Component {
   }
 
   handleKeyPress(e) {
-    if (e.key === 'Enter') {
+    const { value } = e.target;
+
+    if (e.key === 'Enter' && value) {
       this.handleSubmit(e);
     }
   }

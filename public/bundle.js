@@ -36767,7 +36767,10 @@ var Chatroom = function (_Component) {
   }, {
     key: 'handleKeyPress',
     value: function handleKeyPress(e) {
-      if (e.key === 'Enter') {
+      var value = e.target.value;
+
+
+      if (e.key === 'Enter' && value) {
         this.handleSubmit(e);
       }
     }
