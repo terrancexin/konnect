@@ -1,0 +1,75 @@
+.privateLock {
+  @include flex-column-center;
+  width: 100%;
+
+  &__btn {
+    @include reset-btn-style;
+    width: 17px;
+    height: 17px;
+    color: $bordergray;
+    margin: 1em auto;
+
+    .fa-lock {
+      font-size: 15px;
+    }
+
+    &:hover {
+      color: $mintGreen;    
+    }
+  }
+
+  &__passwordInput {
+    @include flex-center-center;
+    position: fixed;
+    z-index: 5;
+    width: 100%;
+    background: rgba(0,0,0,.7);
+    transition: opacity .5s ease;
+    overflow: hidden;
+    opacity: 1;
+    top: 0;
+    bottom: 0;
+    
+    .fa-arrow-alt-circle-right {
+      color: lightgray;
+      margin-left: 10px;
+      
+      &:hover {
+        color: $mintGreen;
+      }
+    }
+
+    input {
+      width: 7em;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      height: 30px;
+      line-height: 30px;
+      font-size: 2em;
+      text-align: center;
+      border-bottom: solid 2px $lightgray;
+      transition:all .3s ease-in;
+      padding: 10px;
+      color: white;
+      background-color: transparent;
+      
+      &:focus{
+        border-bottom: solid 1px $blue;
+        outline: none;
+      }
+      
+      &::placeholder {
+        font-style: italic;
+        color: $placeholdergray;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+.private__Enter {
+  @include reset-btn-style;
+  width: 0;
+  color: $bordergray;
+}

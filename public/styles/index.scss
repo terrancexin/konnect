@@ -3,6 +3,7 @@
 @import 'emoji';
 @import 'giphy';
 @import 'imageUpload';
+@import 'privateMsg';
 
 .app {
   width: 100%;
@@ -67,7 +68,7 @@ button.enter {
 }
 
 button.guest {
-  margin-top: 1.5em;
+  margin: 1.5em 0;
   background-color: $mintGreen;
   color: gray;
   width: 116px;
@@ -453,7 +454,6 @@ button.send {
 
 footer {
   width: 100%;
-  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
