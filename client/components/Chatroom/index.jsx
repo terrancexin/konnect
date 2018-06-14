@@ -27,6 +27,7 @@ import Notice from '../Notice';
 import Typing from './Typing';
 import UsersList from './UsersList';
 import PrivateLockBtn from './PrivateLockBtn';
+import PrivateChat from './PrivateChat';
 
 class Chatroom extends Component {
   constructor(props) {
@@ -132,6 +133,8 @@ class Chatroom extends Component {
       users,
       verbs,
       imgSrc,
+      isMatchPrivatePassword,
+      isLocked,
     } = this.props;
     const userPluralCheck = users.length <= 1 ? 'user' : 'users';
     const onlineUsers = users.filter(user => user.onlineStatus).length;
@@ -145,67 +148,70 @@ class Chatroom extends Component {
           </span>
         </section>
 
-        <div className="chat-window">
-          <Notice />
+        {isMatchPrivatePassword && !isLocked && <PrivateChat />}
+        {!isMatchPrivatePassword && (
+          <div className="chat-window">
+            <Notice />
 
-          <section className="chat-window-left-section">
-            <NavBtns
-              clearMissedMsg={this.props.clearMissedMsg}
-              handleLogOut={this.handleLogOut}
-              handleToggleMissedMsg={this.handleToggleMissedMsg}
-              missedMsg={missedMsg}
-              toggleMissedMsg={toggleMissedMsg}
-              username={username}
-            />
-            <div className="online-users">{onlineUsers} online</div>
-            <UsersList users={users} />
-          </section>
-
-          <div className="messages-section">
-            {!toggleMissedMsg && (
-              <MessagesList
-                currentUser={username}
-                loading={loading}
-                messages={messages}
+            <section className="chat-window-left-section">
+              <NavBtns
+                clearMissedMsg={this.props.clearMissedMsg}
+                handleLogOut={this.handleLogOut}
+                handleToggleMissedMsg={this.handleToggleMissedMsg}
+                missedMsg={missedMsg}
+                toggleMissedMsg={toggleMissedMsg}
+                username={username}
               />
-            )}
-            {toggleMissedMsg && (
-              <MessagesList
-                currentUser={username}
-                loading={loading}
-                messages={missedMsg}
-              />
-            )}
+              <div className="online-users">{onlineUsers} online</div>
+              <UsersList users={users} />
+            </section>
 
-            <form onSubmit={this.handleSubmit} className="message-form">
-              <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
-              <Emoji addEmoji={this.addEmoji} />
-              <Giphy />
-              <ImageUpload />
-              <div className="message-input-box">
-                <input
-                  autoComplete="off"
-                  id="message"
-                  maxLength="500"
-                  onChange={this.handleChange}
-                  onKeyPress={this.handleKeyPress}
-                  onClick={this.closeEmojiGiphy}
-                  placeholder="enter your message"
-                  type="text"
-                  value={text}
+            <div className="messages-section">
+              {!toggleMissedMsg && (
+                <MessagesList
+                  currentUser={username}
+                  loading={loading}
+                  messages={messages}
                 />
-                <span className="character-count">{`${textCount}/500`}</span>
-                <button
-                  className="send"
-                  disabled={text.length < 1 && !imgSrc}
-                  onClick={this.handleSubmit}
-                >
-                  Send
-                </button>
-              </div>
-            </form>
+              )}
+              {toggleMissedMsg && (
+                <MessagesList
+                  currentUser={username}
+                  loading={loading}
+                  messages={missedMsg}
+                />
+              )}
+
+              <form onSubmit={this.handleSubmit} className="message-form">
+                <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
+                <Emoji addEmoji={this.addEmoji} />
+                <Giphy />
+                <ImageUpload />
+                <div className="message-input-box">
+                  <input
+                    autoComplete="off"
+                    id="message"
+                    maxLength="500"
+                    onChange={this.handleChange}
+                    onKeyPress={this.handleKeyPress}
+                    onClick={this.closeEmojiGiphy}
+                    placeholder="enter your message"
+                    type="text"
+                    value={text}
+                  />
+                  <span className="character-count">{`${textCount}/500`}</span>
+                  <button
+                    className="send"
+                    disabled={text.length < 1 && !imgSrc}
+                    onClick={this.handleSubmit}
+                  >
+                    Send
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
         <PrivateLockBtn />
         <Footer />
       </div>
@@ -224,6 +230,8 @@ const mapStateToProps = state => ({
   users: state.users,
   verbs: state.verbs,
   imgSrc: state.imgSrc,
+  isMatchPrivatePassword: state.isMatchPrivatePassword,
+  isLocked: state.isLocked,
 });
 
 Chatroom.propTypes = {
@@ -248,6 +256,8 @@ Chatroom.propTypes = {
   setImgSrc: PropTypes.func.isRequired,
   setFileName: PropTypes.func.isRequired,
   imgSrc: PropTypes.string.isRequired,
+  isMatchPrivatePassword: PropTypes.bool.isRequired,
+  isLocked: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, {
