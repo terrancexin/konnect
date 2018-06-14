@@ -17,6 +17,8 @@ import {
   USER_DISCONNECTED,
   SET_IMAGE_SRC,
   SET_FILE_NAME,
+  TOGGLE_LOCK,
+  UNLOCK_PRIVATE_PASSWORD,
 } from '../../constants';
 
 const initialState = {
@@ -31,12 +33,14 @@ const initialState = {
   missedMsg: [],
   notice: '',
   toggleGiphy: false,
+  isLocked: true,
   typing: false,
   typingUsers: [],
   username: '',
   user: null,
   users: [],
   verbs: '',
+  isMatchPrivatePassword: false,
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -105,6 +109,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         toggleEmoji: payload,
       };
+    case TOGGLE_LOCK:
+      return {
+        ...state,
+        isLocked: !state.isLocked,
+      };
     case TYPING:
       return {
         ...state,
@@ -135,6 +144,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         imgFileName: payload,
+      };
+    case UNLOCK_PRIVATE_PASSWORD:
+      return {
+        ...state,
+        isMatchPrivatePassword: payload,
       };
     default:
       return state;
