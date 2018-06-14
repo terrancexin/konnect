@@ -112,7 +112,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case TOGGLE_LOCK:
       return {
         ...state,
-        isLocked: !state.isLocked,
+        isLocked: payload,
       };
     case TYPING:
       return {
