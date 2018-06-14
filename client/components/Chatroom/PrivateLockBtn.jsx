@@ -8,22 +8,38 @@ class PrivateLockBtn extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { privatePassword: '' };
+    this.state = { privatePassword: '', openInput: false };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleClick(e) {
     e.preventDefault();
-    this.props.toggleLock();
+
+    if (this.props.isLocked) {
+      this.setState({ openInput: true });
+    } else {
+      this.props.submitPrivatePassword('not a');
+    }
+
+    this.props.toggleLock(!this.props.isLocked);
   }
 
   handleKeyDown(e) {
     if (e.key === 'Escape') {
-      this.props.toggleLock();
+      this.setState({ openInput: false });
+      this.props.toggleLock(true);
+    }
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.props.submitPrivatePassword(this.state.privatePassword);
+      this.setState({ openInput: false });
     }
   }
 
@@ -36,10 +52,12 @@ class PrivateLockBtn extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.submitPrivatePassword(this.state.privatePassword);
+    this.setState({ openInput: false });
   }
 
   render() {
     const { isLocked } = this.props;
+    const { openInput } = this.state;
 
     return (
       <div className="privateLock">
@@ -47,7 +65,7 @@ class PrivateLockBtn extends Component {
           {isLocked && <i className="fas fa-lock" />}
           {!isLocked && <i className="fas fa-unlock" />}
         </button>
-        {!isLocked && (
+        {openInput && (
           <div className="privateLock__passwordInput">
             <input
               type="text"
@@ -55,8 +73,9 @@ class PrivateLockBtn extends Component {
               onChange={this.handleChange}
               value={this.state.privatePassword}
               maxLength="15"
+              onKeyPress={this.handleKeyPress}
             />
-            <button onClick={this.handleClick} className="private__Enter">
+            <button onClick={this.handleSubmit} className="private__Enter">
               <i className="fas fa-arrow-alt-circle-right fa-3x" />
             </button>
           </div>
