@@ -252,11 +252,17 @@ export const setFileName = file => ({
 });
 
 // Private message
-export const toggleLock = () => ({
+export const toggleLock = bool => ({
   type: TOGGLE_LOCK,
+  payload: bool,
 });
 
-export const submitPrivatePassword = password => ({
-  type: UNLOCK_PRIVATE_PASSWORD,
-  payload: password,
-});
+export const submitPrivatePassword = password => (dispatch) => {
+  if (password === 'a') {
+    dispatch({ type: TOGGLE_LOCK, payload: false });
+    dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: true });
+  } else {
+    dispatch({ type: TOGGLE_LOCK, payload: true });
+    dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: false });
+  }
+};
