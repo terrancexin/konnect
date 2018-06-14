@@ -21,6 +21,8 @@ import {
   USER_CONNECTED,
   SET_IMAGE_SRC,
   SET_FILE_NAME,
+  TOGGLE_LOCK,
+  UNLOCK_PRIVATE_PASSWORD,
 } from '../../constants';
 
 const ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
@@ -247,4 +249,14 @@ export const setImgSrc = imgSrc => ({
 export const setFileName = file => ({
   type: SET_FILE_NAME,
   payload: file,
+});
+
+// Private message
+export const toggleLock = () => ({
+  type: TOGGLE_LOCK,
+});
+
+export const submitPrivatePassword = password => ({
+  type: UNLOCK_PRIVATE_PASSWORD,
+  payload: password,
 });
