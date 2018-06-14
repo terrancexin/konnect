@@ -26,6 +26,7 @@ import NavBtns from './NavBtns';
 import Notice from '../Notice';
 import Typing from './Typing';
 import UsersList from './UsersList';
+import PrivateLockBtn from './PrivateLockBtn';
 
 class Chatroom extends Component {
   constructor(props) {
@@ -205,7 +206,7 @@ class Chatroom extends Component {
             </form>
           </div>
         </div>
-
+        <PrivateLockBtn />
         <Footer />
       </div>
     );
