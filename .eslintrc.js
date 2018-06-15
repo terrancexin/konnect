@@ -17,5 +17,14 @@ module.exports = {
     "no-console": "off",
     "func-names": "off",
     "no-plusplus": "off"
+  },
+  "globals": {
+    "it": true,
+    "expect": true,
+    "localStorage": true,
+    "FileReader": true,
+    "document": true,
+    "ROOT_URL": true,
+    "window": true
   }
 }
