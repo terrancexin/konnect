@@ -1,5 +1,3 @@
-/* global window */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,7 +9,9 @@ window.ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
 class App extends Component {
   render() {
     return (
-      <div className="app">{this.props.auth ? <Chatroom /> : <LogIn />}</div>
+      <div className="app">
+        {this.props.auth ? <Chatroom /> : <LogIn />}
+      </div>
     );
   }
 }

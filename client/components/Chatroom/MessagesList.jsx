@@ -1,5 +1,3 @@
-/* global ROOT_URL */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Linkify from 'react-linkify';
