@@ -21,6 +21,9 @@ module.exports = {
   "globals": {
     "it": true,
     "expect": true,
+    "describe": true,
+    "beforeEach": true,
+    "afterEach": true,
     "localStorage": true,
     "FileReader": true,
     "document": true,
