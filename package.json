@@ -7,7 +7,7 @@
     "start": "node server/index.js",
     "dev": "nodemon server/index.js",
     "heroku-postbuild": "webpack --config webpack.config.prod.js",
-    "test": "jest --watch"
+    "test": "jest --watchAll"
   },
   "engines": {
     "node": "8.11.1",
