@@ -2,12 +2,14 @@ import {
   handleToggleEmoji,
   setImgSrc,
   setFileName,
+  toggleLock,
 } from '../index';
 
 import {
   TOGGLE_EMOJI,
   SET_IMAGE_SRC,
   SET_FILE_NAME,
+  TOGGLE_LOCK,
 } from '../../../constants';
 
 describe('Emoji actions', () => {
@@ -50,3 +52,16 @@ describe('Image upload actions', () => {
   });
 });
 
+describe('Private message actions', () => {
+  it('toggleLock has the correct type', () => {
+    const action = toggleLock();
+
+    expect(action.type).toEqual(TOGGLE_LOCK);
+  });
+
+  it('toggleLock has the correct payload', () => {
+    const action = toggleLock(true);
+
+    expect(action.payload).toEqual(true);
+  });
+});
