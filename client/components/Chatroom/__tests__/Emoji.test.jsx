@@ -4,10 +4,10 @@ import { Emoji } from '../Emoji';
 
 describe('Emoji ', () => {
   const props = {
-    addEmoji: () => {},
+    addEmoji: jest.fn(),
+    handleToggleEmoji: jest.fn(),
+    handleToggleGiphy: jest.fn(),
     toggleEmoji: false,
-    handleToggleEmoji: () => {},
-    handleToggleGiphy: () => {},
   };
 
   const wrapped = shallow(<Emoji {...props} />);
