@@ -16,7 +16,7 @@ import {
   setFileName,
 } from '../../actions';
 
-import Emoji from './Emoji';
+import EmojiPicker from './Emoji';
 import Footer from '../Footer';
 import Giphy from './Giphy';
 import ImageUpload from './ImageUpload';
@@ -183,7 +183,7 @@ class Chatroom extends Component {
 
               <form onSubmit={this.handleSubmit} className="message-form">
                 <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
-                <Emoji addEmoji={this.addEmoji} />
+                <EmojiPicker addEmoji={this.addEmoji} />
                 <Giphy />
                 <ImageUpload />
                 <div className="message-input-box">
