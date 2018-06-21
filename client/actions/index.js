@@ -4,18 +4,21 @@ import {
   CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
   GET_MESSAGES,
+  GET_MESSAGES_PRIVATE,
   GIPHY,
   LOADING,
   LOGIN_ERROR,
   LOGGED_IN,
   LOGOUT,
   MESSAGE_SENT,
+  MESSAGE_SENT_PRIVATE,
   RECEIVE_GIPHY,
   STOPPED_TYPING,
   SOCKET_EVENTS,
   TYPING,
   TOGGLE_EMOJI,
   TOGGLE_GIPHY,
+  TOGGLE_MISSED_MSG,
   USER_CONNECTED,
   SET_IMAGE_SRC,
   SET_FILE_NAME,
@@ -183,6 +186,10 @@ export const clearMissedMsg = username => (dispatch) => {
     });
 };
 
+export const handleToggleMissedMsg = () => ({
+  type: TOGGLE_MISSED_MSG,
+});
+
 // Notice actions
 export const clearNotices = () => ({
   type: CLEAR_NOTICES,
@@ -256,11 +263,48 @@ export const toggleLock = bool => ({
 });
 
 export const submitPrivatePassword = password => (dispatch) => {
-  if (password === 'a') {
+  if (password === (process.env.PRIVATE_LOCK || 'dev')) {
     dispatch({ type: TOGGLE_LOCK, payload: false });
     dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: true });
   } else {
     dispatch({ type: TOGGLE_LOCK, payload: true });
     dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: false });
   }
+};
+
+export const getPrivateMessages = () => (dispatch) => {
+  dispatch({ type: LOADING, payload: true });
+
+  axios
+    .get(`${ROOT_URL}/messages_private`, {
+      headers: { authorization: localStorage.getItem('token') },
+    })
+    .then(({ data }) => {
+      dispatch({
+        type: GET_MESSAGES_PRIVATE,
+        payload: data,
+      });
+
+      setTimeout(() => dispatch({ type: LOADING, payload: false }), 500);
+    })
+    .catch((err) => {
+      console.log(`fetch messages failed: ${err}`);
+    });
+};
+
+export const sendPrivateMessage = ({
+  userAvatar,
+  username,
+  date,
+  text,
+  imageMsg,
+}) => () => {
+  axios
+    .post(`${ROOT_URL}/send_private`, { userAvatar, username, date, text, imageMsg })
+    .then(({ data }) => {
+      socket.emit(MESSAGE_SENT_PRIVATE, data);
+    })
+    .catch((err) => {
+      console.log(`send message failed: ${err}`);
+    });
 };
