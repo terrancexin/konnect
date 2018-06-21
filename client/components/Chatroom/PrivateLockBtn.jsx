@@ -24,7 +24,7 @@ class PrivateLockBtn extends Component {
     if (this.props.isLocked) {
       this.setState({ openInput: true, privatePassword: '' });
     } else {
-      this.props.submitPrivatePassword('not a');
+      this.props.submitPrivatePassword('false');
     }
 
     this.props.toggleLock(!this.props.isLocked);
