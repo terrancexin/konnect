@@ -3,7 +3,9 @@ import {
   CLEAR_MISSED_MSG,
   CLEAR_NOTICES,
   GET_MESSAGES,
+  GET_MESSAGES_PRIVATE,
   MESSAGE_SENT,
+  MESSAGE_SENT_PRIVATE,
   LOADING,
   LOGGED_IN,
   LOGIN_ERROR,
@@ -12,6 +14,7 @@ import {
   STOPPED_TYPING,
   TOGGLE_GIPHY,
   TOGGLE_EMOJI,
+  TOGGLE_MISSED_MSG,
   TYPING,
   USER_CONNECTED,
   USER_DISCONNECTED,
@@ -30,7 +33,9 @@ const initialState = {
   giphy: [],
   loading: false,
   messages: [],
+  messagesPrivate: [],
   missedMsg: [],
+  toggleMissedMsg: false,
   notice: '',
   toggleGiphy: false,
   isLocked: true,
@@ -60,10 +65,20 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         messages: [...payload],
       };
+    case GET_MESSAGES_PRIVATE:
+      return {
+        ...state,
+        messagesPrivate: [...payload],
+      };
     case MESSAGE_SENT:
       return {
         ...state,
         messages: [...state.messages, payload],
+      };
+    case MESSAGE_SENT_PRIVATE:
+      return {
+        ...state,
+        messagesPrivate: [...state.messages, payload],
       };
     case LOADING:
       return {
@@ -108,6 +123,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         toggleEmoji: payload,
+      };
+    case TOGGLE_MISSED_MSG:
+      return {
+        ...state,
+        toggleMissedMsg: !state.toggleMissedMsg,
       };
     case TOGGLE_LOCK:
       return {
