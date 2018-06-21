@@ -911,7 +911,7 @@ var _Object = Object;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.submitPrivatePassword = exports.toggleLock = exports.setFileName = exports.setImgSrc = exports.handleToggleGiphy = exports.fetchGiphy = exports.handleToggleEmoji = exports.isTyping = exports.clearNotices = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = exports.removeErrorMessage = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
+exports.sendPrivateMessage = exports.getPrivateMessages = exports.submitPrivatePassword = exports.toggleLock = exports.setFileName = exports.setImgSrc = exports.handleToggleGiphy = exports.fetchGiphy = exports.handleToggleEmoji = exports.isTyping = exports.clearNotices = exports.handleToggleMissedMsg = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = exports.removeErrorMessage = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
 
 var _axios = __webpack_require__(118);
 
@@ -1105,6 +1105,12 @@ var clearMissedMsg = exports.clearMissedMsg = function clearMissedMsg(username) 
   };
 };
 
+var handleToggleMissedMsg = exports.handleToggleMissedMsg = function handleToggleMissedMsg() {
+  return {
+    type: _constants.TOGGLE_MISSED_MSG
+  };
+};
+
 // Notice actions
 var clearNotices = exports.clearNotices = function clearNotices() {
   return {
@@ -1184,13 +1190,53 @@ var toggleLock = exports.toggleLock = function toggleLock(bool) {
 
 var submitPrivatePassword = exports.submitPrivatePassword = function submitPrivatePassword(password) {
   return function (dispatch) {
-    if (password === 'a') {
+    if (password === (process.env.PRIVATE_LOCK || 'dev')) {
       dispatch({ type: _constants.TOGGLE_LOCK, payload: false });
       dispatch({ type: _constants.UNLOCK_PRIVATE_PASSWORD, payload: true });
     } else {
       dispatch({ type: _constants.TOGGLE_LOCK, payload: true });
       dispatch({ type: _constants.UNLOCK_PRIVATE_PASSWORD, payload: false });
     }
+  };
+};
+
+var getPrivateMessages = exports.getPrivateMessages = function getPrivateMessages() {
+  return function (dispatch) {
+    dispatch({ type: _constants.LOADING, payload: true });
+
+    _axios2.default.get(ROOT_URL + '/messages_private', {
+      headers: { authorization: localStorage.getItem('token') }
+    }).then(function (_ref11) {
+      var data = _ref11.data;
+
+      dispatch({
+        type: _constants.GET_MESSAGES_PRIVATE,
+        payload: data
+      });
+
+      setTimeout(function () {
+        return dispatch({ type: _constants.LOADING, payload: false });
+      }, 500);
+    }).catch(function (err) {
+      console.log('fetch messages failed: ' + err);
+    });
+  };
+};
+
+var sendPrivateMessage = exports.sendPrivateMessage = function sendPrivateMessage(_ref12) {
+  var userAvatar = _ref12.userAvatar,
+      username = _ref12.username,
+      date = _ref12.date,
+      text = _ref12.text,
+      imageMsg = _ref12.imageMsg;
+  return function () {
+    _axios2.default.post(ROOT_URL + '/send_private', { userAvatar: userAvatar, username: username, date: date, text: text, imageMsg: imageMsg }).then(function (_ref13) {
+      var data = _ref13.data;
+
+      socket.emit(_constants.MESSAGE_SENT_PRIVATE, data);
+    }).catch(function (err) {
+      console.log('send message failed: ' + err);
+    });
   };
 };
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
@@ -5415,7 +5461,9 @@ module.exports = {
   CLEAR_MISSED_MSG: 'CLEAR_MISSED_MSG',
   CLEAR_NOTICES: 'CLEAR_NOTICES',
   GET_MESSAGES: 'GET_MESSAGES',
+  GET_MESSAGES_PRIVATE: 'GET_MESSAGES_PRIVATE',
   MESSAGE_SENT: 'MESSAGE_SENT',
+  MESSAGE_SENT_PRIVATE: 'MESSAGE_SENT_PRIVATE',
   LOADING: 'LOADING',
   LOGGED_IN: 'LOGGED_IN',
   LOGIN_ERROR: 'LOGIN_ERROR',
@@ -5428,6 +5476,7 @@ module.exports = {
   TOGGLE_GIPHY: 'TOGGLE_GIPHY',
   TOGGLE_EMOJI: 'TOGGLE_EMOJI',
   TOGGLE_LOCK: 'TOGGLE_LOCK',
+  TOGGLE_MISSED_MSG: 'TOGGLE_MISSED_MSG',
   UNLOCK_PRIVATE_PASSWORD: 'UNLOCK_PRIVATE_PASSWORD',
   SOCKET_EVENTS: ['MESSAGE_SENT', 'STOPPED_TYPING', 'TYPING', 'USER_CONNECTED', 'USER_DISCONNECTED'],
   USER_CONNECTED: 'USER_CONNECTED',
@@ -30164,7 +30213,9 @@ var initialState = {
   giphy: [],
   loading: false,
   messages: [],
+  messagesPrivate: [],
   missedMsg: [],
+  toggleMissedMsg: false,
   notice: '',
   toggleGiphy: false,
   isLocked: true,
@@ -30196,9 +30247,17 @@ var rootReducer = function rootReducer() {
       return _extends({}, state, {
         messages: [].concat(_toConsumableArray(payload))
       });
+    case _constants.GET_MESSAGES_PRIVATE:
+      return _extends({}, state, {
+        messagesPrivate: [].concat(_toConsumableArray(payload))
+      });
     case _constants.MESSAGE_SENT:
       return _extends({}, state, {
         messages: [].concat(_toConsumableArray(state.messages), [payload])
+      });
+    case _constants.MESSAGE_SENT_PRIVATE:
+      return _extends({}, state, {
+        messagesPrivate: [].concat(_toConsumableArray(state.messages), [payload])
       });
     case _constants.LOADING:
       return _extends({}, state, {
@@ -30237,6 +30296,10 @@ var rootReducer = function rootReducer() {
     case _constants.TOGGLE_EMOJI:
       return _extends({}, state, {
         toggleEmoji: payload
+      });
+    case _constants.TOGGLE_MISSED_MSG:
+      return _extends({}, state, {
+        toggleMissedMsg: !state.toggleMissedMsg
       });
     case _constants.TOGGLE_LOCK:
       return _extends({}, state, {
@@ -36865,41 +36928,25 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _actions = __webpack_require__(9);
 
-var _Emoji = __webpack_require__(164);
-
-var _Emoji2 = _interopRequireDefault(_Emoji);
-
 var _Footer = __webpack_require__(68);
 
 var _Footer2 = _interopRequireDefault(_Footer);
-
-var _Giphy = __webpack_require__(188);
-
-var _Giphy2 = _interopRequireDefault(_Giphy);
-
-var _ImageUpload = __webpack_require__(189);
-
-var _ImageUpload2 = _interopRequireDefault(_ImageUpload);
 
 var _MessagesList = __webpack_require__(190);
 
 var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
-var _NavBtns = __webpack_require__(199);
+var _MessageSubmit = __webpack_require__(205);
 
-var _NavBtns2 = _interopRequireDefault(_NavBtns);
+var _MessageSubmit2 = _interopRequireDefault(_MessageSubmit);
 
 var _Notice = __webpack_require__(200);
 
 var _Notice2 = _interopRequireDefault(_Notice);
 
-var _Typing = __webpack_require__(201);
+var _UserSection = __webpack_require__(206);
 
-var _Typing2 = _interopRequireDefault(_Typing);
-
-var _UsersList = __webpack_require__(202);
-
-var _UsersList2 = _interopRequireDefault(_UsersList);
+var _UserSection2 = _interopRequireDefault(_UserSection);
 
 var _PrivateLockBtn = __webpack_require__(203);
 
@@ -36920,27 +36967,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Chatroom = function (_Component) {
   _inherits(Chatroom, _Component);
 
-  function Chatroom(props) {
+  function Chatroom() {
     _classCallCheck(this, Chatroom);
 
-    var _this = _possibleConstructorReturn(this, (Chatroom.__proto__ || Object.getPrototypeOf(Chatroom)).call(this, props));
-
-    _this.state = {
-      date: new Date(),
-      toggleMissedMsg: false,
-      text: '',
-      textCount: 0
-    };
-
-    _this.addEmoji = _this.addEmoji.bind(_this);
-    _this.closeEmojiGiphy = _this.closeEmojiGiphy.bind(_this);
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleKeyPress = _this.handleKeyPress.bind(_this);
-    _this.handleLogOut = _this.handleLogOut.bind(_this);
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.handleToggleMissedMsg = _this.handleToggleMissedMsg.bind(_this);
-    _this.handleTypingTime = null;
-    return _this;
+    return _possibleConstructorReturn(this, (Chatroom.__proto__ || Object.getPrototypeOf(Chatroom)).apply(this, arguments));
   }
 
   _createClass(Chatroom, [{
@@ -36955,111 +36985,19 @@ var Chatroom = function (_Component) {
       this.props.socketOff();
     }
   }, {
-    key: 'addEmoji',
-    value: function addEmoji(emoji) {
-      this.setState({ text: '' + this.state.text + emoji.native });
-    }
-  }, {
-    key: 'closeEmojiGiphy',
-    value: function closeEmojiGiphy() {
-      this.props.handleToggleGiphy(false);
-      this.props.handleToggleEmoji(false);
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(e) {
-      var _this2 = this;
-
-      var username = this.props.username;
-
-      var text = e.target.value || '';
-
-      clearTimeout(this.handleTypingTime);
-      this.props.isTyping(username, true);
-      this.handleTypingTime = setTimeout(function () {
-        _this2.props.isTyping(username, false);
-      }, 2000);
-
-      this.setState({ text: text, textCount: text.length });
-    }
-  }, {
-    key: 'handleKeyPress',
-    value: function handleKeyPress(e) {
-      var value = e.target.value;
-
-
-      if (e.key === 'Enter' && value) {
-        this.handleSubmit(e);
-      }
-    }
-  }, {
-    key: 'handleToggleMissedMsg',
-    value: function handleToggleMissedMsg() {
-      this.setState({ toggleMissedMsg: !this.state.toggleMissedMsg });
-    }
-  }, {
-    key: 'handleLogOut',
-    value: function handleLogOut() {
-      var user = this.props.user;
-
-
-      this.props.logOutUser(user);
-    }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(e) {
-      e.preventDefault();
-      this.setState({ text: '', textCount: 0, date: new Date() });
-      var _state = this.state,
-          text = _state.text,
-          date = _state.date;
-      var _props = this.props,
-          imgSrc = _props.imgSrc,
-          _props$user = _props.user,
-          username = _props$user.username,
-          avatar = _props$user.avatar;
-
-
-      this.props.handleToggleGiphy(false);
-      this.props.handleToggleEmoji(false);
-      this.props.sendMessage({
-        userAvatar: avatar,
-        username: username,
-        text: text,
-        date: date,
-        imageMsg: imgSrc
-      });
-
-      this.props.setImgSrc('');
-      this.props.setFileName('');
-
-      // clears file input event listener
-      document.getElementById('imageUploadInput').value = '';
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _state2 = this.state,
-          text = _state2.text,
-          textCount = _state2.textCount,
-          toggleMissedMsg = _state2.toggleMissedMsg;
-      var _props2 = this.props,
-          loading = _props2.loading,
-          missedMsg = _props2.missedMsg,
-          messages = _props2.messages,
-          typing = _props2.typing,
-          typingUsers = _props2.typingUsers,
-          username = _props2.username,
-          users = _props2.users,
-          verbs = _props2.verbs,
-          imgSrc = _props2.imgSrc,
-          isMatchPrivatePassword = _props2.isMatchPrivatePassword,
-          isLocked = _props2.isLocked;
+      var _props = this.props,
+          loading = _props.loading,
+          missedMsg = _props.missedMsg,
+          messages = _props.messages,
+          username = _props.username,
+          users = _props.users,
+          isMatchPrivatePassword = _props.isMatchPrivatePassword,
+          isLocked = _props.isLocked,
+          toggleMissedMsg = _props.toggleMissedMsg;
 
       var userPluralCheck = users.length <= 1 ? 'user' : 'users';
-      var onlineUsers = users.filter(function (user) {
-        return user.onlineStatus;
-      }).length;
 
       return _react2.default.createElement(
         'div',
@@ -37089,25 +37027,7 @@ var Chatroom = function (_Component) {
           'div',
           { className: 'chat-window' },
           _react2.default.createElement(_Notice2.default, null),
-          _react2.default.createElement(
-            'section',
-            { className: 'chat-window-left-section' },
-            _react2.default.createElement(_NavBtns2.default, {
-              clearMissedMsg: this.props.clearMissedMsg,
-              handleLogOut: this.handleLogOut,
-              handleToggleMissedMsg: this.handleToggleMissedMsg,
-              missedMsg: missedMsg,
-              toggleMissedMsg: toggleMissedMsg,
-              username: username
-            }),
-            _react2.default.createElement(
-              'div',
-              { className: 'online-users' },
-              onlineUsers,
-              ' online'
-            ),
-            _react2.default.createElement(_UsersList2.default, { users: users })
-          ),
+          _react2.default.createElement(_UserSection2.default, null),
           _react2.default.createElement(
             'div',
             { className: 'messages-section' },
@@ -37121,43 +37041,7 @@ var Chatroom = function (_Component) {
               loading: loading,
               messages: missedMsg
             }),
-            _react2.default.createElement(
-              'form',
-              { onSubmit: this.handleSubmit, className: 'message-form' },
-              _react2.default.createElement(_Typing2.default, { typing: typing, typingUsers: typingUsers, verbs: verbs }),
-              _react2.default.createElement(_Emoji2.default, { addEmoji: this.addEmoji }),
-              _react2.default.createElement(_Giphy2.default, null),
-              _react2.default.createElement(_ImageUpload2.default, null),
-              _react2.default.createElement(
-                'div',
-                { className: 'message-input-box' },
-                _react2.default.createElement('input', {
-                  autoComplete: 'off',
-                  id: 'message',
-                  maxLength: '500',
-                  onChange: this.handleChange,
-                  onKeyPress: this.handleKeyPress,
-                  onClick: this.closeEmojiGiphy,
-                  placeholder: 'enter your message',
-                  type: 'text',
-                  value: text
-                }),
-                _react2.default.createElement(
-                  'span',
-                  { className: 'character-count' },
-                  textCount + '/500'
-                ),
-                _react2.default.createElement(
-                  'button',
-                  {
-                    className: 'send',
-                    disabled: text.length < 1 && !imgSrc,
-                    onClick: this.handleSubmit
-                  },
-                  'Send'
-                )
-              )
-            )
+            _react2.default.createElement(_MessageSubmit2.default, null)
           )
         ),
         _react2.default.createElement(_PrivateLockBtn2.default, null),
@@ -37174,56 +37058,32 @@ var mapStateToProps = function mapStateToProps(state) {
     loading: state.loading,
     messages: state.messages,
     missedMsg: state.missedMsg,
-    typing: state.typing,
-    typingUsers: state.typingUsers,
     username: state.username,
-    user: state.user,
     users: state.users,
-    verbs: state.verbs,
-    imgSrc: state.imgSrc,
     isMatchPrivatePassword: state.isMatchPrivatePassword,
-    isLocked: state.isLocked
+    isLocked: state.isLocked,
+    toggleMissedMsg: state.toggleMissedMsg
   };
 };
 
 Chatroom.propTypes = {
   fetchGiphy: _propTypes2.default.func.isRequired,
-  handleToggleEmoji: _propTypes2.default.func.isRequired,
-  handleToggleGiphy: _propTypes2.default.func.isRequired,
   loading: _propTypes2.default.bool.isRequired,
   messages: _propTypes2.default.array.isRequired,
   missedMsg: _propTypes2.default.array.isRequired,
-  typing: _propTypes2.default.bool.isRequired,
-  typingUsers: _propTypes2.default.array.isRequired,
   username: _propTypes2.default.string.isRequired,
-  user: _propTypes2.default.object.isRequired,
   users: _propTypes2.default.array.isRequired,
-  verbs: _propTypes2.default.string.isRequired,
-  clearMissedMsg: _propTypes2.default.func.isRequired,
   getMessages: _propTypes2.default.func.isRequired,
-  isTyping: _propTypes2.default.func.isRequired,
-  logOutUser: _propTypes2.default.func.isRequired,
-  sendMessage: _propTypes2.default.func.isRequired,
   socketOff: _propTypes2.default.func.isRequired,
-  setImgSrc: _propTypes2.default.func.isRequired,
-  setFileName: _propTypes2.default.func.isRequired,
-  imgSrc: _propTypes2.default.string.isRequired,
   isMatchPrivatePassword: _propTypes2.default.bool.isRequired,
-  isLocked: _propTypes2.default.bool.isRequired
+  isLocked: _propTypes2.default.bool.isRequired,
+  toggleMissedMsg: _propTypes2.default.bool.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  clearMissedMsg: _actions.clearMissedMsg,
   fetchGiphy: _actions.fetchGiphy,
-  handleToggleEmoji: _actions.handleToggleEmoji,
-  handleToggleGiphy: _actions.handleToggleGiphy,
   getMessages: _actions.getMessages,
-  isTyping: _actions.isTyping,
-  logOutUser: _actions.logOutUser,
-  sendMessage: _actions.sendMessage,
-  socketOff: _actions.socketOff,
-  setImgSrc: _actions.setImgSrc,
-  setFileName: _actions.setFileName
+  socketOff: _actions.socketOff
 })(Chatroom);
 
 /***/ }),
@@ -41978,7 +41838,7 @@ var PrivateLockBtn = function (_Component) {
       if (this.props.isLocked) {
         this.setState({ openInput: true, privatePassword: '' });
       } else {
-        this.props.submitPrivatePassword('not a');
+        this.props.submitPrivatePassword('false');
       }
 
       this.props.toggleLock(!this.props.isLocked);
@@ -42094,21 +41954,463 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRedux = __webpack_require__(5);
+
+var _actions = __webpack_require__(9);
+
+var _MessagesList = __webpack_require__(190);
+
+var _MessagesList2 = _interopRequireDefault(_MessagesList);
+
+var _MessageSubmit = __webpack_require__(205);
+
+var _MessageSubmit2 = _interopRequireDefault(_MessageSubmit);
+
+var _Notice = __webpack_require__(200);
+
+var _Notice2 = _interopRequireDefault(_Notice);
+
+var _UserSection = __webpack_require__(206);
+
+var _UserSection2 = _interopRequireDefault(_UserSection);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PrivateChat = function PrivateChat() {
-  return _react2.default.createElement(
-    "div",
-    { className: "comingsoon" },
-    "Coming Soon"
-  );
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PrivateChat = function (_Component) {
+  _inherits(PrivateChat, _Component);
+
+  function PrivateChat() {
+    _classCallCheck(this, PrivateChat);
+
+    return _possibleConstructorReturn(this, (PrivateChat.__proto__ || Object.getPrototypeOf(PrivateChat)).apply(this, arguments));
+  }
+
+  _createClass(PrivateChat, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // this.props.getPrivateMessages();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          username = _props.username,
+          loading = _props.loading,
+          messagesPrivate = _props.messagesPrivate;
+
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'chat-window' },
+        _react2.default.createElement(_Notice2.default, null),
+        _react2.default.createElement(_UserSection2.default, null),
+        _react2.default.createElement(
+          'div',
+          { className: 'messages-section' },
+          _react2.default.createElement(_MessagesList2.default, {
+            currentUser: username,
+            loading: loading,
+            messages: messagesPrivate
+          }),
+          _react2.default.createElement(_MessageSubmit2.default, null)
+        )
+      );
+    }
+  }]);
+
+  return PrivateChat;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    loading: state.loading,
+    messagesPrivate: state.messagesPrivate,
+    username: state.username
+  };
 };
 
-exports.default = PrivateChat;
+PrivateChat.propTypes = {
+  loading: _propTypes2.default.bool.isRequired,
+  messagesPrivate: _propTypes2.default.array.isRequired,
+  username: _propTypes2.default.string.isRequired,
+  getPrivateMessages: _propTypes2.default.func.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, {
+  getPrivateMessages: _actions.getPrivateMessages
+})(PrivateChat);
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(5);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _actions = __webpack_require__(9);
+
+var _Emoji = __webpack_require__(164);
+
+var _Emoji2 = _interopRequireDefault(_Emoji);
+
+var _Giphy = __webpack_require__(188);
+
+var _Giphy2 = _interopRequireDefault(_Giphy);
+
+var _ImageUpload = __webpack_require__(189);
+
+var _ImageUpload2 = _interopRequireDefault(_ImageUpload);
+
+var _Typing = __webpack_require__(201);
+
+var _Typing2 = _interopRequireDefault(_Typing);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MessageSubmit = function (_Component) {
+  _inherits(MessageSubmit, _Component);
+
+  function MessageSubmit(props) {
+    _classCallCheck(this, MessageSubmit);
+
+    var _this = _possibleConstructorReturn(this, (MessageSubmit.__proto__ || Object.getPrototypeOf(MessageSubmit)).call(this, props));
+
+    _this.state = {
+      date: new Date(),
+      text: '',
+      textCount: 0
+    };
+
+    _this.addEmoji = _this.addEmoji.bind(_this);
+    _this.closeEmojiGiphy = _this.closeEmojiGiphy.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleKeyPress = _this.handleKeyPress.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleTypingTime = null;
+    return _this;
+  }
+
+  _createClass(MessageSubmit, [{
+    key: 'addEmoji',
+    value: function addEmoji(emoji) {
+      this.setState({ text: '' + this.state.text + emoji.native });
+    }
+  }, {
+    key: 'closeEmojiGiphy',
+    value: function closeEmojiGiphy() {
+      this.props.handleToggleGiphy(false);
+      this.props.handleToggleEmoji(false);
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(e) {
+      var _this2 = this;
+
+      var username = this.props.user.username;
+
+      var text = e.target.value || '';
+
+      clearTimeout(this.handleTypingTime);
+      this.props.isTyping(username, true);
+      this.handleTypingTime = setTimeout(function () {
+        _this2.props.isTyping(username, false);
+      }, 2000);
+
+      this.setState({ text: text, textCount: text.length });
+    }
+  }, {
+    key: 'handleKeyPress',
+    value: function handleKeyPress(e) {
+      var value = e.target.value;
+
+
+      if (e.key === 'Enter' && value) {
+        this.handleSubmit(e);
+      }
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      this.setState({ text: '', textCount: 0, date: new Date() });
+      var _state = this.state,
+          text = _state.text,
+          date = _state.date;
+      var _props = this.props,
+          imgSrc = _props.imgSrc,
+          _props$user = _props.user,
+          username = _props$user.username,
+          avatar = _props$user.avatar;
+
+
+      this.props.handleToggleGiphy(false);
+      this.props.handleToggleEmoji(false);
+      this.props.sendMessage({
+        userAvatar: avatar,
+        username: username,
+        text: text,
+        date: date,
+        imageMsg: imgSrc
+      });
+
+      this.props.setImgSrc('');
+      this.props.setFileName('');
+
+      // clears file input event listener
+      document.getElementById('imageUploadInput').value = '';
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state2 = this.state,
+          text = _state2.text,
+          textCount = _state2.textCount;
+      var _props2 = this.props,
+          typing = _props2.typing,
+          typingUsers = _props2.typingUsers,
+          verbs = _props2.verbs,
+          imgSrc = _props2.imgSrc;
+
+
+      return _react2.default.createElement(
+        'form',
+        { onSubmit: this.handleSubmit, className: 'message-form' },
+        _react2.default.createElement(_Typing2.default, { typing: typing, typingUsers: typingUsers, verbs: verbs }),
+        _react2.default.createElement(_Emoji2.default, { addEmoji: this.addEmoji }),
+        _react2.default.createElement(_Giphy2.default, null),
+        _react2.default.createElement(_ImageUpload2.default, null),
+        _react2.default.createElement(
+          'div',
+          { className: 'message-input-box' },
+          _react2.default.createElement('input', {
+            autoComplete: 'off',
+            id: 'message',
+            maxLength: '500',
+            onChange: this.handleChange,
+            onKeyPress: this.handleKeyPress,
+            onClick: this.closeEmojiGiphy,
+            placeholder: 'enter your message',
+            type: 'text',
+            value: text
+          }),
+          _react2.default.createElement(
+            'span',
+            { className: 'character-count' },
+            textCount + '/500'
+          ),
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'send',
+              disabled: text.length < 1 && !imgSrc,
+              onClick: this.handleSubmit
+            },
+            'Send'
+          )
+        )
+      );
+    }
+  }]);
+
+  return MessageSubmit;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    imgSrc: state.imgSrc,
+    typing: state.typing,
+    typingUsers: state.typingUsers,
+    user: state.user,
+    verbs: state.verbs
+  };
+};
+
+MessageSubmit.propTypes = {
+  imgSrc: _propTypes2.default.string.isRequired,
+  typing: _propTypes2.default.bool.isRequired,
+  typingUsers: _propTypes2.default.array.isRequired,
+  user: _propTypes2.default.object.isRequired,
+  verbs: _propTypes2.default.string.isRequired,
+  handleToggleEmoji: _propTypes2.default.func.isRequired,
+  handleToggleGiphy: _propTypes2.default.func.isRequired,
+  isTyping: _propTypes2.default.func.isRequired,
+  sendMessage: _propTypes2.default.func.isRequired,
+  setImgSrc: _propTypes2.default.func.isRequired,
+  setFileName: _propTypes2.default.func.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, {
+  handleToggleEmoji: _actions.handleToggleEmoji,
+  handleToggleGiphy: _actions.handleToggleGiphy,
+  isTyping: _actions.isTyping,
+  sendMessage: _actions.sendMessage,
+  setImgSrc: _actions.setImgSrc,
+  setFileName: _actions.setFileName
+})(MessageSubmit);
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(5);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _actions = __webpack_require__(9);
+
+var _NavBtns = __webpack_require__(199);
+
+var _NavBtns2 = _interopRequireDefault(_NavBtns);
+
+var _UsersList = __webpack_require__(202);
+
+var _UsersList2 = _interopRequireDefault(_UsersList);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserSection = function (_Component) {
+  _inherits(UserSection, _Component);
+
+  function UserSection(props) {
+    _classCallCheck(this, UserSection);
+
+    var _this = _possibleConstructorReturn(this, (UserSection.__proto__ || Object.getPrototypeOf(UserSection)).call(this, props));
+
+    _this.handleLogOut = _this.handleLogOut.bind(_this);
+    return _this;
+  }
+
+  _createClass(UserSection, [{
+    key: 'handleLogOut',
+    value: function handleLogOut() {
+      var user = this.props.user;
+
+
+      this.props.logOutUser(user);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          missedMsg = _props.missedMsg,
+          username = _props.username,
+          users = _props.users,
+          toggleMissedMsg = _props.toggleMissedMsg;
+
+      var onlineUsers = users.filter(function (user) {
+        return user.onlineStatus;
+      }).length;
+
+      return _react2.default.createElement(
+        'section',
+        { className: 'chat-window-left-section' },
+        _react2.default.createElement(_NavBtns2.default, {
+          clearMissedMsg: this.props.clearMissedMsg,
+          handleLogOut: this.handleLogOut,
+          handleToggleMissedMsg: this.props.handleToggleMissedMsg,
+          missedMsg: missedMsg,
+          toggleMissedMsg: toggleMissedMsg,
+          username: username
+        }),
+        _react2.default.createElement(
+          'div',
+          { className: 'online-users' },
+          onlineUsers,
+          ' online'
+        ),
+        _react2.default.createElement(_UsersList2.default, { users: users })
+      );
+    }
+  }]);
+
+  return UserSection;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    missedMsg: state.missedMsg,
+    username: state.username,
+    user: state.user,
+    users: state.users,
+    toggleMissedMsg: state.toggleMissedMsg
+  };
+};
+
+UserSection.propTypes = {
+  missedMsg: _propTypes2.default.array.isRequired,
+  username: _propTypes2.default.string.isRequired,
+  user: _propTypes2.default.object.isRequired,
+  users: _propTypes2.default.array.isRequired,
+  clearMissedMsg: _propTypes2.default.func.isRequired,
+  logOutUser: _propTypes2.default.func.isRequired,
+  handleToggleMissedMsg: _propTypes2.default.func.isRequired,
+  toggleMissedMsg: _propTypes2.default.bool.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, {
+  clearMissedMsg: _actions.clearMissedMsg,
+  logOutUser: _actions.logOutUser,
+  handleToggleMissedMsg: _actions.handleToggleMissedMsg
+})(UserSection);
 
 /***/ })
 /******/ ]);
