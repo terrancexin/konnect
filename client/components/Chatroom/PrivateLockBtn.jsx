@@ -11,6 +11,7 @@ class PrivateLockBtn extends Component {
     this.state = { privatePassword: '', openInput: false };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleExit = this.handleExit.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -21,7 +22,7 @@ class PrivateLockBtn extends Component {
     e.preventDefault();
 
     if (this.props.isLocked) {
-      this.setState({ openInput: true });
+      this.setState({ openInput: true, privatePassword: '' });
     } else {
       this.props.submitPrivatePassword('not a');
     }
@@ -29,9 +30,15 @@ class PrivateLockBtn extends Component {
     this.props.toggleLock(!this.props.isLocked);
   }
 
+  handleExit(e) {
+    e.preventDefault();
+    this.setState({ openInput: false, privatePassword: '' });
+    this.props.toggleLock(true);
+  }
+
   handleKeyDown(e) {
     if (e.key === 'Escape') {
-      this.setState({ openInput: false });
+      this.setState({ openInput: false, privatePassword: '' });
       this.props.toggleLock(true);
     }
   }
@@ -39,7 +46,7 @@ class PrivateLockBtn extends Component {
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       this.props.submitPrivatePassword(this.state.privatePassword);
-      this.setState({ openInput: false });
+      this.setState({ openInput: false, privatePassword: '' });
     }
   }
 
@@ -67,6 +74,9 @@ class PrivateLockBtn extends Component {
         </button>
         {openInput && (
           <div className="privateLock__passwordInput">
+            <button onClick={this.handleExit} className="private__btn--exit">
+              <i className="fas fa-times-circle" />
+            </button>
             <input
               type="text"
               onKeyDown={this.handleKeyDown}
@@ -75,7 +85,7 @@ class PrivateLockBtn extends Component {
               maxLength="15"
               onKeyPress={this.handleKeyPress}
             />
-            <button onClick={this.handleSubmit} className="private__Enter">
+            <button onClick={this.handleSubmit} className="private__btn--enter">
               <i className="fas fa-arrow-alt-circle-right fa-3x" />
             </button>
           </div>
