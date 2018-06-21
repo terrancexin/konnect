@@ -19,7 +19,7 @@
   }
 
   &__passwordInput {
-    @include flex-center-center;
+    @include flex-column-center-center;
     position: fixed;
     z-index: 5;
     width: 100%;
@@ -56,12 +56,19 @@
         margin-bottom: 5px;
       }
     }
+    
+    button {
+      @include reset-btn-style;
+      width: 0;  
+    }
+  }
+  
+  &__passwordInput--field {
+    @include flex-center-center;
   }
 }
 
 .private__btn--enter {
-  @include reset-btn-style;
-  width: 0;
   color: lightgray;
   margin-left: 10px;
 
@@ -71,8 +78,6 @@
 }
 
 .private__btn--exit {
-  @include reset-btn-style;
-  width: 0;
   bottom: 0;
   color: #e6ecf063;
   font-size: 20px;
@@ -91,3 +96,11 @@
   padding: 100px;
 }
 
+.login-error--private {
+  color: #fd9696;
+  font-size: 1em;
+  line-height: 30px;
+  height: 30px;
+  font-weight: 300;
+  text-align: center;
+}
