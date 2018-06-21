@@ -30,6 +30,7 @@ module.exports = {
         MONGOLAB_URI: JSON.stringify(process.env.MONGOLAB_URI),
         ROOT_URL: JSON.stringify(process.env.ROOT_URL),
         SECRET_JWT_KEY: JSON.stringify(process.env.SECRET_JWT_KEY),
+        PRIVATE_LOCK: JSON.stringify(process.env.PRIVATE_LOCK),
       },
     }),
     new webpack.optimize.UglifyJsPlugin({
