@@ -19,6 +19,7 @@ import {
   TOGGLE_EMOJI,
   TOGGLE_GIPHY,
   TOGGLE_MISSED_MSG,
+  TOGGLE_PRIVATE_PW_INPUT,
   USER_CONNECTED,
   SET_IMAGE_SRC,
   SET_FILE_NAME,
@@ -267,11 +268,23 @@ export const submitPrivatePassword = password => (dispatch) => {
   if (password === PRIVATE_LOCK) {
     dispatch({ type: TOGGLE_LOCK, payload: false });
     dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: true });
+    dispatch({ type: TOGGLE_PRIVATE_PW_INPUT, payload: false });
   } else {
+    dispatch({ type: LOGIN_ERROR, payload: 'incorrect password' });
     dispatch({ type: TOGGLE_LOCK, payload: true });
     dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: false });
   }
 };
+
+export const handleTogglePrivatePWInput = bool => ({
+  type: TOGGLE_PRIVATE_PW_INPUT,
+  payload: bool,
+});
+
+export const unlockPrivateMessage = bool => ({
+  type: UNLOCK_PRIVATE_PASSWORD,
+  payload: bool,
+});
 
 export const getPrivateMessages = () => (dispatch) => {
   dispatch({ type: LOADING, payload: true });
