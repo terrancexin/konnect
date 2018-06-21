@@ -27,6 +27,7 @@ import {
 } from '../../constants';
 
 const ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
+const PRIVATE_LOCK = process.env.PRIVATE_LOCK || 'dev';
 
 // Socket actions
 const socket = io(ROOT_URL);
@@ -263,7 +264,7 @@ export const toggleLock = bool => ({
 });
 
 export const submitPrivatePassword = password => (dispatch) => {
-  if (password === (process.env.PRIVATE_LOCK || 'dev')) {
+  if (password === PRIVATE_LOCK) {
     dispatch({ type: TOGGLE_LOCK, payload: false });
     dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: true });
   } else {
