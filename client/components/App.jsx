@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { unlockPrivateMessage } from '../actions';
+
 import LogIn from './LogIn';
 import Chatroom from './Chatroom';
 
 window.ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
 
 class App extends Component {
+  componentDidMount() {
+    this.props.unlockPrivateMessage(false);
+  }
+
   render() {
     return (
       <div className="app">
@@ -22,6 +29,10 @@ const mapStateToProps = state => ({
 
 App.propTypes = {
   auth: PropTypes.bool.isRequired,
+  unlockPrivateMessage: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, {
+  unlockPrivateMessage,
+})(App);
+

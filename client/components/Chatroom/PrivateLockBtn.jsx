@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { toggleLock, submitPrivatePassword } from '../../actions';
+import {
+  toggleLock,
+  submitPrivatePassword,
+  removeErrorMessage,
+  handleTogglePrivatePWInput,
+  unlockPrivateMessage,
+} from '../../actions';
 
 class PrivateLockBtn extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { privatePassword: '', openInput: false };
+    this.state = { privatePassword: '' };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleExit = this.handleExit.bind(this);
@@ -18,11 +24,22 @@ class PrivateLockBtn extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillMount() {
+    this.props.toggleLock(true);
+  }
+
+  componentWillUnmount() {
+    this.props.removeErrorMessage();
+    this.props.unlockPrivateMessage(false);
+  }
+
   handleClick(e) {
     e.preventDefault();
+    this.props.removeErrorMessage();
 
     if (this.props.isLocked) {
-      this.setState({ openInput: true, privatePassword: '' });
+      this.setState({ privatePassword: '' });
+      this.props.handleTogglePrivatePWInput(true);
     } else {
       this.props.submitPrivatePassword('false');
     }
@@ -32,13 +49,15 @@ class PrivateLockBtn extends Component {
 
   handleExit(e) {
     e.preventDefault();
-    this.setState({ openInput: false, privatePassword: '' });
+    this.setState({ privatePassword: '' });
+    this.props.handleTogglePrivatePWInput(false);
     this.props.toggleLock(true);
   }
 
   handleKeyDown(e) {
     if (e.key === 'Escape') {
-      this.setState({ openInput: false, privatePassword: '' });
+      this.setState({ privatePassword: '' });
+      this.props.handleTogglePrivatePWInput(false);
       this.props.toggleLock(true);
     }
   }
@@ -46,11 +65,11 @@ class PrivateLockBtn extends Component {
   handleKeyPress(e) {
     if (e.key === 'Enter') {
       this.props.submitPrivatePassword(this.state.privatePassword);
-      this.setState({ openInput: false, privatePassword: '' });
     }
   }
 
   handleChange(e) {
+    this.props.removeErrorMessage();
     const { value } = e.target;
 
     this.setState({ privatePassword: value });
@@ -59,12 +78,10 @@ class PrivateLockBtn extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.submitPrivatePassword(this.state.privatePassword);
-    this.setState({ openInput: false });
   }
 
   render() {
-    const { isLocked } = this.props;
-    const { openInput } = this.state;
+    const { isLocked, err, privatePasswordInput } = this.props;
 
     return (
       <div className="privateLock">
@@ -72,22 +89,25 @@ class PrivateLockBtn extends Component {
           {isLocked && <i className="fas fa-lock" />}
           {!isLocked && <i className="fas fa-unlock" />}
         </button>
-        {openInput && (
+        {privatePasswordInput && (
           <div className="privateLock__passwordInput">
-            <button onClick={this.handleExit} className="private__btn--exit">
-              <i className="fas fa-times-circle" />
-            </button>
-            <input
-              type="text"
-              onKeyDown={this.handleKeyDown}
-              onChange={this.handleChange}
-              value={this.state.privatePassword}
-              maxLength="15"
-              onKeyPress={this.handleKeyPress}
-            />
-            <button onClick={this.handleSubmit} className="private__btn--enter">
-              <i className="fas fa-arrow-alt-circle-right fa-3x" />
-            </button>
+            <span className="login-error--private">{err || ''}</span>
+            <div className="privateLock__passwordInput--field">
+              <button onClick={this.handleExit} className="private__btn--exit">
+                <i className="fas fa-times-circle" />
+              </button>
+              <input
+                type="text"
+                onKeyDown={this.handleKeyDown}
+                onChange={this.handleChange}
+                value={this.state.privatePassword}
+                maxLength="12"
+                onKeyPress={this.handleKeyPress}
+              />
+              <button onClick={this.handleSubmit} className="private__btn--enter">
+                <i className="fas fa-arrow-alt-circle-right fa-3x" />
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -97,15 +117,25 @@ class PrivateLockBtn extends Component {
 
 const mapStateToProps = state => ({
   isLocked: state.isLocked,
+  err: state.err,
+  privatePasswordInput: state.privatePasswordInput,
 });
 
 PrivateLockBtn.propTypes = {
   isLocked: PropTypes.bool.isRequired,
   toggleLock: PropTypes.func.isRequired,
   submitPrivatePassword: PropTypes.func.isRequired,
+  removeErrorMessage: PropTypes.func.isRequired,
+  err: PropTypes.string.isRequired,
+  handleTogglePrivatePWInput: PropTypes.func.isRequired,
+  privatePasswordInput: PropTypes.bool.isRequired,
+  unlockPrivateMessage: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
   toggleLock,
   submitPrivatePassword,
+  removeErrorMessage,
+  handleTogglePrivatePWInput,
+  unlockPrivateMessage,
 })(PrivateLockBtn);
