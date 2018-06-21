@@ -29,15 +29,6 @@
     opacity: 1;
     top: 0;
     bottom: 0;
-    
-    .fa-arrow-alt-circle-right {
-      color: lightgray;
-      margin-left: 10px;
-      
-      &:hover {
-        color: $mintGreen;
-      }
-    }
 
     input {
       width: 7em;
@@ -68,10 +59,28 @@
   }
 }
 
-.private__Enter {
+.private__btn--enter {
   @include reset-btn-style;
   width: 0;
-  color: $bordergray;
+  color: lightgray;
+  margin-left: 10px;
+
+  &:hover {
+    color: $blue;
+  }
+}
+
+.private__btn--exit {
+  @include reset-btn-style;
+  width: 0;
+  bottom: 0;
+  color: #e6ecf063;
+  font-size: 20px;
+  margin-right: 3px;
+  
+  &:hover {
+    color: $red;
+  }
 }
 
 .comingsoon {
@@ -81,3 +90,4 @@
   border-radius: 10px;
   padding: 100px;
 }
+
