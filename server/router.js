@@ -1,6 +1,7 @@
 const passport = require('passport');
 const { jwtLogin, localLogin } = require('./services/passport');
 const { getMessages, sendMessage } = require('./controllers/messages');
+const { getPrivateMessages, sendPrivateMessage } = require('./controllers/privateMessage');
 const {
   logInUser,
   removeBookMark,
@@ -21,5 +22,7 @@ module.exports = (app) => {
 
   // Messages routes
   app.get('/messages', requireAuth, getMessages);
+  app.get('/messages_private', requireAuth, getPrivateMessages);
   app.post('/send', sendMessage);
+  app.post('/send_private', sendPrivateMessage);
 };

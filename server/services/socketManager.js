@@ -3,6 +3,7 @@ const { disconnectUser } = require('../utils');
 const {
   LOGOUT,
   MESSAGE_SENT,
+  MESSAGE_SENT_PRIVATE,
   STOPPED_TYPING,
   TYPING,
   USER_CONNECTED,
@@ -44,6 +45,10 @@ module.exports = (socket) => {
 
   socket.on(MESSAGE_SENT, (data) => {
     io.emit(MESSAGE_SENT, data);
+  });
+
+  socket.on(MESSAGE_SENT_PRIVATE, (data) => {
+    io.emit(MESSAGE_SENT_PRIVATE, data);
   });
 
   socket.on(TYPING, (username) => {
