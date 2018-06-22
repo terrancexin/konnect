@@ -9,6 +9,7 @@ import {
   sendMessage,
   setImgSrc,
   setFileName,
+  sendPrivateMessage,
 } from '../../actions';
 
 import EmojiPicker from './Emoji';
@@ -67,17 +68,34 @@ class MessageSubmit extends Component {
     e.preventDefault();
     this.setState({ text: '', textCount: 0, date: new Date() });
     const { text, date } = this.state;
-    const { imgSrc, user: { username, avatar } } = this.props;
+    const {
+      imgSrc,
+      user: { username, avatar },
+      isMatchPrivatePassword,
+      isLocked,
+    } = this.props;
 
     this.props.handleToggleGiphy(false);
     this.props.handleToggleEmoji(false);
-    this.props.sendMessage({
-      userAvatar: avatar,
-      username,
-      text,
-      date,
-      imageMsg: imgSrc,
-    });
+
+    if (isMatchPrivatePassword && !isLocked) {
+      this.props.sendPrivateMessage({
+        userAvatar: avatar,
+        username,
+        text,
+        date,
+        imageMsg: imgSrc,
+      });
+    } else {
+      this.props.sendMessage({
+        userAvatar: avatar,
+        username,
+        text,
+        date,
+        imageMsg: imgSrc,
+      });
+    }
+
 
     this.props.setImgSrc('');
     this.props.setFileName('');
@@ -133,6 +151,8 @@ const mapStateToProps = state => ({
   typingUsers: state.typingUsers,
   user: state.user,
   verbs: state.verbs,
+  isMatchPrivatePassword: state.isMatchPrivatePassword,
+  isLocked: state.isLocked,
 });
 
 MessageSubmit.propTypes = {
@@ -147,6 +167,9 @@ MessageSubmit.propTypes = {
   sendMessage: PropTypes.func.isRequired,
   setImgSrc: PropTypes.func.isRequired,
   setFileName: PropTypes.func.isRequired,
+  sendPrivateMessage: PropTypes.func.isRequired,
+  isMatchPrivatePassword: PropTypes.bool.isRequired,
+  isLocked: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -156,4 +179,5 @@ export default connect(mapStateToProps, {
   sendMessage,
   setImgSrc,
   setFileName,
+  sendPrivateMessage,
 })(MessageSubmit);

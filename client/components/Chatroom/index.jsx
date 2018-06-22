@@ -40,7 +40,7 @@ class Chatroom extends Component {
     const userPluralCheck = users.length <= 1 ? 'user' : 'users';
 
     return (
-      <div className="chatroom">
+      <div className="chatroom" id="chatroom">
         <section className="chatroom-header">
           <h1 className="chatroom-title">Hi, {username}!</h1>
           <span className="current-users">

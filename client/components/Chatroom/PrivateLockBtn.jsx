@@ -81,14 +81,26 @@ class PrivateLockBtn extends Component {
   }
 
   render() {
-    const { isLocked, err, privatePasswordInput } = this.props;
+    const { isLocked, err, privatePasswordInput, isMatchPrivatePassword } = this.props;
 
     return (
       <div className="privateLock">
-        <button onClick={this.handleClick} className="privateLock__btn">
-          {isLocked && <i className="fas fa-lock" />}
-          {!isLocked && <i className="fas fa-unlock" />}
-        </button>
+        <div className="privateLock__footer">
+          {isMatchPrivatePassword && (
+            <span className="privateLock__footer--on">
+              <i className="fas fa-user-secret" /> Private Mode
+            </span>
+          )}
+          <button onClick={this.handleClick} className="privateLock__btn">
+            {isLocked && <i className="fas fa-lock" />}
+            {!isLocked && <i className="fas fa-unlock" />}
+          </button>
+          {isMatchPrivatePassword && (
+            <span className="privateLock__footer--on">
+              Private Mode <i className="fas fa-user-secret" />
+            </span>
+          )}
+        </div>
         {privatePasswordInput && (
           <div className="privateLock__passwordInput">
             <span className="login-error--private">{err || ''}</span>
@@ -97,7 +109,7 @@ class PrivateLockBtn extends Component {
                 <i className="fas fa-times-circle" />
               </button>
               <input
-                type="text"
+                type="password"
                 onKeyDown={this.handleKeyDown}
                 onChange={this.handleChange}
                 value={this.state.privatePassword}
@@ -119,6 +131,7 @@ const mapStateToProps = state => ({
   isLocked: state.isLocked,
   err: state.err,
   privatePasswordInput: state.privatePasswordInput,
+  isMatchPrivatePassword: state.isMatchPrivatePassword,
 });
 
 PrivateLockBtn.propTypes = {
@@ -130,6 +143,7 @@ PrivateLockBtn.propTypes = {
   handleTogglePrivatePWInput: PropTypes.func.isRequired,
   privatePasswordInput: PropTypes.bool.isRequired,
   unlockPrivateMessage: PropTypes.func.isRequired,
+  isMatchPrivatePassword: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, {
