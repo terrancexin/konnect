@@ -66,6 +66,27 @@
   &__passwordInput--field {
     @include flex-center-center;
   }
+  
+  &__footer {
+    @include flex-center-center;
+  }
+  
+  &__footer--on {
+    margin: 0 4em;
+    font-size: 12px;
+    color: #fff;
+    text-shadow:
+      0 0 6px rgba(213, 202, 228, 0.92),
+      0 0 30px rgba(213, 202, 228, 0.34),
+      0 0 12px rgba(137, 30, 242, 0.52),
+      0 0 21px rgba(137, 30, 242, 0.92),
+      0 0 34px rgba(127, 30, 242, 0.78),
+      0 0 54px rgba(117, 30, 242, 0.92);
+  }
+  
+  .fa-user-secret {
+    margin: 0 2px;
+  }
 }
 
 .private__btn--enter {
@@ -103,4 +124,9 @@
   height: 30px;
   font-weight: 300;
   text-align: center;
+}
+
+.messages-section-private {
+  height: 100%;
+  @include flex-column-end;
 }

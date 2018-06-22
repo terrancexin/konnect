@@ -357,7 +357,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 var bind = __webpack_require__(52);
-var isBuffer = __webpack_require__(124);
+var isBuffer = __webpack_require__(123);
 
 /*global toString:true*/
 
@@ -671,11 +671,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sendPrivateMessage = exports.getPrivateMessages = exports.unlockPrivateMessage = exports.handleTogglePrivatePWInput = exports.submitPrivatePassword = exports.toggleLock = exports.setFileName = exports.setImgSrc = exports.handleToggleGiphy = exports.fetchGiphy = exports.handleToggleEmoji = exports.isTyping = exports.clearNotices = exports.handleToggleMissedMsg = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = exports.removeErrorMessage = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
 
-var _axios = __webpack_require__(122);
+var _axios = __webpack_require__(121);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _socket = __webpack_require__(141);
+var _socket = __webpack_require__(140);
 
 var _socket2 = _interopRequireDefault(_socket);
 
@@ -1026,7 +1026,7 @@ var sendPrivateMessage = exports.sendPrivateMessage = function sendPrivateMessag
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(143);
+exports = module.exports = __webpack_require__(142);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -1492,15 +1492,15 @@ Emitter.prototype.hasListeners = function(event){
  * Module dependencies.
  */
 
-var keys = __webpack_require__(150);
+var keys = __webpack_require__(149);
 var hasBinary = __webpack_require__(62);
-var sliceBuffer = __webpack_require__(154);
-var after = __webpack_require__(155);
-var utf8 = __webpack_require__(156);
+var sliceBuffer = __webpack_require__(153);
+var after = __webpack_require__(154);
+var utf8 = __webpack_require__(155);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(158);
+  base64encoder = __webpack_require__(157);
 }
 
 /**
@@ -1558,7 +1558,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(159);
+var Blob = __webpack_require__(158);
 
 /**
  * Encodes a packet.
@@ -3022,7 +3022,7 @@ function warning(message) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(5);
-var normalizeHeaderName = __webpack_require__(126);
+var normalizeHeaderName = __webpack_require__(125);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -3129,7 +3129,7 @@ module.exports = defaults;
 
 var debug = __webpack_require__(7)('socket.io-parser');
 var Emitter = __webpack_require__(13);
-var binary = __webpack_require__(145);
+var binary = __webpack_require__(144);
 var isArray = __webpack_require__(21);
 var isBuf = __webpack_require__(58);
 
@@ -3547,7 +3547,7 @@ function error(msg) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(148);
+var hasCORS = __webpack_require__(147);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -5496,7 +5496,7 @@ module.exports = {
   TOGGLE_MISSED_MSG: 'TOGGLE_MISSED_MSG',
   TOGGLE_PRIVATE_PW_INPUT: 'TOGGLE_PRIVATE_PW_INPUT',
   UNLOCK_PRIVATE_PASSWORD: 'UNLOCK_PRIVATE_PASSWORD',
-  SOCKET_EVENTS: ['MESSAGE_SENT', 'STOPPED_TYPING', 'TYPING', 'USER_CONNECTED', 'USER_DISCONNECTED'],
+  SOCKET_EVENTS: ['MESSAGE_SENT', 'MESSAGE_SENT_PRIVATE', 'STOPPED_TYPING', 'TYPING', 'USER_CONNECTED', 'USER_DISCONNECTED'],
   USER_CONNECTED: 'USER_CONNECTED',
   USER_DISCONNECTED: 'USER_DISCONNECTED',
   GIPHY: {
@@ -5534,12 +5534,12 @@ module.exports = function bind(fn, thisArg) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(5);
-var settle = __webpack_require__(127);
-var buildURL = __webpack_require__(129);
-var parseHeaders = __webpack_require__(130);
-var isURLSameOrigin = __webpack_require__(131);
+var settle = __webpack_require__(126);
+var buildURL = __webpack_require__(128);
+var parseHeaders = __webpack_require__(129);
+var isURLSameOrigin = __webpack_require__(130);
 var createError = __webpack_require__(54);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(132);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(131);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -5636,7 +5636,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(133);
+      var cookies = __webpack_require__(132);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -5721,7 +5721,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(128);
+var enhanceError = __webpack_require__(127);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -5862,7 +5862,7 @@ function isBuf(obj) {
  * Module dependencies.
  */
 
-var eio = __webpack_require__(146);
+var eio = __webpack_require__(145);
 var Socket = __webpack_require__(65);
 var Emitter = __webpack_require__(13);
 var parser = __webpack_require__(31);
@@ -5870,7 +5870,7 @@ var on = __webpack_require__(66);
 var bind = __webpack_require__(67);
 var debug = __webpack_require__(7)('socket.io-client:manager');
 var indexOf = __webpack_require__(64);
-var Backoff = __webpack_require__(164);
+var Backoff = __webpack_require__(163);
 
 /**
  * IE6+ hasOwnProperty
@@ -6441,9 +6441,9 @@ Manager.prototype.onreconnect = function () {
  */
 
 var XMLHttpRequest = __webpack_require__(32);
-var XHR = __webpack_require__(149);
-var JSONP = __webpack_require__(160);
-var websocket = __webpack_require__(161);
+var XHR = __webpack_require__(148);
+var JSONP = __webpack_require__(159);
+var websocket = __webpack_require__(160);
 
 /**
  * Export transports.
@@ -6812,7 +6812,7 @@ function hasBinary (obj) {
   return false;
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150).Buffer))
 
 /***/ }),
 /* 63 */
@@ -6915,7 +6915,7 @@ module.exports = function(arr, obj){
 
 var parser = __webpack_require__(31);
 var Emitter = __webpack_require__(13);
-var toArray = __webpack_require__(163);
+var toArray = __webpack_require__(162);
 var on = __webpack_require__(66);
 var bind = __webpack_require__(67);
 var debug = __webpack_require__(7)('socket.io-client:socket');
@@ -7752,18 +7752,31 @@ var MessageSubmit = function (_Component) {
           imgSrc = _props.imgSrc,
           _props$user = _props.user,
           username = _props$user.username,
-          avatar = _props$user.avatar;
+          avatar = _props$user.avatar,
+          isMatchPrivatePassword = _props.isMatchPrivatePassword,
+          isLocked = _props.isLocked;
 
 
       this.props.handleToggleGiphy(false);
       this.props.handleToggleEmoji(false);
-      this.props.sendMessage({
-        userAvatar: avatar,
-        username: username,
-        text: text,
-        date: date,
-        imageMsg: imgSrc
-      });
+
+      if (isMatchPrivatePassword && !isLocked) {
+        this.props.sendPrivateMessage({
+          userAvatar: avatar,
+          username: username,
+          text: text,
+          date: date,
+          imageMsg: imgSrc
+        });
+      } else {
+        this.props.sendMessage({
+          userAvatar: avatar,
+          username: username,
+          text: text,
+          date: date,
+          imageMsg: imgSrc
+        });
+      }
 
       this.props.setImgSrc('');
       this.props.setFileName('');
@@ -7833,7 +7846,9 @@ var mapStateToProps = function mapStateToProps(state) {
     typing: state.typing,
     typingUsers: state.typingUsers,
     user: state.user,
-    verbs: state.verbs
+    verbs: state.verbs,
+    isMatchPrivatePassword: state.isMatchPrivatePassword,
+    isLocked: state.isLocked
   };
 };
 
@@ -7848,7 +7863,10 @@ MessageSubmit.propTypes = {
   isTyping: _propTypes2.default.func.isRequired,
   sendMessage: _propTypes2.default.func.isRequired,
   setImgSrc: _propTypes2.default.func.isRequired,
-  setFileName: _propTypes2.default.func.isRequired
+  setFileName: _propTypes2.default.func.isRequired,
+  sendPrivateMessage: _propTypes2.default.func.isRequired,
+  isMatchPrivatePassword: _propTypes2.default.bool.isRequired,
+  isLocked: _propTypes2.default.bool.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
@@ -7857,7 +7875,8 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   isTyping: _actions.isTyping,
   sendMessage: _actions.sendMessage,
   setImgSrc: _actions.setImgSrc,
-  setFileName: _actions.setFileName
+  setFileName: _actions.setFileName,
+  sendPrivateMessage: _actions.sendPrivateMessage
 })(MessageSubmit);
 
 /***/ }),
@@ -30194,7 +30213,7 @@ exports = module.exports = __webpack_require__(114)(false);
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\ninput[type=\"radio\"] {\n  visibility: hidden;\n  position: absolute; }\n\n.emoji {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 29px; }\n  .emoji-btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .emoji-btn:focus {\n      outline: none; }\n    .emoji-btn .fa-smile {\n      font-size: 17px; }\n    .emoji-btn:hover {\n      color: #4080ff; }\n\n.emoji-mart,\n.emoji-mart * {\n  box-sizing: border-box;\n  line-height: 1.15; }\n\n.emoji-mart {\n  font-family: -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  display: inline-block;\n  color: #222427;\n  border: 1px solid #d9d9d9;\n  border-radius: 5px;\n  background: #fff; }\n\n.emoji-mart .emoji-mart-emoji {\n  padding: 6px; }\n\n.emoji-mart-bar {\n  border: 0 solid #d9d9d9; }\n\n.emoji-mart-bar:first-child {\n  border-bottom-width: 1px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px; }\n\n.emoji-mart-bar:last-child {\n  border-top-width: 1px;\n  border-bottom-left-radius: 5px;\n  border-bottom-right-radius: 5px; }\n\n.emoji-mart-anchors {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 6px;\n  color: #858585;\n  line-height: 0; }\n\n.emoji-mart-anchor {\n  position: relative;\n  display: block;\n  flex: 1 1 auto;\n  text-align: center;\n  padding: 12px 4px;\n  overflow: hidden;\n  transition: color .1s ease-out; }\n\n.emoji-mart-anchor:hover,\n.emoji-mart-anchor-selected {\n  color: #464646; }\n\n.emoji-mart-anchor-selected .emoji-mart-anchor-bar {\n  bottom: 0; }\n\n.emoji-mart-anchor-bar {\n  position: absolute;\n  bottom: -3px;\n  left: 0;\n  width: 100%;\n  height: 3px;\n  background-color: #464646; }\n\n.emoji-mart-anchors i {\n  display: inline-block;\n  width: 100%;\n  max-width: 22px; }\n\n.emoji-mart-anchors svg {\n  fill: currentColor;\n  max-height: 18px; }\n\n.emoji-mart-scroll {\n  overflow-y: scroll;\n  height: 270px;\n  padding: 0 6px 6px 6px;\n  will-change: transform;\n  /* avoids \"repaints on scroll\" in mobile Chrome */ }\n\n.emoji-mart-search {\n  margin-top: 6px;\n  padding: 0 6px; }\n\n.emoji-mart-search input {\n  font-size: 16px;\n  display: block;\n  width: 100%;\n  padding: .2em .6em;\n  border-radius: 25px;\n  border: 1px solid #d9d9d9;\n  outline: 0; }\n\n.emoji-mart-category .emoji-mart-emoji span {\n  z-index: 1;\n  position: relative;\n  text-align: center;\n  cursor: pointer; }\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  z-index: 0;\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f4f4f4;\n  border-radius: 100%; }\n\n.emoji-mart-category-label {\n  z-index: 2;\n  position: relative;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0; }\n\n.emoji-mart-category-label span {\n  display: block;\n  width: 100%;\n  font-weight: 500;\n  padding: 5px 6px;\n  background-color: #fff;\n  background-color: rgba(255, 255, 255, 0.95); }\n\n.emoji-mart-emoji {\n  position: relative;\n  display: inline-block;\n  font-size: 0; }\n\n.emoji-mart-no-results {\n  font-size: 14px;\n  text-align: center;\n  padding-top: 70px;\n  color: #858585; }\n\n.emoji-mart-no-results .emoji-mart-category-label {\n  display: none; }\n\n.emoji-mart-no-results .emoji-mart-no-results-label {\n  margin-top: .2em; }\n\n.emoji-mart-no-results .emoji-mart-emoji:hover:before {\n  content: none; }\n\n.emoji-mart-preview {\n  position: relative;\n  height: 70px; }\n\n.emoji-mart-preview-emoji,\n.emoji-mart-preview-data,\n.emoji-mart-preview-skins {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%); }\n\n.emoji-mart-preview-emoji {\n  left: 12px; }\n\n.emoji-mart-preview-data {\n  left: 68px;\n  right: 12px;\n  word-break: break-all; }\n\n.emoji-mart-preview-skins {\n  right: 30px;\n  text-align: right; }\n\n.emoji-mart-preview-name {\n  font-size: 14px; }\n\n.emoji-mart-preview-shortname {\n  font-size: 12px;\n  color: #888; }\n\n.emoji-mart-preview-shortname + .emoji-mart-preview-shortname,\n.emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,\n.emoji-mart-preview-emoticon + .emoji-mart-preview-emoticon {\n  margin-left: .5em; }\n\n.emoji-mart-preview-emoticon {\n  font-size: 11px;\n  color: #bbb; }\n\n.emoji-mart-title span {\n  display: inline-block;\n  vertical-align: middle; }\n\n.emoji-mart-title .emoji-mart-emoji {\n  padding: 0; }\n\n.emoji-mart-title-label {\n  color: #999A9C;\n  font-size: 26px;\n  font-weight: 300; }\n\n.emoji-mart-skin-swatches {\n  font-size: 0;\n  padding: 2px 0;\n  border: 1px solid #d9d9d9;\n  border-radius: 12px;\n  background-color: #fff; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch {\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch-selected:after {\n  opacity: .75; }\n\n.emoji-mart-skin-swatch {\n  display: inline-block;\n  width: 0;\n  vertical-align: middle;\n  transition-property: width, padding;\n  transition-duration: .125s;\n  transition-timing-function: ease-out; }\n\n.emoji-mart-skin-swatch:nth-child(1) {\n  transition-delay: 0s; }\n\n.emoji-mart-skin-swatch:nth-child(2) {\n  transition-delay: .03s; }\n\n.emoji-mart-skin-swatch:nth-child(3) {\n  transition-delay: .06s; }\n\n.emoji-mart-skin-swatch:nth-child(4) {\n  transition-delay: .09s; }\n\n.emoji-mart-skin-swatch:nth-child(5) {\n  transition-delay: .12s; }\n\n.emoji-mart-skin-swatch:nth-child(6) {\n  transition-delay: .15s; }\n\n.emoji-mart-skin-swatch-selected {\n  position: relative;\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatch-selected:after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 4px;\n  height: 4px;\n  margin: -2px 0 0 -2px;\n  background-color: #fff;\n  border-radius: 100%;\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity .2s ease-out; }\n\n.emoji-mart-skin {\n  display: inline-block;\n  width: 100%;\n  padding-top: 100%;\n  max-width: 12px;\n  border-radius: 100%; }\n\n.emoji-mart-skin-tone-1 {\n  background-color: #ffc93a; }\n\n.emoji-mart-skin-tone-2 {\n  background-color: #fadcbc; }\n\n.emoji-mart-skin-tone-3 {\n  background-color: #e0bb95; }\n\n.emoji-mart-skin-tone-4 {\n  background-color: #bf8f68; }\n\n.emoji-mart-skin-tone-5 {\n  background-color: #9b643d; }\n\n.emoji-mart-skin-tone-6 {\n  background-color: #594539; }\n\n.giphy {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 10px; }\n  .giphy__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .giphy__btn:focus {\n      outline: none; }\n    .giphy__btn .fa-hand-peace {\n      font-size: 17px; }\n    .giphy__btn:hover {\n      color: #4080ff; }\n\n.giphy__picker {\n  position: absolute;\n  z-index: 1;\n  bottom: 25px;\n  right: 25px;\n  width: 300px;\n  height: 146px;\n  border: solid 1px #d9d9d9;\n  border-radius: 10px;\n  background: white;\n  box-shadow: 0 10px 17px rgba(0, 0, 0, 0.3); }\n\n.giphy__list {\n  display: flex;\n  flex-wrap: nowrap;\n  overflow-x: auto; }\n  .giphy__list::-webkit-scrollbar {\n    display: none; }\n\n.giphy__list--single {\n  flex: 0 0 auto; }\n  .giphy__list--single input + img {\n    margin: 3px;\n    border-radius: 5px;\n    border: solid 1px #d9d9d9;\n    cursor: pointer;\n    transition: all .3s ease-in; }\n    .giphy__list--single input + img:hover {\n      border: 3px solid #4080ff; }\n  .giphy__list--single input:checked + img {\n    border: 3px solid #4080ff; }\n\n.giphy__search {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n  .giphy__search input {\n    font-size: 14px;\n    width: 150px;\n    border-radius: 25px;\n    border: 1px solid #d9d9d9;\n    outline: 0;\n    margin: 5px 5px 5px 0;\n    padding: 3px; }\n    .giphy__search input::placeholder {\n      font-style: italic;\n      color: #e6ecf0; }\n  .giphy__search button {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 100px;\n    background-color: #4080ff;\n    border: solid 1px white;\n    font-size: 11px;\n    transition: all .3s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    border-radius: 15px; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:disabled {\n      background-color: lightgray;\n      color: gray; }\n\n.imageUpload {\n  position: absolute;\n  display: flex;\n  align-items: center;\n  z-index: 1;\n  top: 2px;\n  right: 49px; }\n  .imageUpload__input {\n    display: none; }\n  .imageUpload__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .imageUpload__btn:focus {\n      outline: none; }\n    .imageUpload__btn .fa-image {\n      font-size: 17px; }\n    .imageUpload__btn:hover {\n      color: #4080ff; }\n  .imageUpload__fileName--mobile, .imageUpload__fileName {\n    position: relative;\n    margin-right: 5px;\n    font-size: 11px;\n    font-style: italic;\n    color: #484848;\n    transition: all .3s ease-in;\n    cursor: zoom-in; }\n    .imageUpload__fileName--mobile img, .imageUpload__fileName img {\n      display: none; }\n    .imageUpload__fileName--mobile:hover img, .imageUpload__fileName:hover img {\n      display: flex;\n      position: absolute;\n      bottom: 32px;\n      right: 10px;\n      max-width: 200px;\n      max-height: 200px;\n      border: 3px solid white;\n      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n      border-radius: 10px; }\n  .imageUpload__fileName--mobile {\n    display: none; }\n  .imageUpload__btn--cancel {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 40px;\n    height: 16px;\n    color: #ef5d5d;\n    font-size: 10px;\n    font-style: italic; }\n    .imageUpload__btn--cancel:focus {\n      outline: none; }\n    .imageUpload__btn--cancel:hover {\n      color: #ce0909; }\n\n.privateLock {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  width: 100%; }\n  .privateLock__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: #e6ecf0;\n    margin: 1em auto; }\n    .privateLock__btn:focus {\n      outline: none; }\n    .privateLock__btn .fa-lock {\n      font-size: 15px; }\n    .privateLock__btn:hover {\n      color: #00ffbf; }\n  .privateLock__passwordInput {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    z-index: 5;\n    width: 100%;\n    background: rgba(0, 0, 0, 0.7);\n    transition: opacity .5s ease;\n    overflow: hidden;\n    opacity: 1;\n    top: 0;\n    bottom: 0; }\n    .privateLock__passwordInput input {\n      width: 7em;\n      border-top: none;\n      border-left: none;\n      border-right: none;\n      height: 30px;\n      line-height: 30px;\n      font-size: 2em;\n      text-align: center;\n      border-bottom: solid 2px #e6e6e6;\n      transition: all .3s ease-in;\n      padding: 10px;\n      color: white;\n      background-color: transparent; }\n      .privateLock__passwordInput input:focus {\n        border-bottom: solid 1px #4080ff;\n        outline: none; }\n      .privateLock__passwordInput input::placeholder {\n        font-style: italic;\n        color: #e6ecf0;\n        margin-bottom: 5px; }\n    .privateLock__passwordInput button {\n      background-color: transparent;\n      border: none;\n      transition: all .1s ease-in;\n      border-radius: 0;\n      margin: 0;\n      line-height: 0;\n      padding: 0;\n      width: 0; }\n      .privateLock__passwordInput button:focus {\n        outline: none; }\n  .privateLock__passwordInput--field {\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n\n.private__btn--enter {\n  color: lightgray;\n  margin-left: 10px; }\n  .private__btn--enter:hover {\n    color: #4080ff; }\n\n.private__btn--exit {\n  bottom: 0;\n  color: #e6ecf063;\n  font-size: 20px;\n  margin-right: 3px; }\n  .private__btn--exit:hover {\n    color: #d30303; }\n\n.comingsoon {\n  margin: auto;\n  font-size: 30px;\n  border: 1px solid lightgray;\n  border-radius: 10px;\n  padding: 100px; }\n\n.login-error--private {\n  color: #fd9696;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300;\n  text-align: center; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin: 1.5em 0;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 0 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    padding: 2px; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  position: relative;\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-img {\n  max-height: 200px;\n  max-width: 400px;\n  border-radius: 5px; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.avatar-img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 51px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.avatar-list {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.pick-avatar {\n  margin-top: 15px;\n  margin-bottom: 5px;\n  color: #4080ff;\n  font-weight: bold; }\n\n.radio-label input + img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px;\n  line-height: 35px;\n  cursor: pointer;\n  transition: all .3s ease-in;\n  filter: brightness(0.4); }\n  .radio-label input + img:hover {\n    filter: brightness(1); }\n\n.radio-label input:checked + img {\n  filter: brightness(1);\n  width: 35px;\n  height: 35px; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; }\n  .imageUpload__fileName {\n    display: none; }\n  .imageUpload__fileName--mobile {\n    display: flex; } }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\ninput[type=\"radio\"] {\n  visibility: hidden;\n  position: absolute; }\n\n.emoji {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 29px; }\n  .emoji-btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .emoji-btn:focus {\n      outline: none; }\n    .emoji-btn .fa-smile {\n      font-size: 17px; }\n    .emoji-btn:hover {\n      color: #4080ff; }\n\n.emoji-mart,\n.emoji-mart * {\n  box-sizing: border-box;\n  line-height: 1.15; }\n\n.emoji-mart {\n  font-family: -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  display: inline-block;\n  color: #222427;\n  border: 1px solid #d9d9d9;\n  border-radius: 5px;\n  background: #fff; }\n\n.emoji-mart .emoji-mart-emoji {\n  padding: 6px; }\n\n.emoji-mart-bar {\n  border: 0 solid #d9d9d9; }\n\n.emoji-mart-bar:first-child {\n  border-bottom-width: 1px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px; }\n\n.emoji-mart-bar:last-child {\n  border-top-width: 1px;\n  border-bottom-left-radius: 5px;\n  border-bottom-right-radius: 5px; }\n\n.emoji-mart-anchors {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 6px;\n  color: #858585;\n  line-height: 0; }\n\n.emoji-mart-anchor {\n  position: relative;\n  display: block;\n  flex: 1 1 auto;\n  text-align: center;\n  padding: 12px 4px;\n  overflow: hidden;\n  transition: color .1s ease-out; }\n\n.emoji-mart-anchor:hover,\n.emoji-mart-anchor-selected {\n  color: #464646; }\n\n.emoji-mart-anchor-selected .emoji-mart-anchor-bar {\n  bottom: 0; }\n\n.emoji-mart-anchor-bar {\n  position: absolute;\n  bottom: -3px;\n  left: 0;\n  width: 100%;\n  height: 3px;\n  background-color: #464646; }\n\n.emoji-mart-anchors i {\n  display: inline-block;\n  width: 100%;\n  max-width: 22px; }\n\n.emoji-mart-anchors svg {\n  fill: currentColor;\n  max-height: 18px; }\n\n.emoji-mart-scroll {\n  overflow-y: scroll;\n  height: 270px;\n  padding: 0 6px 6px 6px;\n  will-change: transform;\n  /* avoids \"repaints on scroll\" in mobile Chrome */ }\n\n.emoji-mart-search {\n  margin-top: 6px;\n  padding: 0 6px; }\n\n.emoji-mart-search input {\n  font-size: 16px;\n  display: block;\n  width: 100%;\n  padding: .2em .6em;\n  border-radius: 25px;\n  border: 1px solid #d9d9d9;\n  outline: 0; }\n\n.emoji-mart-category .emoji-mart-emoji span {\n  z-index: 1;\n  position: relative;\n  text-align: center;\n  cursor: pointer; }\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  z-index: 0;\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f4f4f4;\n  border-radius: 100%; }\n\n.emoji-mart-category-label {\n  z-index: 2;\n  position: relative;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0; }\n\n.emoji-mart-category-label span {\n  display: block;\n  width: 100%;\n  font-weight: 500;\n  padding: 5px 6px;\n  background-color: #fff;\n  background-color: rgba(255, 255, 255, 0.95); }\n\n.emoji-mart-emoji {\n  position: relative;\n  display: inline-block;\n  font-size: 0; }\n\n.emoji-mart-no-results {\n  font-size: 14px;\n  text-align: center;\n  padding-top: 70px;\n  color: #858585; }\n\n.emoji-mart-no-results .emoji-mart-category-label {\n  display: none; }\n\n.emoji-mart-no-results .emoji-mart-no-results-label {\n  margin-top: .2em; }\n\n.emoji-mart-no-results .emoji-mart-emoji:hover:before {\n  content: none; }\n\n.emoji-mart-preview {\n  position: relative;\n  height: 70px; }\n\n.emoji-mart-preview-emoji,\n.emoji-mart-preview-data,\n.emoji-mart-preview-skins {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%); }\n\n.emoji-mart-preview-emoji {\n  left: 12px; }\n\n.emoji-mart-preview-data {\n  left: 68px;\n  right: 12px;\n  word-break: break-all; }\n\n.emoji-mart-preview-skins {\n  right: 30px;\n  text-align: right; }\n\n.emoji-mart-preview-name {\n  font-size: 14px; }\n\n.emoji-mart-preview-shortname {\n  font-size: 12px;\n  color: #888; }\n\n.emoji-mart-preview-shortname + .emoji-mart-preview-shortname,\n.emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,\n.emoji-mart-preview-emoticon + .emoji-mart-preview-emoticon {\n  margin-left: .5em; }\n\n.emoji-mart-preview-emoticon {\n  font-size: 11px;\n  color: #bbb; }\n\n.emoji-mart-title span {\n  display: inline-block;\n  vertical-align: middle; }\n\n.emoji-mart-title .emoji-mart-emoji {\n  padding: 0; }\n\n.emoji-mart-title-label {\n  color: #999A9C;\n  font-size: 26px;\n  font-weight: 300; }\n\n.emoji-mart-skin-swatches {\n  font-size: 0;\n  padding: 2px 0;\n  border: 1px solid #d9d9d9;\n  border-radius: 12px;\n  background-color: #fff; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch {\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch-selected:after {\n  opacity: .75; }\n\n.emoji-mart-skin-swatch {\n  display: inline-block;\n  width: 0;\n  vertical-align: middle;\n  transition-property: width, padding;\n  transition-duration: .125s;\n  transition-timing-function: ease-out; }\n\n.emoji-mart-skin-swatch:nth-child(1) {\n  transition-delay: 0s; }\n\n.emoji-mart-skin-swatch:nth-child(2) {\n  transition-delay: .03s; }\n\n.emoji-mart-skin-swatch:nth-child(3) {\n  transition-delay: .06s; }\n\n.emoji-mart-skin-swatch:nth-child(4) {\n  transition-delay: .09s; }\n\n.emoji-mart-skin-swatch:nth-child(5) {\n  transition-delay: .12s; }\n\n.emoji-mart-skin-swatch:nth-child(6) {\n  transition-delay: .15s; }\n\n.emoji-mart-skin-swatch-selected {\n  position: relative;\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatch-selected:after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 4px;\n  height: 4px;\n  margin: -2px 0 0 -2px;\n  background-color: #fff;\n  border-radius: 100%;\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity .2s ease-out; }\n\n.emoji-mart-skin {\n  display: inline-block;\n  width: 100%;\n  padding-top: 100%;\n  max-width: 12px;\n  border-radius: 100%; }\n\n.emoji-mart-skin-tone-1 {\n  background-color: #ffc93a; }\n\n.emoji-mart-skin-tone-2 {\n  background-color: #fadcbc; }\n\n.emoji-mart-skin-tone-3 {\n  background-color: #e0bb95; }\n\n.emoji-mart-skin-tone-4 {\n  background-color: #bf8f68; }\n\n.emoji-mart-skin-tone-5 {\n  background-color: #9b643d; }\n\n.emoji-mart-skin-tone-6 {\n  background-color: #594539; }\n\n.giphy {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 10px; }\n  .giphy__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .giphy__btn:focus {\n      outline: none; }\n    .giphy__btn .fa-hand-peace {\n      font-size: 17px; }\n    .giphy__btn:hover {\n      color: #4080ff; }\n\n.giphy__picker {\n  position: absolute;\n  z-index: 1;\n  bottom: 25px;\n  right: 25px;\n  width: 300px;\n  height: 146px;\n  border: solid 1px #d9d9d9;\n  border-radius: 10px;\n  background: white;\n  box-shadow: 0 10px 17px rgba(0, 0, 0, 0.3); }\n\n.giphy__list {\n  display: flex;\n  flex-wrap: nowrap;\n  overflow-x: auto; }\n  .giphy__list::-webkit-scrollbar {\n    display: none; }\n\n.giphy__list--single {\n  flex: 0 0 auto; }\n  .giphy__list--single input + img {\n    margin: 3px;\n    border-radius: 5px;\n    border: solid 1px #d9d9d9;\n    cursor: pointer;\n    transition: all .3s ease-in; }\n    .giphy__list--single input + img:hover {\n      border: 3px solid #4080ff; }\n  .giphy__list--single input:checked + img {\n    border: 3px solid #4080ff; }\n\n.giphy__search {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n  .giphy__search input {\n    font-size: 14px;\n    width: 150px;\n    border-radius: 25px;\n    border: 1px solid #d9d9d9;\n    outline: 0;\n    margin: 5px 5px 5px 0;\n    padding: 3px; }\n    .giphy__search input::placeholder {\n      font-style: italic;\n      color: #e6ecf0; }\n  .giphy__search button {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 100px;\n    background-color: #4080ff;\n    border: solid 1px white;\n    font-size: 11px;\n    transition: all .3s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    border-radius: 15px; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:disabled {\n      background-color: lightgray;\n      color: gray; }\n\n.imageUpload {\n  position: absolute;\n  display: flex;\n  align-items: center;\n  z-index: 1;\n  top: 2px;\n  right: 49px; }\n  .imageUpload__input {\n    display: none; }\n  .imageUpload__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .imageUpload__btn:focus {\n      outline: none; }\n    .imageUpload__btn .fa-image {\n      font-size: 17px; }\n    .imageUpload__btn:hover {\n      color: #4080ff; }\n  .imageUpload__fileName--mobile, .imageUpload__fileName {\n    position: relative;\n    margin-right: 5px;\n    font-size: 11px;\n    font-style: italic;\n    color: #484848;\n    transition: all .3s ease-in;\n    cursor: zoom-in; }\n    .imageUpload__fileName--mobile img, .imageUpload__fileName img {\n      display: none; }\n    .imageUpload__fileName--mobile:hover img, .imageUpload__fileName:hover img {\n      display: flex;\n      position: absolute;\n      bottom: 32px;\n      right: 10px;\n      max-width: 200px;\n      max-height: 200px;\n      border: 3px solid white;\n      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n      border-radius: 10px; }\n  .imageUpload__fileName--mobile {\n    display: none; }\n  .imageUpload__btn--cancel {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 40px;\n    height: 16px;\n    color: #ef5d5d;\n    font-size: 10px;\n    font-style: italic; }\n    .imageUpload__btn--cancel:focus {\n      outline: none; }\n    .imageUpload__btn--cancel:hover {\n      color: #ce0909; }\n\n.privateLock {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  width: 100%; }\n  .privateLock__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: #e6ecf0;\n    margin: 1em auto; }\n    .privateLock__btn:focus {\n      outline: none; }\n    .privateLock__btn .fa-lock {\n      font-size: 15px; }\n    .privateLock__btn:hover {\n      color: #00ffbf; }\n  .privateLock__passwordInput {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    z-index: 5;\n    width: 100%;\n    background: rgba(0, 0, 0, 0.7);\n    transition: opacity .5s ease;\n    overflow: hidden;\n    opacity: 1;\n    top: 0;\n    bottom: 0; }\n    .privateLock__passwordInput input {\n      width: 7em;\n      border-top: none;\n      border-left: none;\n      border-right: none;\n      height: 30px;\n      line-height: 30px;\n      font-size: 2em;\n      text-align: center;\n      border-bottom: solid 2px #e6e6e6;\n      transition: all .3s ease-in;\n      padding: 10px;\n      color: white;\n      background-color: transparent; }\n      .privateLock__passwordInput input:focus {\n        border-bottom: solid 1px #4080ff;\n        outline: none; }\n      .privateLock__passwordInput input::placeholder {\n        font-style: italic;\n        color: #e6ecf0;\n        margin-bottom: 5px; }\n    .privateLock__passwordInput button {\n      background-color: transparent;\n      border: none;\n      transition: all .1s ease-in;\n      border-radius: 0;\n      margin: 0;\n      line-height: 0;\n      padding: 0;\n      width: 0; }\n      .privateLock__passwordInput button:focus {\n        outline: none; }\n  .privateLock__passwordInput--field {\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n  .privateLock__footer {\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n  .privateLock__footer--on {\n    margin: 0 4em;\n    font-size: 12px;\n    color: #fff;\n    text-shadow: 0 0 6px rgba(213, 202, 228, 0.92), 0 0 30px rgba(213, 202, 228, 0.34), 0 0 12px rgba(137, 30, 242, 0.52), 0 0 21px rgba(137, 30, 242, 0.92), 0 0 34px rgba(127, 30, 242, 0.78), 0 0 54px rgba(117, 30, 242, 0.92); }\n  .privateLock .fa-user-secret {\n    margin: 0 2px; }\n\n.private__btn--enter {\n  color: lightgray;\n  margin-left: 10px; }\n  .private__btn--enter:hover {\n    color: #4080ff; }\n\n.private__btn--exit {\n  bottom: 0;\n  color: #e6ecf063;\n  font-size: 20px;\n  margin-right: 3px; }\n  .private__btn--exit:hover {\n    color: #d30303; }\n\n.comingsoon {\n  margin: auto;\n  font-size: 30px;\n  border: 1px solid lightgray;\n  border-radius: 10px;\n  padding: 100px; }\n\n.login-error--private {\n  color: #fd9696;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300;\n  text-align: center; }\n\n.messages-section-private {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.login-page {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.login-header {\n  display: flex;\n  flex-direction: column; }\n\n.konnect-title {\n  margin-top: 1em;\n  font-size: 4em;\n  margin-bottom: 20px;\n  color: #4080ff; }\n\n.login-btns {\n  display: flex;\n  justify-content: center; }\n  .login-btns button.login-btn-on:hover {\n    background-color: #3973d5; }\n  .login-btns button.login-btn-off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login-btns button.login-btn-off:hover {\n      background-color: #3973d5; }\n\n.login-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  margin-top: 1.5em; }\n\n.login-error {\n  color: #d30303;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300; }\n\nbutton.enter {\n  margin-top: 1.5em; }\n  button.enter:hover {\n    background-color: #00ffbf;\n    color: #4080ff; }\n\nbutton.guest {\n  margin: 1.5em 0;\n  background-color: #00ffbf;\n  color: gray;\n  width: 116px;\n  font-size: 0.9em; }\n  button.guest:hover {\n    color: #00ffbf;\n    background-color: #484848; }\n\ninput.login {\n  width: 7em;\n  border-top: none;\n  border-left: none;\n  border-right: none;\n  height: 30px;\n  line-height: 30px;\n  font-size: 2em;\n  text-align: center;\n  border-bottom: solid 2px #e6e6e6;\n  transition: all .3s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: transparent; }\n  input.login:focus {\n    border-bottom: solid 1px #4080ff;\n    outline: none; }\n  input.login::placeholder {\n    font-style: italic;\n    color: #e6ecf0;\n    margin-bottom: 5px; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 0 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    padding: 2px; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  position: relative;\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-img {\n  max-height: 200px;\n  max-width: 400px;\n  border-radius: 5px; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.avatar-img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 51px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n.avatar-list {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.pick-avatar {\n  margin-top: 15px;\n  margin-bottom: 5px;\n  color: #4080ff;\n  font-weight: bold; }\n\n.radio-label input + img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px;\n  line-height: 35px;\n  cursor: pointer;\n  transition: all .3s ease-in;\n  filter: brightness(0.4); }\n  .radio-label input + img:hover {\n    filter: brightness(1); }\n\n.radio-label input:checked + img {\n  filter: brightness(1);\n  width: 35px;\n  height: 35px; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; }\n  .imageUpload__fileName {\n    display: none; }\n  .imageUpload__fileName--mobile {\n    display: flex; }\n  .privateLock__footer--on {\n    font-size: 11px; } }\n", ""]);
 
 // exports
 
@@ -30896,7 +30915,7 @@ var rootReducer = function rootReducer() {
       });
     case _constants.MESSAGE_SENT_PRIVATE:
       return _extends({}, state, {
-        messagesPrivate: [].concat(_toConsumableArray(state.messages), [payload])
+        messagesPrivate: [].concat(_toConsumableArray(state.messagesPrivate), [payload])
       });
     case _constants.LOADING:
       return _extends({}, state, {
@@ -31008,7 +31027,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _actions = __webpack_require__(6);
 
-var _LogIn = __webpack_require__(121);
+var _LogIn = __webpack_require__(164);
 
 var _LogIn2 = _interopRequireDefault(_LogIn);
 
@@ -31074,237 +31093,10 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
 /* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(4);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _actions = __webpack_require__(6);
-
-var _Form = __webpack_require__(165);
-
-var _Form2 = _interopRequireDefault(_Form);
-
-var _Footer = __webpack_require__(68);
-
-var _Footer2 = _interopRequireDefault(_Footer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var LogIn = function (_Component) {
-  _inherits(LogIn, _Component);
-
-  function LogIn(props) {
-    _classCallCheck(this, LogIn);
-
-    var _this = _possibleConstructorReturn(this, (LogIn.__proto__ || Object.getPrototypeOf(LogIn)).call(this, props));
-
-    _this.state = {
-      avatar: '',
-      username: '',
-      password: '',
-      passwordConfirmation: '',
-      toggleSignUp: true
-    };
-
-    _this.handleAvatar = _this.handleAvatar.bind(_this);
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleGuest = _this.handleGuest.bind(_this);
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.handleToggleSignUp = _this.handleToggleSignUp.bind(_this);
-    _this.typeValue = _this.typeValue.bind(_this);
-    return _this;
-  }
-
-  _createClass(LogIn, [{
-    key: 'handleAvatar',
-    value: function handleAvatar(avatar) {
-      this.setState({ avatar: avatar });
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(inputName) {
-      var _this2 = this;
-
-      return function (e) {
-        e.preventDefault();
-        _this2.setState(_defineProperty({}, inputName, e.target.value));
-        _this2.props.removeErrorMessage();
-      };
-    }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(e) {
-      e.preventDefault();
-      var _state = this.state,
-          avatar = _state.avatar,
-          username = _state.username,
-          password = _state.password,
-          passwordConfirmation = _state.passwordConfirmation;
-
-
-      if (this.state.toggleSignUp) {
-        this.props.signUpUser({
-          avatar: avatar,
-          username: username.trim(),
-          password: password,
-          passwordConfirmation: passwordConfirmation
-        });
-      } else {
-        this.props.logInUser({ username: username, password: password });
-      }
-    }
-  }, {
-    key: 'handleToggleSignUp',
-    value: function handleToggleSignUp(bool) {
-      var _this3 = this;
-
-      return function () {
-        _this3.props.removeErrorMessage();
-        _this3.setState({ toggleSignUp: bool });
-      };
-    }
-  }, {
-    key: 'handleGuest',
-    value: function handleGuest(e) {
-      var _this4 = this;
-
-      e.preventDefault();
-      this.setState({
-        username: '',
-        password: 'password',
-        toggleSignUp: false
-      }, function () {
-        _this4.typeValue('awesome guest', function () {
-          _this4.props.logInUser({
-            username: _this4.state.username,
-            password: _this4.state.password
-          });
-        });
-      });
-    }
-  }, {
-    key: 'typeValue',
-    value: function typeValue(guestName, logInCallback) {
-      var _this5 = this;
-
-      if (!guestName) return logInCallback();
-      this.setState({ username: this.state.username + guestName[0] });
-      setTimeout(function () {
-        _this5.typeValue(guestName.slice(1), logInCallback);
-      }, 100);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state2 = this.state,
-          username = _state2.username,
-          password = _state2.password,
-          passwordConfirmation = _state2.passwordConfirmation,
-          toggleSignUp = _state2.toggleSignUp;
-      var err = this.props.err;
-
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'login-page' },
-        _react2.default.createElement(
-          'section',
-          { className: 'login-header' },
-          _react2.default.createElement(
-            'h1',
-            { className: 'konnect-title' },
-            'Let\'s Konnect!'
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'login-btns' },
-            _react2.default.createElement(
-              'button',
-              {
-                className: 'login-btn-' + (toggleSignUp ? 'on' : 'off'),
-                onClick: this.handleToggleSignUp(true)
-              },
-              'Sign up'
-            ),
-            _react2.default.createElement(
-              'button',
-              {
-                className: 'login-btn-' + (!toggleSignUp ? 'on' : 'off'),
-                onClick: this.handleToggleSignUp(false)
-              },
-              'Log in'
-            )
-          )
-        ),
-        _react2.default.createElement(_Form2.default, {
-          handleAvatar: this.handleAvatar,
-          err: err,
-          handleChange: this.handleChange,
-          handleSubmit: this.handleSubmit,
-          password: password,
-          passwordConfirmation: passwordConfirmation,
-          toggleSignUp: toggleSignUp,
-          username: username,
-          handleGuest: this.handleGuest
-        }),
-        _react2.default.createElement(_Footer2.default, null)
-      );
-    }
-  }]);
-
-  return LogIn;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    err: state.err
-  };
-};
-
-LogIn.propTypes = {
-  err: _propTypes2.default.string.isRequired,
-  logInUser: _propTypes2.default.func.isRequired,
-  removeErrorMessage: _propTypes2.default.func.isRequired,
-  signUpUser: _propTypes2.default.func.isRequired
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  logInUser: _actions.logInUser,
-  removeErrorMessage: _actions.removeErrorMessage,
-  signUpUser: _actions.signUpUser
-})(LogIn);
+module.exports = __webpack_require__(122);
 
 /***/ }),
 /* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(123);
-
-/***/ }),
-/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31312,7 +31104,7 @@ module.exports = __webpack_require__(123);
 
 var utils = __webpack_require__(5);
 var bind = __webpack_require__(52);
-var Axios = __webpack_require__(125);
+var Axios = __webpack_require__(124);
 var defaults = __webpack_require__(30);
 
 /**
@@ -31347,14 +31139,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(56);
-axios.CancelToken = __webpack_require__(139);
+axios.CancelToken = __webpack_require__(138);
 axios.isCancel = __webpack_require__(55);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(140);
+axios.spread = __webpack_require__(139);
 
 module.exports = axios;
 
@@ -31363,7 +31155,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 124 */
+/* 123 */
 /***/ (function(module, exports) {
 
 /*!
@@ -31390,7 +31182,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 125 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31398,8 +31190,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(30);
 var utils = __webpack_require__(5);
-var InterceptorManager = __webpack_require__(134);
-var dispatchRequest = __webpack_require__(135);
+var InterceptorManager = __webpack_require__(133);
+var dispatchRequest = __webpack_require__(134);
 
 /**
  * Create a new instance of Axios
@@ -31476,7 +31268,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 126 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31495,7 +31287,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 127 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31528,7 +31320,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 128 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31556,7 +31348,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 129 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31629,7 +31421,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 130 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31689,7 +31481,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 131 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31764,7 +31556,7 @@ module.exports = (
 
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31807,7 +31599,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 133 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31867,7 +31659,7 @@ module.exports = (
 
 
 /***/ }),
-/* 134 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31926,18 +31718,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(5);
-var transformData = __webpack_require__(136);
+var transformData = __webpack_require__(135);
 var isCancel = __webpack_require__(55);
 var defaults = __webpack_require__(30);
-var isAbsoluteURL = __webpack_require__(137);
-var combineURLs = __webpack_require__(138);
+var isAbsoluteURL = __webpack_require__(136);
+var combineURLs = __webpack_require__(137);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -32019,7 +31811,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32046,7 +31838,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 137 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32067,7 +31859,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 138 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32088,7 +31880,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 139 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32152,7 +31944,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 140 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32186,7 +31978,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 141 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -32194,7 +31986,7 @@ module.exports = function spread(callback) {
  * Module dependencies.
  */
 
-var url = __webpack_require__(142);
+var url = __webpack_require__(141);
 var parser = __webpack_require__(31);
 var Manager = __webpack_require__(59);
 var debug = __webpack_require__(7)('socket.io-client');
@@ -32286,7 +32078,7 @@ exports.Socket = __webpack_require__(65);
 
 
 /***/ }),
-/* 142 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -32368,7 +32160,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 143 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -32384,7 +32176,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(144);
+exports.humanize = __webpack_require__(143);
 
 /**
  * Active `debug` instances.
@@ -32599,7 +32391,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 144 */
+/* 143 */
 /***/ (function(module, exports) {
 
 /**
@@ -32757,7 +32549,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 145 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -32905,11 +32697,11 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 146 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-module.exports = __webpack_require__(147);
+module.exports = __webpack_require__(146);
 
 /**
  * Exports parser
@@ -32921,7 +32713,7 @@ module.exports.parser = __webpack_require__(14);
 
 
 /***/ }),
-/* 147 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -33671,7 +33463,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 148 */
+/* 147 */
 /***/ (function(module, exports) {
 
 
@@ -33694,7 +33486,7 @@ try {
 
 
 /***/ }),
-/* 149 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -34113,7 +33905,7 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 150 */
+/* 149 */
 /***/ (function(module, exports) {
 
 
@@ -34138,7 +33930,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 151 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34152,8 +33944,8 @@ module.exports = Object.keys || function keys (obj){
 
 
 
-var base64 = __webpack_require__(152)
-var ieee754 = __webpack_require__(153)
+var base64 = __webpack_require__(151)
+var ieee754 = __webpack_require__(152)
 var isArray = __webpack_require__(21)
 
 exports.Buffer = Buffer
@@ -35935,7 +35727,7 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36093,7 +35885,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 153 */
+/* 152 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -36183,7 +35975,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 154 */
+/* 153 */
 /***/ (function(module, exports) {
 
 /**
@@ -36218,7 +36010,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 155 */
+/* 154 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -36252,7 +36044,7 @@ function noop() {}
 
 
 /***/ }),
-/* 156 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/utf8js v2.1.2 by @mathias */
@@ -36510,10 +36302,10 @@ function noop() {}
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(157)(module), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(156)(module), __webpack_require__(3)))
 
 /***/ }),
-/* 157 */
+/* 156 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -36541,7 +36333,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 158 */
+/* 157 */
 /***/ (function(module, exports) {
 
 /*
@@ -36614,7 +36406,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 159 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -36717,7 +36509,7 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 160 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -36955,7 +36747,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 161 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -36972,7 +36764,7 @@ var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(162);
+    NodeWebSocket = __webpack_require__(161);
   } catch (e) { }
 }
 
@@ -37248,13 +37040,13 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 162 */
+/* 161 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 163 */
+/* 162 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -37273,7 +37065,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 164 */
+/* 163 */
 /***/ (function(module, exports) {
 
 
@@ -37362,6 +37154,233 @@ Backoff.prototype.setJitter = function(jitter){
 };
 
 
+
+/***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(4);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _actions = __webpack_require__(6);
+
+var _Form = __webpack_require__(165);
+
+var _Form2 = _interopRequireDefault(_Form);
+
+var _Footer = __webpack_require__(68);
+
+var _Footer2 = _interopRequireDefault(_Footer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LogIn = function (_Component) {
+  _inherits(LogIn, _Component);
+
+  function LogIn(props) {
+    _classCallCheck(this, LogIn);
+
+    var _this = _possibleConstructorReturn(this, (LogIn.__proto__ || Object.getPrototypeOf(LogIn)).call(this, props));
+
+    _this.state = {
+      avatar: '',
+      username: '',
+      password: '',
+      passwordConfirmation: '',
+      toggleSignUp: true
+    };
+
+    _this.handleAvatar = _this.handleAvatar.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleGuest = _this.handleGuest.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleToggleSignUp = _this.handleToggleSignUp.bind(_this);
+    _this.typeValue = _this.typeValue.bind(_this);
+    return _this;
+  }
+
+  _createClass(LogIn, [{
+    key: 'handleAvatar',
+    value: function handleAvatar(avatar) {
+      this.setState({ avatar: avatar });
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(inputName) {
+      var _this2 = this;
+
+      return function (e) {
+        e.preventDefault();
+        _this2.setState(_defineProperty({}, inputName, e.target.value));
+        _this2.props.removeErrorMessage();
+      };
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      var _state = this.state,
+          avatar = _state.avatar,
+          username = _state.username,
+          password = _state.password,
+          passwordConfirmation = _state.passwordConfirmation;
+
+
+      if (this.state.toggleSignUp) {
+        this.props.signUpUser({
+          avatar: avatar,
+          username: username.trim(),
+          password: password,
+          passwordConfirmation: passwordConfirmation
+        });
+      } else {
+        this.props.logInUser({ username: username, password: password });
+      }
+    }
+  }, {
+    key: 'handleToggleSignUp',
+    value: function handleToggleSignUp(bool) {
+      var _this3 = this;
+
+      return function () {
+        _this3.props.removeErrorMessage();
+        _this3.setState({ toggleSignUp: bool });
+      };
+    }
+  }, {
+    key: 'handleGuest',
+    value: function handleGuest(e) {
+      var _this4 = this;
+
+      e.preventDefault();
+      this.setState({
+        username: '',
+        password: 'password',
+        toggleSignUp: false
+      }, function () {
+        _this4.typeValue('awesome guest', function () {
+          _this4.props.logInUser({
+            username: _this4.state.username,
+            password: _this4.state.password
+          });
+        });
+      });
+    }
+  }, {
+    key: 'typeValue',
+    value: function typeValue(guestName, logInCallback) {
+      var _this5 = this;
+
+      if (!guestName) return logInCallback();
+      this.setState({ username: this.state.username + guestName[0] });
+      setTimeout(function () {
+        _this5.typeValue(guestName.slice(1), logInCallback);
+      }, 100);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state2 = this.state,
+          username = _state2.username,
+          password = _state2.password,
+          passwordConfirmation = _state2.passwordConfirmation,
+          toggleSignUp = _state2.toggleSignUp;
+      var err = this.props.err;
+
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'login-page' },
+        _react2.default.createElement(
+          'section',
+          { className: 'login-header' },
+          _react2.default.createElement(
+            'h1',
+            { className: 'konnect-title' },
+            'Let\'s Konnect!'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'login-btns' },
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'login-btn-' + (toggleSignUp ? 'on' : 'off'),
+                onClick: this.handleToggleSignUp(true)
+              },
+              'Sign up'
+            ),
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'login-btn-' + (!toggleSignUp ? 'on' : 'off'),
+                onClick: this.handleToggleSignUp(false)
+              },
+              'Log in'
+            )
+          )
+        ),
+        _react2.default.createElement(_Form2.default, {
+          handleAvatar: this.handleAvatar,
+          err: err,
+          handleChange: this.handleChange,
+          handleSubmit: this.handleSubmit,
+          password: password,
+          passwordConfirmation: passwordConfirmation,
+          toggleSignUp: toggleSignUp,
+          username: username,
+          handleGuest: this.handleGuest
+        }),
+        _react2.default.createElement(_Footer2.default, null)
+      );
+    }
+  }]);
+
+  return LogIn;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    err: state.err
+  };
+};
+
+LogIn.propTypes = {
+  err: _propTypes2.default.string.isRequired,
+  logInUser: _propTypes2.default.func.isRequired,
+  removeErrorMessage: _propTypes2.default.func.isRequired,
+  signUpUser: _propTypes2.default.func.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, {
+  logInUser: _actions.logInUser,
+  removeErrorMessage: _actions.removeErrorMessage,
+  signUpUser: _actions.signUpUser
+})(LogIn);
 
 /***/ }),
 /* 165 */
@@ -37654,7 +37673,7 @@ var Chatroom = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'chatroom' },
+        { className: 'chatroom', id: 'chatroom' },
         _react2.default.createElement(
           'section',
           { className: 'chatroom-header' },
@@ -42290,17 +42309,34 @@ var PrivateLockBtn = function (_Component) {
       var _props = this.props,
           isLocked = _props.isLocked,
           err = _props.err,
-          privatePasswordInput = _props.privatePasswordInput;
+          privatePasswordInput = _props.privatePasswordInput,
+          isMatchPrivatePassword = _props.isMatchPrivatePassword;
 
 
       return _react2.default.createElement(
         'div',
         { className: 'privateLock' },
         _react2.default.createElement(
-          'button',
-          { onClick: this.handleClick, className: 'privateLock__btn' },
-          isLocked && _react2.default.createElement('i', { className: 'fas fa-lock' }),
-          !isLocked && _react2.default.createElement('i', { className: 'fas fa-unlock' })
+          'div',
+          { className: 'privateLock__footer' },
+          isMatchPrivatePassword && _react2.default.createElement(
+            'span',
+            { className: 'privateLock__footer--on' },
+            _react2.default.createElement('i', { className: 'fas fa-user-secret' }),
+            ' Private Mode'
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: this.handleClick, className: 'privateLock__btn' },
+            isLocked && _react2.default.createElement('i', { className: 'fas fa-lock' }),
+            !isLocked && _react2.default.createElement('i', { className: 'fas fa-unlock' })
+          ),
+          isMatchPrivatePassword && _react2.default.createElement(
+            'span',
+            { className: 'privateLock__footer--on' },
+            'Private Mode ',
+            _react2.default.createElement('i', { className: 'fas fa-user-secret' })
+          )
         ),
         privatePasswordInput && _react2.default.createElement(
           'div',
@@ -42319,7 +42355,7 @@ var PrivateLockBtn = function (_Component) {
               _react2.default.createElement('i', { className: 'fas fa-times-circle' })
             ),
             _react2.default.createElement('input', {
-              type: 'text',
+              type: 'password',
               onKeyDown: this.handleKeyDown,
               onChange: this.handleChange,
               value: this.state.privatePassword,
@@ -42344,7 +42380,8 @@ var mapStateToProps = function mapStateToProps(state) {
   return {
     isLocked: state.isLocked,
     err: state.err,
-    privatePasswordInput: state.privatePasswordInput
+    privatePasswordInput: state.privatePasswordInput,
+    isMatchPrivatePassword: state.isMatchPrivatePassword
   };
 };
 
@@ -42356,7 +42393,8 @@ PrivateLockBtn.propTypes = {
   err: _propTypes2.default.string.isRequired,
   handleTogglePrivatePWInput: _propTypes2.default.func.isRequired,
   privatePasswordInput: _propTypes2.default.bool.isRequired,
-  unlockPrivateMessage: _propTypes2.default.func.isRequired
+  unlockPrivateMessage: _propTypes2.default.func.isRequired,
+  isMatchPrivatePassword: _propTypes2.default.bool.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
@@ -42428,7 +42466,13 @@ var PrivateChat = function (_Component) {
   _createClass(PrivateChat, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      // this.props.getPrivateMessages();
+      document.getElementById('chatroom').style.backgroundColor = 'rgb(95, 98, 99)';
+      this.props.getPrivateMessages();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      document.getElementById('chatroom').style.backgroundColor = 'floralwhite';
     }
   }, {
     key: 'render',

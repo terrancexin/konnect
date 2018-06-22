@@ -80,7 +80,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case MESSAGE_SENT_PRIVATE:
       return {
         ...state,
-        messagesPrivate: [...state.messages, payload],
+        messagesPrivate: [...state.messagesPrivate, payload],
       };
     case LOADING:
       return {
