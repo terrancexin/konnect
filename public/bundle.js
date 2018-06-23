@@ -41690,22 +41690,37 @@ var Giphy = function (_Component) {
   _createClass(Giphy, [{
     key: 'handleGiphySelect',
     value: function handleGiphySelect(e) {
-      var _props$user = this.props.user,
+      var _props = this.props,
+          _props$user = _props.user,
           username = _props$user.username,
-          avatar = _props$user.avatar;
+          avatar = _props$user.avatar,
+          isLocked = _props.isLocked,
+          isMatchPrivatePassword = _props.isMatchPrivatePassword;
 
       var date = new Date();
       var imageMsg = e.target.value || '';
 
       if (imageMsg) {
         this.setState({ giphySelected: imageMsg });
-        this.props.sendMessage({
-          username: username,
-          userAvatar: avatar,
-          date: date,
-          imageMsg: imageMsg,
-          text: ''
-        });
+
+        if (isMatchPrivatePassword && !isLocked) {
+          this.props.sendPrivateMessage({
+            username: username,
+            userAvatar: avatar,
+            date: date,
+            imageMsg: imageMsg,
+            text: ''
+          });
+        } else {
+          this.props.sendMessage({
+            username: username,
+            userAvatar: avatar,
+            date: date,
+            imageMsg: imageMsg,
+            text: ''
+          });
+        }
+
         this.props.handleToggleGiphy(false);
       }
     }
@@ -41771,9 +41786,9 @@ var Giphy = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          giphy = _props.giphy,
-          toggleGiphy = _props.toggleGiphy;
+      var _props2 = this.props,
+          giphy = _props2.giphy,
+          toggleGiphy = _props2.toggleGiphy;
       var giphySearch = this.state.giphySearch;
 
 
@@ -41825,7 +41840,9 @@ var mapStateToProps = function mapStateToProps(state) {
   return {
     giphy: state.giphy,
     toggleGiphy: state.toggleGiphy,
-    user: state.user
+    user: state.user,
+    isMatchPrivatePassword: state.isMatchPrivatePassword,
+    isLocked: state.isLocked
   };
 };
 
@@ -41835,7 +41852,10 @@ Giphy.propTypes = {
   handleToggleEmoji: _propTypes2.default.func.isRequired,
   handleToggleGiphy: _propTypes2.default.func.isRequired,
   sendMessage: _propTypes2.default.func.isRequired,
+  sendPrivateMessage: _propTypes2.default.func.isRequired,
   toggleGiphy: _propTypes2.default.bool.isRequired,
+  isMatchPrivatePassword: _propTypes2.default.bool.isRequired,
+  isLocked: _propTypes2.default.bool.isRequired,
   user: _propTypes2.default.object.isRequired
 };
 
@@ -41843,7 +41863,8 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   fetchGiphy: _actions.fetchGiphy,
   handleToggleEmoji: _actions.handleToggleEmoji,
   handleToggleGiphy: _actions.handleToggleGiphy,
-  sendMessage: _actions.sendMessage
+  sendMessage: _actions.sendMessage,
+  sendPrivateMessage: _actions.sendPrivateMessage
 })(Giphy);
 
 /***/ }),

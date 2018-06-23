@@ -7,6 +7,7 @@ import {
   handleToggleEmoji,
   handleToggleGiphy,
   sendMessage,
+  sendPrivateMessage,
 } from '../../actions';
 
 class Giphy extends Component {
@@ -26,19 +27,35 @@ class Giphy extends Component {
   }
 
   handleGiphySelect(e) {
-    const { username, avatar } = this.props.user;
+    const {
+      user: { username, avatar },
+      isLocked,
+      isMatchPrivatePassword,
+    } = this.props;
     const date = new Date();
     const imageMsg = e.target.value || '';
 
     if (imageMsg) {
       this.setState({ giphySelected: imageMsg });
-      this.props.sendMessage({
-        username,
-        userAvatar: avatar,
-        date,
-        imageMsg,
-        text: '',
-      });
+
+      if (isMatchPrivatePassword && !isLocked) {
+        this.props.sendPrivateMessage({
+          username,
+          userAvatar: avatar,
+          date,
+          imageMsg,
+          text: '',
+        });
+      } else {
+        this.props.sendMessage({
+          username,
+          userAvatar: avatar,
+          date,
+          imageMsg,
+          text: '',
+        });
+      }
+
       this.props.handleToggleGiphy(false);
     }
   }
@@ -134,6 +151,8 @@ const mapStateToProps = state => ({
   giphy: state.giphy,
   toggleGiphy: state.toggleGiphy,
   user: state.user,
+  isMatchPrivatePassword: state.isMatchPrivatePassword,
+  isLocked: state.isLocked,
 });
 
 Giphy.propTypes = {
@@ -142,7 +161,10 @@ Giphy.propTypes = {
   handleToggleEmoji: PropTypes.func.isRequired,
   handleToggleGiphy: PropTypes.func.isRequired,
   sendMessage: PropTypes.func.isRequired,
+  sendPrivateMessage: PropTypes.func.isRequired,
   toggleGiphy: PropTypes.bool.isRequired,
+  isMatchPrivatePassword: PropTypes.bool.isRequired,
+  isLocked: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };
 
@@ -151,4 +173,5 @@ export default connect(mapStateToProps, {
   handleToggleEmoji,
   handleToggleGiphy,
   sendMessage,
+  sendPrivateMessage,
 })(Giphy);
