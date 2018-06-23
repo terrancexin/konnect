@@ -5,7 +5,9 @@ const {
   MESSAGE_SENT,
   MESSAGE_SENT_PRIVATE,
   STOPPED_TYPING,
+  STOPPED_TYPING_PRIVATE,
   TYPING,
+  TYPING_PRIVATE,
   USER_CONNECTED,
 } = require('../../constants');
 const UserModel = require('../models/user');
@@ -57,5 +59,13 @@ module.exports = (socket) => {
 
   socket.on(STOPPED_TYPING, (username) => {
     io.emit(STOPPED_TYPING, username);
+  });
+
+  socket.on(TYPING_PRIVATE, (username) => {
+    socket.broadcast.emit(TYPING_PRIVATE, username);
+  });
+
+  socket.on(STOPPED_TYPING_PRIVATE, (username) => {
+    io.emit(STOPPED_TYPING_PRIVATE, username);
   });
 };

@@ -669,7 +669,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sendPrivateMessage = exports.getPrivateMessages = exports.unlockPrivateMessage = exports.handleTogglePrivatePWInput = exports.submitPrivatePassword = exports.toggleLock = exports.setFileName = exports.setImgSrc = exports.handleToggleGiphy = exports.fetchGiphy = exports.handleToggleEmoji = exports.isTyping = exports.clearNotices = exports.handleToggleMissedMsg = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = exports.removeErrorMessage = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
+exports.sendPrivateMessage = exports.getPrivateMessages = exports.unlockPrivateMessage = exports.handleTogglePrivatePWInput = exports.submitPrivatePassword = exports.toggleLock = exports.setFileName = exports.setImgSrc = exports.handleToggleGiphy = exports.fetchGiphy = exports.handleToggleEmoji = exports.isTypingPrivate = exports.isTyping = exports.clearNotices = exports.handleToggleMissedMsg = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = exports.removeErrorMessage = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
 
 var _axios = __webpack_require__(121);
 
@@ -883,6 +883,16 @@ var isTyping = exports.isTyping = function isTyping(username, bool) {
       socket.emit(_constants.TYPING, username);
     } else {
       socket.emit(_constants.STOPPED_TYPING, username);
+    }
+  };
+};
+
+var isTypingPrivate = exports.isTypingPrivate = function isTypingPrivate(username, bool) {
+  return function () {
+    if (bool) {
+      socket.emit(_constants.TYPING_PRIVATE, username);
+    } else {
+      socket.emit(_constants.STOPPED_TYPING_PRIVATE, username);
     }
   };
 };
@@ -5489,14 +5499,16 @@ module.exports = {
   SET_FILE_NAME: 'SET_FILE_NAME',
   SET_IMAGE_SRC: 'SET_IMAGE_SRC',
   STOPPED_TYPING: 'STOPPED_TYPING',
+  STOPPED_TYPING_PRIVATE: 'STOPPED_TYPING_PRIVATE',
   TYPING: 'TYPING',
+  TYPING_PRIVATE: 'TYPING_PRIVATE',
   TOGGLE_GIPHY: 'TOGGLE_GIPHY',
   TOGGLE_EMOJI: 'TOGGLE_EMOJI',
   TOGGLE_LOCK: 'TOGGLE_LOCK',
   TOGGLE_MISSED_MSG: 'TOGGLE_MISSED_MSG',
   TOGGLE_PRIVATE_PW_INPUT: 'TOGGLE_PRIVATE_PW_INPUT',
   UNLOCK_PRIVATE_PASSWORD: 'UNLOCK_PRIVATE_PASSWORD',
-  SOCKET_EVENTS: ['MESSAGE_SENT', 'MESSAGE_SENT_PRIVATE', 'STOPPED_TYPING', 'TYPING', 'USER_CONNECTED', 'USER_DISCONNECTED'],
+  SOCKET_EVENTS: ['MESSAGE_SENT', 'MESSAGE_SENT_PRIVATE', 'STOPPED_TYPING', 'STOPPED_TYPING_PRIVATE', 'TYPING', 'TYPING_PRIVATE', 'USER_CONNECTED', 'USER_DISCONNECTED'],
   USER_CONNECTED: 'USER_CONNECTED',
   USER_DISCONNECTED: 'USER_DISCONNECTED',
   GIPHY: {
@@ -7718,15 +7730,25 @@ var MessageSubmit = function (_Component) {
     value: function handleChange(e) {
       var _this2 = this;
 
-      var username = this.props.user.username;
+      var _props = this.props,
+          isMatchPrivatePassword = _props.isMatchPrivatePassword,
+          username = _props.user.username;
+
 
       var text = e.target.value || '';
-
-      clearTimeout(this.handleTypingTime);
-      this.props.isTyping(username, true);
-      this.handleTypingTime = setTimeout(function () {
-        _this2.props.isTyping(username, false);
-      }, 2000);
+      if (!isMatchPrivatePassword) {
+        clearTimeout(this.handleTypingTime);
+        this.props.isTyping(username, true);
+        this.handleTypingTime = setTimeout(function () {
+          _this2.props.isTyping(username, false);
+        }, 2000);
+      } else {
+        clearTimeout(this.handleTypingTime);
+        this.props.isTypingPrivate(username, true);
+        this.handleTypingTime = setTimeout(function () {
+          _this2.props.isTypingPrivate(username, false);
+        }, 2000);
+      }
 
       this.setState({ text: text, textCount: text.length });
     }
@@ -7748,20 +7770,19 @@ var MessageSubmit = function (_Component) {
       var _state = this.state,
           text = _state.text,
           date = _state.date;
-      var _props = this.props,
-          imgSrc = _props.imgSrc,
-          _props$user = _props.user,
-          username = _props$user.username,
-          avatar = _props$user.avatar,
-          isMatchPrivatePassword = _props.isMatchPrivatePassword,
-          isLocked = _props.isLocked;
+      var _props2 = this.props,
+          imgSrc = _props2.imgSrc,
+          isMatchPrivatePassword = _props2.isMatchPrivatePassword,
+          _props2$user = _props2.user,
+          username = _props2$user.username,
+          avatar = _props2$user.avatar;
 
 
       this.props.handleToggleGiphy(false);
       this.props.handleToggleEmoji(false);
 
-      if (isMatchPrivatePassword && !isLocked) {
-        this.props.sendPrivateMessage({
+      if (!isMatchPrivatePassword) {
+        this.props.sendMessage({
           userAvatar: avatar,
           username: username,
           text: text,
@@ -7769,7 +7790,7 @@ var MessageSubmit = function (_Component) {
           imageMsg: imgSrc
         });
       } else {
-        this.props.sendMessage({
+        this.props.sendPrivateMessage({
           userAvatar: avatar,
           username: username,
           text: text,
@@ -7790,17 +7811,22 @@ var MessageSubmit = function (_Component) {
       var _state2 = this.state,
           text = _state2.text,
           textCount = _state2.textCount;
-      var _props2 = this.props,
-          typing = _props2.typing,
-          typingUsers = _props2.typingUsers,
-          verbs = _props2.verbs,
-          imgSrc = _props2.imgSrc;
+      var _props3 = this.props,
+          typing = _props3.typing,
+          typingPrivate = _props3.typingPrivate,
+          typingUsers = _props3.typingUsers,
+          typingUsersPrivate = _props3.typingUsersPrivate,
+          verbs = _props3.verbs,
+          imgSrc = _props3.imgSrc,
+          isMatchPrivatePassword = _props3.isMatchPrivatePassword,
+          isLocked = _props3.isLocked;
 
 
       return _react2.default.createElement(
         'form',
         { onSubmit: this.handleSubmit, className: 'message-form' },
-        _react2.default.createElement(_Typing2.default, { typing: typing, typingUsers: typingUsers, verbs: verbs }),
+        isMatchPrivatePassword && !isLocked && _react2.default.createElement(_Typing2.default, { typing: typingPrivate, typingUsers: typingUsersPrivate, verbs: verbs }),
+        !isMatchPrivatePassword && _react2.default.createElement(_Typing2.default, { typing: typing, typingUsers: typingUsers, verbs: verbs }),
         _react2.default.createElement(_Emoji2.default, { addEmoji: this.addEmoji }),
         _react2.default.createElement(_Giphy2.default, null),
         _react2.default.createElement(_ImageUpload2.default, null),
@@ -7844,7 +7870,9 @@ var mapStateToProps = function mapStateToProps(state) {
   return {
     imgSrc: state.imgSrc,
     typing: state.typing,
+    typingPrivate: state.typingPrivate,
     typingUsers: state.typingUsers,
+    typingUsersPrivate: state.typingUsersPrivate,
     user: state.user,
     verbs: state.verbs,
     isMatchPrivatePassword: state.isMatchPrivatePassword,
@@ -7855,12 +7883,15 @@ var mapStateToProps = function mapStateToProps(state) {
 MessageSubmit.propTypes = {
   imgSrc: _propTypes2.default.string.isRequired,
   typing: _propTypes2.default.bool.isRequired,
+  typingPrivate: _propTypes2.default.bool.isRequired,
   typingUsers: _propTypes2.default.array.isRequired,
+  typingUsersPrivate: _propTypes2.default.array.isRequired,
   user: _propTypes2.default.object.isRequired,
   verbs: _propTypes2.default.string.isRequired,
   handleToggleEmoji: _propTypes2.default.func.isRequired,
   handleToggleGiphy: _propTypes2.default.func.isRequired,
   isTyping: _propTypes2.default.func.isRequired,
+  isTypingPrivate: _propTypes2.default.func.isRequired,
   sendMessage: _propTypes2.default.func.isRequired,
   setImgSrc: _propTypes2.default.func.isRequired,
   setFileName: _propTypes2.default.func.isRequired,
@@ -7873,6 +7904,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   handleToggleEmoji: _actions.handleToggleEmoji,
   handleToggleGiphy: _actions.handleToggleGiphy,
   isTyping: _actions.isTyping,
+  isTypingPrivate: _actions.isTypingPrivate,
   sendMessage: _actions.sendMessage,
   setImgSrc: _actions.setImgSrc,
   setFileName: _actions.setFileName,
@@ -30877,7 +30909,9 @@ var initialState = {
   toggleGiphy: false,
   isLocked: true,
   typing: false,
+  typingPrivate: false,
   typingUsers: [],
+  typingUsersPrivate: [],
   username: '',
   user: null,
   users: [],
@@ -30947,6 +30981,13 @@ var rootReducer = function rootReducer() {
           return username !== payload;
         })
       });
+    case _constants.STOPPED_TYPING_PRIVATE:
+      return _extends({}, state, {
+        typingPrivate: false,
+        typingUsersPrivate: state.typingUsersPrivate.filter(function (username) {
+          return username !== payload;
+        })
+      });
     case _constants.TOGGLE_GIPHY:
       return _extends({}, state, {
         toggleGiphy: payload
@@ -30972,6 +31013,12 @@ var rootReducer = function rootReducer() {
         typing: true,
         typingUsers: state.typingUsers.includes(payload) ? state.typingUsers : [].concat(_toConsumableArray(state.typingUsers), [payload]),
         verbs: state.typingUsers.length > 1 ? 'are' : 'is'
+      });
+    case _constants.TYPING_PRIVATE:
+      return _extends({}, state, {
+        typingPrivate: true,
+        typingUsersPrivate: state.typingUsersPrivate.includes(payload) ? state.typingUsersPrivate : [].concat(_toConsumableArray(state.typingUsersPrivate), [payload]),
+        verbs: state.typingUsersPrivate.length > 1 ? 'are' : 'is'
       });
     case _constants.USER_CONNECTED:
       return _extends({}, state, {
