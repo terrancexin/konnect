@@ -6,6 +6,7 @@ import {
   handleToggleEmoji,
   handleToggleGiphy,
   isTyping,
+  isTypingPrivate,
   sendMessage,
   setImgSrc,
   setFileName,
@@ -44,14 +45,25 @@ class MessageSubmit extends Component {
   }
 
   handleChange(e) {
-    const { username } = this.props.user;
-    const text = e.target.value || '';
+    const {
+      isMatchPrivatePassword,
+      user: { username },
+    } = this.props;
 
-    clearTimeout(this.handleTypingTime);
-    this.props.isTyping(username, true);
-    this.handleTypingTime = setTimeout(() => {
-      this.props.isTyping(username, false);
-    }, 2000);
+    const text = e.target.value || '';
+    if (!isMatchPrivatePassword) {
+      clearTimeout(this.handleTypingTime);
+      this.props.isTyping(username, true);
+      this.handleTypingTime = setTimeout(() => {
+        this.props.isTyping(username, false);
+      }, 2000);
+    } else {
+      clearTimeout(this.handleTypingTime);
+      this.props.isTypingPrivate(username, true);
+      this.handleTypingTime = setTimeout(() => {
+        this.props.isTypingPrivate(username, false);
+      }, 2000);
+    }
 
     this.setState({ text, textCount: text.length });
   }
@@ -70,16 +82,15 @@ class MessageSubmit extends Component {
     const { text, date } = this.state;
     const {
       imgSrc,
-      user: { username, avatar },
       isMatchPrivatePassword,
-      isLocked,
+      user: { username, avatar },
     } = this.props;
 
     this.props.handleToggleGiphy(false);
     this.props.handleToggleEmoji(false);
 
-    if (isMatchPrivatePassword && !isLocked) {
-      this.props.sendPrivateMessage({
+    if (!isMatchPrivatePassword) {
+      this.props.sendMessage({
         userAvatar: avatar,
         username,
         text,
@@ -87,7 +98,7 @@ class MessageSubmit extends Component {
         imageMsg: imgSrc,
       });
     } else {
-      this.props.sendMessage({
+      this.props.sendPrivateMessage({
         userAvatar: avatar,
         username,
         text,
@@ -108,14 +119,23 @@ class MessageSubmit extends Component {
     const { text, textCount } = this.state;
     const {
       typing,
+      typingPrivate,
       typingUsers,
+      typingUsersPrivate,
       verbs,
       imgSrc,
+      isMatchPrivatePassword,
+      isLocked,
     } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit} className="message-form">
-        <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
+        {isMatchPrivatePassword && !isLocked && (
+          <Typing typing={typingPrivate} typingUsers={typingUsersPrivate} verbs={verbs} />
+        )}
+        {!isMatchPrivatePassword && (
+          <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
+        )}
         <EmojiPicker addEmoji={this.addEmoji} />
         <Giphy />
         <ImageUpload />
@@ -148,7 +168,9 @@ class MessageSubmit extends Component {
 const mapStateToProps = state => ({
   imgSrc: state.imgSrc,
   typing: state.typing,
+  typingPrivate: state.typingPrivate,
   typingUsers: state.typingUsers,
+  typingUsersPrivate: state.typingUsersPrivate,
   user: state.user,
   verbs: state.verbs,
   isMatchPrivatePassword: state.isMatchPrivatePassword,
@@ -158,12 +180,15 @@ const mapStateToProps = state => ({
 MessageSubmit.propTypes = {
   imgSrc: PropTypes.string.isRequired,
   typing: PropTypes.bool.isRequired,
+  typingPrivate: PropTypes.bool.isRequired,
   typingUsers: PropTypes.array.isRequired,
+  typingUsersPrivate: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   verbs: PropTypes.string.isRequired,
   handleToggleEmoji: PropTypes.func.isRequired,
   handleToggleGiphy: PropTypes.func.isRequired,
   isTyping: PropTypes.func.isRequired,
+  isTypingPrivate: PropTypes.func.isRequired,
   sendMessage: PropTypes.func.isRequired,
   setImgSrc: PropTypes.func.isRequired,
   setFileName: PropTypes.func.isRequired,
@@ -176,6 +201,7 @@ export default connect(mapStateToProps, {
   handleToggleEmoji,
   handleToggleGiphy,
   isTyping,
+  isTypingPrivate,
   sendMessage,
   setImgSrc,
   setFileName,
