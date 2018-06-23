@@ -14,8 +14,10 @@ import {
   MESSAGE_SENT_PRIVATE,
   RECEIVE_GIPHY,
   STOPPED_TYPING,
+  STOPPED_TYPING_PRIVATE,
   SOCKET_EVENTS,
   TYPING,
+  TYPING_PRIVATE,
   TOGGLE_EMOJI,
   TOGGLE_GIPHY,
   TOGGLE_MISSED_MSG,
@@ -202,6 +204,14 @@ export const isTyping = (username, bool) => () => {
     socket.emit(TYPING, username);
   } else {
     socket.emit(STOPPED_TYPING, username);
+  }
+};
+
+export const isTypingPrivate = (username, bool) => () => {
+  if (bool) {
+    socket.emit(TYPING_PRIVATE, username);
+  } else {
+    socket.emit(STOPPED_TYPING_PRIVATE, username);
   }
 };
 
