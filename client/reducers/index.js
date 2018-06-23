@@ -12,11 +12,13 @@ import {
   LOGOUT,
   RECEIVE_GIPHY,
   STOPPED_TYPING,
+  STOPPED_TYPING_PRIVATE,
   TOGGLE_GIPHY,
   TOGGLE_EMOJI,
   TOGGLE_MISSED_MSG,
   TOGGLE_PRIVATE_PW_INPUT,
   TYPING,
+  TYPING_PRIVATE,
   USER_CONNECTED,
   USER_DISCONNECTED,
   SET_IMAGE_SRC,
@@ -41,7 +43,9 @@ const initialState = {
   toggleGiphy: false,
   isLocked: true,
   typing: false,
+  typingPrivate: false,
   typingUsers: [],
+  typingUsersPrivate: [],
   username: '',
   user: null,
   users: [],
@@ -116,6 +120,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
         typing: false,
         typingUsers: state.typingUsers.filter(username => username !== payload),
       };
+    case STOPPED_TYPING_PRIVATE:
+      return {
+        ...state,
+        typingPrivate: false,
+        typingUsersPrivate: state.typingUsersPrivate.filter(username => username !== payload),
+      };
     case TOGGLE_GIPHY:
       return {
         ...state,
@@ -149,6 +159,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
           ? state.typingUsers
           : [...state.typingUsers, payload],
         verbs: state.typingUsers.length > 1 ? 'are' : 'is',
+      };
+    case TYPING_PRIVATE:
+      return {
+        ...state,
+        typingPrivate: true,
+        typingUsersPrivate: state.typingUsersPrivate.includes(payload)
+          ? state.typingUsersPrivate
+          : [...state.typingUsersPrivate, payload],
+        verbs: state.typingUsersPrivate.length > 1 ? 'are' : 'is',
       };
     case USER_CONNECTED:
       return {
