@@ -1,4 +1,4 @@
-# Konnect
+# Konnect [(LIVE)](https://konnect-chat.herokuapp.com/)
 ###### Konnect is a real-time chat app. If you're passionate about something, why do it alone? Let's Konnect!
 ![screenshot](./docs/demo.png)
 
@@ -57,6 +57,7 @@ Build real-time chat functionality
 - User can search for giphys
 - User can upload an image
 - User can preview the image before sending
+- Private chat room
 
 ## User Stories
 - As a user, I want to authenticate my username and password.
