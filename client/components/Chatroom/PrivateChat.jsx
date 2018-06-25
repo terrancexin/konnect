@@ -12,11 +12,13 @@ import UserSection from './UserSection';
 class PrivateChat extends Component {
   componentDidMount() {
     document.getElementById('chatroom').style.backgroundColor = 'rgb(95, 98, 99)';
+    document.getElementById('bg').style.backgroundColor = 'rgb(95, 98, 99)';
     this.props.getPrivateMessages();
   }
 
   componentWillUnmount() {
     document.getElementById('chatroom').style.backgroundColor = 'floralwhite';
+    document.getElementById('bg').style.backgroundColor = 'floralwhite';
   }
 
   render() {

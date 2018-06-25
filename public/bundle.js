@@ -42535,12 +42535,14 @@ var PrivateChat = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       document.getElementById('chatroom').style.backgroundColor = 'rgb(95, 98, 99)';
+      document.getElementById('bg').style.backgroundColor = 'rgb(95, 98, 99)';
       this.props.getPrivateMessages();
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       document.getElementById('chatroom').style.backgroundColor = 'floralwhite';
+      document.getElementById('bg').style.backgroundColor = 'floralwhite';
     }
   }, {
     key: 'render',
