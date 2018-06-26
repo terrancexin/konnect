@@ -7,10 +7,9 @@ import {
   isTyping,
   isTypingPrivate,
   sendMessage,
-  setImgSrc,
-  setFileName,
   sendPrivateMessage,
 } from '../../actions';
+import { setImgSrc, setFileName } from '../../actions/image';
 import { handleToggleEmoji } from '../../actions/emoji';
 
 import EmojiPicker from './Emoji';

@@ -7659,6 +7659,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _actions = __webpack_require__(6);
 
+var _image = __webpack_require__(208);
+
 var _emoji = __webpack_require__(207);
 
 var _Emoji = __webpack_require__(176);
@@ -7900,8 +7902,8 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   isTyping: _actions.isTyping,
   isTypingPrivate: _actions.isTypingPrivate,
   sendMessage: _actions.sendMessage,
-  setImgSrc: _actions.setImgSrc,
-  setFileName: _actions.setFileName,
+  setImgSrc: _image.setImgSrc,
+  setFileName: _image.setFileName,
   sendPrivateMessage: _actions.sendPrivateMessage
 })(MessageSubmit);
 
@@ -41935,7 +41937,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = __webpack_require__(4);
 
-var _actions = __webpack_require__(6);
+var _image = __webpack_require__(208);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42070,8 +42072,8 @@ ImageUpload.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  setImgSrc: _actions.setImgSrc,
-  setFileName: _actions.setFileName
+  setImgSrc: _image.setImgSrc,
+  setFileName: _image.setFileName
 })(ImageUpload);
 
 /***/ }),
@@ -42610,6 +42612,34 @@ var handleToggleEmoji = function handleToggleEmoji(bool) {
 
 module.exports = {
   handleToggleEmoji: handleToggleEmoji
+};
+
+/***/ }),
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setFileName = exports.setImgSrc = undefined;
+
+var _constants = __webpack_require__(51);
+
+var setImgSrc = exports.setImgSrc = function setImgSrc(imgSrc) {
+  return {
+    type: _constants.SET_IMAGE_SRC,
+    payload: imgSrc
+  };
+};
+
+var setFileName = exports.setFileName = function setFileName(file) {
+  return {
+    type: _constants.SET_FILE_NAME,
+    payload: file
+  };
 };
 
 /***/ })

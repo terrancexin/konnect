@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Linkify from 'react-linkify';
+
 import { formatTime } from '../../utils';
 
 class MessagesList extends Component {

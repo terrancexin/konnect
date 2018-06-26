@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setImgSrc, setFileName } from '../../actions';
+import { setImgSrc, setFileName } from '../../actions/image';
 
 class ImageUpload extends Component {
   constructor(props) {
