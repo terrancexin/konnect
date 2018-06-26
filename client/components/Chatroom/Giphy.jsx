@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-  fetchGiphy,
-  handleToggleGiphy,
   sendMessage,
   sendPrivateMessage,
 } from '../../actions';
 import { handleToggleEmoji } from '../../actions/emoji';
+import { fetchGiphy, handleToggleGiphy } from '../../actions/giphy';
 
 class Giphy extends Component {
   constructor(props) {

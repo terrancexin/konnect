@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
 import { connect } from 'react-redux';
 
-import { handleToggleGiphy } from '../../actions';
+import { handleToggleGiphy } from '../../actions/giphy';
 import { handleToggleEmoji } from '../../actions/emoji';
 
 export class Emoji extends Component {

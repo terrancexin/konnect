@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
-  handleToggleGiphy,
   isTyping,
   isTypingPrivate,
   sendMessage,
@@ -11,6 +10,7 @@ import {
 } from '../../actions';
 import { setImgSrc, setFileName } from '../../actions/image';
 import { handleToggleEmoji } from '../../actions/emoji';
+import { handleToggleGiphy } from '../../actions/giphy';
 
 import EmojiPicker from './Emoji';
 import Giphy from './Giphy';

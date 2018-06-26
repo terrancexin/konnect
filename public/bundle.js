@@ -7663,6 +7663,8 @@ var _image = __webpack_require__(208);
 
 var _emoji = __webpack_require__(207);
 
+var _giphy = __webpack_require__(209);
+
 var _Emoji = __webpack_require__(176);
 
 var _Emoji2 = _interopRequireDefault(_Emoji);
@@ -7898,7 +7900,7 @@ MessageSubmit.propTypes = {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   handleToggleEmoji: _emoji.handleToggleEmoji,
-  handleToggleGiphy: _actions.handleToggleGiphy,
+  handleToggleGiphy: _giphy.handleToggleGiphy,
   isTyping: _actions.isTyping,
   isTypingPrivate: _actions.isTypingPrivate,
   sendMessage: _actions.sendMessage,
@@ -37643,6 +37645,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _actions = __webpack_require__(6);
 
+var _giphy = __webpack_require__(209);
+
 var _Footer = __webpack_require__(68);
 
 var _Footer2 = _interopRequireDefault(_Footer);
@@ -37796,7 +37800,7 @@ Chatroom.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  fetchGiphy: _actions.fetchGiphy,
+  fetchGiphy: _giphy.fetchGiphy,
   getMessages: _actions.getMessages,
   socketOff: _actions.socketOff
 })(Chatroom);
@@ -40386,7 +40390,7 @@ var _emojiMart = __webpack_require__(177);
 
 var _reactRedux = __webpack_require__(4);
 
-var _actions = __webpack_require__(6);
+var _giphy = __webpack_require__(209);
 
 var _emoji = __webpack_require__(207);
 
@@ -40475,7 +40479,7 @@ Emoji.propTypes = {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   handleToggleEmoji: _emoji.handleToggleEmoji,
-  handleToggleGiphy: _actions.handleToggleGiphy
+  handleToggleGiphy: _giphy.handleToggleGiphy
 })(Emoji);
 
 /***/ }),
@@ -41705,6 +41709,8 @@ var _actions = __webpack_require__(6);
 
 var _emoji = __webpack_require__(207);
 
+var _giphy = __webpack_require__(209);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41907,9 +41913,9 @@ Giphy.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  fetchGiphy: _actions.fetchGiphy,
+  fetchGiphy: _giphy.fetchGiphy,
   handleToggleEmoji: _emoji.handleToggleEmoji,
-  handleToggleGiphy: _actions.handleToggleGiphy,
+  handleToggleGiphy: _giphy.handleToggleGiphy,
   sendMessage: _actions.sendMessage,
   sendPrivateMessage: _actions.sendPrivateMessage
 })(Giphy);
@@ -42639,6 +42645,54 @@ var setFileName = exports.setFileName = function setFileName(file) {
   return {
     type: _constants.SET_FILE_NAME,
     payload: file
+  };
+};
+
+/***/ }),
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.handleToggleGiphy = exports.fetchGiphy = undefined;
+
+var _axios = __webpack_require__(121);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _constants = __webpack_require__(51);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fetchGiphy = exports.fetchGiphy = function fetchGiphy(search) {
+  return function (dispatch) {
+    var url = _constants.GIPHY.searchUrl + '?api_key=' + _constants.GIPHY.api_key + '&q=yay&limit=' + _constants.GIPHY.limit + '&rating=' + _constants.GIPHY.rating;
+
+    if (search) {
+      url = _constants.GIPHY.searchUrl + '?api_key=' + _constants.GIPHY.api_key + '&q=' + search + '&limit=' + _constants.GIPHY.limit + '&rating=' + _constants.GIPHY.rating;
+    }
+
+    _axios2.default.get(url).then(function (_ref) {
+      var data = _ref.data.data;
+
+      dispatch({
+        type: _constants.RECEIVE_GIPHY,
+        payload: data
+      });
+    }).catch(function (err) {
+      console.log('fetching giphy failed: ' + err);
+    });
+  };
+};
+
+var handleToggleGiphy = exports.handleToggleGiphy = function handleToggleGiphy(bool) {
+  return {
+    type: _constants.TOGGLE_GIPHY,
+    payload: bool
   };
 };
 

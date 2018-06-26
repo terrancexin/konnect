@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
-  fetchGiphy,
   getMessages,
   socketOff,
 } from '../../actions';
+import { fetchGiphy } from '../../actions/giphy';
 
 import Footer from '../Footer';
 import MessagesList from './MessagesList';
