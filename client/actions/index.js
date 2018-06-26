@@ -18,7 +18,6 @@ import {
   SOCKET_EVENTS,
   TYPING,
   TYPING_PRIVATE,
-  TOGGLE_EMOJI,
   TOGGLE_GIPHY,
   TOGGLE_MISSED_MSG,
   TOGGLE_PRIVATE_PW_INPUT,
@@ -214,12 +213,6 @@ export const isTypingPrivate = (username, bool) => () => {
     socket.emit(STOPPED_TYPING_PRIVATE, username);
   }
 };
-
-// Emoji actions
-export const handleToggleEmoji = bool => ({
-  type: TOGGLE_EMOJI,
-  payload: bool,
-});
 
 // Giphy actions
 export const fetchGiphy = search => (dispatch) => {
