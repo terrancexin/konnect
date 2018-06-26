@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 
 import {
   fetchGiphy,
-  handleToggleEmoji,
   handleToggleGiphy,
   sendMessage,
   sendPrivateMessage,
 } from '../../actions';
+import { handleToggleEmoji } from '../../actions/emoji';
 
 class Giphy extends Component {
   constructor(props) {
