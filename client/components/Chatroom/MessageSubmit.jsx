@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import {
-  isTyping,
-  isTypingPrivate,
-  sendMessage,
-  sendPrivateMessage,
-} from '../../actions';
-import { setImgSrc, setFileName } from '../../actions/image';
 import { handleToggleEmoji } from '../../actions/emoji';
 import { handleToggleGiphy } from '../../actions/giphy';
+import { isTyping } from '../../actions/typing';
+import { isTypingPrivate, sendPrivateMessage } from '../../actions/private';
+import { setImgSrc, setFileName } from '../../actions/image';
+import { sendMessage } from '../../actions/message';
 
 import EmojiPicker from './Emoji';
 import Giphy from './Giphy';

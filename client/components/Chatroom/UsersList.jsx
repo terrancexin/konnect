@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { rootUrl } from '../../../constants';
+
 const UsersList = ({ users }) => (
   <ul className="users-list">
     {users.map((user) => {
@@ -11,7 +13,7 @@ const UsersList = ({ users }) => (
         <li key={id} className="each-user">
           <img
             className={`online-${isOnline}`}
-            src={`${ROOT_URL}/images/online.png`}
+            src={`${rootUrl()}/images/online.png`}
             alt="online"
           />
           <span className={`each-user-name-${isOnline}`}>{username}</span>

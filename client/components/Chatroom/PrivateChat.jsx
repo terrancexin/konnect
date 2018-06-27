@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getPrivateMessages } from '../../actions';
+import { getPrivateMessages } from '../../actions/private';
 
 import MessagesList from './MessagesList';
 import MessageSubmit from './MessageSubmit';

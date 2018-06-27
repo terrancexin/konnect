@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { getMessages } from '../../actions';
-import { socketOff } from '../../actions/socket';
 import { fetchGiphy } from '../../actions/giphy';
+import { getMessages } from '../../actions/message';
+import { socketOff } from '../../actions/socket';
 
 import Footer from '../Footer';
 import MessagesList from './MessagesList';
 import MessageSubmit from './MessageSubmit';
 import Notice from '../Notice';
-import UserSection from './UserSection';
-import PrivateLockBtn from './PrivateLockBtn';
 import PrivateChat from './PrivateChat';
+import PrivateLockBtn from './PrivateLockBtn';
+import UserSection from './UserSection';
 
 class Chatroom extends Component {
   componentDidMount() {

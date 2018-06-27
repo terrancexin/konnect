@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Linkify from 'react-linkify';
 
 import { formatTime } from '../../utils';
+import { rootUrl } from '../../../constants';
 
 class MessagesList extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class MessagesList extends Component {
       <div className="loading">
         <img
           className="loading-spinner"
-          src={`${ROOT_URL}/images/fidget-loading-spinner.gif`}
+          src={`${rootUrl()}/images/fidget-loading-spinner.gif`}
           alt="loading-spinner"
         />
       </div>
@@ -52,7 +53,7 @@ class MessagesList extends Component {
         <li className={`${threadType} message-sent`} key={_id}>
           <div className={`${threadType} timestamp-user-box`}>
             <img
-              src={`${ROOT_URL}/images/avatars/${userAvatar}.png`}
+              src={`${rootUrl()}/images/avatars/${userAvatar}.png`}
               className="avatar-img"
               alt="avatar"
             />

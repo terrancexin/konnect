@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-  toggleLock,
-  submitPrivatePassword,
-  removeErrorMessage,
   handleTogglePrivatePWInput,
+  submitPrivatePassword,
+  toggleLock,
   unlockPrivateMessage,
-} from '../../actions';
+} from '../../actions/private';
+import { removeLoginError } from '../../actions/user';
 
 class PrivateLockBtn extends Component {
   constructor(props) {
@@ -29,13 +29,13 @@ class PrivateLockBtn extends Component {
   }
 
   componentWillUnmount() {
-    this.props.removeErrorMessage();
+    this.props.removeLoginError();
     this.props.unlockPrivateMessage(false);
   }
 
   handleClick(e) {
     e.preventDefault();
-    this.props.removeErrorMessage();
+    this.props.removeLoginError();
 
     if (this.props.isLocked) {
       this.setState({ privatePassword: '' });
@@ -69,7 +69,7 @@ class PrivateLockBtn extends Component {
   }
 
   handleChange(e) {
-    this.props.removeErrorMessage();
+    this.props.removeLoginError();
     const { value } = e.target;
 
     this.setState({ privatePassword: value });
@@ -138,7 +138,7 @@ PrivateLockBtn.propTypes = {
   isLocked: PropTypes.bool.isRequired,
   toggleLock: PropTypes.func.isRequired,
   submitPrivatePassword: PropTypes.func.isRequired,
-  removeErrorMessage: PropTypes.func.isRequired,
+  removeLoginError: PropTypes.func.isRequired,
   err: PropTypes.string.isRequired,
   handleTogglePrivatePWInput: PropTypes.func.isRequired,
   privatePasswordInput: PropTypes.bool.isRequired,
@@ -149,7 +149,7 @@ PrivateLockBtn.propTypes = {
 export default connect(mapStateToProps, {
   toggleLock,
   submitPrivatePassword,
-  removeErrorMessage,
+  removeLoginError,
   handleTogglePrivatePWInput,
   unlockPrivateMessage,
 })(PrivateLockBtn);
