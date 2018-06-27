@@ -2247,7 +2247,7 @@ module.exports = emptyFunction;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 module.exports = {
   CLEAR_MISSED_MSG: 'CLEAR_MISSED_MSG',
@@ -2283,8 +2283,12 @@ module.exports = {
     offset: 0,
     rating: 'G'
   },
-  PING_PONG: 'PING_PONG'
+  PING_PONG: 'PING_PONG',
+  rootUrl: function rootUrl() {
+    return process.env.ROOT_URL || 'http://localhost:3000';
+  }
 };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 18 */
@@ -8963,6 +8967,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _actions = __webpack_require__(6);
 
+var _user = __webpack_require__(211);
+
 var _NavBtns = __webpack_require__(206);
 
 var _NavBtns2 = _interopRequireDefault(_NavBtns);
@@ -9060,7 +9066,7 @@ UserSection.propTypes = {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   clearMissedMsg: _actions.clearMissedMsg,
-  logOutUser: _actions.logOutUser,
+  logOutUser: _user.logOutUser,
   handleToggleMissedMsg: _actions.handleToggleMissedMsg
 })(UserSection);
 
@@ -37326,6 +37332,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _actions = __webpack_require__(6);
 
+var _user = __webpack_require__(211);
+
 var _Form = __webpack_require__(168);
 
 var _Form2 = _interopRequireDefault(_Form);
@@ -37523,9 +37531,9 @@ LogIn.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  logInUser: _actions.logInUser,
+  logInUser: _user.logInUser,
   removeErrorMessage: _actions.removeErrorMessage,
-  signUpUser: _actions.signUpUser
+  signUpUser: _user.signUpUser
 })(LogIn);
 
 /***/ }),
@@ -37746,6 +37754,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _actions = __webpack_require__(6);
 
+var _socket = __webpack_require__(210);
+
 var _giphy = __webpack_require__(25);
 
 var _Footer = __webpack_require__(71);
@@ -37903,7 +37913,7 @@ Chatroom.propTypes = {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   fetchGiphy: _giphy.fetchGiphy,
   getMessages: _actions.getMessages,
-  socketOff: _actions.socketOff
+  socketOff: _socket.socketOff
 })(Chatroom);
 
 /***/ }),
@@ -42700,6 +42710,161 @@ PrivateChat.propTypes = {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   getPrivateMessages: _actions.getPrivateMessages
 })(PrivateChat);
+
+/***/ }),
+/* 210 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.socketOff = exports.initSocket = exports.socket = undefined;
+
+var _socket = __webpack_require__(143);
+
+var _socket2 = _interopRequireDefault(_socket);
+
+var _constants = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var socket = exports.socket = (0, _socket2.default)((0, _constants.rootUrl)());
+
+var initSocket = exports.initSocket = function initSocket(dispatch) {
+  socket.on('connect', function () {
+    console.log('welcome to konnect!');
+  });
+
+  setInterval(function () {
+    socket.emit(_constants.PING_PONG);
+  }, 1000);
+
+  _constants.SOCKET_EVENTS.forEach(function (type) {
+    return socket.on(type, function (payload) {
+      dispatch({ type: type, payload: payload });
+    });
+  });
+};
+
+var socketOff = exports.socketOff = function socketOff() {
+  return function () {
+    _constants.SOCKET_EVENTS.forEach(function (type) {
+      return socket.off(type);
+    });
+  };
+};
+
+/***/ }),
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.logOutUser = exports.signUpUser = exports.logInUser = undefined;
+
+var _axios = __webpack_require__(54);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _constants = __webpack_require__(17);
+
+var _socket = __webpack_require__(210);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var loginFailed = function loginFailed(error, dispatch) {
+  dispatch({
+    type: _constants.LOGIN_ERROR,
+    payload: error
+  });
+};
+
+var loginSuccess = function loginSuccess(_ref, dispatch) {
+  var token = _ref.token,
+      newUser = _ref.newUser,
+      missedMsg = _ref.missedMsg;
+
+  localStorage.setItem('token', token);
+  (0, _socket.initSocket)(dispatch);
+  dispatch({
+    type: _constants.LOGGED_IN,
+    payload: {
+      user: newUser,
+      missedMsg: missedMsg
+    }
+  });
+  _socket.socket.emit(_constants.USER_CONNECTED, newUser);
+};
+
+var logInUser = exports.logInUser = function logInUser(_ref2) {
+  var username = _ref2.username,
+      password = _ref2.password;
+  return function (dispatch) {
+    _axios2.default.post((0, _constants.rootUrl)() + '/login', { username: username, password: password }).then(function (_ref3) {
+      var data = _ref3.data;
+
+      if (data.error) {
+        loginFailed(data.error, dispatch);
+      } else {
+        loginSuccess(data, dispatch);
+      }
+    }).catch(function () {
+      dispatch({
+        type: _constants.LOGIN_ERROR,
+        payload: 'log in failed, bad login info.'
+      });
+    });
+  };
+};
+
+var signUpUser = exports.signUpUser = function signUpUser(_ref4) {
+  var avatar = _ref4.avatar,
+      username = _ref4.username,
+      password = _ref4.password,
+      passwordConfirmation = _ref4.passwordConfirmation;
+  return function (dispatch) {
+    if (!avatar) {
+      avatar = 'default';
+    }
+
+    _axios2.default.post((0, _constants.rootUrl)() + '/signup', {
+      avatar: avatar,
+      username: username,
+      password: password,
+      passwordConfirmation: passwordConfirmation
+    }).then(function (_ref5) {
+      var data = _ref5.data;
+
+      if (data.error) {
+        loginFailed(data.error, dispatch);
+      } else {
+        loginSuccess(data, dispatch);
+      }
+    }).catch(function () {
+      dispatch({
+        type: _constants.LOGIN_ERROR,
+        payload: 'sign up failed, bad login info.'
+      });
+    });
+  };
+};
+
+var logOutUser = exports.logOutUser = function logOutUser(user) {
+  return function (dispatch) {
+    _socket.socket.emit(_constants.LOGOUT, user);
+    dispatch({
+      type: _constants.LOGOUT
+    });
+    localStorage.removeItem('token');
+  };
+};
 
 /***/ })
 /******/ ]);

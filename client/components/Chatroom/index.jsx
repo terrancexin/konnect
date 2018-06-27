@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {
-  getMessages,
-  socketOff,
-} from '../../actions';
+import { getMessages } from '../../actions';
+import { socketOff } from '../../actions/socket';
 import { fetchGiphy } from '../../actions/giphy';
 
 import Footer from '../Footer';

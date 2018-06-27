@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logInUser, signUpUser, removeErrorMessage } from '../../actions';
+import { removeErrorMessage } from '../../actions';
+import { logInUser, signUpUser } from '../../actions/user';
 import Form from './Form';
 import Footer from '../Footer';
 

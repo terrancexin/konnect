@@ -42,5 +42,6 @@ module.exports = {
     rating: 'G',
   },
   PING_PONG: 'PING_PONG',
+  rootUrl: () => process.env.ROOT_URL || 'http://localhost:3000',
 };
 

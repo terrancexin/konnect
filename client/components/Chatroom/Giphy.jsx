@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  sendMessage,
-  sendPrivateMessage,
-} from '../../actions';
+import { sendMessage, sendPrivateMessage } from '../../actions';
 import { handleToggleEmoji } from '../../actions/emoji';
 import { fetchGiphy, handleToggleGiphy } from '../../actions/giphy';
 

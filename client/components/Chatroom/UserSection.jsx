@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {
-  clearMissedMsg,
-  logOutUser,
-  handleToggleMissedMsg,
-} from '../../actions';
+import { clearMissedMsg, handleToggleMissedMsg } from '../../actions';
+import { logOutUser } from '../../actions/user';
 
 import NavBtns from './NavBtns';
 import UsersList from './UsersList';
