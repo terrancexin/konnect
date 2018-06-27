@@ -9,6 +9,7 @@ const {
   TYPING,
   TYPING_PRIVATE,
   USER_CONNECTED,
+  PING_PONG,
 } = require('../../constants');
 const UserModel = require('../models/user');
 
@@ -67,5 +68,8 @@ module.exports = (socket) => {
 
   socket.on(STOPPED_TYPING_PRIVATE, (username) => {
     io.emit(STOPPED_TYPING_PRIVATE, username);
+  });
+
+  socket.on(PING_PONG, () => {
   });
 };

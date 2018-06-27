@@ -26,6 +26,7 @@ import {
   SET_FILE_NAME,
   TOGGLE_LOCK,
   UNLOCK_PRIVATE_PASSWORD,
+  PING_PONG,
 } from '../../constants';
 
 const ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
@@ -37,6 +38,10 @@ const initSocket = (dispatch) => {
   socket.on('connect', () => {
     console.log('welcome to konnect!');
   });
+
+  setInterval(() => {
+    socket.emit(PING_PONG);
+  }, 1000);
 
   SOCKET_EVENTS.forEach(type =>
     socket.on(type, (payload) => {

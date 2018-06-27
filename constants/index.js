@@ -41,5 +41,6 @@ module.exports = {
     offset: 0,
     rating: 'G',
   },
+  PING_PONG: 'PING_PONG',
 };
 
