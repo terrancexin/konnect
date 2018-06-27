@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { clearNotices } from '../../actions';
+
+import { clearNotices } from '../../actions/notice';
 
 class Notice extends React.Component {
   componentDidMount() {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { rootUrl } from '../../../constants';
+
 class Avatar extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +34,7 @@ class Avatar extends Component {
             value={i}
             checked={this.state.avatarSelected === i}
           />
-          <img src={`${ROOT_URL}/images/avatars/${i}.png`} alt="avatar" />
+          <img src={`${rootUrl()}/images/avatars/${i}.png`} alt="avatar" />
         </label>
       );
 

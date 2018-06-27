@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { unlockPrivateMessage } from '../actions';
+import { unlockPrivateMessage } from '../actions/private';
 
-import LogIn from './LogIn';
 import Chatroom from './Chatroom';
-
-window.ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
+import LogIn from './LogIn';
 
 class App extends Component {
   componentDidMount() {

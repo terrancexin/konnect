@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { removeErrorMessage } from '../../actions';
-import { logInUser, signUpUser } from '../../actions/user';
+import { connect } from 'react-redux';
+
+import { logInUser, signUpUser, removeLoginError } from '../../actions/user';
+
 import Form from './Form';
 import Footer from '../Footer';
 
@@ -33,7 +34,7 @@ class LogIn extends Component {
     return (e) => {
       e.preventDefault();
       this.setState({ [inputName]: e.target.value });
-      this.props.removeErrorMessage();
+      this.props.removeLoginError();
     };
   }
 
@@ -56,7 +57,7 @@ class LogIn extends Component {
   handleToggleSignUp(bool) {
     return (
       () => {
-        this.props.removeErrorMessage();
+        this.props.removeLoginError();
         this.setState({ toggleSignUp: bool });
       }
     );
@@ -138,12 +139,12 @@ const mapStateToProps = state => ({
 LogIn.propTypes = {
   err: PropTypes.string.isRequired,
   logInUser: PropTypes.func.isRequired,
-  removeErrorMessage: PropTypes.func.isRequired,
+  removeLoginError: PropTypes.func.isRequired,
   signUpUser: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
   logInUser,
-  removeErrorMessage,
+  removeLoginError,
   signUpUser,
 })(LogIn);

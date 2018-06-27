@@ -660,369 +660,7 @@ module.exports = {
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.sendPrivateMessage = exports.getPrivateMessages = exports.unlockPrivateMessage = exports.handleTogglePrivatePWInput = exports.submitPrivatePassword = exports.toggleLock = exports.setFileName = exports.setImgSrc = exports.handleToggleGiphy = exports.fetchGiphy = exports.isTypingPrivate = exports.isTyping = exports.clearNotices = exports.handleToggleMissedMsg = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = exports.removeErrorMessage = exports.logOutUser = exports.signUpUser = exports.logInUser = exports.socketOff = undefined;
-
-var _axios = __webpack_require__(54);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _socket = __webpack_require__(143);
-
-var _socket2 = _interopRequireDefault(_socket);
-
-var _constants = __webpack_require__(17);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
-var PRIVATE_LOCK = process.env.PRIVATE_LOCK || 'dev';
-
-// Socket actions
-var socket = (0, _socket2.default)(ROOT_URL);
-var initSocket = function initSocket(dispatch) {
-  socket.on('connect', function () {
-    console.log('welcome to konnect!');
-  });
-
-  setInterval(function () {
-    socket.emit(_constants.PING_PONG);
-  }, 1000);
-
-  _constants.SOCKET_EVENTS.forEach(function (type) {
-    return socket.on(type, function (payload) {
-      dispatch({ type: type, payload: payload });
-    });
-  });
-};
-
-var socketOff = exports.socketOff = function socketOff() {
-  return function () {
-    _constants.SOCKET_EVENTS.forEach(function (type) {
-      return socket.off(type);
-    });
-  };
-};
-
-var loginFailed = function loginFailed(error, dispatch) {
-  dispatch({
-    type: _constants.LOGIN_ERROR,
-    payload: error
-  });
-};
-
-// User actions
-var loginSuccess = function loginSuccess(_ref, dispatch) {
-  var token = _ref.token,
-      newUser = _ref.newUser,
-      missedMsg = _ref.missedMsg;
-
-  localStorage.setItem('token', token);
-  initSocket(dispatch);
-  dispatch({
-    type: _constants.LOGGED_IN,
-    payload: {
-      user: newUser,
-      missedMsg: missedMsg
-    }
-  });
-  socket.emit(_constants.USER_CONNECTED, newUser);
-};
-
-var logInUser = exports.logInUser = function logInUser(_ref2) {
-  var username = _ref2.username,
-      password = _ref2.password;
-  return function (dispatch) {
-    _axios2.default.post(ROOT_URL + '/login', { username: username, password: password }).then(function (_ref3) {
-      var data = _ref3.data;
-
-      if (data.error) {
-        loginFailed(data.error, dispatch);
-      } else {
-        loginSuccess(data, dispatch);
-      }
-    }).catch(function () {
-      dispatch({
-        type: _constants.LOGIN_ERROR,
-        payload: 'log in failed, bad login info.'
-      });
-    });
-  };
-};
-
-var signUpUser = exports.signUpUser = function signUpUser(_ref4) {
-  var avatar = _ref4.avatar,
-      username = _ref4.username,
-      password = _ref4.password,
-      passwordConfirmation = _ref4.passwordConfirmation;
-  return function (dispatch) {
-    if (!avatar) {
-      avatar = 'default';
-    }
-
-    _axios2.default.post(ROOT_URL + '/signup', {
-      avatar: avatar,
-      username: username,
-      password: password,
-      passwordConfirmation: passwordConfirmation
-    }).then(function (_ref5) {
-      var data = _ref5.data;
-
-      if (data.error) {
-        loginFailed(data.error, dispatch);
-      } else {
-        loginSuccess(data, dispatch);
-      }
-    }).catch(function () {
-      dispatch({
-        type: _constants.LOGIN_ERROR,
-        payload: 'sign up failed, bad login info.'
-      });
-    });
-  };
-};
-
-var logOutUser = exports.logOutUser = function logOutUser(user) {
-  return function (dispatch) {
-    socket.emit(_constants.LOGOUT, user);
-    dispatch({
-      type: _constants.LOGOUT
-    });
-    localStorage.removeItem('token');
-  };
-};
-
-var removeErrorMessage = exports.removeErrorMessage = function removeErrorMessage() {
-  return function (dispatch) {
-    dispatch({
-      type: _constants.LOGIN_ERROR,
-      payload: ''
-    });
-  };
-};
-
-// Message actions
-var getMessages = exports.getMessages = function getMessages() {
-  return function (dispatch) {
-    dispatch({ type: _constants.LOADING, payload: true });
-
-    _axios2.default.get(ROOT_URL + '/messages', {
-      headers: { authorization: localStorage.getItem('token') }
-    }).then(function (_ref6) {
-      var data = _ref6.data;
-
-      dispatch({
-        type: _constants.GET_MESSAGES,
-        payload: data
-      });
-
-      setTimeout(function () {
-        return dispatch({ type: _constants.LOADING, payload: false });
-      }, 500);
-    }).catch(function (err) {
-      console.log('fetch messages failed: ' + err);
-    });
-  };
-};
-
-var sendMessage = exports.sendMessage = function sendMessage(_ref7) {
-  var userAvatar = _ref7.userAvatar,
-      username = _ref7.username,
-      date = _ref7.date,
-      text = _ref7.text,
-      imageMsg = _ref7.imageMsg;
-  return function () {
-    _axios2.default.post(ROOT_URL + '/send', { userAvatar: userAvatar, username: username, date: date, text: text, imageMsg: imageMsg }).then(function (_ref8) {
-      var data = _ref8.data;
-
-      socket.emit(_constants.MESSAGE_SENT, data);
-    }).catch(function (err) {
-      console.log('send message failed: ' + err);
-    });
-  };
-};
-
-var clearMissedMsg = exports.clearMissedMsg = function clearMissedMsg(username) {
-  return function (dispatch) {
-    _axios2.default.post(ROOT_URL + '/bookmark', { username: username }).then(function (_ref9) {
-      var data = _ref9.data;
-
-      if (data.error) {
-        console.log('unable to find the username: ' + username + ' to remove');
-      } else {
-        dispatch({
-          type: _constants.CLEAR_MISSED_MSG
-        });
-      }
-    }).catch(function (err) {
-      console.log('remove bookmark failed: ' + err);
-    });
-  };
-};
-
-var handleToggleMissedMsg = exports.handleToggleMissedMsg = function handleToggleMissedMsg() {
-  return {
-    type: _constants.TOGGLE_MISSED_MSG
-  };
-};
-
-// Notice actions
-var clearNotices = exports.clearNotices = function clearNotices() {
-  return {
-    type: _constants.CLEAR_NOTICES
-  };
-};
-
-var isTyping = exports.isTyping = function isTyping(username, bool) {
-  return function () {
-    if (bool) {
-      socket.emit(_constants.TYPING, username);
-    } else {
-      socket.emit(_constants.STOPPED_TYPING, username);
-    }
-  };
-};
-
-var isTypingPrivate = exports.isTypingPrivate = function isTypingPrivate(username, bool) {
-  return function () {
-    if (bool) {
-      socket.emit(_constants.TYPING_PRIVATE, username);
-    } else {
-      socket.emit(_constants.STOPPED_TYPING_PRIVATE, username);
-    }
-  };
-};
-
-// Giphy actions
-var fetchGiphy = exports.fetchGiphy = function fetchGiphy(search) {
-  return function (dispatch) {
-    var url = _constants.GIPHY.searchUrl + '?api_key=' + _constants.GIPHY.api_key + '&q=yay&limit=' + _constants.GIPHY.limit + '&rating=' + _constants.GIPHY.rating;
-
-    if (search) {
-      url = _constants.GIPHY.searchUrl + '?api_key=' + _constants.GIPHY.api_key + '&q=' + search + '&limit=' + _constants.GIPHY.limit + '&rating=' + _constants.GIPHY.rating;
-    }
-
-    _axios2.default.get(url).then(function (_ref10) {
-      var data = _ref10.data.data;
-
-      dispatch({
-        type: _constants.RECEIVE_GIPHY,
-        payload: data
-      });
-    }).catch(function (err) {
-      console.log('fetching giphy failed: ' + err);
-    });
-  };
-};
-
-var handleToggleGiphy = exports.handleToggleGiphy = function handleToggleGiphy(bool) {
-  return {
-    type: _constants.TOGGLE_GIPHY,
-    payload: bool
-  };
-};
-
-// Image upload
-var setImgSrc = exports.setImgSrc = function setImgSrc(imgSrc) {
-  return {
-    type: _constants.SET_IMAGE_SRC,
-    payload: imgSrc
-  };
-};
-
-var setFileName = exports.setFileName = function setFileName(file) {
-  return {
-    type: _constants.SET_FILE_NAME,
-    payload: file
-  };
-};
-
-// Private message
-var toggleLock = exports.toggleLock = function toggleLock(bool) {
-  return {
-    type: _constants.TOGGLE_LOCK,
-    payload: bool
-  };
-};
-
-var submitPrivatePassword = exports.submitPrivatePassword = function submitPrivatePassword(password) {
-  return function (dispatch) {
-    if (password === PRIVATE_LOCK) {
-      dispatch({ type: _constants.TOGGLE_LOCK, payload: false });
-      dispatch({ type: _constants.UNLOCK_PRIVATE_PASSWORD, payload: true });
-      dispatch({ type: _constants.TOGGLE_PRIVATE_PW_INPUT, payload: false });
-    } else {
-      dispatch({ type: _constants.LOGIN_ERROR, payload: 'incorrect password' });
-      dispatch({ type: _constants.TOGGLE_LOCK, payload: true });
-      dispatch({ type: _constants.UNLOCK_PRIVATE_PASSWORD, payload: false });
-    }
-  };
-};
-
-var handleTogglePrivatePWInput = exports.handleTogglePrivatePWInput = function handleTogglePrivatePWInput(bool) {
-  return {
-    type: _constants.TOGGLE_PRIVATE_PW_INPUT,
-    payload: bool
-  };
-};
-
-var unlockPrivateMessage = exports.unlockPrivateMessage = function unlockPrivateMessage(bool) {
-  return {
-    type: _constants.UNLOCK_PRIVATE_PASSWORD,
-    payload: bool
-  };
-};
-
-var getPrivateMessages = exports.getPrivateMessages = function getPrivateMessages() {
-  return function (dispatch) {
-    dispatch({ type: _constants.LOADING, payload: true });
-
-    _axios2.default.get(ROOT_URL + '/messages_private', {
-      headers: { authorization: localStorage.getItem('token') }
-    }).then(function (_ref11) {
-      var data = _ref11.data;
-
-      dispatch({
-        type: _constants.GET_MESSAGES_PRIVATE,
-        payload: data
-      });
-
-      setTimeout(function () {
-        return dispatch({ type: _constants.LOADING, payload: false });
-      }, 500);
-    }).catch(function (err) {
-      console.log('fetch messages failed: ' + err);
-    });
-  };
-};
-
-var sendPrivateMessage = exports.sendPrivateMessage = function sendPrivateMessage(_ref12) {
-  var userAvatar = _ref12.userAvatar,
-      username = _ref12.username,
-      date = _ref12.date,
-      text = _ref12.text,
-      imageMsg = _ref12.imageMsg;
-  return function () {
-    _axios2.default.post(ROOT_URL + '/send_private', { userAvatar: userAvatar, username: username, date: date, text: text, imageMsg: imageMsg }).then(function (_ref13) {
-      var data = _ref13.data;
-
-      socket.emit(_constants.MESSAGE_SENT_PRIVATE, data);
-    }).catch(function (err) {
-      console.log('send message failed: ' + err);
-    });
-  };
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
+/* 6 */,
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7513,11 +7151,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Footer = function Footer() {
   var icons = {
-    globe: 'https://www.terrancexin.com',
-    github: 'https://github.com/terrancexin/konnect',
-    linkedin: 'https://www.linkedin.com/in/terrancexin/',
     angellist: 'https://angel.co/terrancexin',
-    instagram: 'https://www.instagram.com/txin/'
+    instagram: 'https://www.instagram.com/txin/',
+    linkedin: 'https://www.linkedin.com/in/terrancexin/',
+    github: 'https://github.com/terrancexin/konnect',
+    globe: 'https://www.terrancexin.com'
   };
 
   return _react2.default.createElement(
@@ -7571,6 +7209,8 @@ var _reactLinkify2 = _interopRequireDefault(_reactLinkify);
 
 var _utils = __webpack_require__(53);
 
+var _constants = __webpack_require__(17);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7623,7 +7263,7 @@ var MessagesList = function (_Component) {
         { className: 'loading' },
         _react2.default.createElement('img', {
           className: 'loading-spinner',
-          src: ROOT_URL + '/images/fidget-loading-spinner.gif',
+          src: (0, _constants.rootUrl)() + '/images/fidget-loading-spinner.gif',
           alt: 'loading-spinner'
         })
       );
@@ -7648,7 +7288,7 @@ var MessagesList = function (_Component) {
             'div',
             { className: threadType + ' timestamp-user-box' },
             _react2.default.createElement('img', {
-              src: ROOT_URL + '/images/avatars/' + userAvatar + '.png',
+              src: (0, _constants.rootUrl)() + '/images/avatars/' + userAvatar + '.png',
               className: 'avatar-img',
               alt: 'avatar'
             }),
@@ -7734,19 +7374,23 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(4);
-
 var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _actions = __webpack_require__(6);
-
-var _image = __webpack_require__(74);
+var _reactRedux = __webpack_require__(4);
 
 var _emoji = __webpack_require__(36);
 
 var _giphy = __webpack_require__(25);
+
+var _typing = __webpack_require__(213);
+
+var _private = __webpack_require__(215);
+
+var _image = __webpack_require__(74);
+
+var _message = __webpack_require__(212);
 
 var _Emoji = __webpack_require__(179);
 
@@ -7984,12 +7628,12 @@ MessageSubmit.propTypes = {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   handleToggleEmoji: _emoji.handleToggleEmoji,
   handleToggleGiphy: _giphy.handleToggleGiphy,
-  isTyping: _actions.isTyping,
-  isTypingPrivate: _actions.isTypingPrivate,
-  sendMessage: _actions.sendMessage,
+  isTyping: _typing.isTyping,
+  isTypingPrivate: _private.isTypingPrivate,
+  sendMessage: _message.sendMessage,
   setImgSrc: _image.setImgSrc,
   setFileName: _image.setFileName,
-  sendPrivateMessage: _actions.sendPrivateMessage
+  sendPrivateMessage: _private.sendPrivateMessage
 })(MessageSubmit);
 
 /***/ }),
@@ -8874,7 +8518,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = __webpack_require__(4);
 
-var _actions = __webpack_require__(6);
+var _notice = __webpack_require__(214);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8940,7 +8584,7 @@ Notice.propTypes = {
   clearNotices: _propTypes2.default.func.isRequired
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { clearNotices: _actions.clearNotices })(Notice);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { clearNotices: _notice.clearNotices })(Notice);
 
 /***/ }),
 /* 78 */
@@ -8959,13 +8603,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(4);
-
 var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _actions = __webpack_require__(6);
+var _reactRedux = __webpack_require__(4);
+
+var _message = __webpack_require__(212);
 
 var _user = __webpack_require__(211);
 
@@ -9065,9 +8709,9 @@ UserSection.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  clearMissedMsg: _actions.clearMissedMsg,
+  clearMissedMsg: _message.clearMissedMsg,
   logOutUser: _user.logOutUser,
-  handleToggleMissedMsg: _actions.handleToggleMissedMsg
+  handleToggleMissedMsg: _message.handleToggleMissedMsg
 })(UserSection);
 
 /***/ }),
@@ -31165,7 +30809,7 @@ exports.default = rootReducer;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -31177,21 +30821,21 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(4);
-
 var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _actions = __webpack_require__(6);
+var _reactRedux = __webpack_require__(4);
 
-var _LogIn = __webpack_require__(167);
-
-var _LogIn2 = _interopRequireDefault(_LogIn);
+var _private = __webpack_require__(215);
 
 var _Chatroom = __webpack_require__(170);
 
 var _Chatroom2 = _interopRequireDefault(_Chatroom);
+
+var _LogIn = __webpack_require__(167);
+
+var _LogIn2 = _interopRequireDefault(_LogIn);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31200,8 +30844,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-window.ROOT_URL = process.env.ROOT_URL || 'http://localhost:3000';
 
 var App = function (_Component) {
   _inherits(App, _Component);
@@ -31243,9 +30885,8 @@ App.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  unlockPrivateMessage: _actions.unlockPrivateMessage
+  unlockPrivateMessage: _private.unlockPrivateMessage
 })(App);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 125 */
@@ -37324,13 +36965,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(4);
-
 var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _actions = __webpack_require__(6);
+var _reactRedux = __webpack_require__(4);
 
 var _user = __webpack_require__(211);
 
@@ -37390,7 +37029,7 @@ var LogIn = function (_Component) {
       return function (e) {
         e.preventDefault();
         _this2.setState(_defineProperty({}, inputName, e.target.value));
-        _this2.props.removeErrorMessage();
+        _this2.props.removeLoginError();
       };
     }
   }, {
@@ -37421,7 +37060,7 @@ var LogIn = function (_Component) {
       var _this3 = this;
 
       return function () {
-        _this3.props.removeErrorMessage();
+        _this3.props.removeLoginError();
         _this3.setState({ toggleSignUp: bool });
       };
     }
@@ -37526,13 +37165,13 @@ var mapStateToProps = function mapStateToProps(state) {
 LogIn.propTypes = {
   err: _propTypes2.default.string.isRequired,
   logInUser: _propTypes2.default.func.isRequired,
-  removeErrorMessage: _propTypes2.default.func.isRequired,
+  removeLoginError: _propTypes2.default.func.isRequired,
   signUpUser: _propTypes2.default.func.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   logInUser: _user.logInUser,
-  removeErrorMessage: _actions.removeErrorMessage,
+  removeLoginError: _user.removeLoginError,
   signUpUser: _user.signUpUser
 })(LogIn);
 
@@ -37657,6 +37296,8 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _constants = __webpack_require__(17);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37706,7 +37347,7 @@ var Avatar = function (_Component) {
             value: i,
             checked: this.state.avatarSelected === i
           }),
-          _react2.default.createElement('img', { src: ROOT_URL + '/images/avatars/' + i + '.png', alt: 'avatar' })
+          _react2.default.createElement('img', { src: (0, _constants.rootUrl)() + '/images/avatars/' + i + '.png', alt: 'avatar' })
         );
 
         avatars.push(avatar);
@@ -37746,17 +37387,17 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(4);
-
 var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _actions = __webpack_require__(6);
-
-var _socket = __webpack_require__(210);
+var _reactRedux = __webpack_require__(4);
 
 var _giphy = __webpack_require__(25);
+
+var _message = __webpack_require__(212);
+
+var _socket = __webpack_require__(210);
 
 var _Footer = __webpack_require__(71);
 
@@ -37774,17 +37415,17 @@ var _Notice = __webpack_require__(77);
 
 var _Notice2 = _interopRequireDefault(_Notice);
 
-var _UserSection = __webpack_require__(78);
+var _PrivateChat = __webpack_require__(209);
 
-var _UserSection2 = _interopRequireDefault(_UserSection);
+var _PrivateChat2 = _interopRequireDefault(_PrivateChat);
 
 var _PrivateLockBtn = __webpack_require__(208);
 
 var _PrivateLockBtn2 = _interopRequireDefault(_PrivateLockBtn);
 
-var _PrivateChat = __webpack_require__(209);
+var _UserSection = __webpack_require__(78);
 
-var _PrivateChat2 = _interopRequireDefault(_PrivateChat);
+var _UserSection2 = _interopRequireDefault(_UserSection);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37912,7 +37553,7 @@ Chatroom.propTypes = {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   fetchGiphy: _giphy.fetchGiphy,
-  getMessages: _actions.getMessages,
+  getMessages: _message.getMessages,
   socketOff: _socket.socketOff
 })(Chatroom);
 
@@ -40497,13 +40138,13 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _emojiMart = __webpack_require__(180);
-
 var _reactRedux = __webpack_require__(4);
 
-var _giphy = __webpack_require__(25);
+var _emojiMart = __webpack_require__(180);
 
 var _emoji = __webpack_require__(36);
+
+var _giphy = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41816,11 +41457,13 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = __webpack_require__(4);
 
-var _actions = __webpack_require__(6);
+var _giphy = __webpack_require__(25);
 
 var _emoji = __webpack_require__(36);
 
-var _giphy = __webpack_require__(25);
+var _message = __webpack_require__(212);
+
+var _private = __webpack_require__(215);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42027,8 +41670,8 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
   fetchGiphy: _giphy.fetchGiphy,
   handleToggleEmoji: _emoji.handleToggleEmoji,
   handleToggleGiphy: _giphy.handleToggleGiphy,
-  sendMessage: _actions.sendMessage,
-  sendPrivateMessage: _actions.sendPrivateMessage
+  sendMessage: _message.sendMessage,
+  sendPrivateMessage: _private.sendPrivateMessage
 })(Giphy);
 
 /***/ }),
@@ -42333,6 +41976,8 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _constants = __webpack_require__(17);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var UsersList = function UsersList(_ref) {
@@ -42352,7 +41997,7 @@ var UsersList = function UsersList(_ref) {
         { key: id, className: 'each-user' },
         _react2.default.createElement('img', {
           className: 'online-' + isOnline,
-          src: ROOT_URL + '/images/online.png',
+          src: (0, _constants.rootUrl)() + '/images/online.png',
           alt: 'online'
         }),
         _react2.default.createElement(
@@ -42394,7 +42039,9 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = __webpack_require__(4);
 
-var _actions = __webpack_require__(6);
+var _private = __webpack_require__(215);
+
+var _user = __webpack_require__(211);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42431,14 +42078,14 @@ var PrivateLockBtn = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.props.removeErrorMessage();
+      this.props.removeLoginError();
       this.props.unlockPrivateMessage(false);
     }
   }, {
     key: 'handleClick',
     value: function handleClick(e) {
       e.preventDefault();
-      this.props.removeErrorMessage();
+      this.props.removeLoginError();
 
       if (this.props.isLocked) {
         this.setState({ privatePassword: '' });
@@ -42476,7 +42123,7 @@ var PrivateLockBtn = function (_Component) {
   }, {
     key: 'handleChange',
     value: function handleChange(e) {
-      this.props.removeErrorMessage();
+      this.props.removeLoginError();
       var value = e.target.value;
 
 
@@ -42574,7 +42221,7 @@ PrivateLockBtn.propTypes = {
   isLocked: _propTypes2.default.bool.isRequired,
   toggleLock: _propTypes2.default.func.isRequired,
   submitPrivatePassword: _propTypes2.default.func.isRequired,
-  removeErrorMessage: _propTypes2.default.func.isRequired,
+  removeLoginError: _propTypes2.default.func.isRequired,
   err: _propTypes2.default.string.isRequired,
   handleTogglePrivatePWInput: _propTypes2.default.func.isRequired,
   privatePasswordInput: _propTypes2.default.bool.isRequired,
@@ -42583,11 +42230,11 @@ PrivateLockBtn.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  toggleLock: _actions.toggleLock,
-  submitPrivatePassword: _actions.submitPrivatePassword,
-  removeErrorMessage: _actions.removeErrorMessage,
-  handleTogglePrivatePWInput: _actions.handleTogglePrivatePWInput,
-  unlockPrivateMessage: _actions.unlockPrivateMessage
+  toggleLock: _private.toggleLock,
+  submitPrivatePassword: _private.submitPrivatePassword,
+  removeLoginError: _user.removeLoginError,
+  handleTogglePrivatePWInput: _private.handleTogglePrivatePWInput,
+  unlockPrivateMessage: _private.unlockPrivateMessage
 })(PrivateLockBtn);
 
 /***/ }),
@@ -42613,7 +42260,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = __webpack_require__(4);
 
-var _actions = __webpack_require__(6);
+var _private = __webpack_require__(215);
 
 var _MessagesList = __webpack_require__(72);
 
@@ -42708,7 +42355,7 @@ PrivateChat.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, {
-  getPrivateMessages: _actions.getPrivateMessages
+  getPrivateMessages: _private.getPrivateMessages
 })(PrivateChat);
 
 /***/ }),
@@ -42767,15 +42414,15 @@ var socketOff = exports.socketOff = function socketOff() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logOutUser = exports.signUpUser = exports.logInUser = undefined;
+exports.removeLoginError = exports.logOutUser = exports.signUpUser = exports.logInUser = undefined;
 
 var _axios = __webpack_require__(54);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _constants = __webpack_require__(17);
-
 var _socket = __webpack_require__(210);
+
+var _constants = __webpack_require__(17);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42865,6 +42512,255 @@ var logOutUser = exports.logOutUser = function logOutUser(user) {
     localStorage.removeItem('token');
   };
 };
+
+var removeLoginError = exports.removeLoginError = function removeLoginError() {
+  return function (dispatch) {
+    dispatch({
+      type: _constants.LOGIN_ERROR,
+      payload: ''
+    });
+  };
+};
+
+/***/ }),
+/* 212 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.handleToggleMissedMsg = exports.clearMissedMsg = exports.sendMessage = exports.getMessages = undefined;
+
+var _axios = __webpack_require__(54);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _socket = __webpack_require__(210);
+
+var _constants = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var getMessages = exports.getMessages = function getMessages() {
+  return function (dispatch) {
+    dispatch({ type: _constants.LOADING, payload: true });
+
+    _axios2.default.get((0, _constants.rootUrl)() + '/messages', {
+      headers: { authorization: localStorage.getItem('token') }
+    }).then(function (_ref) {
+      var data = _ref.data;
+
+      dispatch({
+        type: _constants.GET_MESSAGES,
+        payload: data
+      });
+
+      setTimeout(function () {
+        return dispatch({ type: _constants.LOADING, payload: false });
+      }, 500);
+    }).catch(function (err) {
+      console.log('fetch messages failed: ' + err);
+    });
+  };
+};
+
+var sendMessage = exports.sendMessage = function sendMessage(_ref2) {
+  var userAvatar = _ref2.userAvatar,
+      username = _ref2.username,
+      date = _ref2.date,
+      text = _ref2.text,
+      imageMsg = _ref2.imageMsg;
+  return function () {
+    _axios2.default.post((0, _constants.rootUrl)() + '/send', { userAvatar: userAvatar, username: username, date: date, text: text, imageMsg: imageMsg }).then(function (_ref3) {
+      var data = _ref3.data;
+
+      _socket.socket.emit(_constants.MESSAGE_SENT, data);
+    }).catch(function (err) {
+      console.log('send message failed: ' + err);
+    });
+  };
+};
+
+var clearMissedMsg = exports.clearMissedMsg = function clearMissedMsg(username) {
+  return function (dispatch) {
+    _axios2.default.post((0, _constants.rootUrl)() + '/bookmark', { username: username }).then(function (_ref4) {
+      var data = _ref4.data;
+
+      if (data.error) {
+        console.log('unable to find the username: ' + username + ' to remove');
+      } else {
+        dispatch({
+          type: _constants.CLEAR_MISSED_MSG
+        });
+      }
+    }).catch(function (err) {
+      console.log('remove bookmark failed: ' + err);
+    });
+  };
+};
+
+var handleToggleMissedMsg = exports.handleToggleMissedMsg = function handleToggleMissedMsg() {
+  return {
+    type: _constants.TOGGLE_MISSED_MSG
+  };
+};
+
+/***/ }),
+/* 213 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _socket = __webpack_require__(210);
+
+var _constants = __webpack_require__(17);
+
+var isTyping = function isTyping(username, bool) {
+  return function () {
+    if (bool) {
+      _socket.socket.emit(_constants.TYPING, username);
+    } else {
+      _socket.socket.emit(_constants.STOPPED_TYPING, username);
+    }
+  };
+};
+
+module.exports = {
+  isTyping: isTyping
+};
+
+/***/ }),
+/* 214 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _constants = __webpack_require__(17);
+
+var clearNotices = function clearNotices() {
+  return {
+    type: _constants.CLEAR_NOTICES
+  };
+};
+
+module.exports = {
+  clearNotices: clearNotices
+};
+
+/***/ }),
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isTypingPrivate = exports.sendPrivateMessage = exports.getPrivateMessages = exports.unlockPrivateMessage = exports.handleTogglePrivatePWInput = exports.submitPrivatePassword = exports.toggleLock = undefined;
+
+var _axios = __webpack_require__(54);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _socket = __webpack_require__(210);
+
+var _constants = __webpack_require__(17);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PRIVATE_LOCK = process.env.PRIVATE_LOCK || 'dev';
+
+var toggleLock = exports.toggleLock = function toggleLock(bool) {
+  return {
+    type: _constants.TOGGLE_LOCK,
+    payload: bool
+  };
+};
+
+var submitPrivatePassword = exports.submitPrivatePassword = function submitPrivatePassword(password) {
+  return function (dispatch) {
+    if (password === PRIVATE_LOCK) {
+      dispatch({ type: _constants.TOGGLE_LOCK, payload: false });
+      dispatch({ type: _constants.UNLOCK_PRIVATE_PASSWORD, payload: true });
+      dispatch({ type: _constants.TOGGLE_PRIVATE_PW_INPUT, payload: false });
+    } else {
+      dispatch({ type: _constants.LOGIN_ERROR, payload: 'incorrect password' });
+      dispatch({ type: _constants.TOGGLE_LOCK, payload: true });
+      dispatch({ type: _constants.UNLOCK_PRIVATE_PASSWORD, payload: false });
+    }
+  };
+};
+
+var handleTogglePrivatePWInput = exports.handleTogglePrivatePWInput = function handleTogglePrivatePWInput(bool) {
+  return {
+    type: _constants.TOGGLE_PRIVATE_PW_INPUT,
+    payload: bool
+  };
+};
+
+var unlockPrivateMessage = exports.unlockPrivateMessage = function unlockPrivateMessage(bool) {
+  return {
+    type: _constants.UNLOCK_PRIVATE_PASSWORD,
+    payload: bool
+  };
+};
+
+var getPrivateMessages = exports.getPrivateMessages = function getPrivateMessages() {
+  return function (dispatch) {
+    dispatch({ type: _constants.LOADING, payload: true });
+
+    _axios2.default.get((0, _constants.rootUrl)() + '/messages_private', {
+      headers: { authorization: localStorage.getItem('token') }
+    }).then(function (_ref) {
+      var data = _ref.data;
+
+      dispatch({
+        type: _constants.GET_MESSAGES_PRIVATE,
+        payload: data
+      });
+
+      setTimeout(function () {
+        return dispatch({ type: _constants.LOADING, payload: false });
+      }, 500);
+    }).catch(function (err) {
+      console.log('fetch messages failed: ' + err);
+    });
+  };
+};
+
+var sendPrivateMessage = exports.sendPrivateMessage = function sendPrivateMessage(_ref2) {
+  var userAvatar = _ref2.userAvatar,
+      username = _ref2.username,
+      date = _ref2.date,
+      text = _ref2.text,
+      imageMsg = _ref2.imageMsg;
+  return function () {
+    _axios2.default.post((0, _constants.rootUrl)() + '/send_private', { userAvatar: userAvatar, username: username, date: date, text: text, imageMsg: imageMsg }).then(function (_ref3) {
+      var data = _ref3.data;
+
+      _socket.socket.emit(_constants.MESSAGE_SENT_PRIVATE, data);
+    }).catch(function (err) {
+      console.log('send message failed: ' + err);
+    });
+  };
+};
+
+var isTypingPrivate = exports.isTypingPrivate = function isTypingPrivate(username, bool) {
+  return function () {
+    if (bool) {
+      _socket.socket.emit(_constants.TYPING_PRIVATE, username);
+    } else {
+      _socket.socket.emit(_constants.STOPPED_TYPING_PRIVATE, username);
+    }
+  };
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ })
 /******/ ]);
