@@ -1,12 +1,12 @@
 import axios from 'axios';
+import { initSocket, socket } from './socket';
 import {
-  LOGIN_ERROR,
   LOGGED_IN,
-  USER_CONNECTED,
+  LOGIN_ERROR,
   LOGOUT,
+  USER_CONNECTED,
   rootUrl,
 } from '../../constants';
-import { initSocket, socket } from './socket';
 
 const loginFailed = (error, dispatch) => {
   dispatch({
@@ -86,3 +86,9 @@ export const logOutUser = user => (dispatch) => {
   localStorage.removeItem('token');
 };
 
+export const removeLoginError = () => (dispatch) => {
+  dispatch({
+    type: LOGIN_ERROR,
+    payload: '',
+  });
+};
