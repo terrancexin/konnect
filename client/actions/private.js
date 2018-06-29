@@ -15,33 +15,6 @@ import {
 
 const PRIVATE_LOCK = process.env.PRIVATE_LOCK || 'dev';
 
-export const toggleLock = bool => ({
-  type: TOGGLE_LOCK,
-  payload: bool,
-});
-
-export const submitPrivatePassword = password => (dispatch) => {
-  if (password === PRIVATE_LOCK) {
-    dispatch({ type: TOGGLE_LOCK, payload: false });
-    dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: true });
-    dispatch({ type: TOGGLE_PRIVATE_PW_INPUT, payload: false });
-  } else {
-    dispatch({ type: LOGIN_ERROR, payload: 'incorrect password' });
-    dispatch({ type: TOGGLE_LOCK, payload: true });
-    dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: false });
-  }
-};
-
-export const handleTogglePrivatePWInput = bool => ({
-  type: TOGGLE_PRIVATE_PW_INPUT,
-  payload: bool,
-});
-
-export const unlockPrivateMessage = bool => ({
-  type: UNLOCK_PRIVATE_PASSWORD,
-  payload: bool,
-});
-
 export const getPrivateMessages = () => (dispatch) => {
   dispatch({ type: LOADING, payload: true });
 
@@ -78,6 +51,34 @@ export const sendPrivateMessage = ({
       console.log(`send message failed: ${err}`);
     });
 };
+
+export const toggleLock = bool => ({
+  type: TOGGLE_LOCK,
+  payload: bool,
+});
+
+export const submitPrivatePassword = password => (dispatch) => {
+  if (password === PRIVATE_LOCK) {
+    dispatch({ type: TOGGLE_LOCK, payload: false });
+    dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: true });
+    dispatch({ type: TOGGLE_PRIVATE_PW_INPUT, payload: false });
+  } else {
+    dispatch({ type: LOGIN_ERROR, payload: 'incorrect password' });
+    dispatch({ type: TOGGLE_LOCK, payload: true });
+    dispatch({ type: UNLOCK_PRIVATE_PASSWORD, payload: false });
+  }
+};
+
+export const handleTogglePrivatePWInput = bool => ({
+  type: TOGGLE_PRIVATE_PW_INPUT,
+  payload: bool,
+});
+
+export const unlockPrivateMessage = bool => ({
+  type: UNLOCK_PRIVATE_PASSWORD,
+  payload: bool,
+});
+
 
 export const isTypingPrivate = (username, bool) => () => {
   if (bool) {

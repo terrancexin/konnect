@@ -9,6 +9,23 @@ import {
   rootUrl,
 } from '../../constants';
 
+export const clearMissedMsg = username => (dispatch) => {
+  axios
+    .post(`${rootUrl()}/bookmark`, { username })
+    .then(({ data }) => {
+      if (data.error) {
+        console.log(`unable to find the username: ${username} to remove`);
+      } else {
+        dispatch({
+          type: CLEAR_MISSED_MSG,
+        });
+      }
+    })
+    .catch((err) => {
+      console.log(`remove bookmark failed: ${err}`);
+    });
+};
+
 export const getMessages = () => (dispatch) => {
   dispatch({ type: LOADING, payload: true });
 
@@ -46,22 +63,6 @@ export const sendMessage = ({
     });
 };
 
-export const clearMissedMsg = username => (dispatch) => {
-  axios
-    .post(`${rootUrl()}/bookmark`, { username })
-    .then(({ data }) => {
-      if (data.error) {
-        console.log(`unable to find the username: ${username} to remove`);
-      } else {
-        dispatch({
-          type: CLEAR_MISSED_MSG,
-        });
-      }
-    })
-    .catch((err) => {
-      console.log(`remove bookmark failed: ${err}`);
-    });
-};
 
 export const handleToggleMissedMsg = () => ({
   type: TOGGLE_MISSED_MSG,
