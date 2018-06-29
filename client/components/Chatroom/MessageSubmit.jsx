@@ -36,8 +36,8 @@ class MessageSubmit extends Component {
   }
 
   closeEmojiGiphy() {
-    this.props.handleToggleGiphy(false);
     this.props.handleToggleEmoji(false);
+    this.props.handleToggleGiphy(false);
   }
 
   handleChange(e) {
@@ -114,14 +114,14 @@ class MessageSubmit extends Component {
   render() {
     const { text, textCount } = this.state;
     const {
+      imgSrc,
+      isLocked,
+      isMatchPrivatePassword,
       typing,
       typingPrivate,
       typingUsers,
       typingUsersPrivate,
       verbs,
-      imgSrc,
-      isMatchPrivatePassword,
-      isLocked,
     } = this.props;
 
     return (
@@ -141,8 +141,8 @@ class MessageSubmit extends Component {
             id="message"
             maxLength="500"
             onChange={this.handleChange}
-            onKeyPress={this.handleKeyPress}
             onClick={this.closeEmojiGiphy}
+            onKeyPress={this.handleKeyPress}
             placeholder="enter your message"
             type="text"
             value={text}
@@ -163,18 +163,20 @@ class MessageSubmit extends Component {
 
 const mapStateToProps = state => ({
   imgSrc: state.imgSrc,
+  isLocked: state.isLocked,
+  isMatchPrivatePassword: state.isMatchPrivatePassword,
   typing: state.typing,
   typingPrivate: state.typingPrivate,
   typingUsers: state.typingUsers,
   typingUsersPrivate: state.typingUsersPrivate,
   user: state.user,
   verbs: state.verbs,
-  isMatchPrivatePassword: state.isMatchPrivatePassword,
-  isLocked: state.isLocked,
 });
 
 MessageSubmit.propTypes = {
   imgSrc: PropTypes.string.isRequired,
+  isLocked: PropTypes.bool.isRequired,
+  isMatchPrivatePassword: PropTypes.bool.isRequired,
   typing: PropTypes.bool.isRequired,
   typingPrivate: PropTypes.bool.isRequired,
   typingUsers: PropTypes.array.isRequired,
@@ -189,8 +191,6 @@ MessageSubmit.propTypes = {
   setImgSrc: PropTypes.func.isRequired,
   setFileName: PropTypes.func.isRequired,
   sendPrivateMessage: PropTypes.func.isRequired,
-  isMatchPrivatePassword: PropTypes.bool.isRequired,
-  isLocked: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, {

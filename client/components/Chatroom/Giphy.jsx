@@ -37,19 +37,19 @@ class Giphy extends Component {
 
       if (isMatchPrivatePassword && !isLocked) {
         this.props.sendPrivateMessage({
-          username,
-          userAvatar: avatar,
           date,
           imageMsg,
           text: '',
+          userAvatar: avatar,
+          username,
         });
       } else {
         this.props.sendMessage({
-          username,
-          userAvatar: avatar,
           date,
           imageMsg,
           text: '',
+          userAvatar: avatar,
+          username,
         });
       }
 
@@ -94,11 +94,11 @@ class Giphy extends Component {
       return (
         <label key={id} htmlFor={id} className="giphy__list--single">
           <input
+            checked={this.state.giphySelected === id}
+            className="giphy__radioInput"
             id={id}
             type="radio"
-            className="giphy__radioInput"
             value={images.fixed_height_small.url}
-            checked={this.state.giphySelected === id}
           />
           <img src={images.fixed_height_small.url} alt={id} />
         </label>
@@ -119,16 +119,16 @@ class Giphy extends Component {
           <div className="giphy__picker">
             <div className="giphy__search">
               <input
-                type="text"
-                onChange={this.handleChange}
                 className="giphy_search--input"
-                placeholder=" cute puppies..."
+                onChange={this.handleChange}
                 onKeyPress={this.handleKeyPress}
+                placeholder=" cute puppies..."
+                type="text"
               />
               <button
-                onClick={this.handleSearch}
                 className="giphy__search--btn"
                 disabled={giphySearch.length < 1}
+                onClick={this.handleSearch}
               >
                 Search
               </button>
@@ -146,10 +146,10 @@ class Giphy extends Component {
 
 const mapStateToProps = state => ({
   giphy: state.giphy,
+  isLocked: state.isLocked,
+  isMatchPrivatePassword: state.isMatchPrivatePassword,
   toggleGiphy: state.toggleGiphy,
   user: state.user,
-  isMatchPrivatePassword: state.isMatchPrivatePassword,
-  isLocked: state.isLocked,
 });
 
 Giphy.propTypes = {
@@ -157,11 +157,11 @@ Giphy.propTypes = {
   giphy: PropTypes.array.isRequired,
   handleToggleEmoji: PropTypes.func.isRequired,
   handleToggleGiphy: PropTypes.func.isRequired,
+  isLocked: PropTypes.bool.isRequired,
+  isMatchPrivatePassword: PropTypes.bool.isRequired,
   sendMessage: PropTypes.func.isRequired,
   sendPrivateMessage: PropTypes.func.isRequired,
   toggleGiphy: PropTypes.bool.isRequired,
-  isMatchPrivatePassword: PropTypes.bool.isRequired,
-  isLocked: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };
 

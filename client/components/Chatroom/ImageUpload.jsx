@@ -8,10 +8,10 @@ class ImageUpload extends Component {
   constructor(props) {
     super(props);
 
-    this.setRef = this.setRef.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.handleCancelUpload = this.handleCancelUpload.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.setRef = this.setRef.bind(this);
   }
 
   setRef(node) {
@@ -47,8 +47,8 @@ class ImageUpload extends Component {
 
     // clear file input event listener
     document.getElementById('imageUploadInput').value = '';
-    this.props.setImgSrc('');
     this.props.setFileName('');
+    this.props.setImgSrc('');
   }
 
   render() {
@@ -57,17 +57,17 @@ class ImageUpload extends Component {
     return (
       <div className="imageUpload">
         <input
-          onChange={this.handleChange}
-          type="file"
-          ref={this.setRef}
+          accept="image/*"
           className="imageUpload__input"
           id="imageUploadInput"
-          accept="image/*"
+          onChange={this.handleChange}
+          ref={this.setRef}
+          type="file"
         />
         {imgFileName && (
           <button
-            onClick={this.handleCancelUpload}
             className="imageUpload__btn--cancel"
+            onClick={this.handleCancelUpload}
           >
             cancel
           </button>
@@ -94,13 +94,13 @@ const mapStateToProps = state => ({
 });
 
 ImageUpload.propTypes = {
-  setImgSrc: PropTypes.func.isRequired,
-  setFileName: PropTypes.func.isRequired,
   imgFileName: PropTypes.string.isRequired,
   imgSrc: PropTypes.string.isRequired,
+  setFileName: PropTypes.func.isRequired,
+  setImgSrc: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
-  setImgSrc,
   setFileName,
+  setImgSrc,
 })(ImageUpload);

@@ -36,9 +36,9 @@ class MessagesList extends Component {
     return (
       <div className="loading">
         <img
+          alt="loading-spinner"
           className="loading-spinner"
           src={`${rootUrl()}/images/fidget-loading-spinner.gif`}
-          alt="loading-spinner"
         />
       </div>
     );
@@ -53,9 +53,9 @@ class MessagesList extends Component {
         <li className={`${threadType} message-sent`} key={_id}>
           <div className={`${threadType} timestamp-user-box`}>
             <img
-              src={`${rootUrl()}/images/avatars/${userAvatar}.png`}
-              className="avatar-img"
               alt="avatar"
+              className="avatar-img"
+              src={`${rootUrl()}/images/avatars/${userAvatar}.png`}
             />
             <span className="thread-username">{username}</span>
             <span className="thread-timestamp">{formatTime(date)}</span>
@@ -90,9 +90,9 @@ class MessagesList extends Component {
 }
 
 MessagesList.propTypes = {
+  currentUser: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   messages: PropTypes.array.isRequired,
-  currentUser: PropTypes.string.isRequired,
 };
 
 export default MessagesList;

@@ -34,12 +34,12 @@ export class Emoji extends Component {
         {toggleEmoji && (
           <Picker
             emojiSize={20}
+            include={['recent', 'people', 'foods', 'nature', 'symbols']}
             onSelect={addEmoji}
+            perLine={5}
             sheetSize={20}
             showPreview={false}
             showSkinTones={false}
-            perLine={5}
-            include={['recent', 'people', 'foods', 'nature', 'symbols']}
             style={{
               position: 'absolute',
               bottom: '20px',
@@ -60,9 +60,9 @@ const mapStateToProps = state => ({
 
 Emoji.propTypes = {
   addEmoji: PropTypes.func.isRequired,
-  toggleEmoji: PropTypes.bool.isRequired,
   handleToggleEmoji: PropTypes.func.isRequired,
   handleToggleGiphy: PropTypes.func.isRequired,
+  toggleEmoji: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, {

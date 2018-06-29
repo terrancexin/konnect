@@ -79,28 +79,28 @@ class Chatroom extends Component {
 }
 
 const mapStateToProps = state => ({
+  isLocked: state.isLocked,
+  isMatchPrivatePassword: state.isMatchPrivatePassword,
   loading: state.loading,
   messages: state.messages,
   missedMsg: state.missedMsg,
   username: state.username,
   users: state.users,
-  isMatchPrivatePassword: state.isMatchPrivatePassword,
-  isLocked: state.isLocked,
   toggleMissedMsg: state.toggleMissedMsg,
 });
 
 Chatroom.propTypes = {
   fetchGiphy: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  messages: PropTypes.array.isRequired,
-  missedMsg: PropTypes.array.isRequired,
-  username: PropTypes.string.isRequired,
-  users: PropTypes.array.isRequired,
   getMessages: PropTypes.func.isRequired,
-  socketOff: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
   isMatchPrivatePassword: PropTypes.bool.isRequired,
   isLocked: PropTypes.bool.isRequired,
+  messages: PropTypes.array.isRequired,
+  missedMsg: PropTypes.array.isRequired,
+  socketOff: PropTypes.func.isRequired,
   toggleMissedMsg: PropTypes.bool.isRequired,
+  username: PropTypes.string.isRequired,
+  users: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps, {
