@@ -2,11 +2,11 @@ import React from 'react';
 
 const Footer = () => {
   const icons = {
+    globe: 'https://www.terrancexin.com',
+    github: 'https://github.com/terrancexin/konnect',
+    linkedin: 'https://www.linkedin.com/in/terrancexin/',
     angellist: 'https://angel.co/terrancexin',
     instagram: 'https://www.instagram.com/txin/',
-    linkedin: 'https://www.linkedin.com/in/terrancexin/',
-    github: 'https://github.com/terrancexin/konnect',
-    globe: 'https://www.terrancexin.com',
   };
 
   return (

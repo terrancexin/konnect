@@ -7510,11 +7510,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Footer = function Footer() {
   var icons = {
-    angellist: 'https://angel.co/terrancexin',
-    instagram: 'https://www.instagram.com/txin/',
-    linkedin: 'https://www.linkedin.com/in/terrancexin/',
+    globe: 'https://www.terrancexin.com',
     github: 'https://github.com/terrancexin/konnect',
-    globe: 'https://www.terrancexin.com'
+    linkedin: 'https://www.linkedin.com/in/terrancexin/',
+    angellist: 'https://angel.co/terrancexin',
+    instagram: 'https://www.instagram.com/txin/'
   };
 
   return _react2.default.createElement(
