@@ -12,10 +12,10 @@ class LogIn extends Component {
     super(props);
     this.state = {
       avatar: '',
-      username: '',
       password: '',
       passwordConfirmation: '',
       toggleSignUp: true,
+      username: '',
     };
 
     this.handleAvatar = this.handleAvatar.bind(this);
@@ -89,26 +89,26 @@ class LogIn extends Component {
 
   render() {
     const {
-      username,
       password,
       passwordConfirmation,
       toggleSignUp,
+      username,
     } = this.state;
     const { err } = this.props;
 
     return (
-      <div className="login-page">
-        <section className="login-header">
-          <h1 className="konnect-title">{'Let\'s Konnect!'}</h1>
-          <div className="login-btns">
+      <div className="login">
+        <section className="login__header">
+          <h1 className="login__header--title">{'Let\'s Konnect!'}</h1>
+          <div className="login__btns">
             <button
-              className={`login-btn-${toggleSignUp ? 'on' : 'off'}`}
+              className={`login__btn--${toggleSignUp ? 'on' : 'off'}`}
               onClick={this.handleToggleSignUp(true)}
             >
               Sign up
             </button>
             <button
-              className={`login-btn-${!toggleSignUp ? 'on' : 'off'}`}
+              className={`login__btn--${!toggleSignUp ? 'on' : 'off'}`}
               onClick={this.handleToggleSignUp(false)}
             >
               Log in
@@ -116,15 +116,15 @@ class LogIn extends Component {
           </div>
         </section>
         <Form
-          handleAvatar={this.handleAvatar}
           err={err}
+          handleAvatar={this.handleAvatar}
           handleChange={this.handleChange}
+          handleGuest={this.handleGuest}
           handleSubmit={this.handleSubmit}
           password={password}
           passwordConfirmation={passwordConfirmation}
           toggleSignUp={toggleSignUp}
           username={username}
-          handleGuest={this.handleGuest}
         />
         <Footer />
       </div>
