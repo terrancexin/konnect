@@ -32,4 +32,66 @@
       background-color: rgb(57, 115, 213);
     }
   }
+  
+  &__form {
+    @include flex-column-center;
+    margin-top: 1.5em;
+  }
+
+  &__error {
+    color: $red;
+    font-size: 1em;
+    line-height: 30px;
+    height: 30px;
+    font-weight: 300;
+  }
+
+  &__btns--enter {
+    margin-top: 1.5em;
+
+    &:hover {
+      background-color: $mintGreen;
+      color: $blue;
+    }
+  }
+
+  &__btns--guest {
+    margin: 1.5em 0;
+    background-color: $mintGreen;
+    color: gray;
+    width: 116px;
+    font-size: 0.9em;
+    
+    &:hover {
+      color: $mintGreen;
+      background-color: $black;
+    }
+  }
+
+  &__input {
+    width: 7em;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    height: 30px;
+    line-height: 30px;
+    font-size: 2em;
+    text-align: center;
+    border-bottom: solid 2px $lightgray;
+    transition:all .3s ease-in;
+    padding: 10px;
+    color: $black;
+    background-color: transparent;
+
+    &:focus{
+      border-bottom: solid 1px $blue;
+      outline: none;
+    }
+
+    &::placeholder {
+      font-style: italic;
+      color: $placeholdergray;
+      margin-bottom: 5px;
+    }
+  }
 }

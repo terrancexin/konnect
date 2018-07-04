@@ -14,8 +14,8 @@ const Form = ({
   toggleSignUp,
   username,
 }) => (
-  <form autoComplete="off" className="login-form" onSubmit={handleSubmit}>
-    <span className="login-error">{err || ''}</span>
+  <form autoComplete="off" className="login__form" onSubmit={handleSubmit}>
+    <span className="login__error">{err || ''}</span>
     <input
       type="text"
       className="login__input"
@@ -44,8 +44,8 @@ const Form = ({
     )}
     {toggleSignUp && <p className="pick-avatar">Pick an avatar</p>}
     {toggleSignUp && <Avatar handleAvatar={handleAvatar} />}
-    <button onClick={handleSubmit} className="enter">Enter</button>
-    <button onClick={handleGuest} className="guest">Guest Demo</button>
+    <button onClick={handleSubmit} className="login__btns--enter">Enter</button>
+    <button onClick={handleGuest} className="login__btns--guest">Guest Demo</button>
   </form>
 );
 
