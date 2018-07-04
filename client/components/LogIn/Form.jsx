@@ -42,7 +42,7 @@ const Form = ({
         placeholder="confirm again"
       />
     )}
-    {toggleSignUp && <p className="pick-avatar">Pick an avatar</p>}
+    {toggleSignUp && <p className="login__avatar--text">Pick an avatar</p>}
     {toggleSignUp && <Avatar handleAvatar={handleAvatar} />}
     <button onClick={handleSubmit} className="login__btns--enter">Enter</button>
     <button onClick={handleGuest} className="login__btns--guest">Guest Demo</button>

@@ -26,13 +26,12 @@ class Avatar extends Component {
 
     for (let i = 1; i < 12; i++) {
       avatar = (
-        <label key={i} htmlFor={`avatar${i}`} className="radio-label">
+        <label key={i} htmlFor={`avatar${i}`} className="login__avatar--radio">
           <input
+            checked={this.state.avatarSelected === i}
             id={`avatar${i}`}
             type="radio"
-            className="avatar-input"
             value={i}
-            checked={this.state.avatarSelected === i}
           />
           <img src={`${rootUrl()}/images/avatars/${i}.png`} alt="avatar" />
         </label>
@@ -42,7 +41,7 @@ class Avatar extends Component {
     }
 
     return (
-      <div className="avatar-list" onChange={this.handleChange}>
+      <div className="login__avatar--list" onChange={this.handleChange}>
         {avatars}
       </div>
     );
