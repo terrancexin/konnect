@@ -1,0 +1,35 @@
+.login {
+  @include flex-column-center;
+  
+  &__header {
+    @include flex-column;
+  }
+  
+  &__header--title {
+    margin-top: 1em;
+    font-size: 4em;
+    margin-bottom: 20px;
+    color: $blue;
+  }
+  
+  &__btns {
+    display: flex;
+    justify-content: center;
+  }
+    
+  &__btn--on {
+    &:hover {
+      background-color: rgb(57, 115, 213);
+    }
+  }
+    
+  &__btn--off {
+    background-color: lightgray;
+    border: 1px solid lightgray;
+    color: white;
+    
+    &:hover {
+      background-color: rgb(57, 115, 213);
+    }
+  }
+}

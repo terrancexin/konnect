@@ -1,5 +1,6 @@
 @import 'reset.scss';
 @import 'base.scss';
+@import 'login';
 @import 'emoji';
 @import 'giphy';
 @import 'imageUpload';
@@ -8,42 +9,6 @@
 .app {
   width: 100%;
   height: 100%;
-}
-
-.login-page {
-  @include flex-column-center;
-}
-
-.login-header {
-  @include flex-column;
-}
-
-.konnect-title {
-  margin-top: 1em;
-  font-size: 4em;
-  margin-bottom: 20px;
-  color: $blue;
-}
-
-.login-btns {
-  display: flex;
-  justify-content: center;
-  
-  button.login-btn-on {
-    &:hover {
-      background-color: rgb(57, 115, 213);
-    }
-  }
-  
-  button.login-btn-off {
-    background-color: lightgray;
-    border: 1px solid lightgray;
-    color: white;
-    
-    &:hover {
-      background-color: rgb(57, 115, 213);
-    }
-  }
 }
 
 .login-form {
@@ -80,7 +45,7 @@ button.guest {
   }
 }
 
-input.login {
+input.login__input {
   width: 7em;
   border-top: none;
   border-left: none;
