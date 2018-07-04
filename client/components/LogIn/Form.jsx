@@ -18,7 +18,7 @@ const Form = ({
     <span className="login-error">{err || ''}</span>
     <input
       type="text"
-      className="login"
+      className="login__input"
       value={username}
       onChange={handleChange('username')}
       maxLength="16"
@@ -26,7 +26,7 @@ const Form = ({
     />
     <input
       type="password"
-      className="login"
+      className="login__input"
       value={password}
       maxLength="16"
       onChange={handleChange('password')}
@@ -35,7 +35,7 @@ const Form = ({
     {toggleSignUp && (
       <input
         type="password"
-        className="login"
+        className="login__input"
         value={passwordConfirmation}
         maxLength="16"
         onChange={handleChange('passwordConfirmation')}
