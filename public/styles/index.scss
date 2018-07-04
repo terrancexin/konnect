@@ -374,39 +374,4 @@ footer {
   }
 }
 
-.avatar-list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.pick-avatar {
-  margin-top: 15px;
-  margin-bottom: 5px;
-  color: $blue;
-  font-weight: bold;
-}
-
-.radio-label {
-  input + img {
-    width: 26px;
-    height: 26px;
-    margin: 0 2px 1px 2px;
-    line-height: 35px;
-    cursor: pointer;
-    transition:all .3s ease-in;
-    filter: brightness(0.4);
-    
-    &:hover {
-      filter: brightness(1);
-    }
-  }
-  
-  input:checked + img {
-    filter: brightness(1);
-    width: 35px;
-    height: 35px;
-  }
-}
-
 @import 'mobile.scss';
