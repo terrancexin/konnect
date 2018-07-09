@@ -31,6 +31,7 @@ module.exports = {
         ROOT_URL: JSON.stringify(process.env.ROOT_URL),
         SECRET_JWT_KEY: JSON.stringify(process.env.SECRET_JWT_KEY),
         PRIVATE_LOCK: JSON.stringify(process.env.PRIVATE_LOCK),
+        SECRET_CRYPTO_KEY: JSON.stringify(process.env.SECRET_CRYPTO_KEY),
       },
     }),
     new webpack.optimize.UglifyJsPlugin({
