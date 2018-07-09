@@ -1,3 +1,8 @@
+import SimpleCrypto from 'simple-crypto-js';
+
+const secretCryptoKey = process.env.SECRET_CRYPTO_KEY || 'private';
+export const simpleCrypto = new SimpleCrypto(secretCryptoKey);
+
 export const formatTime = (strDate) => {
   const date = new Date(strDate);
   let hours = date.getHours();
