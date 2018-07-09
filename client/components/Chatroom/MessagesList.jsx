@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Linkify from 'react-linkify';
 
-import { formatTime } from '../../utils';
+import { formatTime, simpleCrypto } from '../../utils';
 import { rootUrl } from '../../../constants';
 
 class MessagesList extends Component {
@@ -44,10 +45,11 @@ class MessagesList extends Component {
     );
   }
 
-  renderMessages(messages, currentUser) {
+  renderMessages(messages, currentUser, isMatchPrivatePassword) {
     return messages.map((msg) => {
-      const { date, _id, text, username, userAvatar, imageMsg } = msg;
-      const threadType = username === currentUser ? 'current-user' : 'other-user';
+      const { _id, date, imageMsg, text, userAvatar, username } = msg;
+      const threadType =
+        username === currentUser ? 'current-user' : 'other-user';
 
       return (
         <li className={`${threadType} message-sent`} key={_id}>
@@ -61,8 +63,23 @@ class MessagesList extends Component {
             <span className="thread-timestamp">{formatTime(date)}</span>
           </div>
           <Linkify properties={{ target: '_blank', style: { color: 'blue' } }}>
-            {imageMsg && <img src={imageMsg} alt="pic" className={`${threadType} message-img`} />}
-            {text && <div className={`${threadType} message-text`}>{text}</div>}
+            {imageMsg && (
+              <img
+                src={imageMsg}
+                alt="pic"
+                className={`${threadType} message-img`}
+              />
+            )}
+            {text &&
+              !isMatchPrivatePassword && (
+                <div className={`${threadType} message-text`}>{text}</div>
+              )}
+            {text &&
+              isMatchPrivatePassword && (
+                <div className={`${threadType} message-text`}>
+                  {simpleCrypto.decrypt(text)}
+                </div>
+              )}
           </Linkify>
         </li>
       );
@@ -70,7 +87,7 @@ class MessagesList extends Component {
   }
 
   render() {
-    const { messages, currentUser, loading } = this.props;
+    const { messages, currentUser, loading, isMatchPrivatePassword } = this.props;
 
     if (loading) {
       return this.renderLoading();
@@ -79,7 +96,7 @@ class MessagesList extends Component {
     if (messages.length) {
       return (
         <ul className="messages-list">
-          { this.renderMessages(messages, currentUser) }
+          {this.renderMessages(messages, currentUser, isMatchPrivatePassword)}
           <div ref={this.setRef} />
         </ul>
       );
@@ -89,10 +106,18 @@ class MessagesList extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  isMatchPrivatePassword: state.isMatchPrivatePassword,
+});
+
 MessagesList.propTypes = {
   currentUser: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
   messages: PropTypes.array.isRequired,
+  isMatchPrivatePassword: PropTypes.bool.isRequired,
 };
 
-export default MessagesList;
+export default connect(
+  mapStateToProps,
+  null,
+)(MessagesList);
