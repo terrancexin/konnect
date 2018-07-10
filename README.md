@@ -58,6 +58,7 @@ Build real-time chat functionality
 - User can upload an image
 - User can preview the image before sending
 - Private chat room
+- Save encrypted private message to the database
 
 ## User Stories
 - As a user, I want to authenticate my username and password.
