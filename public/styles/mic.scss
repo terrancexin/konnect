@@ -1,0 +1,21 @@
+.giphy {
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  right: 0px;
+
+  &__btn {
+    @include reset-btn-style;
+    width: 17px;
+    height: 17px;
+    color: lightgray;
+    
+    .fa-microphone-alt {
+      font-size: 17px;
+    }
+    
+    &:hover {
+      color: $blue;
+    }
+  }
+}
