@@ -21,8 +21,8 @@ class Mic extends Component {
     const { isMicActive } = this.state;
 
     return (
-      <div className="giphy">
-        <button onClick={this.handleClick} className="giphy__btn">
+      <div className="mic">
+        <button onClick={this.handleClick} className="mic__btn">
           <i className="fas fa-microphone-alt" />
         </button>
         {isMicActive && (
@@ -34,7 +34,7 @@ class Mic extends Component {
 }
 
 const mapStateToProps = state => ({
-  giphy: state.giphy,
+  mic: state.mic,
 });
 
 export default connect(
