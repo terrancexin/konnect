@@ -12,6 +12,7 @@ import { sendMessage } from '../../actions/message';
 import EmojiPicker from './Emoji';
 import Giphy from './Giphy';
 import ImageUpload from './ImageUpload';
+import Mic from './Mic';
 import Typing from './Typing';
 
 class MessageSubmit extends Component {
@@ -132,6 +133,7 @@ class MessageSubmit extends Component {
         {!isMatchPrivatePassword && (
           <Typing typing={typing} typingUsers={typingUsers} verbs={verbs} />
         )}
+        <Mic />
         <EmojiPicker addEmoji={this.addEmoji} />
         <Giphy />
         <ImageUpload />
