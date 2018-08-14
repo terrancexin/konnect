@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Voice from '../Voice';
+
 class Mic extends Component {
   constructor(props) {
     super(props);
@@ -15,11 +17,12 @@ class Mic extends Component {
 
   handleClick(e) {
     e.preventDefault();
-    console.log('clicked');
+    this.setState({ isMicActive: !this.state.isMicActive });
   }
 
   render() {
     const { isMicActive } = this.state;
+    console.log(isMicActive);
 
     return (
       <div className="mic">
@@ -27,7 +30,7 @@ class Mic extends Component {
           <i className="fas fa-microphone-alt" />
         </button>
         {isMicActive && (
-          <div>test</div>
+          <Voice />
         )}
       </div>
     );
