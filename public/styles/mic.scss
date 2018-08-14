@@ -1,8 +1,8 @@
-.giphy {
+.mic {
   position: absolute;
   z-index: 1;
-  top: 0px;
-  right: 0px;
+  top: 61px;
+  right: 483px;
 
   &__btn {
     @include reset-btn-style;
