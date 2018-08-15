@@ -11149,11 +11149,11 @@ var _ImageUpload = __webpack_require__(241);
 
 var _ImageUpload2 = _interopRequireDefault(_ImageUpload);
 
-var _Mic = __webpack_require__(251);
+var _Mic = __webpack_require__(242);
 
 var _Mic2 = _interopRequireDefault(_Mic);
 
-var _Typing = __webpack_require__(242);
+var _Typing = __webpack_require__(246);
 
 var _Typing2 = _interopRequireDefault(_Typing);
 
@@ -12485,7 +12485,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = __webpack_require__(6);
 
-var _notice = __webpack_require__(243);
+var _notice = __webpack_require__(247);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12580,11 +12580,11 @@ var _message = __webpack_require__(35);
 
 var _user = __webpack_require__(53);
 
-var _NavBtns = __webpack_require__(245);
+var _NavBtns = __webpack_require__(249);
 
 var _NavBtns2 = _interopRequireDefault(_NavBtns);
 
-var _UsersList = __webpack_require__(246);
+var _UsersList = __webpack_require__(250);
 
 var _UsersList2 = _interopRequireDefault(_UsersList);
 
@@ -33968,7 +33968,7 @@ exports = module.exports = __webpack_require__(132)(false);
 
 
 // module
-exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\ninput[type=\"radio\"] {\n  visibility: hidden;\n  position: absolute; }\n\n.login {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .login__header {\n    display: flex;\n    flex-direction: column; }\n  .login__header--title {\n    margin-top: 1em;\n    font-size: 4em;\n    margin-bottom: 20px;\n    color: #4080ff; }\n  .login__btns {\n    display: flex;\n    justify-content: center; }\n  .login__btn--on:hover {\n    background-color: #3973d5; }\n  .login__btn--off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login__btn--off:hover {\n      background-color: #3973d5; }\n  .login__form {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-top: 1.5em; }\n  .login__error {\n    color: #d30303;\n    font-size: 1em;\n    line-height: 30px;\n    height: 30px;\n    font-weight: 300; }\n  .login__btns--enter {\n    margin-top: 1.5em; }\n    .login__btns--enter:hover {\n      background-color: #00ffbf;\n      color: #4080ff; }\n  .login__btns--guest {\n    margin: 1.5em 0;\n    background-color: #00ffbf;\n    color: gray;\n    width: 116px;\n    font-size: 0.9em; }\n    .login__btns--guest:hover {\n      color: #00ffbf;\n      background-color: #484848; }\n  .login__input {\n    width: 7em;\n    border-top: none;\n    border-left: none;\n    border-right: none;\n    height: 30px;\n    line-height: 30px;\n    font-size: 2em;\n    text-align: center;\n    border-bottom: solid 2px #e6e6e6;\n    transition: all .3s ease-in;\n    padding: 10px;\n    color: #484848;\n    background-color: transparent; }\n    .login__input:focus {\n      border-bottom: solid 1px #4080ff;\n      outline: none; }\n    .login__input::placeholder {\n      font-style: italic;\n      color: #e6ecf0;\n      margin-bottom: 5px; }\n  .login__avatar--text {\n    margin-top: 15px;\n    margin-bottom: 5px;\n    color: #4080ff;\n    font-weight: bold; }\n  .login__avatar--list {\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n  .login__avatar--radio input + img {\n    width: 26px;\n    height: 26px;\n    margin: 0 2px 1px 2px;\n    line-height: 35px;\n    cursor: pointer;\n    transition: all .3s ease-in;\n    filter: brightness(0.4); }\n    .login__avatar--radio input + img:hover {\n      filter: brightness(1); }\n  .login__avatar--radio input:checked + img {\n    filter: brightness(1);\n    width: 35px;\n    height: 35px; }\n\n.emoji {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 29px; }\n  .emoji-btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .emoji-btn:focus {\n      outline: none; }\n    .emoji-btn .fa-smile {\n      font-size: 17px; }\n    .emoji-btn:hover {\n      color: #4080ff; }\n\n.emoji-mart,\n.emoji-mart * {\n  box-sizing: border-box;\n  line-height: 1.15; }\n\n.emoji-mart {\n  font-family: -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  display: inline-block;\n  color: #222427;\n  border: 1px solid #d9d9d9;\n  border-radius: 5px;\n  background: #fff; }\n\n.emoji-mart .emoji-mart-emoji {\n  padding: 6px; }\n\n.emoji-mart-bar {\n  border: 0 solid #d9d9d9; }\n\n.emoji-mart-bar:first-child {\n  border-bottom-width: 1px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px; }\n\n.emoji-mart-bar:last-child {\n  border-top-width: 1px;\n  border-bottom-left-radius: 5px;\n  border-bottom-right-radius: 5px; }\n\n.emoji-mart-anchors {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 6px;\n  color: #858585;\n  line-height: 0; }\n\n.emoji-mart-anchor {\n  position: relative;\n  display: block;\n  flex: 1 1 auto;\n  text-align: center;\n  padding: 12px 4px;\n  overflow: hidden;\n  transition: color .1s ease-out; }\n\n.emoji-mart-anchor:hover,\n.emoji-mart-anchor-selected {\n  color: #464646; }\n\n.emoji-mart-anchor-selected .emoji-mart-anchor-bar {\n  bottom: 0; }\n\n.emoji-mart-anchor-bar {\n  position: absolute;\n  bottom: -3px;\n  left: 0;\n  width: 100%;\n  height: 3px;\n  background-color: #464646; }\n\n.emoji-mart-anchors i {\n  display: inline-block;\n  width: 100%;\n  max-width: 22px; }\n\n.emoji-mart-anchors svg {\n  fill: currentColor;\n  max-height: 18px; }\n\n.emoji-mart-scroll {\n  overflow-y: scroll;\n  height: 270px;\n  padding: 0 6px 6px 6px;\n  will-change: transform;\n  /* avoids \"repaints on scroll\" in mobile Chrome */ }\n\n.emoji-mart-search {\n  margin-top: 6px;\n  padding: 0 6px; }\n\n.emoji-mart-search input {\n  font-size: 16px;\n  display: block;\n  width: 100%;\n  padding: .2em .6em;\n  border-radius: 25px;\n  border: 1px solid #d9d9d9;\n  outline: 0; }\n\n.emoji-mart-category .emoji-mart-emoji span {\n  z-index: 1;\n  position: relative;\n  text-align: center;\n  cursor: pointer; }\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  z-index: 0;\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f4f4f4;\n  border-radius: 100%; }\n\n.emoji-mart-category-label {\n  z-index: 2;\n  position: relative;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0; }\n\n.emoji-mart-category-label span {\n  display: block;\n  width: 100%;\n  font-weight: 500;\n  padding: 5px 6px;\n  background-color: #fff;\n  background-color: rgba(255, 255, 255, 0.95); }\n\n.emoji-mart-emoji {\n  position: relative;\n  display: inline-block;\n  font-size: 0; }\n\n.emoji-mart-no-results {\n  font-size: 14px;\n  text-align: center;\n  padding-top: 70px;\n  color: #858585; }\n\n.emoji-mart-no-results .emoji-mart-category-label {\n  display: none; }\n\n.emoji-mart-no-results .emoji-mart-no-results-label {\n  margin-top: .2em; }\n\n.emoji-mart-no-results .emoji-mart-emoji:hover:before {\n  content: none; }\n\n.emoji-mart-preview {\n  position: relative;\n  height: 70px; }\n\n.emoji-mart-preview-emoji,\n.emoji-mart-preview-data,\n.emoji-mart-preview-skins {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%); }\n\n.emoji-mart-preview-emoji {\n  left: 12px; }\n\n.emoji-mart-preview-data {\n  left: 68px;\n  right: 12px;\n  word-break: break-all; }\n\n.emoji-mart-preview-skins {\n  right: 30px;\n  text-align: right; }\n\n.emoji-mart-preview-name {\n  font-size: 14px; }\n\n.emoji-mart-preview-shortname {\n  font-size: 12px;\n  color: #888; }\n\n.emoji-mart-preview-shortname + .emoji-mart-preview-shortname,\n.emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,\n.emoji-mart-preview-emoticon + .emoji-mart-preview-emoticon {\n  margin-left: .5em; }\n\n.emoji-mart-preview-emoticon {\n  font-size: 11px;\n  color: #bbb; }\n\n.emoji-mart-title span {\n  display: inline-block;\n  vertical-align: middle; }\n\n.emoji-mart-title .emoji-mart-emoji {\n  padding: 0; }\n\n.emoji-mart-title-label {\n  color: #999A9C;\n  font-size: 26px;\n  font-weight: 300; }\n\n.emoji-mart-skin-swatches {\n  font-size: 0;\n  padding: 2px 0;\n  border: 1px solid #d9d9d9;\n  border-radius: 12px;\n  background-color: #fff; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch {\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch-selected:after {\n  opacity: .75; }\n\n.emoji-mart-skin-swatch {\n  display: inline-block;\n  width: 0;\n  vertical-align: middle;\n  transition-property: width, padding;\n  transition-duration: .125s;\n  transition-timing-function: ease-out; }\n\n.emoji-mart-skin-swatch:nth-child(1) {\n  transition-delay: 0s; }\n\n.emoji-mart-skin-swatch:nth-child(2) {\n  transition-delay: .03s; }\n\n.emoji-mart-skin-swatch:nth-child(3) {\n  transition-delay: .06s; }\n\n.emoji-mart-skin-swatch:nth-child(4) {\n  transition-delay: .09s; }\n\n.emoji-mart-skin-swatch:nth-child(5) {\n  transition-delay: .12s; }\n\n.emoji-mart-skin-swatch:nth-child(6) {\n  transition-delay: .15s; }\n\n.emoji-mart-skin-swatch-selected {\n  position: relative;\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatch-selected:after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 4px;\n  height: 4px;\n  margin: -2px 0 0 -2px;\n  background-color: #fff;\n  border-radius: 100%;\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity .2s ease-out; }\n\n.emoji-mart-skin {\n  display: inline-block;\n  width: 100%;\n  padding-top: 100%;\n  max-width: 12px;\n  border-radius: 100%; }\n\n.emoji-mart-skin-tone-1 {\n  background-color: #ffc93a; }\n\n.emoji-mart-skin-tone-2 {\n  background-color: #fadcbc; }\n\n.emoji-mart-skin-tone-3 {\n  background-color: #e0bb95; }\n\n.emoji-mart-skin-tone-4 {\n  background-color: #bf8f68; }\n\n.emoji-mart-skin-tone-5 {\n  background-color: #9b643d; }\n\n.emoji-mart-skin-tone-6 {\n  background-color: #594539; }\n\n.giphy {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 10px; }\n  .giphy__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .giphy__btn:focus {\n      outline: none; }\n    .giphy__btn .fa-hand-peace {\n      font-size: 17px; }\n    .giphy__btn:hover {\n      color: #4080ff; }\n\n.giphy__picker {\n  position: absolute;\n  z-index: 1;\n  bottom: 25px;\n  right: 25px;\n  width: 300px;\n  height: 146px;\n  border: solid 1px #d9d9d9;\n  border-radius: 10px;\n  background: white;\n  box-shadow: 0 10px 17px rgba(0, 0, 0, 0.3); }\n\n.giphy__list {\n  display: flex;\n  flex-wrap: nowrap;\n  overflow-x: auto; }\n  .giphy__list::-webkit-scrollbar {\n    display: none; }\n\n.giphy__list--single {\n  flex: 0 0 auto; }\n  .giphy__list--single input + img {\n    margin: 3px;\n    border-radius: 5px;\n    border: solid 1px #d9d9d9;\n    cursor: pointer;\n    transition: all .3s ease-in; }\n    .giphy__list--single input + img:hover {\n      border: 3px solid #4080ff; }\n  .giphy__list--single input:checked + img {\n    border: 3px solid #4080ff; }\n\n.giphy__search {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n  .giphy__search input {\n    font-size: 14px;\n    width: 150px;\n    border-radius: 25px;\n    border: 1px solid #d9d9d9;\n    outline: 0;\n    margin: 5px 5px 5px 0;\n    padding: 3px; }\n    .giphy__search input::placeholder {\n      font-style: italic;\n      color: #e6ecf0; }\n  .giphy__search button {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 100px;\n    background-color: #4080ff;\n    border: solid 1px white;\n    font-size: 11px;\n    transition: all .3s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    border-radius: 15px; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:disabled {\n      background-color: lightgray;\n      color: gray; }\n\n.mic {\n  position: absolute;\n  z-index: 1;\n  top: 61px;\n  right: 483px; }\n  .mic__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .mic__btn:focus {\n      outline: none; }\n    .mic__btn .fa-microphone-alt {\n      font-size: 17px; }\n    .mic__btn:hover {\n      color: #4080ff; }\n\n.imageUpload {\n  position: absolute;\n  display: flex;\n  align-items: center;\n  z-index: 1;\n  top: 2px;\n  right: 49px; }\n  .imageUpload__input {\n    display: none; }\n  .imageUpload__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .imageUpload__btn:focus {\n      outline: none; }\n    .imageUpload__btn .fa-image {\n      font-size: 17px; }\n    .imageUpload__btn:hover {\n      color: #4080ff; }\n  .imageUpload__fileName--mobile, .imageUpload__fileName {\n    position: relative;\n    margin-right: 5px;\n    font-size: 11px;\n    font-style: italic;\n    color: #484848;\n    transition: all .3s ease-in;\n    cursor: zoom-in; }\n    .imageUpload__fileName--mobile img, .imageUpload__fileName img {\n      display: none; }\n    .imageUpload__fileName--mobile:hover img, .imageUpload__fileName:hover img {\n      display: flex;\n      position: absolute;\n      bottom: 32px;\n      right: 10px;\n      max-width: 200px;\n      max-height: 200px;\n      border: 3px solid white;\n      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n      border-radius: 10px; }\n  .imageUpload__fileName--mobile {\n    display: none; }\n  .imageUpload__btn--cancel {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 40px;\n    height: 16px;\n    color: #ef5d5d;\n    font-size: 10px;\n    font-style: italic; }\n    .imageUpload__btn--cancel:focus {\n      outline: none; }\n    .imageUpload__btn--cancel:hover {\n      color: #ce0909; }\n\n.privateLock {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  width: 100%; }\n  .privateLock__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: #e6ecf0;\n    margin: 1em auto; }\n    .privateLock__btn:focus {\n      outline: none; }\n    .privateLock__btn .fa-lock {\n      font-size: 15px; }\n    .privateLock__btn:hover {\n      color: #00ffbf; }\n  .privateLock__passwordInput {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    z-index: 5;\n    width: 100%;\n    background: rgba(0, 0, 0, 0.7);\n    transition: opacity .5s ease;\n    overflow: hidden;\n    opacity: 1;\n    top: 0;\n    bottom: 0; }\n    .privateLock__passwordInput input {\n      width: 7em;\n      border-top: none;\n      border-left: none;\n      border-right: none;\n      height: 30px;\n      line-height: 30px;\n      font-size: 2em;\n      text-align: center;\n      border-bottom: solid 2px #e6e6e6;\n      transition: all .3s ease-in;\n      padding: 10px;\n      color: white;\n      background-color: transparent; }\n      .privateLock__passwordInput input:focus {\n        border-bottom: solid 1px #4080ff;\n        outline: none; }\n      .privateLock__passwordInput input::placeholder {\n        font-style: italic;\n        color: #e6ecf0;\n        margin-bottom: 5px; }\n    .privateLock__passwordInput button {\n      background-color: transparent;\n      border: none;\n      transition: all .1s ease-in;\n      border-radius: 0;\n      margin: 0;\n      line-height: 0;\n      padding: 0;\n      width: 0; }\n      .privateLock__passwordInput button:focus {\n        outline: none; }\n  .privateLock__passwordInput--field {\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n  .privateLock__footer {\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n  .privateLock__footer--on {\n    margin: 0 4em;\n    font-size: 12px;\n    color: #fff;\n    text-shadow: 0 0 6px rgba(213, 202, 228, 0.92), 0 0 30px rgba(213, 202, 228, 0.34), 0 0 12px rgba(137, 30, 242, 0.52), 0 0 21px rgba(137, 30, 242, 0.92), 0 0 34px rgba(127, 30, 242, 0.78), 0 0 54px rgba(117, 30, 242, 0.92); }\n  .privateLock .fa-user-secret {\n    margin: 0 2px; }\n\n.private__btn--enter {\n  color: lightgray;\n  margin-left: 10px; }\n  .private__btn--enter:hover {\n    color: #4080ff; }\n\n.private__btn--exit {\n  bottom: 0;\n  color: #e6ecf063;\n  font-size: 20px;\n  margin-right: 3px; }\n  .private__btn--exit:hover {\n    color: #d30303; }\n\n.comingsoon {\n  margin: auto;\n  font-size: 30px;\n  border: 1px solid lightgray;\n  border-radius: 10px;\n  padding: 100px; }\n\n.login-error--private {\n  color: #fd9696;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300;\n  text-align: center; }\n\n.messages-section-private {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n#bg {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  z-index: -5; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 0 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    padding: 2px; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  position: relative;\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-img {\n  max-height: 200px;\n  max-width: 400px;\n  border-radius: 5px; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.avatar-img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 51px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; }\n  .imageUpload__fileName {\n    display: none; }\n  .imageUpload__fileName--mobile {\n    display: flex; }\n  .privateLock__footer--on {\n    font-size: 11px; } }\n", ""]);
+exports.push([module.i, "html, body, section, article, h1, h2, p, span, label {\n  margin: 0;\n  border: 0;\n  padding: 0;\n  font: inherit;\n  text-align: inherit;\n  text-decoration: inherit;\n  color: inherit;\n  background: transparent;\n  width: inherit;\n  height: inherit; }\n\nul, li {\n  margin: 0;\n  padding: 0;\n  text-indent: 0;\n  list-style-type: 0;\n  list-style: none; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  font-size: 15px;\n  font-family: 'Montserrat', sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  background: floralwhite; }\n\nbutton {\n  font-size: 1em;\n  transition: all .1s ease-in;\n  cursor: pointer;\n  height: 2.5em;\n  width: 10em;\n  background-color: #4080ff;\n  border: solid 1px white;\n  color: white;\n  border-radius: 100px;\n  box-shadow: none;\n  font-weight: bold;\n  line-height: 20px;\n  text-align: center;\n  padding: 6px 16px;\n  margin: 0 1em;\n  white-space: nowrap; }\n  button:focus {\n    outline: none; }\n\ninput[type=\"radio\"] {\n  visibility: hidden;\n  position: absolute; }\n\n.login {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .login__header {\n    display: flex;\n    flex-direction: column; }\n  .login__header--title {\n    margin-top: 1em;\n    font-size: 4em;\n    margin-bottom: 20px;\n    color: #4080ff; }\n  .login__btns {\n    display: flex;\n    justify-content: center; }\n  .login__btn--on:hover {\n    background-color: #3973d5; }\n  .login__btn--off {\n    background-color: lightgray;\n    border: 1px solid lightgray;\n    color: white; }\n    .login__btn--off:hover {\n      background-color: #3973d5; }\n  .login__form {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    margin-top: 1.5em; }\n  .login__error {\n    color: #d30303;\n    font-size: 1em;\n    line-height: 30px;\n    height: 30px;\n    font-weight: 300; }\n  .login__btns--enter {\n    margin-top: 1.5em; }\n    .login__btns--enter:hover {\n      background-color: #00ffbf;\n      color: #4080ff; }\n  .login__btns--guest {\n    margin: 1.5em 0;\n    background-color: #00ffbf;\n    color: gray;\n    width: 116px;\n    font-size: 0.9em; }\n    .login__btns--guest:hover {\n      color: #00ffbf;\n      background-color: #484848; }\n  .login__input {\n    width: 7em;\n    border-top: none;\n    border-left: none;\n    border-right: none;\n    height: 30px;\n    line-height: 30px;\n    font-size: 2em;\n    text-align: center;\n    border-bottom: solid 2px #e6e6e6;\n    transition: all .3s ease-in;\n    padding: 10px;\n    color: #484848;\n    background-color: transparent; }\n    .login__input:focus {\n      border-bottom: solid 1px #4080ff;\n      outline: none; }\n    .login__input::placeholder {\n      font-style: italic;\n      color: #e6ecf0;\n      margin-bottom: 5px; }\n  .login__avatar--text {\n    margin-top: 15px;\n    margin-bottom: 5px;\n    color: #4080ff;\n    font-weight: bold; }\n  .login__avatar--list {\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n  .login__avatar--radio input + img {\n    width: 26px;\n    height: 26px;\n    margin: 0 2px 1px 2px;\n    line-height: 35px;\n    cursor: pointer;\n    transition: all .3s ease-in;\n    filter: brightness(0.4); }\n    .login__avatar--radio input + img:hover {\n      filter: brightness(1); }\n  .login__avatar--radio input:checked + img {\n    filter: brightness(1);\n    width: 35px;\n    height: 35px; }\n\n.emoji {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 29px; }\n  .emoji-btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .emoji-btn:focus {\n      outline: none; }\n    .emoji-btn .fa-smile {\n      font-size: 17px; }\n    .emoji-btn:hover {\n      color: #4080ff; }\n\n.emoji-mart,\n.emoji-mart * {\n  box-sizing: border-box;\n  line-height: 1.15; }\n\n.emoji-mart {\n  font-family: -apple-system, BlinkMacSystemFont, \"Helvetica Neue\", sans-serif;\n  font-size: 16px;\n  display: inline-block;\n  color: #222427;\n  border: 1px solid #d9d9d9;\n  border-radius: 5px;\n  background: #fff; }\n\n.emoji-mart .emoji-mart-emoji {\n  padding: 6px; }\n\n.emoji-mart-bar {\n  border: 0 solid #d9d9d9; }\n\n.emoji-mart-bar:first-child {\n  border-bottom-width: 1px;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px; }\n\n.emoji-mart-bar:last-child {\n  border-top-width: 1px;\n  border-bottom-left-radius: 5px;\n  border-bottom-right-radius: 5px; }\n\n.emoji-mart-anchors {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  padding: 0 6px;\n  color: #858585;\n  line-height: 0; }\n\n.emoji-mart-anchor {\n  position: relative;\n  display: block;\n  flex: 1 1 auto;\n  text-align: center;\n  padding: 12px 4px;\n  overflow: hidden;\n  transition: color .1s ease-out; }\n\n.emoji-mart-anchor:hover,\n.emoji-mart-anchor-selected {\n  color: #464646; }\n\n.emoji-mart-anchor-selected .emoji-mart-anchor-bar {\n  bottom: 0; }\n\n.emoji-mart-anchor-bar {\n  position: absolute;\n  bottom: -3px;\n  left: 0;\n  width: 100%;\n  height: 3px;\n  background-color: #464646; }\n\n.emoji-mart-anchors i {\n  display: inline-block;\n  width: 100%;\n  max-width: 22px; }\n\n.emoji-mart-anchors svg {\n  fill: currentColor;\n  max-height: 18px; }\n\n.emoji-mart-scroll {\n  overflow-y: scroll;\n  height: 270px;\n  padding: 0 6px 6px 6px;\n  will-change: transform;\n  /* avoids \"repaints on scroll\" in mobile Chrome */ }\n\n.emoji-mart-search {\n  margin-top: 6px;\n  padding: 0 6px; }\n\n.emoji-mart-search input {\n  font-size: 16px;\n  display: block;\n  width: 100%;\n  padding: .2em .6em;\n  border-radius: 25px;\n  border: 1px solid #d9d9d9;\n  outline: 0; }\n\n.emoji-mart-category .emoji-mart-emoji span {\n  z-index: 1;\n  position: relative;\n  text-align: center;\n  cursor: pointer; }\n\n.emoji-mart-category .emoji-mart-emoji:hover:before {\n  z-index: 0;\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f4f4f4;\n  border-radius: 100%; }\n\n.emoji-mart-category-label {\n  z-index: 2;\n  position: relative;\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0; }\n\n.emoji-mart-category-label span {\n  display: block;\n  width: 100%;\n  font-weight: 500;\n  padding: 5px 6px;\n  background-color: #fff;\n  background-color: rgba(255, 255, 255, 0.95); }\n\n.emoji-mart-emoji {\n  position: relative;\n  display: inline-block;\n  font-size: 0; }\n\n.emoji-mart-no-results {\n  font-size: 14px;\n  text-align: center;\n  padding-top: 70px;\n  color: #858585; }\n\n.emoji-mart-no-results .emoji-mart-category-label {\n  display: none; }\n\n.emoji-mart-no-results .emoji-mart-no-results-label {\n  margin-top: .2em; }\n\n.emoji-mart-no-results .emoji-mart-emoji:hover:before {\n  content: none; }\n\n.emoji-mart-preview {\n  position: relative;\n  height: 70px; }\n\n.emoji-mart-preview-emoji,\n.emoji-mart-preview-data,\n.emoji-mart-preview-skins {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%); }\n\n.emoji-mart-preview-emoji {\n  left: 12px; }\n\n.emoji-mart-preview-data {\n  left: 68px;\n  right: 12px;\n  word-break: break-all; }\n\n.emoji-mart-preview-skins {\n  right: 30px;\n  text-align: right; }\n\n.emoji-mart-preview-name {\n  font-size: 14px; }\n\n.emoji-mart-preview-shortname {\n  font-size: 12px;\n  color: #888; }\n\n.emoji-mart-preview-shortname + .emoji-mart-preview-shortname,\n.emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,\n.emoji-mart-preview-emoticon + .emoji-mart-preview-emoticon {\n  margin-left: .5em; }\n\n.emoji-mart-preview-emoticon {\n  font-size: 11px;\n  color: #bbb; }\n\n.emoji-mart-title span {\n  display: inline-block;\n  vertical-align: middle; }\n\n.emoji-mart-title .emoji-mart-emoji {\n  padding: 0; }\n\n.emoji-mart-title-label {\n  color: #999A9C;\n  font-size: 26px;\n  font-weight: 300; }\n\n.emoji-mart-skin-swatches {\n  font-size: 0;\n  padding: 2px 0;\n  border: 1px solid #d9d9d9;\n  border-radius: 12px;\n  background-color: #fff; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch {\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatches-opened .emoji-mart-skin-swatch-selected:after {\n  opacity: .75; }\n\n.emoji-mart-skin-swatch {\n  display: inline-block;\n  width: 0;\n  vertical-align: middle;\n  transition-property: width, padding;\n  transition-duration: .125s;\n  transition-timing-function: ease-out; }\n\n.emoji-mart-skin-swatch:nth-child(1) {\n  transition-delay: 0s; }\n\n.emoji-mart-skin-swatch:nth-child(2) {\n  transition-delay: .03s; }\n\n.emoji-mart-skin-swatch:nth-child(3) {\n  transition-delay: .06s; }\n\n.emoji-mart-skin-swatch:nth-child(4) {\n  transition-delay: .09s; }\n\n.emoji-mart-skin-swatch:nth-child(5) {\n  transition-delay: .12s; }\n\n.emoji-mart-skin-swatch:nth-child(6) {\n  transition-delay: .15s; }\n\n.emoji-mart-skin-swatch-selected {\n  position: relative;\n  width: 16px;\n  padding: 0 2px; }\n\n.emoji-mart-skin-swatch-selected:after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 4px;\n  height: 4px;\n  margin: -2px 0 0 -2px;\n  background-color: #fff;\n  border-radius: 100%;\n  pointer-events: none;\n  opacity: 0;\n  transition: opacity .2s ease-out; }\n\n.emoji-mart-skin {\n  display: inline-block;\n  width: 100%;\n  padding-top: 100%;\n  max-width: 12px;\n  border-radius: 100%; }\n\n.emoji-mart-skin-tone-1 {\n  background-color: #ffc93a; }\n\n.emoji-mart-skin-tone-2 {\n  background-color: #fadcbc; }\n\n.emoji-mart-skin-tone-3 {\n  background-color: #e0bb95; }\n\n.emoji-mart-skin-tone-4 {\n  background-color: #bf8f68; }\n\n.emoji-mart-skin-tone-5 {\n  background-color: #9b643d; }\n\n.emoji-mart-skin-tone-6 {\n  background-color: #594539; }\n\n.giphy {\n  position: absolute;\n  z-index: 1;\n  top: 2px;\n  right: 10px; }\n  .giphy__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .giphy__btn:focus {\n      outline: none; }\n    .giphy__btn .fa-hand-peace {\n      font-size: 17px; }\n    .giphy__btn:hover {\n      color: #4080ff; }\n\n.giphy__picker {\n  position: absolute;\n  z-index: 1;\n  bottom: 25px;\n  right: 25px;\n  width: 300px;\n  height: 146px;\n  border: solid 1px #d9d9d9;\n  border-radius: 10px;\n  background: white;\n  box-shadow: 0 10px 17px rgba(0, 0, 0, 0.3); }\n\n.giphy__list {\n  display: flex;\n  flex-wrap: nowrap;\n  overflow-x: auto; }\n  .giphy__list::-webkit-scrollbar {\n    display: none; }\n\n.giphy__list--single {\n  flex: 0 0 auto; }\n  .giphy__list--single input + img {\n    margin: 3px;\n    border-radius: 5px;\n    border: solid 1px #d9d9d9;\n    cursor: pointer;\n    transition: all .3s ease-in; }\n    .giphy__list--single input + img:hover {\n      border: 3px solid #4080ff; }\n  .giphy__list--single input:checked + img {\n    border: 3px solid #4080ff; }\n\n.giphy__search {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n  .giphy__search input {\n    font-size: 14px;\n    width: 150px;\n    border-radius: 25px;\n    border: 1px solid #d9d9d9;\n    outline: 0;\n    margin: 5px 5px 5px 0;\n    padding: 3px; }\n    .giphy__search input::placeholder {\n      font-style: italic;\n      color: #e6ecf0; }\n  .giphy__search button {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 100px;\n    background-color: #4080ff;\n    border: solid 1px white;\n    font-size: 11px;\n    transition: all .3s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    border-radius: 15px; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:focus {\n      outline: none; }\n    .giphy__search button:disabled {\n      background-color: lightgray;\n      color: gray; }\n\n.mic {\n  position: absolute;\n  z-index: 1;\n  top: 61px;\n  right: 483px; }\n  .mic__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .mic__btn:focus {\n      outline: none; }\n    .mic__btn .fa-microphone-alt {\n      font-size: 17px; }\n    .mic__btn:hover {\n      color: #4080ff; }\n\n.voice__transcriptText {\n  font-size: 20px;\n  color: black;\n  background: blue; }\n\n.imageUpload {\n  position: absolute;\n  display: flex;\n  align-items: center;\n  z-index: 1;\n  top: 2px;\n  right: 49px; }\n  .imageUpload__input {\n    display: none; }\n  .imageUpload__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: lightgray; }\n    .imageUpload__btn:focus {\n      outline: none; }\n    .imageUpload__btn .fa-image {\n      font-size: 17px; }\n    .imageUpload__btn:hover {\n      color: #4080ff; }\n  .imageUpload__fileName--mobile, .imageUpload__fileName {\n    position: relative;\n    margin-right: 5px;\n    font-size: 11px;\n    font-style: italic;\n    color: #484848;\n    transition: all .3s ease-in;\n    cursor: zoom-in; }\n    .imageUpload__fileName--mobile img, .imageUpload__fileName img {\n      display: none; }\n    .imageUpload__fileName--mobile:hover img, .imageUpload__fileName:hover img {\n      display: flex;\n      position: absolute;\n      bottom: 32px;\n      right: 10px;\n      max-width: 200px;\n      max-height: 200px;\n      border: 3px solid white;\n      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);\n      border-radius: 10px; }\n  .imageUpload__fileName--mobile {\n    display: none; }\n  .imageUpload__btn--cancel {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 40px;\n    height: 16px;\n    color: #ef5d5d;\n    font-size: 10px;\n    font-style: italic; }\n    .imageUpload__btn--cancel:focus {\n      outline: none; }\n    .imageUpload__btn--cancel:hover {\n      color: #ce0909; }\n\n.privateLock {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  width: 100%; }\n  .privateLock__btn {\n    background-color: transparent;\n    border: none;\n    transition: all .1s ease-in;\n    border-radius: 0;\n    margin: 0;\n    line-height: 0;\n    padding: 0;\n    width: 17px;\n    height: 17px;\n    color: #e6ecf0;\n    margin: 1em auto; }\n    .privateLock__btn:focus {\n      outline: none; }\n    .privateLock__btn .fa-lock {\n      font-size: 15px; }\n    .privateLock__btn:hover {\n      color: #00ffbf; }\n  .privateLock__passwordInput {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    z-index: 5;\n    width: 100%;\n    background: rgba(0, 0, 0, 0.7);\n    transition: opacity .5s ease;\n    overflow: hidden;\n    opacity: 1;\n    top: 0;\n    bottom: 0; }\n    .privateLock__passwordInput input {\n      width: 7em;\n      border-top: none;\n      border-left: none;\n      border-right: none;\n      height: 30px;\n      line-height: 30px;\n      font-size: 2em;\n      text-align: center;\n      border-bottom: solid 2px #e6e6e6;\n      transition: all .3s ease-in;\n      padding: 10px;\n      color: white;\n      background-color: transparent; }\n      .privateLock__passwordInput input:focus {\n        border-bottom: solid 1px #4080ff;\n        outline: none; }\n      .privateLock__passwordInput input::placeholder {\n        font-style: italic;\n        color: #e6ecf0;\n        margin-bottom: 5px; }\n    .privateLock__passwordInput button {\n      background-color: transparent;\n      border: none;\n      transition: all .1s ease-in;\n      border-radius: 0;\n      margin: 0;\n      line-height: 0;\n      padding: 0;\n      width: 0; }\n      .privateLock__passwordInput button:focus {\n        outline: none; }\n  .privateLock__passwordInput--field {\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n  .privateLock__footer {\n    display: flex;\n    justify-content: center;\n    align-items: center; }\n  .privateLock__footer--on {\n    margin: 0 4em;\n    font-size: 12px;\n    color: #fff;\n    text-shadow: 0 0 6px rgba(213, 202, 228, 0.92), 0 0 30px rgba(213, 202, 228, 0.34), 0 0 12px rgba(137, 30, 242, 0.52), 0 0 21px rgba(137, 30, 242, 0.92), 0 0 34px rgba(127, 30, 242, 0.78), 0 0 54px rgba(117, 30, 242, 0.92); }\n  .privateLock .fa-user-secret {\n    margin: 0 2px; }\n\n.private__btn--enter {\n  color: lightgray;\n  margin-left: 10px; }\n  .private__btn--enter:hover {\n    color: #4080ff; }\n\n.private__btn--exit {\n  bottom: 0;\n  color: #e6ecf063;\n  font-size: 20px;\n  margin-right: 3px; }\n  .private__btn--exit:hover {\n    color: #d30303; }\n\n.comingsoon {\n  margin: auto;\n  font-size: 30px;\n  border: 1px solid lightgray;\n  border-radius: 10px;\n  padding: 100px; }\n\n.login-error--private {\n  color: #fd9696;\n  font-size: 1em;\n  line-height: 30px;\n  height: 30px;\n  font-weight: 300;\n  text-align: center; }\n\n.messages-section-private {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n#bg {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  z-index: -5; }\n\n.app {\n  width: 100%;\n  height: 100%; }\n\n.chatroom {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  background: floralwhite; }\n  .chatroom-header {\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center; }\n  .chatroom-title {\n    font-size: 4em;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: #4080ff; }\n\n.current-users {\n  color: #928c8c;\n  font-style: italic;\n  margin-bottom: 3em; }\n\n.notice {\n  background: rgba(75, 193, 39, 0.85);\n  width: 641px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 24px;\n  padding: 5px;\n  position: absolute;\n  text-align: center;\n  top: 112px;\n  animation: fade 3.5s;\n  opacity: 0;\n  z-index: 2;\n  color: white;\n  font-weight: bold; }\n\n@keyframes fade {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n.chat-window {\n  display: flex;\n  border: 1px solid #e6ecf0;\n  width: 650px;\n  height: 450px;\n  margin: 0 50px 0 50px;\n  background: white;\n  border-radius: 5px;\n  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); }\n  .chat-window-left-section {\n    border-right: 1px solid #e6ecf0;\n    width: 150px; }\n\n.users-list {\n  height: 359px;\n  overflow: scroll;\n  margin-bottom: 2em; }\n  .users-list-title {\n    text-align: center;\n    padding: 1em;\n    border-bottom: 1px solid #e6ecf0;\n    border-top: 1px solid #e6ecf0;\n    margin-top: 1em; }\n\n.each-user {\n  display: flex;\n  align-items: center; }\n  .each-user:nth-child(odd) {\n    background-color: #f4f5f7; }\n\n.online-users {\n  text-align: center;\n  padding: 3px 0;\n  font-family: 'Fredoka One', sans-serif;\n  color: #3adcb3;\n  margin-bottom: 3px; }\n\nimg.online-inactive,\nimg.online-active {\n  width: 15px;\n  min-width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin-left: 10px;\n  filter: brightness(1.2); }\n\nimg.online-inactive {\n  filter: brightness(0.5); }\n\n.each-user-name-inactive,\n.each-user-name-active {\n  margin: 11px 9px; }\n\n.each-user-name-inactive {\n  font-style: italic; }\n\n.nav-btns {\n  display: flex;\n  position: relative;\n  margin: 10px 0; }\n  .nav-btns-logout {\n    width: 3em;\n    height: 2.9em;\n    line-height: 0;\n    padding: 0;\n    background-color: gray;\n    margin: 0; }\n    .nav-btns-logout:hover {\n      background: #d30303; }\n  .nav-btns-unread, .nav-btns-back {\n    width: 7em;\n    height: 2.9em;\n    line-height: 0;\n    padding-right: 35px;\n    margin: 0; }\n  .nav-btns-unread:hover {\n    background-color: #00ffbf; }\n  .nav-btns-back {\n    background-color: #00ffbf;\n    color: white; }\n    .nav-btns-back .fas.fa-undo-alt.fa-2x {\n      margin-left: 16px; }\n    .nav-btns-back:hover {\n      background-color: black;\n      color: #00ffbf; }\n  .nav-btns-missed {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    bottom: 10px;\n    right: 10px;\n    background-color: red;\n    border: 1px solid red;\n    border-radius: 100px;\n    height: 17px;\n    width: 17px;\n    padding: 2px; }\n\n.no-new-msg {\n  height: 200px;\n  width: 100%;\n  text-align: center;\n  font-size: 16px;\n  color: gray; }\n\n.messages-section {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.message-form {\n  position: relative;\n  border-top: 1px solid #e6ecf0;\n  padding: 0px 10px 10px 10px; }\n\ninput#message {\n  width: 400px;\n  height: 30px;\n  line-height: 30px;\n  font-size: 15px;\n  border: solid 1px white;\n  transition: all .2s ease-in;\n  padding: 10px;\n  color: #484848;\n  background-color: #e6ecf0;\n  border-radius: 15px; }\n  input#message:focus {\n    border: solid 1px #63a8fa;\n    outline: none;\n    background-color: white; }\n  input#message::placeholder {\n    font-style: italic;\n    color: darkgray;\n    margin-bottom: 5px; }\n\n.character-count {\n  position: absolute;\n  right: 72px;\n  bottom: 3px;\n  text-align: center;\n  font-size: 11px;\n  width: 30px;\n  padding: 2px;\n  color: #484848; }\n\n.is-typing {\n  height: 18px;\n  line-height: 18px;\n  font-size: 13px;\n  font-style: italic;\n  color: gray; }\n\n.messages-list {\n  margin: 10px 10px 2px 10px;\n  overflow: scroll; }\n\n.message-sent {\n  display: flex;\n  flex-direction: column;\n  margin-bottom: 10px; }\n\n.timestamp-user-box {\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.message-img {\n  max-height: 200px;\n  max-width: 400px;\n  border-radius: 5px; }\n\n.message-text {\n  padding: 5px 8px;\n  border-radius: 5px;\n  font-size: 0.95em;\n  font-weight: 300;\n  max-width: 400px;\n  overflow-wrap: break-word; }\n\n.current-user.message-sent {\n  align-items: flex-end; }\n\n.current-user.timestamp-user-box {\n  flex-direction: row-reverse; }\n\n.current-user.message-text {\n  background-color: #FFFF00; }\n\n.other-user.message-sent {\n  align-items: flex-start; }\n\n.other-user.message-text {\n  background-color: #00b0ff;\n  color: white;\n  font-weight: 400; }\n\n.avatar-img {\n  width: 26px;\n  height: 26px;\n  margin: 0 2px 1px 2px; }\n\n.thread-username {\n  font-weight: 700;\n  font-size: 15px;\n  margin-bottom: 1px;\n  color: #484848; }\n\n.thread-timestamp {\n  color: gray;\n  font-size: 11px;\n  font-weight: 300;\n  margin: 0 7px; }\n\n.message-input-box {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  position: relative; }\n\nbutton.send {\n  height: 51px;\n  width: 53px;\n  background-color: #4080ff;\n  border: solid 1px white;\n  font-size: 12px;\n  transition: all .3s ease-in;\n  border-radius: 0;\n  margin: 0;\n  line-height: 0;\n  padding: 0;\n  border-radius: 15px;\n  margin-left: 4px; }\n  button.send:focus {\n    outline: none; }\n  button.send:disabled {\n    background-color: lightgray;\n    color: gray; }\n\n.loading {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 500px; }\n\nfooter {\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.footer-icons > a {\n  margin: 0 2px;\n  color: #484848; }\n  .footer-icons > a:hover {\n    color: red; }\n\n@media screen and (max-width: 630px) {\n  .konnect-title {\n    font-size: 3em;\n    text-align: center; }\n  .chat-window {\n    width: 350px; }\n  .chat-window-left-section {\n    width: 100px; }\n  button.send {\n    height: 53px;\n    width: 53px;\n    font-size: 10px;\n    margin-left: 4px; }\n  .notice {\n    width: 340px;\n    top: 90px;\n    font-size: 17px; }\n  input#message {\n    width: 157px; }\n  .messages-list {\n    width: 233px; }\n  .users-list {\n    height: 339px; }\n  button.nav-btns-back {\n    width: 5em;\n    height: 2.9em;\n    line-height: 0;\n    margin: 0; }\n  .chatroom-title {\n    font-size: 2.4em; }\n  .message-text {\n    max-width: 200px; }\n  .imageUpload__fileName {\n    display: none; }\n  .imageUpload__fileName--mobile {\n    display: flex; }\n  .privateLock__footer--on {\n    font-size: 11px; } }\n", ""]);
 
 // exports
 
@@ -38283,7 +38283,7 @@ var _Chatroom = __webpack_require__(206);
 
 var _Chatroom2 = _interopRequireDefault(_Chatroom);
 
-var _LogIn = __webpack_require__(248);
+var _LogIn = __webpack_require__(252);
 
 var _LogIn2 = _interopRequireDefault(_LogIn);
 
@@ -44443,11 +44443,11 @@ var _Notice = __webpack_require__(91);
 
 var _Notice2 = _interopRequireDefault(_Notice);
 
-var _PrivateChat = __webpack_require__(244);
+var _PrivateChat = __webpack_require__(248);
 
 var _PrivateChat2 = _interopRequireDefault(_PrivateChat);
 
-var _PrivateLockBtn = __webpack_require__(247);
+var _PrivateLockBtn = __webpack_require__(251);
 
 var _PrivateLockBtn2 = _interopRequireDefault(_PrivateLockBtn);
 
@@ -48963,6 +48963,379 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(6);
+
+var _Voice = __webpack_require__(243);
+
+var _Voice2 = _interopRequireDefault(_Voice);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+// import PropTypes from 'prop-types';
+
+
+var Mic = function (_Component) {
+  _inherits(Mic, _Component);
+
+  function Mic(props) {
+    _classCallCheck(this, Mic);
+
+    var _this = _possibleConstructorReturn(this, (Mic.__proto__ || Object.getPrototypeOf(Mic)).call(this, props));
+
+    _this.state = {
+      isMicActive: false
+    };
+
+    _this.handleClick = _this.handleClick.bind(_this);
+    return _this;
+  }
+
+  _createClass(Mic, [{
+    key: 'handleClick',
+    value: function handleClick(e) {
+      e.preventDefault();
+      this.setState({ isMicActive: !this.state.isMicActive });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var isMicActive = this.state.isMicActive;
+
+      console.log(isMicActive);
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'mic' },
+        _react2.default.createElement(
+          'button',
+          { onClick: this.handleClick, className: 'mic__btn' },
+          _react2.default.createElement('i', { className: 'fas fa-microphone-alt' })
+        ),
+        isMicActive && _react2.default.createElement(_Voice2.default, null)
+      );
+    }
+  }]);
+
+  return Mic;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    mic: state.mic
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(Mic);
+
+/***/ }),
+/* 243 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactSpeechRecognition = __webpack_require__(244);
+
+var _reactSpeechRecognition2 = _interopRequireDefault(_reactSpeechRecognition);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Voice = function (_Component) {
+  _inherits(Voice, _Component);
+
+  function Voice() {
+    _classCallCheck(this, Voice);
+
+    return _possibleConstructorReturn(this, (Voice.__proto__ || Object.getPrototypeOf(Voice)).apply(this, arguments));
+  }
+
+  _createClass(Voice, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          transcript = _props.transcript,
+          resetTranscript = _props.resetTranscript,
+          browserSupportsSpeechRecognition = _props.browserSupportsSpeechRecognition;
+
+
+      if (!browserSupportsSpeechRecognition) {
+        return null;
+      }
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'voice' },
+        _react2.default.createElement(
+          'button',
+          { onClick: resetTranscript },
+          'Reset'
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'voice__transcriptText' },
+          transcript
+        )
+      );
+    }
+  }]);
+
+  return Voice;
+}(_react.Component);
+
+Voice.propTypes = {
+  transcript: _propTypes2.default.string.isRequired,
+  resetTranscript: _propTypes2.default.func.isRequired,
+  browserSupportsSpeechRecognition: _propTypes2.default.bool.isRequired
+};
+
+exports.default = (0, _reactSpeechRecognition2.default)(Voice);
+
+/***/ }),
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _SpeechRecognition = __webpack_require__(245);
+
+var _SpeechRecognition2 = _interopRequireDefault(_SpeechRecognition);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _SpeechRecognition2.default;
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+exports.default = SpeechRecognition;
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function SpeechRecognition(options) {
+  var SpeechRecognitionInner = function SpeechRecognitionInner(WrappedComponent) {
+    var BrowserSpeechRecognition = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition || window.oSpeechRecognition);
+    var recognition = BrowserSpeechRecognition ? new BrowserSpeechRecognition() : null;
+    var browserSupportsSpeechRecognition = recognition !== null;
+    var listening = undefined;
+    if (!browserSupportsSpeechRecognition || options && options.autoStart === false) {
+      listening = false;
+    } else {
+      recognition.start();
+      listening = true;
+    }
+    var pauseAfterDisconnect = false;
+    var interimTranscript = '';
+    var finalTranscript = '';
+
+    return (function (_Component) {
+      _inherits(SpeechRecognitionContainer, _Component);
+
+      function SpeechRecognitionContainer(props) {
+        _classCallCheck(this, SpeechRecognitionContainer);
+
+        var _this = _possibleConstructorReturn(this, (SpeechRecognitionContainer.__proto__ || Object.getPrototypeOf(SpeechRecognitionContainer)).call(this, props));
+
+        _this.disconnect = function (disconnectType) {
+          if (recognition) {
+            switch (disconnectType) {
+              case 'ABORT':
+                pauseAfterDisconnect = true;
+                recognition.abort();
+                break;
+              case 'RESET':
+                pauseAfterDisconnect = false;
+                recognition.abort();
+                break;
+              case 'STOP':
+              default:
+                pauseAfterDisconnect = true;
+                recognition.stop();
+            }
+          }
+        };
+
+        _this.resetTranscript = function () {
+          interimTranscript = '';
+          finalTranscript = '';
+          _this.disconnect('RESET');
+          _this.setState({ interimTranscript: interimTranscript, finalTranscript: finalTranscript });
+        };
+
+        _this.startListening = function () {
+          if (recognition && !listening) {
+            try {
+              recognition.start();
+            } catch (DOMException) {
+              // Tried to start recognition after it has already started - safe to swallow this error
+            }
+            listening = true;
+            _this.setState({ listening: listening });
+          }
+        };
+
+        _this.abortListening = function () {
+          listening = false;
+          _this.setState({ listening: listening });
+          _this.disconnect('ABORT');
+        };
+
+        _this.stopListening = function () {
+          listening = false;
+          _this.setState({ listening: listening });
+          _this.disconnect('STOP');
+        };
+
+        _this.state = {
+          interimTranscript: interimTranscript,
+          finalTranscript: finalTranscript,
+          listening: false
+        };
+        return _this;
+      }
+
+      _createClass(SpeechRecognitionContainer, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+          if (recognition) {
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.onresult = this.updateTranscript.bind(this);
+            recognition.onend = this.onRecognitionDisconnect.bind(this);
+            this.setState({ listening: listening });
+          }
+        }
+      }, {
+        key: 'onRecognitionDisconnect',
+        value: function onRecognitionDisconnect() {
+          listening = false;
+          if (pauseAfterDisconnect) {
+            this.setState({ listening: listening });
+          } else {
+            this.startListening();
+          }
+          pauseAfterDisconnect = false;
+        }
+      }, {
+        key: 'updateTranscript',
+        value: function updateTranscript(event) {
+          interimTranscript = '';
+          for (var i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              finalTranscript = this.concatTranscripts(finalTranscript, event.results[i][0].transcript);
+            } else {
+              interimTranscript = this.concatTranscripts(interimTranscript, event.results[i][0].transcript);
+            }
+          }
+          this.setState({ finalTranscript: finalTranscript, interimTranscript: interimTranscript });
+        }
+      }, {
+        key: 'concatTranscripts',
+        value: function concatTranscripts() {
+          for (var _len = arguments.length, transcriptParts = Array(_len), _key = 0; _key < _len; _key++) {
+            transcriptParts[_key] = arguments[_key];
+          }
+
+          return transcriptParts.map(function (t) {
+            return t.trim();
+          }).join(' ').trim();
+        }
+      }, {
+        key: 'render',
+        value: function render() {
+          var transcript = this.concatTranscripts(finalTranscript, interimTranscript);
+
+          return _react2.default.createElement(WrappedComponent, _extends({
+            resetTranscript: this.resetTranscript,
+            startListening: this.startListening,
+            abortListening: this.abortListening,
+            stopListening: this.stopListening,
+            transcript: transcript,
+            recognition: recognition,
+            browserSupportsSpeechRecognition: browserSupportsSpeechRecognition
+          }, this.state, this.props));
+        }
+      }]);
+
+      return SpeechRecognitionContainer;
+    })(_react.Component);
+  };
+
+  if (typeof options === 'function') {
+    return SpeechRecognitionInner(options);
+  } else {
+    return SpeechRecognitionInner;
+  }
+}
+
+/***/ }),
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
@@ -49004,7 +49377,7 @@ Typing.propTypes = {
 exports.default = Typing;
 
 /***/ }),
-/* 243 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49023,7 +49396,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 244 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49144,7 +49517,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
 })(PrivateChat);
 
 /***/ }),
-/* 245 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49214,7 +49587,7 @@ NavBtns.propTypes = {
 exports.default = NavBtns;
 
 /***/ }),
-/* 246 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49273,7 +49646,7 @@ UsersList.propTypes = {
 exports.default = UsersList;
 
 /***/ }),
-/* 247 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49494,7 +49867,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
 })(PrivateLockBtn);
 
 /***/ }),
-/* 248 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49518,7 +49891,7 @@ var _reactRedux = __webpack_require__(6);
 
 var _user = __webpack_require__(53);
 
-var _Form = __webpack_require__(249);
+var _Form = __webpack_require__(253);
 
 var _Form2 = _interopRequireDefault(_Form);
 
@@ -49721,7 +50094,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {
 })(LogIn);
 
 /***/ }),
-/* 249 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49739,7 +50112,7 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Avatar = __webpack_require__(250);
+var _Avatar = __webpack_require__(254);
 
 var _Avatar2 = _interopRequireDefault(_Avatar);
 
@@ -49821,7 +50194,7 @@ Form.propTypes = {
 exports.default = Form;
 
 /***/ }),
-/* 250 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49913,379 +50286,6 @@ Avatar.propTypes = {
 };
 
 exports.default = Avatar;
-
-/***/ }),
-/* 251 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(6);
-
-var _Voice = __webpack_require__(252);
-
-var _Voice2 = _interopRequireDefault(_Voice);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import PropTypes from 'prop-types';
-
-
-var Mic = function (_Component) {
-  _inherits(Mic, _Component);
-
-  function Mic(props) {
-    _classCallCheck(this, Mic);
-
-    var _this = _possibleConstructorReturn(this, (Mic.__proto__ || Object.getPrototypeOf(Mic)).call(this, props));
-
-    _this.state = {
-      isMicActive: false
-    };
-
-    _this.handleClick = _this.handleClick.bind(_this);
-    return _this;
-  }
-
-  _createClass(Mic, [{
-    key: 'handleClick',
-    value: function handleClick(e) {
-      e.preventDefault();
-      this.setState({ isMicActive: !this.state.isMicActive });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var isMicActive = this.state.isMicActive;
-
-      console.log(isMicActive);
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'mic' },
-        _react2.default.createElement(
-          'button',
-          { onClick: this.handleClick, className: 'mic__btn' },
-          _react2.default.createElement('i', { className: 'fas fa-microphone-alt' })
-        ),
-        isMicActive && _react2.default.createElement(_Voice2.default, null)
-      );
-    }
-  }]);
-
-  return Mic;
-}(_react.Component);
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    mic: state.mic
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(Mic);
-
-/***/ }),
-/* 252 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(2);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactSpeechRecognition = __webpack_require__(253);
-
-var _reactSpeechRecognition2 = _interopRequireDefault(_reactSpeechRecognition);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Voice = function (_Component) {
-  _inherits(Voice, _Component);
-
-  function Voice() {
-    _classCallCheck(this, Voice);
-
-    return _possibleConstructorReturn(this, (Voice.__proto__ || Object.getPrototypeOf(Voice)).apply(this, arguments));
-  }
-
-  _createClass(Voice, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          transcript = _props.transcript,
-          resetTranscript = _props.resetTranscript,
-          browserSupportsSpeechRecognition = _props.browserSupportsSpeechRecognition;
-
-
-      if (!browserSupportsSpeechRecognition) {
-        return null;
-      }
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'voice' },
-        _react2.default.createElement(
-          'button',
-          { onClick: resetTranscript },
-          'Reset'
-        ),
-        _react2.default.createElement(
-          'span',
-          null,
-          transcript
-        )
-      );
-    }
-  }]);
-
-  return Voice;
-}(_react.Component);
-
-Voice.propTypes = {
-  transcript: _propTypes2.default.string.isRequired,
-  resetTranscript: _propTypes2.default.func.isRequired,
-  browserSupportsSpeechRecognition: _propTypes2.default.bool.isRequired
-};
-
-exports.default = (0, _reactSpeechRecognition2.default)(Voice);
-
-/***/ }),
-/* 253 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _SpeechRecognition = __webpack_require__(254);
-
-var _SpeechRecognition2 = _interopRequireDefault(_SpeechRecognition);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _SpeechRecognition2.default;
-
-/***/ }),
-/* 254 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-exports.default = SpeechRecognition;
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function SpeechRecognition(options) {
-  var SpeechRecognitionInner = function SpeechRecognitionInner(WrappedComponent) {
-    var BrowserSpeechRecognition = typeof window !== 'undefined' && (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition || window.oSpeechRecognition);
-    var recognition = BrowserSpeechRecognition ? new BrowserSpeechRecognition() : null;
-    var browserSupportsSpeechRecognition = recognition !== null;
-    var listening = undefined;
-    if (!browserSupportsSpeechRecognition || options && options.autoStart === false) {
-      listening = false;
-    } else {
-      recognition.start();
-      listening = true;
-    }
-    var pauseAfterDisconnect = false;
-    var interimTranscript = '';
-    var finalTranscript = '';
-
-    return (function (_Component) {
-      _inherits(SpeechRecognitionContainer, _Component);
-
-      function SpeechRecognitionContainer(props) {
-        _classCallCheck(this, SpeechRecognitionContainer);
-
-        var _this = _possibleConstructorReturn(this, (SpeechRecognitionContainer.__proto__ || Object.getPrototypeOf(SpeechRecognitionContainer)).call(this, props));
-
-        _this.disconnect = function (disconnectType) {
-          if (recognition) {
-            switch (disconnectType) {
-              case 'ABORT':
-                pauseAfterDisconnect = true;
-                recognition.abort();
-                break;
-              case 'RESET':
-                pauseAfterDisconnect = false;
-                recognition.abort();
-                break;
-              case 'STOP':
-              default:
-                pauseAfterDisconnect = true;
-                recognition.stop();
-            }
-          }
-        };
-
-        _this.resetTranscript = function () {
-          interimTranscript = '';
-          finalTranscript = '';
-          _this.disconnect('RESET');
-          _this.setState({ interimTranscript: interimTranscript, finalTranscript: finalTranscript });
-        };
-
-        _this.startListening = function () {
-          if (recognition && !listening) {
-            try {
-              recognition.start();
-            } catch (DOMException) {
-              // Tried to start recognition after it has already started - safe to swallow this error
-            }
-            listening = true;
-            _this.setState({ listening: listening });
-          }
-        };
-
-        _this.abortListening = function () {
-          listening = false;
-          _this.setState({ listening: listening });
-          _this.disconnect('ABORT');
-        };
-
-        _this.stopListening = function () {
-          listening = false;
-          _this.setState({ listening: listening });
-          _this.disconnect('STOP');
-        };
-
-        _this.state = {
-          interimTranscript: interimTranscript,
-          finalTranscript: finalTranscript,
-          listening: false
-        };
-        return _this;
-      }
-
-      _createClass(SpeechRecognitionContainer, [{
-        key: 'componentWillMount',
-        value: function componentWillMount() {
-          if (recognition) {
-            recognition.continuous = true;
-            recognition.interimResults = true;
-            recognition.onresult = this.updateTranscript.bind(this);
-            recognition.onend = this.onRecognitionDisconnect.bind(this);
-            this.setState({ listening: listening });
-          }
-        }
-      }, {
-        key: 'onRecognitionDisconnect',
-        value: function onRecognitionDisconnect() {
-          listening = false;
-          if (pauseAfterDisconnect) {
-            this.setState({ listening: listening });
-          } else {
-            this.startListening();
-          }
-          pauseAfterDisconnect = false;
-        }
-      }, {
-        key: 'updateTranscript',
-        value: function updateTranscript(event) {
-          interimTranscript = '';
-          for (var i = event.resultIndex; i < event.results.length; ++i) {
-            if (event.results[i].isFinal) {
-              finalTranscript = this.concatTranscripts(finalTranscript, event.results[i][0].transcript);
-            } else {
-              interimTranscript = this.concatTranscripts(interimTranscript, event.results[i][0].transcript);
-            }
-          }
-          this.setState({ finalTranscript: finalTranscript, interimTranscript: interimTranscript });
-        }
-      }, {
-        key: 'concatTranscripts',
-        value: function concatTranscripts() {
-          for (var _len = arguments.length, transcriptParts = Array(_len), _key = 0; _key < _len; _key++) {
-            transcriptParts[_key] = arguments[_key];
-          }
-
-          return transcriptParts.map(function (t) {
-            return t.trim();
-          }).join(' ').trim();
-        }
-      }, {
-        key: 'render',
-        value: function render() {
-          var transcript = this.concatTranscripts(finalTranscript, interimTranscript);
-
-          return _react2.default.createElement(WrappedComponent, _extends({
-            resetTranscript: this.resetTranscript,
-            startListening: this.startListening,
-            abortListening: this.abortListening,
-            stopListening: this.stopListening,
-            transcript: transcript,
-            recognition: recognition,
-            browserSupportsSpeechRecognition: browserSupportsSpeechRecognition
-          }, this.state, this.props));
-        }
-      }]);
-
-      return SpeechRecognitionContainer;
-    })(_react.Component);
-  };
-
-  if (typeof options === 'function') {
-    return SpeechRecognitionInner(options);
-  } else {
-    return SpeechRecognitionInner;
-  }
-}
 
 /***/ })
 /******/ ]);

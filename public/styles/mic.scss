@@ -21,7 +21,9 @@
 }
 
 .voice {
-  &__transcript {
-    
+  &__transcriptText {
+    font-size: 20px;
+    color: black;
+    background: blue;
   }
 }

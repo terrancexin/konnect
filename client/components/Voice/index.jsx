@@ -17,7 +17,7 @@ class Voice extends Component {
     return (
       <div className="voice">
         <button onClick={resetTranscript}>Reset</button>
-        <span>{transcript}</span>
+        <span className="voice__transcriptText">{transcript}</span>
       </div>
     );
   }
