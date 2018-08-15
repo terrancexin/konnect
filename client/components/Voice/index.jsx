@@ -3,10 +3,22 @@ import PropTypes from 'prop-types';
 import SpeechRecognition from 'react-speech-recognition';
 
 class Voice extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  handleClick() {
+    return (e) => {
+      e.preventDefault();
+      this.props.resetTranscript();
+    }
+  }
+
   render() {
     const {
       transcript,
-      resetTranscript,
       browserSupportsSpeechRecognition
     } = this.props;
 
@@ -16,8 +28,8 @@ class Voice extends Component {
 
     return (
       <div className="voice">
-        <button onClick={resetTranscript}>Reset</button>
-        <span className="voice__transcriptText">{transcript}</span>
+        <button onClick={this.handleClick()}>Reset</button>
+        <div className="voice__transcriptText">{transcript}test</div>
       </div>
     );
   }
