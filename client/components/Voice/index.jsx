@@ -28,8 +28,11 @@ class Voice extends Component {
 
     return (
       <div className="voice">
-        <button onClick={this.handleClick()}>Reset</button>
-        <div className="voice__transcriptText">{transcript}test</div>
+        <div className="voice__transcriptText">{transcript}</div>
+        <div className="voice__btns">
+          <button className="voice__btn--reset" onClick={this.handleClick()}>Reset</button>
+          <button className="voice__btn--send" onClick={this.handleClick()}>Send</button>
+        </div>
       </div>
     );
   }
