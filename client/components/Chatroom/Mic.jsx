@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import Voice from '../Voice';
 
 class Mic extends Component {
   constructor(props) {
@@ -22,24 +20,30 @@ class Mic extends Component {
 
   render() {
     const { isMicActive } = this.state;
-    console.log(isMicActive);
 
-    return (
-      <div className="mic">
-        <button onClick={this.handleClick} className="mic__btn">
-          <i className="fas fa-microphone-alt" />
-        </button>
-        {isMicActive && (
-          <Voice />
-        )}
-      </div>
-    );
+    if (isMicActive) {
+      const Voice = require('../Voice');
+
+      return <Voice.default />
+    } else {
+      return (
+        <div className="mic">
+          <button onClick={this.handleClick} className="mic__btn">
+            <i className="fas fa-microphone-alt" />
+          </button>
+        </div>
+      );
+    }
   }
 }
 
 const mapStateToProps = state => ({
   mic: state.mic,
 });
+
+Mic.propTypes = {
+  mic: PropTypes.bool.isRequired,
+};
 
 export default connect(
   mapStateToProps,
