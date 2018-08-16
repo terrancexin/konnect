@@ -21,8 +21,19 @@
 }
 
 .voice {
-  &__transcriptText {
-    font-size: 20px;
-    color: black;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  z-index: 5;
+  width: 100%;
+  height: 150px;
+  background: rgba(0,0,0,.2);
+  transition: opacity .5s ease;
+  overflow: hidden;
+  opacity: 1;
+  top: 0;
+  bottom: 0;
+  border-radius: 10px;
 }
