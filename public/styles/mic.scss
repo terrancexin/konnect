@@ -36,4 +36,14 @@
   top: 0;
   bottom: 0;
   border-radius: 10px;
+
+  &__transcriptText {
+    font-size: 20px;
+    color: black;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    min-width: 300px;
+    height: 30px;
+    background: white;
+  }  
 }
