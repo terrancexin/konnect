@@ -2,50 +2,58 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { handleToggleMic } from '../../actions/mic';
+
 class Mic extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isMicActive: false,
-    };
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(e) {
     e.preventDefault();
-    this.setState({ isMicActive: !this.state.isMicActive });
+    const { toggleMic, handleToggleMic } = this.props;
+
+    handleToggleMic(!toggleMic);
   }
 
   render() {
-    const { isMicActive } = this.state;
+    const { toggleMic } = this.props;
+    let Voice;
 
-    if (isMicActive) {
-      const Voice = require('../Voice');
-
-      return <Voice.default />
-    } else {
-      return (
-        <div className="mic">
-          <button onClick={this.handleClick} className="mic__btn">
-            <i className="fas fa-microphone-alt" />
-          </button>
-        </div>
-      );
+    if (toggleMic) {
+      Voice = require('../Voice');
     }
+
+    return (
+      <div className="mic">
+        <button onClick={this.handleClick} className="mic__btn">
+          <i className="fas fa-microphone-alt" />
+        </button>
+        {toggleMic && (
+          <div className="mic__voice--modal">
+            <button onClick={this.handleCloseTranscript} className="mic__x">
+              <i className="fas fa-times" />
+            </button>
+            <Voice.default />
+          </div>
+        )}
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => ({
-  mic: state.mic,
+  toggleMic: state.toggleMic,
 });
 
 Mic.propTypes = {
-  mic: PropTypes.bool.isRequired,
+  toggleMic: PropTypes.bool.isRequired,
+  handleToggleMic: PropTypes.func.isRequired,
 };
 
 export default connect(
   mapStateToProps,
-  null,
+  { handleToggleMic },
 )(Mic);
