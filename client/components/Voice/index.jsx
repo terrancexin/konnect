@@ -15,6 +15,10 @@ class Voice extends Component {
       this.props.resetTranscript();
     }
   }
+  
+  handleSend(e) {
+    e.preventDefault();
+  }
 
   render() {
     const {
@@ -31,7 +35,7 @@ class Voice extends Component {
         <div className="voice__transcriptText">{transcript}</div>
         <div className="voice__btns">
           <button className="voice__btn--reset" onClick={this.handleClick()}>Reset</button>
-          <button className="voice__btn--send" onClick={this.handleClick()}>Send</button>
+          <button className="voice__btn--send" onClick={this.handleSend}>Send</button>
         </div>
       </div>
     );
