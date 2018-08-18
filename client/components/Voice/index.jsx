@@ -5,26 +5,22 @@ import SpeechRecognition from 'react-speech-recognition';
 class Voice extends Component {
   constructor(props) {
     super(props);
-    
-    this.handleClick = this.handleClick.bind(this);
+
+    this.handleReset = this.handleReset.bind(this);
+    this.handleSend = this.handleSend.bind(this);
   }
-  
-  handleClick() {
-    return (e) => {
-      e.preventDefault();
-      this.props.resetTranscript();
-    }
+
+  handleReset(e) {
+    e.preventDefault();
+    this.props.resetTranscript();
   }
-  
+
   handleSend(e) {
     e.preventDefault();
   }
 
   render() {
-    const {
-      transcript,
-      browserSupportsSpeechRecognition
-    } = this.props;
+    const { transcript, browserSupportsSpeechRecognition } = this.props;
 
     if (!browserSupportsSpeechRecognition) {
       return null;
@@ -32,10 +28,15 @@ class Voice extends Component {
 
     return (
       <div className="voice">
+        <div className="voice__title">Voice to Text</div>
         <div className="voice__transcriptText">{transcript}</div>
         <div className="voice__btns">
-          <button className="voice__btn--reset" onClick={this.handleClick()}>Reset</button>
-          <button className="voice__btn--send" onClick={this.handleSend}>Send</button>
+          <button className="voice__btn--reset" onClick={this.handleReset}>
+            Reset
+          </button>
+          <button className="voice__btn--send" onClick={this.handleSend}>
+            Send
+          </button>
         </div>
       </div>
     );
@@ -43,9 +44,9 @@ class Voice extends Component {
 }
 
 Voice.propTypes = {
-  transcript: PropTypes.string.isRequired,
-  resetTranscript: PropTypes.func.isRequired,
   browserSupportsSpeechRecognition: PropTypes.bool.isRequired,
+  resetTranscript: PropTypes.func.isRequired,
+  transcript: PropTypes.string.isRequired,
 };
 
 export default SpeechRecognition(Voice);
