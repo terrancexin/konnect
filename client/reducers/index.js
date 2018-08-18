@@ -16,6 +16,7 @@ import {
   TOGGLE_GIPHY,
   TOGGLE_EMOJI,
   TOGGLE_MISSED_MSG,
+  TOGGLE_MIC,
   TOGGLE_PRIVATE_PW_INPUT,
   TYPING,
   TYPING_PRIVATE,
@@ -52,6 +53,7 @@ const initialState = {
   verbs: '',
   isMatchPrivatePassword: false,
   privatePasswordInput: false,
+  toggleMic: false,
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -145,6 +147,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLocked: payload,
+      };
+    case TOGGLE_MIC:
+      return {
+        ...state,
+        toggleMic: payload,
       };
     case TOGGLE_PRIVATE_PW_INPUT:
       return {
