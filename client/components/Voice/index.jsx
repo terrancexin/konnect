@@ -2,21 +2,48 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SpeechRecognition from 'react-speech-recognition';
 
+import { rootUrl } from '../../../constants';
+
 class Voice extends Component {
   constructor(props) {
     super(props);
 
-    this.handleReset = this.handleReset.bind(this);
+    this.handleClear = this.handleClear.bind(this);
     this.handleSend = this.handleSend.bind(this);
   }
 
-  handleReset(e) {
+  componentWillMount() {
+    this.props.startListening();
+  }
+
+  componentWillUnmount() {
+    this.props.resetTranscript();
+    this.props.stopListening();
+  }
+
+  handleClear(e) {
     e.preventDefault();
     this.props.resetTranscript();
   }
 
   handleSend(e) {
     e.preventDefault();
+    const text = document.getElementById('transcript').innerHTML;
+    const date = new Date();
+    const {
+      user: { username, avatar },
+      sendMessage,
+      handleToggleMic,
+    } = this.props;
+
+    sendMessage({
+      userAvatar: avatar,
+      username,
+      text,
+      date,
+      imageMsg: '',
+    });
+    handleToggleMic(false);
   }
 
   render() {
@@ -28,13 +55,21 @@ class Voice extends Component {
 
     return (
       <div className="voice">
-        <div className="voice__title">Voice to Text</div>
-        <div className="voice__transcriptText">{transcript}</div>
+        <div className="voice__title">
+          Listening...<img src={`${rootUrl()}/images/listening.gif`} alt="" />
+        </div>
+        <div id="transcript" className="voice__transcriptText">
+          {transcript}
+        </div>
         <div className="voice__btns">
-          <button className="voice__btn--reset" onClick={this.handleReset}>
-            Reset
+          <button className="voice__btn--clear" onClick={this.handleClear}>
+            Clear
           </button>
-          <button className="voice__btn--send" onClick={this.handleSend}>
+          <button
+            className="voice__btn--send"
+            onClick={this.handleSend}
+            disabled={transcript.length <= 0}
+          >
             Send
           </button>
         </div>
@@ -46,7 +81,14 @@ class Voice extends Component {
 Voice.propTypes = {
   browserSupportsSpeechRecognition: PropTypes.bool.isRequired,
   resetTranscript: PropTypes.func.isRequired,
+  startListening: PropTypes.func.isRequired,
+  stopListening: PropTypes.func.isRequired,
   transcript: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  sendMessage: PropTypes.func.isRequired,
+  handleToggleMic: PropTypes.func.isRequired,
 };
 
-export default SpeechRecognition(Voice);
+export default SpeechRecognition({
+  autoStart: false,
+})(Voice);
