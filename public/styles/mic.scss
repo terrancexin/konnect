@@ -18,13 +18,6 @@
       color: $blue;
     }
   }
-
-  &__x {
-    @include reset-btn-style;
-    position: absolute;
-    bottom: 107px;
-    left: 300px;
-  }
   
   &__voice--modal {
     position: absolute;
@@ -38,6 +31,21 @@
     bottom: 100px;
     border-radius: 10px;
   }
+
+  &__x {
+    @include reset-btn-style;
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    color: $red;
+    
+    &:hover {
+      color: black;
+    }
+  }
 }
 
 .voice {
@@ -47,27 +55,60 @@
   flex-direction: column;
 
   &__transcriptText {
-    font-size: 20px;
+    font-size: 15px;
     color: black;
     border: 1px solid lightgray;
     border-radius: 5px;
-    min-width: 300px;
-    height: 30px;
+    min-width: 350px;
+    max-width: 350px;
+    height: 66px;
     background: white;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
   }
   
   &__btns {
     display: flex;
-    margin-top: 20px;
   }
-  
-  &__btn--reset,
+
+  &__btn--clear,
   &__btn--send {
     width: 5em;
+    padding: 0;
+    line-height: 0;
+    height: 1.5em;
+    border: none;
+    margin-top: 5px;
+    &:hover {
+      color: $red;
+      background: white;
+    }
+  }
+  
+  &__btn--send {
+    &:hover {
+      background: black;
+      color: $mintGreen;
+    }
+    
+    &:disabled {
+      background-color: black;
+      color: gray;
+    }
   }
   
   &__title {
+    display: flex;
+    align-items: center;
     color: white;
-    margin-bottom: 10px;
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: 19px;
+    
+    img {
+      height: 30px;
+      width: 30px;
+      margin-left: 20px;
+    }
   }
 }
