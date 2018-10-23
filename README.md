@@ -12,7 +12,7 @@
 - [Webpack](https://webpack.js.org/)
 
 # Local set up
-###### Set up process assumes that all of the above technologies are available on your machine
+###### Set up process assumes that all of the above technologies are available on your local machine
 1. Run `git clone https://github.com/terrancexin/konnect.git && cd konnect && npm i`
 2. Please make sure `mongod` database is running
 3. Start the app by `npm run dev`
