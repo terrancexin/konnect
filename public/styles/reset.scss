@@ -57,3 +57,8 @@ input[type="radio"] {
   visibility: hidden;
   position: absolute;
 }
+
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent; /* make scrollbar transparent */
+}
