@@ -80,3 +80,5 @@ Build real-time chat functionality
 - Remove libraries and write my own functions to enhance security
   - [x] moment.js removed
   
+## LICENSE
+[MIT](https://github.com/terrancexin/konnect/blob/master/LICENSE)
