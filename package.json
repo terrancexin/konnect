@@ -10,8 +10,8 @@
     "test": "jest --watchAll"
   },
   "engines": {
-    "node": "8.11.1",
-    "npm": "5.8.0"
+    "node": "12.18.3",
+    "npm": "6.14.6"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js"
@@ -19,15 +19,16 @@
   "author": "Terrance Xin",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.26.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "emoji-mart": "^2.6.1",
     "express": "^4.16.3",
     "jwt-simple": "^0.5.1",
+    "mongodb": "^4.4.1",
     "mongoose": "^5.1.0",
-    "node-sass": "^4.9.0",
+    "node-sass": "^7.0.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -36,38 +37,38 @@
     "react-dom": "^16.3.2",
     "react-linkify": "^0.2.2",
     "react-redux": "^5.0.7",
-    "react-speech-recognition": "^1.0.7",
-    "redis": "^2.8.0",
+    "react-speech-recognition": "^3.9.0",
+    "redis": "^4.0.4",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
     "simple-crypto-js": "^2.0.2",
-    "socket.io": "^2.1.0",
+    "socket.io": "^4.4.1",
     "socket.io-client": "^2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-jest": "^23.0.1",
+    "babel-jest": "^27.5.1",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "css-loader": "^0.28.11",
+    "css-loader": "^6.7.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "eslint": "^4.19.1",
+    "eslint": "^8.11.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
-    "jest": "^23.1.0",
-    "nodemon": "^1.17.4",
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15",
     "react-test-renderer": "^16.4.1",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.3",
     "sass-loader": "^7.0.1",
     "style-loader": "^0.21.0",
-    "webpack": "^3.11.0"
+    "webpack": "^5.70.0"
   }
 }
