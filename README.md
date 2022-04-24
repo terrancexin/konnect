@@ -1,4 +1,4 @@
-# Konnect [(LIVE)](https://konnect-chat.herokuapp.com/)
+# Konnect [(LIVE)](https://konnect.terrancexin.com/)
 ###### Konnect is a real-time chat app. If you're passionate about something, why do it alone? Let's Konnect!
 ![screenshot](./docs/demo.png)
 
